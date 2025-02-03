@@ -14,3 +14,6 @@ ___
 ###### H6
 Paragrapth 
 ___
+Standard
+*Italic*
+**Bold**
