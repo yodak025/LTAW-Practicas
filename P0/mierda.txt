@@ -1,0 +1,5 @@
+Bot de cryptomonedas
+
+"Insertar código python amateur"
+
+Private API Key: La mierda es transitiva
