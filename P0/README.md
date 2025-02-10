@@ -1,4 +1,11 @@
  # Práctica 0
+# Index:
+- [Lists](README.md#Lists)
+- [Headers](README.md#Headers)
+- [Text Style](README.md#Text_Style)
+
+JAJAJA no funciona
+___
 
 Probando Markdown:
 # Lists
@@ -19,4 +26,9 @@ ___
 Standard
 *Italic*
 **Bold**
+
+# Link
+- ![Linked](LinkedMarkdown.md)
+
+
 
