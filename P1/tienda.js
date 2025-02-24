@@ -10,7 +10,8 @@ const server = http.createServer((req, res) => {
   console.log(`Incoming request: ${req.method} ${req.url}`);
 
   // Determinar la ruta del archivo solicitado
-  const ROOT = './P1/public';
+  
+  const ROOT = './P1/public';// ! Esto es extremadamente cutre, Diego. 
   let filePath = ROOT + req.url;
   if (filePath === ROOT + '/') {
     filePath += 'index.html';
