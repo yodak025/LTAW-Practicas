@@ -5,6 +5,44 @@ const fs = require('fs');
 const path = require('path');
 const PORT = 8001;
 
+const lmstudioUrl ="http://localhost:1234/v1/chat/completions";
+
+// Crea el objeto con los datos de la petición
+const requestData = {
+  model: "meta-llama-3.1-8b-instruct",
+  messages: [
+    { role: "system", content: "Always answer in rhymes." },
+    { role: "user", content: "Haz una poesia sobre el cambio climatico en castellano" }
+  ],
+  temperature: 0.7,
+  max_tokens: -1, // -1 o ajusta según la cantidad deseada
+  stream: false  // Usa 'true' si deseas respuestas en streaming (requiere un manejo especial)
+};
+
+// Función asíncrona para enviar la petición y procesar la respuesta
+async function callLMStudioAPI() {
+  try {
+    // Enviar la petición POST con el cuerpo en formato JSON
+    const response = await fetch(lmstudioUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(requestData)
+    });
+    
+    // Convertir la respuesta a JSON
+    const data = await response.json();
+    
+    // Imprimir la respuesta en la consola
+    console.log("Respuesta de la API:", data.choices[0].message.content);
+  } catch (error) {
+    console.error("Error al llamar a la API:", error);
+  }
+}
+
+callLMStudioAPI();
+
 const server = http.createServer((req, res) => {
   // Log the incoming request
   console.log(`Incoming request: ${req.method} ${req.url}`);
@@ -48,7 +86,7 @@ const server = http.createServer((req, res) => {
         // Log file not found error
         console.error(`File not found: ${filePath}`);
         // Si el archivo no existe, servir un 404 personalizado
-        fs.readFile('./public/404.html', (err404, content404) => {
+        fs.readFile('./public/notFound.html', (err404, content404) => {
             res.writeHead(404, { 'Content-Type': 'text/html' });
             res.end(content404, 'utf-8');
         });
