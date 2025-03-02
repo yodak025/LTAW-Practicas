@@ -1,0 +1,23 @@
+.os-product{
+  display: flex;
+  flex-direction: row;
+  background-color:  #99f;
+  padding: 15px;
+  margin: 15px;
+  border-radius: 10px;
+  width: 60%;
+}
+.os-product-img{
+  display: flex;
+
+  margin: 10px;
+}
+.os-product-info{
+  display: flex;
+  flex-direction: column;
+  border : 1px solid black;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  margin: 0px;
+}

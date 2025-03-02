@@ -1,5 +1,6 @@
 import './App.css'
 import Layout from './components/Layout';
+import Product from './components/Product';
 
 function App() {
   return (
@@ -8,9 +9,10 @@ function App() {
       {/* Contenido específico de la página principal */}
       <h1>Bienvenido a la Tienda</h1>
       <ul>
-        <li><a href="product-1.html">Producto 1</a></li>
-        <li><a href="product-2.html">Producto 2</a></li>
-        <li><a href="product-3.html">Producto 3</a></li>
+        <Product />
+        <Product />
+        <Product />
+
       </ul>
     </Layout>
     </>
