@@ -1,0 +1,1 @@
+import{c as e,j as r,L as t}from"./Layout-tH4Yo1h4.js";const n=()=>r.jsxs(t,{children:[r.jsx("h1",{children:"404"}),r.jsx("h2",{children:"Página no encontrada"})]});e.createRoot(document.getElementById("root")).render(r.jsx(n,{}));

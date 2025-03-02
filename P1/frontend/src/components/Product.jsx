@@ -1,18 +1,22 @@
 import './Product.css'
-export default function Product() {
+import Container from './Container'
+
+const oddOrEven = (index) => (index % 2 === 0) ? 'os-product os-product-even' : 'os-product'
+
+export default function Product({name, description, price, index}) {
   return (
-    <section className="os-product">
-      <img className="os-product-img" src="https://placehold.co/100x100?text=Product Img" alt="Imagen de Producto" />
+    <Container className={oddOrEven(index)}>
+      <img className="os-product-img" src="../../public/vite.svg" alt="Imagen de Producto" />
       <main className="os-product-info">
-        <h3>Nombre del producto</h3>
+        <h3>{name}</h3>
         <article>
-          <p>Descripción del producto</p>
+          <p>{description}</p>
           <div>
-            <span>Precio $</span>
+            <span>{`Precio:${price}$`}</span>
             <button>Entrar</button>
           </div>
         </article>
       </main>
-    </section>
+    </Container>
   )
 }

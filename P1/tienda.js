@@ -77,7 +77,10 @@ const server = http.createServer((req, res) => {
     case '.jpg':
       contentType = 'image/jpg';
       break;
-  }
+    case 'svg':
+      contentType = 'image/svg+xml';
+      break;
+    }
 
   // Leer y servir el archivo solicitado
   fs.readFile(filePath, (error, content) => {
@@ -86,9 +89,10 @@ const server = http.createServer((req, res) => {
         // Log file not found error
         console.error(`File not found: ${filePath}`);
         // Si el archivo no existe, servir un 404 personalizado
-        fs.readFile('./public/notFound.html', (err404, content404) => {
+        fs.readFile('./P1/frontend/dist/public/error-404.html', (err404, content404) => {
             res.writeHead(404, { 'Content-Type': 'text/html' });
             res.end(content404, 'utf-8');
+  
         });
       } else {
         // Log internal server error

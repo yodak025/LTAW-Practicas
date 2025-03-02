@@ -1,15 +1,19 @@
 .os-product{
+  color: #D1C4E9;
   display: flex;
   flex-direction: row;
-  background-color:  #99f;
   padding: 15px;
-  margin: 15px;
-  border-radius: 10px;
   width: 60%;
+  
+}
+.os-product.os-product-even{
+  margin-left: auto; /* Esto empuja el componente hacia la derecha */
+  background-color: #4A4A4A;
+
 }
 .os-product-img{
   display: flex;
-
+  width: 100px;
   margin: 10px;
 }
 .os-product-info{

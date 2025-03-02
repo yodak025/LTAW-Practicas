@@ -6,8 +6,8 @@ import Layout from './components/Layout';
 const AboutUs = () => {
     return (
         <Layout>
-            <h1>404</h1>
-            <h2>Página no encontrada</h2>
+            <h1>Sobre nosotros</h1>
+            <h2>Work in progress</h2>
         </Layout>
     )
 }
