@@ -1,9 +1,46 @@
-// Servidor para la tienda online de la práctica 1 de LTAW
-
+// ! ACTUALMENTE TRABAJANDO EN LA PRÁCTICA 1, CÓDIGO NO FUNCIONAL
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const PORT = 8001;
+
+const lmstudioUrl ="http://localhost:1234/v1/chat/completions";
+
+// Crea el objeto con los datos de la petición
+const requestData = {
+  model: "meta-llama-3.1-8b-instruct",
+  messages: [
+    { role: "system", content: "Always answer in rhymes." },
+    { role: "user", content: "Haz una poesia sobre el cambio climatico en castellano" }
+  ],
+  temperature: 0.7,
+  max_tokens: -1, // -1 o ajusta según la cantidad deseada
+  stream: false  // Usa 'true' si deseas respuestas en streaming (requiere un manejo especial)
+};
+
+// Función asíncrona para enviar la petición y procesar la respuesta
+async function callLMStudioAPI() {
+  try {
+    // Enviar la petición POST con el cuerpo en formato JSON
+    const response = await fetch(lmstudioUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(requestData)
+    });
+    
+    // Convertir la respuesta a JSON
+    const data = await response.json();
+    
+    // Imprimir la respuesta en la consola
+    console.log("Respuesta de la API:", data.choices[0].message.content);
+  } catch (error) {
+    console.error("Error al llamar a la API:", error);
+  }
+}
+
+callLMStudioAPI();
 
 const server = http.createServer((req, res) => {
   // Log the incoming request
