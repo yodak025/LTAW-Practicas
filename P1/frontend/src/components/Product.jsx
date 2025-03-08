@@ -1,22 +1,21 @@
-import './Product.css'
-import Container from './Container'
+import "./Product.css";
 
-const oddOrEven = (index) => (index % 2 === 0) ? 'os-product os-product-even' : 'os-product'
+const setToClassIfEven = (index) => (index % 2 === 0 ? " --even" : "");
 
-export default function Product({name, description, price, index}) {
+export default function Product({ name, logoSrc, index }) {
   return (
-    <Container className={oddOrEven(index)}>
-      <img className="os-product-img" src="../../public/vite.svg" alt="Imagen de Producto" />
-      <main className="os-product-info">
-        <h3>{name}</h3>
-        <article>
-          <p>{description}</p>
-          <div>
-            <span>{`Precio:${price}$`}</span>
-            <button>Entrar</button>
-          </div>
-        </article>
-      </main>
-    </Container>
-  )
+    <main className={`os-product${setToClassIfEven(index)}`}>
+      <section className={`os-product-info${setToClassIfEven(index)}`}>
+        <h3 className={`os-product-title${setToClassIfEven(index)}`}>{name}</h3>
+        <button className={`os-product-btn${setToClassIfEven(index)}`}>
+          Generate Product
+        </button>
+      </section>
+      <img
+        className={`os-product-logo${setToClassIfEven(index)}`}
+        src={logoSrc}
+        alt={`Logo del Producto ${name}`}
+      />
+    </main>
+  );
 }

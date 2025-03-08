@@ -1,19 +1,13 @@
+@import url('../assets/colors.css');
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-
-.os-layout-nav {
-    background-color: #B388EB;
-    height: 50px;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1;
+/* Aseguramos que el contenido no quede oculto bajo el nav */
+main {
+    margin-top: 0px;
 }
 
 .os-layout-footer {
@@ -28,7 +22,3 @@
     margin-top: 1000px;
 }
 
-/* Aseguramos que el contenido no quede oculto bajo el nav */
-main {
-    margin-top: 50px;
-}

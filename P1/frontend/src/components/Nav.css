@@ -1,9 +1,22 @@
+@import url('../assets/colors.css');
+
 .os-nav {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 60px; /* Set a fixed height */
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+
+  height: 100px; /* ! CUALQUIER CAMBIO DEBE TENERSE EN CUENTA PARA EL main DEFINDIDO EN Layout.css!!! */
+  width: 100%;
+  padding: 15px;
+
+  background-color: var(--secondary-color);
 }
 
 .os-nav-header {
@@ -24,4 +37,6 @@
   text-decoration: none;
   margin-left: 20px; /* Space between links */
   line-height: 1; /* Normalize line height */
+  color: var(--black-color);
+  
 }

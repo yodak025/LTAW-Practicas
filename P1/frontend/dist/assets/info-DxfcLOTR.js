@@ -1,1 +1,0 @@
-import{c as r,j as o,L as s}from"./Layout-tH4Yo1h4.js";const e=()=>o.jsxs(s,{children:[o.jsx("h1",{children:"Sobre nosotros"}),o.jsx("h2",{children:"Work in progress"})]});r.createRoot(document.getElementById("root")).render(o.jsx(e,{}));

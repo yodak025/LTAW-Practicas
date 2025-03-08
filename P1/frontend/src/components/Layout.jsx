@@ -12,7 +12,7 @@ function Layout({ children }) {
 
       <footer className='os-layout-footer'>
         <p>
-        <s>ⓒ</s> Yodak025 2025. No Rights Reserved 
+        <s>ⓒ</s> 2025 Yodak025 . No Rights Reserved 
         </p>
       </footer>
     </>

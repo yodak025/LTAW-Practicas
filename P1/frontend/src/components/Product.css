@@ -1,27 +1,65 @@
-.os-product{
-  color: #D1C4E9;
+@import url("../assets/colors.css");
+
+.os-product {
+  background-color: var(--light-color);
   display: flex;
   flex-direction: row;
-  padding: 15px;
-  width: 60%;
-  
+  border: 1px solid black;
+  margin: 5px;
+  height: 20vh;
+  width: 30vh;
 }
-.os-product.os-product-even{
-  margin-left: auto; /* Esto empuja el componente hacia la derecha */
-  background-color: #4A4A4A;
 
-}
-.os-product-img{
-  display: flex;
-  width: 100px;
-  margin: 10px;
-}
-.os-product-info{
+.os-product-info {
   display: flex;
   flex-direction: column;
-  border : 1px solid black;
-  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+  width: 50%;
   height: 100%;
   padding: 10px;
   margin: 0px;
+}
+
+.os-product-title {
+  background-color: var(--primary-color);
+  padding: 3px;
+  color: white;
+}
+
+.os-product-btn {
+}
+.os-product-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 40%;
+  color: var(--primary-color);
+}
+
+.os-product.--even {
+  background-color: var(--neutral-color);
+
+}
+
+.os-product-info.--even {
+
+}
+
+.os-product-title.--even {
+  background-color: var(--accent-color);
+  color: black;
+}
+
+.os-product-btn.--even {
+}
+
+.os-product-logo.--even {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 40%;
+  color: var(--primary-color);
 }

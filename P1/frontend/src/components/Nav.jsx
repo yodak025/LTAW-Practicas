@@ -11,7 +11,7 @@ export default function Nav({className}) {
 
       <main className="os-nav-options">
           <a href="index.html">Productos</a>
-          <a href="../../public/about-us.html">Sobre Nosotros</a>
+          <a>Sobre Nosotros</a>
       </main>
     </nav>
   );

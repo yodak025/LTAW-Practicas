@@ -8,9 +8,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: 'index.html',
-        info: './public/about-us.html',
         notFound: './public/error-404.html',
-
       }
     }
   }

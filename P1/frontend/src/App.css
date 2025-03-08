@@ -1,23 +1,16 @@
+@import url('./assets/colors.css');
+
 /* Reinicia márgenes y padding */
 body {
   margin: 0;
   padding: 0;
-  /* Gradiente lineal en 45 grados con la nueva gama de colores */
-  background: linear-gradient(45deg, #FFFDE7, #FFF9C4, #FFECB3, #FFE082, #FFD54F);
-  background-size: 400% 400%;
-  animation: gradientAnimation 15s ease infinite;
+  background-color: var(--neutral-color);
+
 }
 
-/* Animación para desplazar el gradiente de forma suave */
-@keyframes gradientAnimation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+.os-pageFront{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
