@@ -1,10 +1,19 @@
 @import url('./assets/colors.css');
 
+@font-face {
+  font-family: 'BigShoulders';
+  src: url('../public/BigShoulders.ttf');
+}
+
+body {
+  font-family: 'BigShoulders';
+}
+
 /* Reinicia márgenes y padding */
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--neutral-color);
+  background-color: white;
 
 }
 

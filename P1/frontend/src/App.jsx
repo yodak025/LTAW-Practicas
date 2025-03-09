@@ -1,7 +1,7 @@
 import './App.css'
-import Layout from './components/Layout';
-import Product from './components/Product';
-import Category from './components/Category';
+import Layout from './components/Layout/Layout';
+import Product from './components/Product/Product';
+import Category from './components/Category/Category';
 
 
 function App() {
@@ -13,8 +13,8 @@ function App() {
           <h1>FRONT PAGE</h1>
         </header>
         <Category name="Empleo">
-          <Product name="Currículum Vitae Personalizado" logoSrc="../public/vite.svg" index="1"/>
-          <Product name="Carta de Presentación" logoSrc="../src/assets/react.svg" index="2"/>
+          <Product name="Currículum Vitae Personalizado" logoSrc="../public/document-icon.svg" index="1"/>
+          <Product name="Carta de Presentación" logoSrc="../public/document-icon.svg" index="2"/>
           <Product name="name 3" description="Description" price="NaN" index="3"/>
           <Product name="name 4" description="Description" price="NaN" index="4"/>
           <Product name="name 5" description="Description" price="NaN" index="5"/>

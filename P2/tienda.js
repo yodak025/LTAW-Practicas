@@ -11,7 +11,7 @@ const lmstudioUrl ="http://localhost:1234/v1/chat/completions";
 const requestData = {
   model: "meta-llama-3.1-8b-instruct",
   messages: [
-    { role: "system", content: "Always answer in rhymes." },
+    { role: "system", content: "Escribe la respuesta alternando mayuscula y minuscula entre cada letra" },
     { role: "user", content: "Haz una poesia sobre el cambio climatico en castellano" }
   ],
   temperature: 0.7,
