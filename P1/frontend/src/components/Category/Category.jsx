@@ -1,4 +1,5 @@
 import "./Category.css";
+import { ForwardArrow, BackwardArrow } from "./Arrow";
 import { useState, useEffect, useRef } from "react";
 
 const ANIMATION_DURATION = 300; //!-- Debe ser consistente con la duración de la transición CSS
@@ -88,7 +89,7 @@ export default function Category({ name, children }) {
           onClick={handleBackward}
           disabled={currentPage === 0 || isAnimating}
         >
-          {"<"}
+          <BackwardArrow className="os-category-btn --backward" />
         </button>
         <section
           className={`os-category-slidingContainer ${slideAnimationClass}`}
@@ -100,7 +101,7 @@ export default function Category({ name, children }) {
           onClick={handleForward}
           disabled={currentPage >= totalPages - 1 || isAnimating}
         >
-          {">"}
+          <ForwardArrow className="os-category-btn --backward" />
         </button>
       </section>
     </main>

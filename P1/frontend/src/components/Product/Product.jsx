@@ -1,21 +1,44 @@
 import "./Product.css";
+import {DefaultIcon} from "./ProductIcon"
 
 const setToClassIfEven = (index) => (index % 2 === 0 ? " --even" : "");
+
+const returnTitleLinesArray = (name) => {
+  const MIN_LINE_LENGTH = 14
+  let words = name.split(' ')
+  let lines = []
+  let lineBuffer = ""
+  words.forEach(word => {
+    if (lineBuffer.length + word.length < MIN_LINE_LENGTH) {
+      lineBuffer += word + " "
+    } else { 
+      lines.push(lineBuffer.trim())
+      lineBuffer = word + " "
+    }
+  });
+  lines.push(lineBuffer.trim())
+  return lines
+};
 
 export default function Product({ name, logoSrc, index }) {
   return (
     <main className={`os-product${setToClassIfEven(index)}`}>
       <section className={`os-product-info${setToClassIfEven(index)}`}>
-        <h3 className={`os-product-title${setToClassIfEven(index)}`}>{name}</h3>
+        <h3 className={`os-product-title${setToClassIfEven(index)}`}>
+          { returnTitleLinesArray(name).map((line, i) => (
+              <span 
+                key={i} 
+                className={`os-product-title-word${setToClassIfEven(index)}`}
+              >
+                {line}
+              </span>
+            )) }
+        </h3>
         <div className={`os-product-btn${setToClassIfEven(index)}`}>
           Generate Product
         </div>
       </section>
-      <img
-        className={`os-product-logo${setToClassIfEven(index)}`}
-        src={logoSrc}
-        alt={`Logo del Producto ${name}`}
-      />
+      <DefaultIcon className={`os-product-logo${setToClassIfEven(index)}`} />
     </main>
   );
 }

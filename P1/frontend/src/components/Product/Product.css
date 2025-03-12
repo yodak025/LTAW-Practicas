@@ -1,10 +1,11 @@
 @import url("../../assets/colors.css");
 
 .os-product {
-  background-color: var(--primary-color);
+  background-color: var(--light-color);
   display: flex;
   flex-direction: row;
-  border: 1px solid black;
+  border: 2px solid black;
+  border-radius: 20px;
   height: 20vh;
   width: 30vh;
   margin: 10px;
@@ -22,41 +23,54 @@
 }
 
 .os-product-title {
-  background-color: var(--light-color);
-  padding: 3px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.3em; /* Espacio entre palabras */
+  margin: 5px;
+}
+
+.os-product-title-word {
+  display: inline-block;
+  background-color: var(--neutral-color);
+  padding: 3px 6px;
+  border-radius: 3px; /* Opcional para bordes redondeados */
   color: black;
 }
 
 .os-product-btn {
   border-radius: 5px;
   background-color: var(--accent-color);
-  padding: 1vh;
+  padding: 0.7vh;
 }
 .os-product-logo {
+  fill: var(--primary-color);
+  stroke: var(--primary-color);
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   width: 40%;
   color: var(--primary-color);
-}
-
-.os-product.--even {
-  background-color: var(--light-color);
-
-}
-
-.os-product-info.--even {
-
-}
-
-.os-product-title.--even {
-  background-color: var(--primary-color);
-  color: white;
   
 }
 
-.os-product-btn.--even {
+.os-product.--even {
+  background-color: var(--neutral-color);
+
+}
+
+
+.os-product-title.--even {
+  color: black;
+}
+
+.os-product-title-word.--even {
+  display: inline-block;
+  background-color: var(--light-color);
+  padding: 3px 6px;
+  border-radius: 3px; /* Opcional para bordes redondeados */
+  color: black;
 }
 
 .os-product-logo.--even {
@@ -66,6 +80,6 @@
   height: 100%;
   width: 40%;
   color: var(--primary-color);
-  fill: blue;
-  stroke: blue;
+  fill: var(--primary-color);
+  stroke: var(--primary-color);
 }

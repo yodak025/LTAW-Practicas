@@ -4,7 +4,8 @@ width: 100%;
 padding: 0px 5vh 5vh 0px;
 }
 .os-category-title{
-  background-color: var(--accent-color);
+  background-color: var(--primary-color);
+  color: white;
   width:fit-content;
   padding: 5px;
   margin: 10px 0px 40px 10px;

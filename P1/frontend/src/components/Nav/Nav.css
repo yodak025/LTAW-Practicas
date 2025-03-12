@@ -16,7 +16,8 @@
   width: 100%;
   padding: 15px;
 
-  background-color: var(--secondary-color);
+  background-color: var(--primary-color);
+  color: white;
 }
 
 .os-nav-header {
