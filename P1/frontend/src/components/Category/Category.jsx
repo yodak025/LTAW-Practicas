@@ -8,7 +8,7 @@ export default function Category({ name, children }) {
   //-- Se crean estados para manejar la página actual, la cantidad de productos por página y el estado del la animación
   const [currentPage, setCurrentPage] = useState(0); //-- Controla la página actual
   const [productsPerPage, setProductsPerPage] = useState(1); //-- Controla la cantidad de productos por página
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(null);
   //-- Se crea una referencia para el contenedor de productos
   const containerRef = useRef(null);
 
@@ -27,12 +27,12 @@ export default function Category({ name, children }) {
         if (!containerRef.current) return; // !-- Deberías controlar un posible error si el contenedor no existe
         //-- Calcula el ancho de la parte del contenedor que no ocupan los botones
         const containerWidth = containerRef.current.clientWidth;
-        const buttonWidth = 40; // Approximate width of both buttons // ! CHAPUZAAAA
+        const buttonWidth = 100; // Approximate width of both buttons // ! CHAPUZAAAA
         const availableWidth = containerWidth - buttonWidth;
 
         //-- Calcula el tamaño de un producto //!-- Lo está haciendo muy cutre
         const viewportHeight = window.innerHeight;
-        const productWidth = (30 * viewportHeight) / 100 + 10;
+        const productWidth = (38 * viewportHeight) / 100 + 10;
 
         //-- Calcula cuantos productos caben en el contenedor
         const fittingProducts = Math.max(
@@ -54,19 +54,19 @@ export default function Category({ name, children }) {
   //-- Manejo de los botones de navegación
   const handleBackward = () => {
     if (isAnimating) return;
-    setIsAnimating(true);
+    setIsAnimating("backward");
     setTimeout(() => {
       setCurrentPage((prev) => Math.max(0, prev - 1));
-      setIsAnimating(false);
+      setIsAnimating(null);
     }, ANIMATION_DURATION);
   };
 
   const handleForward = () => {
     if (isAnimating) return;
-    setIsAnimating(true);
+    setIsAnimating("forward");
     setTimeout(() => {
       setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1));
-      setIsAnimating(false);
+      setIsAnimating(null);
     }, ANIMATION_DURATION);
   };
 
@@ -78,7 +78,7 @@ export default function Category({ name, children }) {
   );
 
   // Clases para la animación
-  const slideAnimationClass = isAnimating ? "animating" : "";
+  const slideAnimationClass = isAnimating ? `--${isAnimating}` : "";
 
   return (
     <main className="os-category">
@@ -89,7 +89,7 @@ export default function Category({ name, children }) {
           onClick={handleBackward}
           disabled={currentPage === 0 || isAnimating}
         >
-          <BackwardArrow className="os-category-btn --backward" />
+          <BackwardArrow className="os-category-btn" />
         </button>
         <section
           className={`os-category-slidingContainer ${slideAnimationClass}`}
@@ -101,7 +101,7 @@ export default function Category({ name, children }) {
           onClick={handleForward}
           disabled={currentPage >= totalPages - 1 || isAnimating}
         >
-          <ForwardArrow className="os-category-btn --backward" />
+          <ForwardArrow className="os-category-btn" />
         </button>
       </section>
     </main>

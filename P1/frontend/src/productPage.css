@@ -1,0 +1,97 @@
+@import url('./assets/colors.css');
+
+.os-document-form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  margin-top: 10vh;
+}
+
+.os-document-title {
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.os-document-form {
+  background-color: white;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.os-form-section {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--light-color);
+}
+
+.os-form-section h2 {
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.os-form-field {
+  margin-bottom: 1.5rem;
+}
+
+.os-form-field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.os-bullet-options {
+  list-style: none;
+  padding-left: 0;
+}
+
+.os-bullet-options li {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.os-bullet-options li::before {
+  content: "•";
+  color: var(--accent-color);
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.os-bullet-options input {
+  margin-right: 0.5rem;
+}
+
+input[type="text"], select, textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--light-color);
+  border-radius: 5px;
+  font-family: inherit;
+}
+
+textarea {
+  resize: vertical;
+}
+
+button[type="submit"] {
+  display: block;
+  width: 100%;
+  background-color: var(--accent-color);
+  color: black;
+  border: none;
+  border-radius: 5px;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--primary-color);
+  color: white;
+}

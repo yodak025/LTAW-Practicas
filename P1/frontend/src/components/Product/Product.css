@@ -5,9 +5,9 @@
   display: flex;
   flex-direction: row;
   border: 2px solid black;
-  border-radius: 20px;
-  height: 20vh;
-  width: 30vh;
+  border-radius: 2vh;
+  height: 25vh;
+  width: 38vh;
   margin: 10px;
 }
 
@@ -17,7 +17,7 @@
   justify-content: space-around;
   align-items: center;
   width: 50%;
-  height: 100%;
+  height: 90%;
   padding: 10px;
   margin: 0px;
 }
@@ -26,13 +26,14 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.3em; /* Espacio entre palabras */
-  margin: 5px;
+  gap: 0.5vh; /* Espacio entre palabras */
 }
 
 .os-product-title-word {
   display: inline-block;
   background-color: var(--neutral-color);
+  height:3vh;
+  font-size: 2vh;
   padding: 3px 6px;
   border-radius: 3px; /* Opcional para bordes redondeados */
   color: black;
@@ -41,7 +42,7 @@
 .os-product-btn {
   border-radius: 5px;
   background-color: var(--accent-color);
-  padding: 0.7vh;
+  padding: 1vh;
 }
 .os-product-logo {
   fill: var(--primary-color);

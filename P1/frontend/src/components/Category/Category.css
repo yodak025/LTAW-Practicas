@@ -1,12 +1,13 @@
 @import url('../../assets/colors.css');
 .os-category{
 width: 100%;
-padding: 0px 5vh 5vh 0px;
+padding: 0px 0px 5vh 0px;
 }
 .os-category-title{
   background-color: var(--primary-color);
   color: white;
   width:fit-content;
+  font-size: 3vh;
   padding: 5px;
   margin: 10px 0px 40px 10px;
 }
@@ -18,9 +19,13 @@ padding: 0px 5vh 5vh 0px;
 }
 
 /* Clases para la animación */
-.os-category-slidingContainer.animating {
+.os-category-slidingContainer.--forward {
   opacity: 0.5;
-  transform: translateX(15px); /* Pequeño desplazamiento para efecto visual */
+  transform: translateX(-30px); /* Pequeño desplazamiento para efecto visual */
+}
+.os-category-slidingContainer.--backward  {
+  opacity: 0.5;
+  transform: translateX(30px); /* Pequeño desplazamiento para efecto visual */
 }
 
 /* Ajuste al contenedor principal para el nuevo wrapper */
@@ -37,11 +42,11 @@ padding: 0px 5vh 5vh 0px;
   align-items: center;
   justify-content: center;
   background-color: var(--primary-color);
-  color: white;
+  fill: white;
   border: none;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 5vh;
+  height: 5vh;
   font-weight: bold;
   cursor: pointer;
   display: flex;
@@ -49,6 +54,14 @@ padding: 0px 5vh 5vh 0px;
   justify-content: center;
   margin: 0 5px;
 }
+
+.os-category-btn:disabled{
+
+}
+.os-category-btn:hover{
+  background-color: var(--accent-color);
+}
+
 .os-category-btn.--forward{
   margin-left: auto;
 }

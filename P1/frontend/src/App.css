@@ -18,8 +18,35 @@ body {
 }
 
 .os-pageFront{
-  height: 100vh;
+  height: 90vh;
+  margin-top: 10vh;
+  margin-left: 15vh;
+  margin-right: 15vh;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.os-pageFront-text{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 45%;  
+  width: 50%;
+}
+.os-pageFront-text-title{
+  font-size: 7vh;
+  color: var(--primary-color);
+}
+.os-pageFront-text-info{
+  font-size: 3vh;
+  color: var(--color-primary);
+}
+
+.os-pageFront-image{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
 }

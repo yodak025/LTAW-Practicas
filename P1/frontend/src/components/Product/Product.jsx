@@ -4,7 +4,7 @@ import {DefaultIcon} from "./ProductIcon"
 const setToClassIfEven = (index) => (index % 2 === 0 ? " --even" : "");
 
 const returnTitleLinesArray = (name) => {
-  const MIN_LINE_LENGTH = 14
+  const MIN_LINE_LENGTH = 18
   let words = name.split(' ')
   let lines = []
   let lineBuffer = ""
@@ -34,9 +34,12 @@ export default function Product({ name, logoSrc, index }) {
               </span>
             )) }
         </h3>
-        <div className={`os-product-btn${setToClassIfEven(index)}`}>
+        <a 
+          className={`os-product-btn${setToClassIfEven(index)}`}
+          href='../../public/product.html'
+        >
           Generate Product
-        </div>
+        </a>
       </section>
       <DefaultIcon className={`os-product-logo${setToClassIfEven(index)}`} />
     </main>
