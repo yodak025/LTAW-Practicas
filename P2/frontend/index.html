@@ -36,29 +36,30 @@
 <body>
   <div class="os-document-form-container">
     <h1 class="os-document-title">Generador de Carta de Presentación</h1>
-    <form class="os-document-form" method="post" action="document.html" onsubmit="document.getElementById('processing-popup').style.display='flex'">
+    <!-- Se han eliminado method, action y onsubmit -->
+    <form class="os-document-form">
       <!-- Sección: Datos Personales -->
       <div class="os-form-section">
         <h2>Datos Personales</h2>
         <div class="os-form-field">
           <label for="nombre">Nombre:</label>
-          <input type="text" id="nombre" name="nombre" required>
+          <input type="text" id="nombre" name="nombre" required value="Diego">
         </div>
         <div class="os-form-field">
           <label for="direccion">Dirección:</label>
-          <input type="text" id="direccion" name="direccion" required>
+          <input type="text" id="direccion" name="direccion" required value="Calle Radio">
         </div>
         <div class="os-form-field">
           <label for="telefono">Teléfono:</label>
-          <input type="tel" id="telefono" name="telefono" required>
+          <input type="tel" id="telefono" name="telefono" required value="123456789">
         </div>
         <div class="os-form-field">
           <label for="email">Email:</label>
-          <input type="email" id="email" name="email" required>
+          <input type="email" id="email" name="email" required value="diego@example.com">
         </div>
         <div class="os-form-field">
           <label for="fecha">Fecha:</label>
-          <input type="date" id="fecha" name="fecha" required>
+          <input type="date" id="fecha" name="fecha" required value="2023-10-01">
         </div>
       </div>
       <!-- Sección: Datos del Destinatario -->
@@ -66,15 +67,15 @@
         <h2>Datos del Destinatario</h2>
         <div class="os-form-field">
           <label for="destinatario">Nombre del Destinatario:</label>
-          <input type="text" id="destinatario" name="destinatario" required>
+          <input type="text" id="destinatario" name="destinatario" required value="Juan Perez">
         </div>
         <div class="os-form-field">
           <label for="empresa">Nombre de la Empresa:</label>
-          <input type="text" id="empresa" name="empresa" required>
+          <input type="text" id="empresa" name="empresa" required value="Empresa S.A">
         </div>
         <div class="os-form-field">
           <label for="cargo">Cargo a Solicitar:</label>
-          <input type="text" id="cargo" name="cargo" required>
+          <input type="text" id="cargo" name="cargo" required value="Developer">
         </div>
       </div>
       <!-- Sección: Contenido de la Carta -->
@@ -82,23 +83,23 @@
         <h2>Contenido de la Carta</h2>
         <div class="os-form-field">
           <label for="introduccion">Introducción:</label>
-          <textarea id="introduccion" name="introduccion" rows="3" placeholder="Breve introducción..."></textarea>
+          <textarea id="introduccion" name="introduccion" rows="3" placeholder="Breve introducción...">Soy un profesional en redacción</textarea>
         </div>
         <div class="os-form-field">
           <label for="experiencia">Experiencia:</label>
-          <textarea id="experiencia" name="experiencia" rows="3" placeholder="Resumen de experiencia y logros..."></textarea>
+          <textarea id="experiencia" name="experiencia" rows="3" placeholder="Resumen de experiencia y logros...">Tengo 5 años de experiencia</textarea>
         </div>
         <div class="os-form-field">
           <label for="habilidades">Habilidades:</label>
-          <textarea id="habilidades" name="habilidades" rows="3" placeholder="Descripción de habilidades..."></textarea>
+          <textarea id="habilidades" name="habilidades" rows="3" placeholder="Descripción de habilidades...">JavaScript, React, Node.js</textarea>
         </div>
         <div class="os-form-field">
           <label for="motivacion">Motivación:</label>
-          <textarea id="motivacion" name="motivacion" rows="3" placeholder="Razones y aportes al puesto..."></textarea>
+          <textarea id="motivacion" name="motivacion" rows="3" placeholder="Razones y aportes al puesto...">Motivado por nuevos retos</textarea>
         </div>
         <div class="os-form-field">
           <label for="cierre">Cierre:</label>
-          <textarea id="cierre" name="cierre" rows="2" placeholder="Cierre de la carta..."></textarea>
+          <textarea id="cierre" name="cierre" rows="2" placeholder="Cierre de la carta...">Quedo a la espera de su respuesta</textarea>
         </div>
       </div>
       <button type="submit">Generar Carta</button>
@@ -111,5 +112,30 @@
       Procesando su petición, por favor espere...
     </div>
   </div>
+
+  <script>
+    const form = document.querySelector('.os-document-form');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('processing-popup').style.display = 'flex';
+      const formData = new FormData(form);
+      const data = {};
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+      fetch('document.html', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.text())
+      .then(html => {
+        // Opcional: reemplazar el contenido de la página o redireccionar
+         document.write(html);
+        //window.location.href = 'document.html';
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  </script>
 </body>
 </html>
