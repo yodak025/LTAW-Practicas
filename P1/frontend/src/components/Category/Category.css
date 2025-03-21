@@ -38,21 +38,23 @@ padding: 0px 0px 5vh 0px;
 
 .os-category-btn{
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: var(--primary-color);
-  fill: white;
   border: none;
   border-radius: 50%;
   width: 5vh;
   height: 5vh;
-  font-weight: bold;
-  cursor: pointer;
+  padding: 0;
+  margin: 0 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 5px;
+  transition: background-color 0.3s;
+}
+
+.os-category-btn-icon {
+  width: 3vh;
+  height: 3vh;
+  fill: white;
 }
 
 .os-category-btn:disabled{

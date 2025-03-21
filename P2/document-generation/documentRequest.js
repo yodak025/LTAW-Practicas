@@ -7,19 +7,19 @@ const LLM_API = "http://localhost:1234/v1/chat/completions";
 const generateLlmRequest = (data) => {
 
   return {
-  model: "meta-llama-3.1-8b-instruct",
+  model: "gemma-3-12b-it",
   messages: [
     { role: "user", content: 
       `Genera una carta de presentación profesional para buscar trabajo. 
       La carta debe tener un tono formal y personalizado, y estar estructurada según el siguiente esquema:\n\n
 
-      [Encabezado]\n
-      [Saludo]\n
-      [Introducción]\n
-      [Cuerpo]\n
-      [Cierre]\n
-      [Despedida]\n
-      [Firma]\n\n 
+      Encabezado\n
+      Saludo\n
+      Introducción\n
+      Cuerpo\n
+      Cierre\n
+      Despedida\n
+      Firma\n\n 
 
       1. El encabezado debe contener la siguiente información: 
       nombre completo "${data.nombre}": , 
@@ -36,12 +36,15 @@ const generateLlmRequest = (data) => {
 
       Utiliza esta estructura y asegúrate de que la respuesta mantenga la coherencia y el formato indicado.
       Entrega un resultado final que no contenga placeholders y que sea adecuado en forma, como texto plano legible y sin etiquetas de ningún tipo.
-      Evita incluir comentarios en tu respuesta. Entrega solo el contenido de la carta de presentación. Genera los saltos de línea necesarios para que el texto sea legible.` 
+      Evita incluir comentarios en tu respuesta. Entrega solo el contenido de la carta de presentación. Genera los saltos de línea necesarios para que el texto sea legible. 
+      Asegurate de entregar una carta de presentación en castellano. Integra las secciones y no incluyas los títulos de las mismas entre **[]** en la respuesta final.` 
     },
   ],
   temperature: TEMPERATURE,
   max_tokens: MAX_TOKENS, // -1 o ajusta según la cantidad deseada
-  stream: IS_STREAM  // Usa 'true' si deseas respuestas en streaming (requiere un manejo especial)
+  stream: IS_STREAM,  // Usa 'true' si deseas respuestas en streaming (requiere un manejo especial)
+  top_p: 1,
+  repetition_penalty: 1
 };
 };
 

@@ -32,7 +32,7 @@ const determinateContentType = (extname) => {
     case ".jpg":
       contentType = "image/jpg";
       break;
-    case "svg":
+    case ".svg":
       contentType = "image/svg+xml";
       break;
   }

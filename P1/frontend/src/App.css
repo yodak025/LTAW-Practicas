@@ -49,4 +49,5 @@ body {
   justify-content: center;
   align-items: center;
   width: 50%;
+  color: var(--primary-color);
 }

@@ -1,5 +1,5 @@
 import "./Product.css";
-import {DefaultIcon} from "./ProductIcon"
+import {Icon} from "./ProductIcon"
 
 const setToClassIfEven = (index) => (index % 2 === 0 ? " --even" : "");
 
@@ -20,7 +20,7 @@ const returnTitleLinesArray = (name) => {
   return lines
 };
 
-export default function Product({ name, logoSrc, index }) {
+export default function Product({ name, index }) {
   return (
     <main className={`os-product${setToClassIfEven(index)}`}>
       <section className={`os-product-info${setToClassIfEven(index)}`}>
@@ -41,7 +41,7 @@ export default function Product({ name, logoSrc, index }) {
           Generate Product
         </a>
       </section>
-      <DefaultIcon className={`os-product-logo${setToClassIfEven(index)}`} />
+      <Icon iconName={name} className={`os-product-logo${setToClassIfEven(index)}`} />
     </main>
   );
 }
