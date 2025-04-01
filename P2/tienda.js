@@ -6,7 +6,7 @@ const { documentGenerationRequest } = require('./document-generation/documentReq
 const PORT = 8001;
 
 const getRequestedResourceFilePath = (request) => {
-  const ROOT = "./P2/frontend" ; 
+  const ROOT = "./P2/frontend/dist" ; 
   let filePath = ROOT + request;
   if (filePath === ROOT + "/") {
     filePath += "index.html";
@@ -68,7 +68,7 @@ const server = http.createServer((req, res) => {
         console.error(`File not found: ${filePath}`);
         // Si el archivo no existe, servir un 404 personalizado
         fs.readFile(
-          "./P1/frontend/dist/public/error-404.html",
+          "./P1/frontend/dist/error-404.html",
           (err404, content404) => {
             res.writeHead(404, { "Content-Type": "text/html" });
             res.end(content404, "utf-8");

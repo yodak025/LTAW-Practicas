@@ -1,0 +1,58 @@
+@import url('./assets/colors.css');
+
+@font-face {
+  font-family: 'BigShoulders';
+  src: url('../public/BigShoulders.ttf');
+}
+
+body {
+  font-family: 'BigShoulders';
+}
+
+/* Reinicia márgenes y padding */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--white-color);
+}
+
+.os-pageFront{
+  height: 90vh;
+  margin-top: 10vh;
+  margin-left: 15vh;
+  margin-right: 15vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.os-pageFront-text{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 45%;  
+  width: 50%;
+  color: var(--black-color);
+}
+.os-pageFront-text-title{
+  font-size: 7vh;
+  color: var(--primary-color);
+}
+.os-pageFront-text-info{
+  font-size: 3vh;
+  color: var(--color-primary);
+}
+
+.os-pageFront-image{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}
+.os-pageFront-image .--firstColor{
+  color: var(--neutral-color);
+}
+.os-pageFront-image .--secondColor{
+  color: var(--primary-color);
+}

@@ -1,0 +1,45 @@
+@import url('../../assets/colors.css');
+
+.os-nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+
+  height: 10vh; /* ! CUALQUIER CAMBIO DEBE TENERSE EN CUENTA PARA EL main DEFINDIDO EN Layout.css!!! */
+  width: 100%;
+  padding: 15px;
+  font-size: 2.5vh;
+
+  background-color: var(--primary-color);
+  color: var(--white-color);
+}
+
+.os-nav-header {
+  margin: 10px;
+  padding: 0;
+  line-height: 1; /* Normalize line height */
+}
+
+.os-nav-options {
+  margin: 10px;
+  padding: 0;
+  line-height: 1; /* Normalize line height */
+  color: var(--white-color);
+}
+
+.os-nav-options a {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  margin-left: 20px; /* Space between links */
+  line-height: 1; /* Normalize line height */
+  color: var(--white-color);
+  
+}
