@@ -51,8 +51,8 @@ body {
   width: 50%;
 }
 .os-pageFront-image .--firstColor{
-  color: var(--primary-color);
+  color: var(--neutral-color);
 }
 .os-pageFront-image .--secondColor{
-  color: var(--white-color);
+  color: var(--primary-color);
 }
