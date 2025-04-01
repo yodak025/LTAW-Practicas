@@ -89,7 +89,10 @@ export default function Category({ name, children }) {
           onClick={handleBackward}
           disabled={currentPage === 0 || isAnimating}
         >
-          <BackwardArrow className="os-category-btn-icon" />
+          <BackwardArrow 
+            className="os-category-btn-icon" 
+            disabled={currentPage === 0 || isAnimating}
+          />
         </button>
         <section
           className={`os-category-slidingContainer ${slideAnimationClass}`}
@@ -101,7 +104,10 @@ export default function Category({ name, children }) {
           onClick={handleForward}
           disabled={currentPage >= totalPages - 1 || isAnimating}
         >
-          <ForwardArrow className="os-category-btn-icon" />
+          <ForwardArrow 
+            className="os-category-btn-icon" 
+            disabled={currentPage >= totalPages - 1 || isAnimating}
+          />
         </button>
       </section>
     </main>

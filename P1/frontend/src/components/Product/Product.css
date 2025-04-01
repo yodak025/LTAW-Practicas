@@ -4,7 +4,7 @@
   background-color: var(--light-color);
   display: flex;
   flex-direction: row;
-  border: 2px solid black;
+  border: 2px solid var(--black-color);
   border-radius: 2vh;
   height: 25vh;
   width: 38vh;
@@ -36,7 +36,7 @@
   font-size: 2vh;
   padding: 3px 6px;
   border-radius: 3px; /* Opcional para bordes redondeados */
-  color: black;
+  color: var(--black-color);
 }
 
 .os-product-btn {
@@ -45,13 +45,16 @@
   padding: 1vh;
 }
 .os-product-logo {
-  fill: var(--primary-color);
-  stroke: var(--primary-color);
+
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  margin-top: 10%;
+  height: 70%;
   width: 40%;
+
+  border-radius: 5px;
+
   color: var(--primary-color);
   
 }
@@ -63,7 +66,7 @@
 
 
 .os-product-title.--even {
-  color: black;
+  color: var(--black-color);
 }
 
 .os-product-title-word.--even {
@@ -71,24 +74,13 @@
   background-color: var(--light-color);
   padding: 3px 6px;
   border-radius: 3px; /* Opcional para bordes redondeados */
-  color: black;
+  color: var(--black-color);
 }
 
 .os-product-logo.--even {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 40%;
-  color: var(--primary-color);
-  fill: var(--primary-color);
-  stroke: var(--primary-color);
+
+
 }
-
-
-
-
-
 
 .icon {
   display: inline-block;

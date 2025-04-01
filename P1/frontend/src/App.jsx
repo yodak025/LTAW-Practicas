@@ -20,10 +20,12 @@ function App() {
 
           </section>
           <section className='os-pageFront-image'>
-            <FrontImg></FrontImg>
+            <FrontImg className="--firstColor --secondColor"/>
           </section>
         </header>
+
         {/* CUIDADO!! Los nombres identifican los iconos */}
+
         <Category name="Documentos Laborales">
           <Product name="Currículum Vitae Personalizado" index="1"/>
           <Product name="Carta de Presentación" index="2"/>
@@ -54,8 +56,8 @@ function App() {
           <Product name="Esquematizar Texto" index="9"/>
           <Product name="Extender Texto" index="10"/>
           <Product name="Prensar Texto" index="11"/> 
-
         </Category> 
+        
         <Category name="Web y Redes Sociales">
           <Product name="Guión para vídeo de Youtube" index="1"/>
           <Product name="Guión para Podcast" index="2"/>

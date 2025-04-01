@@ -10,6 +10,7 @@ padding: 0px 0px 5vh 0px;
   font-size: 3vh;
   padding: 5px;
   margin: 10px 0px 40px 10px;
+  border-radius: 3px;  /* Added border radius to match product style */
 }
 /* Contenedor para la animación deslizante */
 .os-category-slidingContainer {
@@ -58,9 +59,13 @@ padding: 0px 0px 5vh 0px;
 }
 
 .os-category-btn:disabled{
-
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: var(--neutral-color);
 }
-.os-category-btn:hover{
+
+/* Change to only apply hover effect when button is not disabled */
+.os-category-btn:not(:disabled):hover {
   background-color: var(--accent-color);
 }
 

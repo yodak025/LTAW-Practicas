@@ -13,8 +13,7 @@ body {
 body {
   margin: 0;
   padding: 0;
-  background-color: white;
-
+  background-color: var(--white-color);
 }
 
 .os-pageFront{
@@ -34,6 +33,7 @@ body {
   align-items: center;
   height: 45%;  
   width: 50%;
+  color: var(--black-color);
 }
 .os-pageFront-text-title{
   font-size: 7vh;
@@ -49,5 +49,10 @@ body {
   justify-content: center;
   align-items: center;
   width: 50%;
+}
+.os-pageFront-image .--firstColor{
   color: var(--primary-color);
+}
+.os-pageFront-image .--secondColor{
+  color: var(--white-color);
 }

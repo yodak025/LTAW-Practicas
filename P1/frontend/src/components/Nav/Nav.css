@@ -18,7 +18,7 @@
   font-size: 2.5vh;
 
   background-color: var(--primary-color);
-  color: white;
+  color: var(--white-color);
 }
 
 .os-nav-header {
@@ -31,6 +31,7 @@
   margin: 10px;
   padding: 0;
   line-height: 1; /* Normalize line height */
+  color: var(--white-color);
 }
 
 .os-nav-options a {
@@ -39,6 +40,6 @@
   text-decoration: none;
   margin-left: 20px; /* Space between links */
   line-height: 1; /* Normalize line height */
-  color: var(--black-color);
+  color: var(--white-color);
   
 }
