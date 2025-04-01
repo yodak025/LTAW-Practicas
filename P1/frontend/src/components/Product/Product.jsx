@@ -36,7 +36,7 @@ export default function Product({ name, index }) {
         </h3>
         <a 
           className={`os-product-btn${setToClassIfEven(index)}`}
-          href='../../public/product.html'
+          href='../../product.html'
         >
           Generate Product
         </a>

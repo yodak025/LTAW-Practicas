@@ -8,8 +8,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: 'index.html',
-        notFound: './public/error-404.html',
-        product: './public/product.html'
+        notFound: './error-404.html',
+        product: './product.html'
       }
     }
   }
