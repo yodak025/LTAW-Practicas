@@ -43,6 +43,8 @@
   border-radius: 5px;
   background-color: var(--accent-color);
   padding: 1vh;
+  color: var(--primary-color);
+  text-decoration: none;
 }
 .os-product-logo {
 
@@ -77,10 +79,6 @@
   color: var(--black-color);
 }
 
-.os-product-logo.--even {
-
-
-}
 
 .icon {
   display: inline-block;

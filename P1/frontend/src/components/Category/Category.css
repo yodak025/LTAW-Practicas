@@ -60,7 +60,7 @@ padding: 0px 0px 5vh 0px;
 
 .os-category-btn:disabled{
   opacity: 0.5;
-  cursor: not-allowed;
+  cursor:auto;
   background-color: var(--neutral-color);
 }
 
