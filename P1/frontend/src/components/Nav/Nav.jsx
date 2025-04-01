@@ -10,8 +10,8 @@ export default function Nav({className}) {
       </header>
 
       <main className="os-nav-options">
-          <a href="index.html">Productos</a>
-          <a>Sobre Nosotros</a>
+          <a href="index.html#products">Productos</a>
+          <a href="index.html">Sobre Nosotros</a>
       </main>
     </nav>
   );

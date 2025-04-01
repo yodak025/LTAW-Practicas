@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
-import "./App.css";
-import Layout from "./components/Layout/Layout.jsx";
+import "../App.css";
+import Layout from "../components/Layout/Layout.jsx";
 
 const Error404 = () => {
   return (
@@ -20,8 +20,8 @@ const Error404 = () => {
         
                   </section>
                   <section className='os-pageFront-image'>
-                    <img style={{height: "30vh"}} src={`./assets/GreenBird/3.png`} alt="Error 404" />
-                    <img style={{height: "30vh"}} src={`./assets/BlueBird/0.png`} alt="Error 404" />
+                    <img style={{height: "30vh"}} src={`../../src/assets/GreenBird/3.png`} alt="Error 404" />
+                    <img style={{height: "30vh"}} src={`../../src/assets/BlueBird/0.png`} alt="Error 404" />
                   </section>
                 </header>
     </Layout>

@@ -25,48 +25,48 @@ function App() {
         </header>
 
         {/* CUIDADO!! Los nombres identifican los iconos */}
+        <main id='products'>
+          <Category name="Documentos Laborales">
+            <Product name="Currículum Vitae Personalizado" index="1"/>
+            <Product name="Carta de Presentación" index="2"/>
+            <Product name="Resumen ejecutivo" index="3"/>
+            <Product name="Descripción de Producto" index="4"/>
+            <Product name="Email de Ventas" index="5"/>
+            <Product name="Carta de Recomendación" index="6"/>
+          </Category>
 
-        <Category name="Documentos Laborales">
-          <Product name="Currículum Vitae Personalizado" index="1"/>
-          <Product name="Carta de Presentación" index="2"/>
-          <Product name="Resumen ejecutivo" index="3"/>
-          <Product name="Descripción de Producto" index="4"/>
-          <Product name="Email de Ventas" index="5"/>
-          <Product name="Carta de Recomendación" index="6"/>
-        </Category>
+          <Category name="Documentos Legales">
+            <Product name="Contrato Laboral" index="1"/>
+            <Product name="Contrato de Compraventa" index="2"/>
+            <Product name="Contrato de Arrendamiento" index="3"/>
+            <Product name="Acuerdo de Confidencialidad" index="4"/>
+            <Product name="Testamento" index="5"/>
+            <Product name="Acta de Reunión" index="6"/>
+          </Category> 
 
-        <Category name="Documentos Legales">
-          <Product name="Contrato Laboral" index="1"/>
-          <Product name="Contrato de Compraventa" index="2"/>
-          <Product name="Contrato de Arrendamiento" index="3"/>
-          <Product name="Acuerdo de Confidencialidad" index="4"/>
-          <Product name="Testamento" index="5"/>
-          <Product name="Acta de Reunión" index="6"/>
-        </Category> 
-
-        <Category name="Documentos Académicos">
-          <Product name="Abstract Científico" index="1"/>
-          <Product name="Tarjeta Anki" index="2"/>
-          <Product name="Ensayo" index="3"/>
-          <Product name="Comentario de Texto" index="4"/>
-          <Product name="Test" index="5"/>
-          <Product name="Examen de Problemas" index="6"/>
-          <Product name="Revisar Redacción" index="7"/>
-          <Product name="Resumir Texto" index="8"/>
-          <Product name="Esquematizar Texto" index="9"/>
-          <Product name="Extender Texto" index="10"/>
-          <Product name="Prensar Texto" index="11"/> 
-        </Category> 
-        
-        <Category name="Web y Redes Sociales">
-          <Product name="Guión para vídeo de Youtube" index="1"/>
-          <Product name="Guión para Podcast" index="2"/>
-          <Product name="Descripción para Youtube" index="3"/>
-          <Product name="Post para Instagram" index="4"/>
-          <Product name="Post para Twitter" index="5"/>
-          <Product name="Artículo de Opinión" index="6"/>
-        </Category> 
-
+          <Category name="Documentos Académicos">
+            <Product name="Abstract Científico" index="1"/>
+            <Product name="Tarjeta Anki" index="2"/>
+            <Product name="Ensayo" index="3"/>
+            <Product name="Comentario de Texto" index="4"/>
+            <Product name="Test" index="5"/>
+            <Product name="Examen de Problemas" index="6"/>
+            <Product name="Revisar Redacción" index="7"/>
+            <Product name="Resumir Texto" index="8"/>
+            <Product name="Esquematizar Texto" index="9"/>
+            <Product name="Extender Texto" index="10"/>
+            <Product name="Prensar Texto" index="11"/> 
+          </Category> 
+          
+          <Category name="Web y Redes Sociales">
+            <Product name="Guión para vídeo de Youtube" index="1"/>
+            <Product name="Guión para Podcast" index="2"/>
+            <Product name="Descripción para Youtube" index="3"/>
+            <Product name="Post para Instagram" index="4"/>
+            <Product name="Post para Twitter" index="5"/>
+            <Product name="Artículo de Opinión" index="6"/>
+          </Category> 
+        </main>
     </Layout>
     </>
   )
