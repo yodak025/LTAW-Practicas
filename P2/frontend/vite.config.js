@@ -9,7 +9,8 @@ export default defineConfig({
       input: {
         main: 'index.html',
         notFound: './error-404.html',
-        product: './product.html'
+        product: './product.html',
+        login: './login.html',
       }
     }
   }

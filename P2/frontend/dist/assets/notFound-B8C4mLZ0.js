@@ -40,12 +40,12 @@ const o = () =>
           children: [
             e.jsx("img", {
               style: { height: "30vh" },
-              src: "../assets/GreenBird/3.png",
+              src: "../../assets/GreenBird/3.png",
               alt: "Error 404",
             }),
             e.jsx("img", {
               style: { height: "30vh" },
-              src: "../assets/BlueBird/0.png",
+              src: "../../assets/BlueBird/0.png",
               alt: "Error 404",
             }),
           ],
