@@ -25,6 +25,11 @@
   margin: 10px;
   padding: 0;
   line-height: 1; /* Normalize line height */
+  
+}
+.os-nav-header a {
+  color: var(--white-color); /* Normalize line height */
+  
 }
 
 .os-nav-options {
