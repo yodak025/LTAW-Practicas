@@ -1,5 +1,3 @@
-@import url("../../assets/colors.css");
-
 .os-product {
   background-color: var(--light-color);
   display: flex;

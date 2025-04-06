@@ -38,6 +38,9 @@ const findContentType = (extname) => {
     case ".svg":
       contentType = "image/svg+xml";
       break;
+    case ".ttf":
+      contentType = "font/ttf";
+      break;
   }
   return contentType;
 };
@@ -99,7 +102,7 @@ const writeDatabase = () => {
 //-------------------------------------- React Rendering ----------------------
 // TODO: Renderizado explícito de App.jsx
 
-const renderPage = (name, component, template, styles) => {
+const renderPage = (name, component, template, styles, hydrateScript) => {
   const html = renderToString(component);
   const styleTags = styles.map(
     (style) => `<link rel="stylesheet" href="${style}" /> \n`
@@ -108,7 +111,8 @@ const renderPage = (name, component, template, styles) => {
   return template
     .replace("Name", name)
     .replace("$RenderedPage", html)
-    .replace("$Styles", styleTags);
+    .replace("$Styles", styleTags)
+    .replace("$HydrateScript", hydrateScript);
 };
 
 //------------------------------------- Request Analysis ----------------------
@@ -319,7 +323,7 @@ const server = http.createServer(async (req, res) => {
               "/styles/Product.css",
               "/styles/Category.css",
               "/styles/App.css",
-            ]);
+            ], "/bundleApp.js");
             break;
           case "/product.html":
             content = renderPage("Producto", <ProductPage />, content, [
@@ -328,7 +332,7 @@ const server = http.createServer(async (req, res) => {
               "/styles/Layout.css",
               "/styles/productPage.css",
               "/styles/App.css",
-            ]);
+            ], "bundleProduct.js");
             break;
           case "/login.html":
             content = renderPage("Inicio de Sesión", <LoginPage />, content, [
@@ -337,7 +341,7 @@ const server = http.createServer(async (req, res) => {
               "/styles/Layout.css",
               "/styles/Login.css",
               "/styles/App.css",
-            ]);
+            ], "bundleLogin.js");
             break;
           case "/error-404.html":
             content = renderPage("Tienda Online", <App />, content, [

@@ -1,15 +1,4 @@
 :root{
-  --primary-color: #5A217C   ;
-  --secondary-color: #7E5191    ;
-  --light-color: #A181A5    ;
-  --accent-color: #FFBC42    ;
-  --neutral-color: #E8E1CD    ;
-
-  --white-color: white    ;
-  --black-color: black    ;
-}
-
-[data-theme='dark'] {
   --primary-color:#A181A5  ;
   --secondary-color: #9E71B1;
   --light-color: #5A217C;
