@@ -1,0 +1,27 @@
+{
+  "name": "p2",
+  "version": "1.0.0",
+  "main": "tienda.js",
+  "scripts": {
+    "dev": "babel-node tienda.js",
+    "buildApp": "esbuild client/hydrateApp.jsx --bundle --outfile=server/public/bundleApp.js --minify",
+    "buildLogin": "esbuild client/hydrateLogin.jsx --bundle --outfile=server/public/bundleLogin.js --minify",
+    "buildProduct": "esbuild client/hydrateProduct.jsx --bundle --outfile=server/public/bundleProduct.js --minify",
+    "build": "npm run buildApp && npm run buildLogin && npm run buildProduct"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@babel/cli": "^7.27.0",
+    "@babel/core": "^7.26.10",
+    "@babel/node": "^7.26.0",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-react": "^7.26.3",
+    "esbuild": "^0.25.2",
+    "express": "^5.1.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  }
+}

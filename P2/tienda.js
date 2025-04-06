@@ -1,15 +1,18 @@
-const http = require("http");
-const fs = require("fs");
-const path = require("path");
-const {
-  documentGenerationRequest,
-} = require("./server/document-generation/documentRequest.js");
+import http, { get } from "http";
+import fs from "fs";
+import path from "path";
+import React from "react";
+import { renderToString } from "react-dom/server";
+import App from "./components/pages/App.jsx";
+import ProductPage from "./components/pages/ProductPage.jsx";
+import LoginPage from "./components/pages/Login.jsx";
+import Error404 from "./components/pages/Error404.jsx";
 
 const PORT = 8001;
 
 // ------------------------------------- AUXILIARY FUNCTIONS ------------------
 const getResourcePath = (resDemipath) => {
-  const ROOT = "./P2/frontend/dist";
+  const ROOT = "./server/public";
   let resPath = resDemipath === "/" ? ROOT + "/index.html" : ROOT + resDemipath;
   return resPath;
 };
@@ -40,19 +43,14 @@ const findContentType = (extname) => {
 };
 
 //------------------------------------- DATABASE ------------------------------
+// ! la base de datos da errores de lectura y escritura y no sabemos por qué
 let users,
   products,
   orders = undefined;
-let isWriting = false;
 
 const readDatabase = async () => {
   return new Promise((resolve, reject) => {
-    if (isWriting) {
-      console.log("Base de datos ocupada, esperando...");
-      setTimeout(() => resolve(readDatabase()), 100);
-      return;
-    }
-    fs.readFile("./P2/tienda.json", "utf-8", (err, data) => {
+    fs.readFile("./server/tienda.json", "utf-8", (err, data) => {
       if (err) {
         console.error("Error al leer el archivo JSON:", err);
         reject(err);
@@ -73,29 +71,44 @@ const readDatabase = async () => {
   });
 };
 
-const writeDatabase = async () => {
-  if (isWriting) {
-    console.log("Base de datos ocupada, esperando...");
-    await new Promise(resolve => setTimeout(resolve, 100));
-    return writeDatabase();
-  }
-  
-  isWriting = true;
-  return new Promise((resolve, reject) => {
-    fs.writeFile(
-      "./P2/tienda.json",
-      JSON.stringify({ usuarios: users, productos: products, pedidos: orders }, null, 2),
-      (err) => {
-        isWriting = false;
-        if (err) {
-          console.error("Error al escribir el archivo JSON:", err);
-          reject(err);
-        } else {
-          console.log("Base de datos actualizada correctamente.");
-          resolve();
-        }
-      }    );
-  });
+const writeDatabase = () => {
+  // ? En solución a un bug terrible de concurrencia de tareas,
+  // ? el desarrollador ha optado por bloquear el hilo de ejecución
+  // ? mientras se escribe la base de datos, lo cual no es óptimo
+  // ? y representa una decisión de puto cobarde, pero es lo que hay.
+
+  fs.writeFileSync(
+    "./server/tienda.json",
+    JSON.stringify(
+      { usuarios: users, productos: products, pedidos: orders },
+      null,
+      2
+    ),
+    (err) => {
+      isWriting = false;
+      if (err) {
+        console.error("Error al escribir el archivo JSON:", err);
+        reject(err);
+      } else {
+        console.log("Base de datos actualizada correctamente.");
+        resolve();
+      }
+    }
+  );
+};
+//-------------------------------------- React Rendering ----------------------
+// TODO: Renderizado explícito de App.jsx
+
+const renderPage = (name, component, template, styles) => {
+  const html = renderToString(component);
+  const styleTags = styles.map(
+    (style) => `<link rel="stylesheet" href="${style}" /> \n`
+  );
+
+  return template
+    .replace("Name", name)
+    .replace("$RenderedPage", html)
+    .replace("$Styles", styleTags);
 };
 
 //------------------------------------- Request Analysis ----------------------
@@ -106,25 +119,21 @@ class RequestAnalyser {
     this.headers = {};
     this.user = null;
     this.body = null;
+    this.isDynamic = false;
+    this.isDarkTheme = false;
 
     //-- Cambios inmediatos --//
 
-    
-
     switch (req.url) {
       case "/":
+        this.resourceDemipath = "/index.html";
       case "/index.html":
       case "/product.html":
         this.getUserFromCookie(req.headers.cookie);
         if (!this.user) this.resourceDemipath = "/login.html";
+        this.isDynamic = true;
+        if (this.user && this.user.tema == "dark") this.isDarkTheme = true;
         break;
-      case "/assets/colors.css":
-        this.getUserFromCookie(req.headers.cookie);
-        if (this.user && (this.user.tema == "dark"))
-          this.resourceDemipath = "/assets/darkColors.css";
-        else this.resourceDemipath = "/assets/colors.css";
-        break;
-
     }
     //-- Peticiones Get --//
     if (req.url.includes("/login?")) {
@@ -134,11 +143,16 @@ class RequestAnalyser {
         if (u.usuario == user) {
           this.headers["Set-Cookie"] = [`user=${user}`]; //! OJO: Esto solo funciona si no hay mas cookies
           this.resourceDemipath = "/index.html";
+          if (u.tema == "dark") {
+            this.isDarkTheme = true;
+          }
         }
       });
     }
 
-    if (req.url.includes("/register?")) {  // TODO No es muy coherente con la clase
+    if (req.url.includes("/register?")) {
+      // TODO No es muy coherente con la clase
+      // ! FALTA CONTROLAR EL TEMAAAA
       this.resourceDemipath = "/index.html";
       const registerData = req.url.split("?")[1].split("&");
       const user = registerData[0].split("=")[1];
@@ -147,18 +161,24 @@ class RequestAnalyser {
 
       this.headers["Set-Cookie"] = [`user=${user}`]; //! OJO: Esto solo funciona si no hay mas cookies
 
-      users.forEach((u) => { // TODO : Si el usuario existe, debe notificarse el error
-        if (u.usuario == user) { return }
-        users.push({ usuario: user, nombre: fullName, email: email, tema: "light" });
+      users.forEach((u) => {
+        // TODO : Si el usuario existe, debe notificarse el error
+        if (u.usuario == user) {
+          return;
+        }
+        users.push({
+          usuario: user,
+          nombre: fullName,
+          email: email,
+          tema: "light",
+        });
       });
     }
 
-    if (req.url.includes("/update-theme?")){
+    if (req.url.includes("/update-theme?")) {
       const updatedTheme = req.url.split("?")[1].split("=")[1];
       this.setUserPropsFromCookie(req.headers.cookie, { tema: updatedTheme });
-        if (this.user.tema == "dark")
-          this.resourceDemipath = "/assets/darkColors.css";
-        else this.resourceDemipath = "/assets/colors.css";
+      if (this.user.tema == "dark") this.isDarkTheme = true;
     }
 
     req.on("data", (chunk) => {
@@ -188,9 +208,9 @@ class RequestAnalyser {
           if (u.usuario == userCookie) {
             this.user = u;
             u.usuario = userProps.usuario || u.usuario;
-            u.nombre  = userProps.nombre  || u.nombre;
-            u.email   = userProps.email   || u.email;
-            u.tema    = userProps.tema    || u.tema;
+            u.nombre = userProps.nombre || u.nombre;
+            u.email = userProps.email || u.email;
+            u.tema = userProps.tema || u.tema;
           }
         }
       });
@@ -219,20 +239,22 @@ class ResponsePacker {
     }
     return headers;
   }
-
 }
 
 //------------------------------------- SERVER --------------------------------
 
-const server = http.createServer( async (req, res) => {
-// Leer la base de datos al iniciar el servidor
-  await readDatabase()  
+const server = http.createServer(async (req, res) => {
+  // Leer la base de datos al iniciar el servidor
+  await readDatabase();
 
   // Imprime la petición entrante en la consola
   console.log(`Petición entrante: ${req.method} ${req.url}`);
 
   const reqData = new RequestAnalyser(req);
-  let resourcePath = getResourcePath(reqData.resourceDemipath);
+  // Si se pide un recurso dinámico, se carga template.html y se renderiza el componente al vuelo
+  let resourcePath = reqData.isDynamic
+    ? getResourcePath("/template.html")
+    : getResourcePath(reqData.resourceDemipath);
   let contentType = findContentType(path.extname(resourcePath));
 
   if (reqData.headers["Set-Cookie"])
@@ -242,7 +264,7 @@ const server = http.createServer( async (req, res) => {
   console.log(`Sirviendo el archivo: ${resourcePath}`);
 
   // Leer y servir el archivo solicitado
-  fs.readFile(resourcePath, async (error, content) => {
+  fs.readFile(resourcePath, "utf-8", async (error, content) => {
     let resData = null;
     if (error) {
       if (error.code === "ENOENT") {
@@ -250,10 +272,15 @@ const server = http.createServer( async (req, res) => {
         console.error(`File not found: ${resourcePath}`);
         // Si el archivo no existe, servir un 404 personalizado
         // ? Pido perdón a quien corresponda, chatGPT me ha convencido de que esto es más eficiente
-        const content404 = await (async() => {
+        const content404 = await (async () => {
           return new Promise((resolve) => {
-            fs.readFile("./P1/frontend/dist/error-404.html",
-            "utf-8", (_, data) => { resolve(data) });
+            fs.readFile(
+              "./P1/frontend/dist/error-404.html",
+              "utf-8",
+              (_, data) => {
+                resolve(data);
+              }
+            );
           });
         })();
 
@@ -279,33 +306,67 @@ const server = http.createServer( async (req, res) => {
       // Log successful file serving
       console.log(`File served successfully: ${resourcePath}`);
       // Archivo encontrado, se envía al navegador con un status 200
+      if (reqData.isDynamic) {
+        const themeStyle = reqData.isDarkTheme
+          ? "/styles/colors-darkMode.css"
+          : "/styles/colors.css";
+        switch (reqData.resourceDemipath) {
+          case "/index.html":
+            content = renderPage("Tienda Online", <App />, content, [
+              themeStyle,
+              "/styles/Nav.css",
+              "/styles/Layout.css",
+              "/styles/Product.css",
+              "/styles/Category.css",
+              "/styles/App.css",
+            ]);
+            break;
+          case "/product.html":
+            content = renderPage("Producto", <ProductPage />, content, [
+              themeStyle,
+              "/styles/Nav.css",
+              "/styles/Layout.css",
+              "/styles/productPage.css",
+              "/styles/App.css",
+            ]);
+            break;
+          case "/login.html":
+            content = renderPage("Inicio de Sesión", <LoginPage />, content, [
+              themeStyle,
+              "/styles/Nav.css",
+              "/styles/Layout.css",
+              "/styles/Login.css",
+              "/styles/App.css",
+            ]);
+            break;
+          case "/error-404.html":
+            content = renderPage("Tienda Online", <App />, content, [
+              themeStyle,
+              "/styles/Nav.css",
+              "/styles/Layout.css",
+              "/styles/Product.css",
+              "/styles/Category.css",
+              "/styles/App.css",
+            ]);
+            break;
+        }
+      }
+
       resData = new ResponsePacker(
         200,
         contentType,
         content,
         reqData.headers["Set-Cookie"]
       );
-
-      if (req.url == "/document.html") {
-        documentPage = fs.readFileSync("./P2/frontend/document.html", "utf-8");
-        LLMResponse = await documentGenerationRequest(reqBody);
-        htmlResponse = "";
-        LLMResponse.split("\n").forEach(
-          (line) => (htmlResponse += `<p>${line}</p>`)
-        );
-        content = documentPage.replace("$DocumentContent", htmlResponse);
-        console.log(reqBody);
-      }
-      
     }
     res.writeHead(resData.statusCode, resData.getResponseHead());
     res.end(resData.content, "utf-8");
   });
   // reescribir la base de datos
-  await writeDatabase();
+  writeDatabase();
 });
 
 // Escucha en el puerto 8001 (puedes cambiarlo si lo necesitas)
-  server.listen(PORT, () =>
-    console.log("Servidor corriendo en http://127.0.0.1:" + PORT + "/")
-  );
+server.listen(PORT, () =>
+  console.log("Servidor corriendo en http://127.0.0.1:" + PORT + "/")
+);

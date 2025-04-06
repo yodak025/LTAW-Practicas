@@ -1,0 +1,18 @@
+{
+  "usuarios": [
+    {
+      "usuario": "root",
+      "nombre": "root",
+      "correo": "root",
+      "tema": "dark"
+    },
+    {
+      "usuario": "Yodak025",
+      "nombre": "DSOTA",
+      "email": "diego.sota%40gmail.com",
+      "tema": "dark"
+    }
+  ],
+  "productos": [],
+  "pedidos": []
+}
