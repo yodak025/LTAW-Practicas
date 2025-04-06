@@ -43,21 +43,61 @@ const findContentType = (extname) => {
 let users,
   products,
   orders = undefined;
+let isWriting = false;
 
-fs.readFile("./P2/tienda.json", "utf-8", (err, data) => {
-  if (err) {
-    console.error("Error al leer el archivo JSON:", err);
-    return;
+const readDatabase = async () => {
+  return new Promise((resolve, reject) => {
+    if (isWriting) {
+      console.log("Base de datos ocupada, esperando...");
+      setTimeout(() => resolve(readDatabase()), 100);
+      return;
+    }
+    fs.readFile("./P2/tienda.json", "utf-8", (err, data) => {
+      if (err) {
+        console.error("Error al leer el archivo JSON:", err);
+        reject(err);
+      } else {
+        try {
+          const jsonData = JSON.parse(data);
+          users = jsonData.usuarios;
+          products = jsonData.productos;
+          orders = jsonData.pedidos;
+          console.log("Base de datos leída correctamente.");
+          resolve();
+        } catch (parseError) {
+          console.error("Error al analizar el JSON:", parseError);
+          reject(parseError);
+        }
+      }
+    });
+  });
+};
+
+const writeDatabase = async () => {
+  if (isWriting) {
+    console.log("Base de datos ocupada, esperando...");
+    await new Promise(resolve => setTimeout(resolve, 100));
+    return writeDatabase();
   }
-  try {
-    const jsonData = JSON.parse(data);
-    users = jsonData.usuarios;
-    products = jsonData.productos;
-    orders = jsonData.pedidos;
-  } catch (parseError) {
-    console.error("Error al analizar el JSON:", parseError);
-  }
-});
+  
+  isWriting = true;
+  return new Promise((resolve, reject) => {
+    fs.writeFile(
+      "./P2/tienda.json",
+      JSON.stringify({ usuarios: users, productos: products, pedidos: orders }, null, 2),
+      (err) => {
+        isWriting = false;
+        if (err) {
+          console.error("Error al escribir el archivo JSON:", err);
+          reject(err);
+        } else {
+          console.log("Base de datos actualizada correctamente.");
+          resolve();
+        }
+      }    );
+  });
+};
+
 //------------------------------------- Request Analysis ----------------------
 
 class RequestAnalyser {
@@ -68,24 +108,27 @@ class RequestAnalyser {
     this.body = null;
 
     //-- Cambios inmediatos --//
-    switch (req.url) {
-      case "/" || "/index.html":
-        this.getUserFormCookie(req.headers.cookie);
-        if (this.user) this.resourceDemipath = "/index.html";
-        else this.resourceDemipath = "/login.html";
-        break;
 
+    
+
+    switch (req.url) {
+      case "/":
+      case "/index.html":
+      case "/product.html":
+        this.getUserFromCookie(req.headers.cookie);
+        if (!this.user) this.resourceDemipath = "/login.html";
+        break;
       case "/assets/colors.css":
-        this.getUserFormCookie(req.headers.cookie);
-        if (this.user.tema == "dark")
+        this.getUserFromCookie(req.headers.cookie);
+        if (this.user && (this.user.tema == "dark"))
           this.resourceDemipath = "/assets/darkColors.css";
         else this.resourceDemipath = "/assets/colors.css";
         break;
+
     }
     //-- Peticiones Get --//
     if (req.url.includes("/login?")) {
-      // TODO : Si el usuario no existe, debe notificarse el error
-      this.resourceDemipath = "/login.html";
+      this.resourceDemipath = "/login.html"; // TODO : Si el usuario no existe, debe notificarse el error
       const user = req.url.split("?")[1].split("=")[1];
       users.forEach((u) => {
         if (u.usuario == user) {
@@ -93,6 +136,29 @@ class RequestAnalyser {
           this.resourceDemipath = "/index.html";
         }
       });
+    }
+
+    if (req.url.includes("/register?")) {  // TODO No es muy coherente con la clase
+      this.resourceDemipath = "/index.html";
+      const registerData = req.url.split("?")[1].split("&");
+      const user = registerData[0].split("=")[1];
+      const fullName = registerData[1].split("=")[1];
+      const email = registerData[2].split("=")[1];
+
+      this.headers["Set-Cookie"] = [`user=${user}`]; //! OJO: Esto solo funciona si no hay mas cookies
+
+      users.forEach((u) => { // TODO : Si el usuario existe, debe notificarse el error
+        if (u.usuario == user) { return }
+        users.push({ usuario: user, nombre: fullName, email: email, tema: "light" });
+      });
+    }
+
+    if (req.url.includes("/update-theme?")){
+      const updatedTheme = req.url.split("?")[1].split("=")[1];
+      this.setUserPropsFromCookie(req.headers.cookie, { tema: updatedTheme });
+        if (this.user.tema == "dark")
+          this.resourceDemipath = "/assets/darkColors.css";
+        else this.resourceDemipath = "/assets/colors.css";
     }
 
     req.on("data", (chunk) => {
@@ -105,11 +171,28 @@ class RequestAnalyser {
     });
   }
 
-  getUserFormCookie = (cookie) => {
+  getUserFromCookie = (cookie) => {
     if (cookie) {
       const userCookie = cookie.split(";")[0].split("=")[1];
       users.forEach((u) => {
         if (u.usuario == userCookie) this.user = u;
+      });
+    }
+  };
+
+  setUserPropsFromCookie = (cookie, userProps) => {
+    if (cookie) {
+      const userCookie = cookie.split(";")[0].split("=")[1];
+      users.forEach((u) => {
+        if (u.usuario == userCookie) {
+          if (u.usuario == userCookie) {
+            this.user = u;
+            u.usuario = userProps.usuario || u.usuario;
+            u.nombre  = userProps.nombre  || u.nombre;
+            u.email   = userProps.email   || u.email;
+            u.tema    = userProps.tema    || u.tema;
+          }
+        }
       });
     }
   };
@@ -141,7 +224,10 @@ class ResponsePacker {
 
 //------------------------------------- SERVER --------------------------------
 
-const server = http.createServer((req, res) => {
+const server = http.createServer( async (req, res) => {
+// Leer la base de datos al iniciar el servidor
+  await readDatabase()  
+
   // Imprime la petición entrante en la consola
   console.log(`Petición entrante: ${req.method} ${req.url}`);
 
@@ -215,9 +301,11 @@ const server = http.createServer((req, res) => {
     res.writeHead(resData.statusCode, resData.getResponseHead());
     res.end(resData.content, "utf-8");
   });
+  // reescribir la base de datos
+  await writeDatabase();
 });
 
 // Escucha en el puerto 8001 (puedes cambiarlo si lo necesitas)
-server.listen(PORT, () =>
-  console.log("Servidor corriendo en http://127.0.0.1:" + PORT + "/")
-);
+  server.listen(PORT, () =>
+    console.log("Servidor corriendo en http://127.0.0.1:" + PORT + "/")
+  );
