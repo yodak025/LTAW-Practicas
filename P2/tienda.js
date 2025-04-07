@@ -3,6 +3,9 @@ import fs from "fs";
 import path from "path";
 import React from "react";
 import { renderToString } from "react-dom/server";
+
+import JsonRusticDatabase from "./server/classJsonRusticDatabase.js";
+
 import App from "./components/pages/App.jsx";
 import ProductPage from "./components/pages/ProductPage.jsx";
 import LoginPage from "./components/pages/Login.jsx";
@@ -10,60 +13,8 @@ import Error404 from "./components/pages/Error404.jsx";
 
 const PORT = 8001;
 
-//------------------------------------- DATABASE ------------------------------
-// ! la base de datos da errores de lectura y escritura y no sabemos por qué
-let users,
-  products,
-  orders = undefined;
 
-const readDatabase = async () => {
-  return new Promise((resolve, reject) => {
-    fs.readFile("./server/tienda.json", "utf-8", (err, data) => {
-      if (err) {
-        console.error("Error al leer el archivo JSON:", err);
-        reject(err);
-      } else {
-        try {
-          const jsonData = JSON.parse(data);
-          users = jsonData.usuarios;
-          products = jsonData.productos;
-          orders = jsonData.pedidos;
-          console.log("Base de datos leída correctamente.");
-          resolve();
-        } catch (parseError) {
-          console.error("Error al analizar el JSON:", parseError);
-          reject(parseError);
-        }
-      }
-    });
-  });
-};
 
-const writeDatabase = () => {
-  // ? En solución a un bug terrible de concurrencia de tareas,
-  // ? el desarrollador ha optado por bloquear el hilo de ejecución
-  // ? mientras se escribe la base de datos, lo cual no es óptimo
-  // ? y representa una decisión de puto cobarde, pero es lo que hay.
-
-  fs.writeFileSync(
-    "./server/tienda.json",
-    JSON.stringify(
-      { usuarios: users, productos: products, pedidos: orders },
-      null,
-      2
-    ),
-    (err) => {
-      isWriting = false;
-      if (err) {
-        console.error("Error al escribir el archivo JSON:", err);
-        reject(err);
-      } else {
-        console.log("Base de datos actualizada correctamente.");
-        resolve();
-      }
-    }
-  );
-};
 //-------------------------------------- React Rendering ----------------------
 // TODO: Renderizado explícito de App.jsx
 
@@ -73,7 +24,8 @@ const renderPage = (name, component, template, styles, hydrateScript) => {
     (style) => `<link rel="stylesheet" href="${style}" /> \n`
   );
 
-  return template.toString("utf-8")
+  return template
+    .toString("utf-8")
     .replace("$Name", name)
     .replace("$RenderedPage", html)
     .replace("$Styles", styleTags)
@@ -192,9 +144,7 @@ class RequestAnalyser {
 class ResponsePacker {
   constructor(statusCode, contentPath, content, cookies = null) {
     this.statusCode = statusCode;
-    this.contentType = this._findContentType(
-      path.extname(contentPath)
-    );
+    this.contentType = this._findContentType(path.extname(contentPath));
     this.content = content;
     if (cookies) {
       this.cookies = cookies;
@@ -245,19 +195,20 @@ class ResponsePacker {
 }
 
 //------------------------------------- SERVER --------------------------------
+const db = new JsonRusticDatabase("./server/tienda.json");
 
 const server = http.createServer(async (req, res) => {
   // Leer la base de datos al iniciar el servidor
-  await readDatabase();
+  await db.readDatabase();
 
   // Imprime la petición entrante en la consola
   console.log(`Petición entrante: ${req.method} ${req.url}`);
 
-  const reqData = new RequestAnalyser(req, users);
+  const reqData = new RequestAnalyser(req, db.users);
   // Si se pide un recurso dinámico, se carga template.html y se renderiza el componente al vuelo
   let resourcePath = reqData.isDynamic
     ? "./server/public/template.html"
-    : `./server/public/${reqData.resourceDemipath}`
+    : `./server/public/${reqData.resourceDemipath}`;
 
   if (reqData.headers["Set-Cookie"])
     res.setHeader("Set-Cookie", reqData.headers["Set-Cookie"]);
@@ -276,13 +227,9 @@ const server = http.createServer(async (req, res) => {
         // ? Pido perdón a quien corresponda, chatGPT me ha convencido de que esto es más eficiente
         let content404 = await (async () => {
           return new Promise((resolve) => {
-            fs.readFile(
-              "./server/public/template.html",
-              "utf-8",
-              (_, data) => {
-                resolve(data);
-              }
-            );
+            fs.readFile("./server/public/template.html", "utf-8", (_, data) => {
+              resolve(data);
+            });
           });
         })();
         content404 = renderPage(
@@ -330,32 +277,50 @@ const server = http.createServer(async (req, res) => {
           : "/styles/colors.css";
         switch (reqData.resourceDemipath) {
           case "/index.html":
-            content = renderPage("Tienda Online", <App />, content, [
-              themeStyle,
-              "/styles/Nav.css",
-              "/styles/Layout.css",
-              "/styles/Product.css",
-              "/styles/Category.css",
-              "/styles/App.css",
-            ], "/bundleApp.js");
+            content = renderPage(
+              "Tienda Online",
+              <App />,
+              content,
+              [
+                themeStyle,
+                "/styles/Nav.css",
+                "/styles/Layout.css",
+                "/styles/Product.css",
+                "/styles/Category.css",
+                "/styles/App.css",
+              ],
+              "/bundleApp.js"
+            );
             break;
           case "/product.html":
-            content = renderPage("Producto", <ProductPage />, content, [
-              themeStyle,
-              "/styles/Nav.css",
-              "/styles/Layout.css",
-              "/styles/productPage.css",
-              "/styles/App.css",
-            ], "bundleProduct.js");
+            content = renderPage(
+              "Producto",
+              <ProductPage />,
+              content,
+              [
+                themeStyle,
+                "/styles/Nav.css",
+                "/styles/Layout.css",
+                "/styles/productPage.css",
+                "/styles/App.css",
+              ],
+              "bundleProduct.js"
+            );
             break;
           case "/login.html":
-            content = renderPage("Inicio de Sesión", <LoginPage />, content, [
-              themeStyle,
-              "/styles/Nav.css",
-              "/styles/Layout.css",
-              "/styles/Login.css",
-              "/styles/App.css",
-            ], "bundleLogin.js");
+            content = renderPage(
+              "Inicio de Sesión",
+              <LoginPage />,
+              content,
+              [
+                themeStyle,
+                "/styles/Nav.css",
+                "/styles/Layout.css",
+                "/styles/Login.css",
+                "/styles/App.css",
+              ],
+              "bundleLogin.js"
+            );
             break;
           case "/error-404.html":
             content = renderPage("Tienda Online", <App />, content, [
@@ -381,7 +346,7 @@ const server = http.createServer(async (req, res) => {
     res.end(resData.content, "utf-8");
   });
   // reescribir la base de datos
-  writeDatabase();
+  db.writeDatabase();
 });
 
 // Escucha en el puerto 8001 (puedes cambiarlo si lo necesitas)
