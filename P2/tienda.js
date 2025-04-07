@@ -10,41 +10,6 @@ import Error404 from "./components/pages/Error404.jsx";
 
 const PORT = 8001;
 
-// ------------------------------------- AUXILIARY FUNCTIONS ------------------
-const getResourcePath = (resDemipath) => {
-  const ROOT = "./server/public";
-  let resPath = resDemipath === "/" ? ROOT + "/index.html" : ROOT + resDemipath;
-  return resPath;
-};
-
-const findContentType = (extname) => {
-  let contentType = "text/html";
-  switch (extname) {
-    case ".js":
-      contentType = "text/javascript";
-      break;
-    case ".css":
-      contentType = "text/css";
-      break;
-    case ".json":
-      contentType = "application/json";
-      break;
-    case ".png":
-      contentType = "image/png";
-      break;
-    case ".jpg":
-      contentType = "image/jpg";
-      break;
-    case ".svg":
-      contentType = "image/svg+xml";
-      break;
-    case ".ttf":
-      contentType = "font/ttf";
-      break;
-  }
-  return contentType;
-};
-
 //------------------------------------- DATABASE ------------------------------
 // ! la base de datos da errores de lectura y escritura y no sabemos por qué
 let users,
@@ -108,8 +73,8 @@ const renderPage = (name, component, template, styles, hydrateScript) => {
     (style) => `<link rel="stylesheet" href="${style}" /> \n`
   );
 
-  return template
-    .replace("Name", name)
+  return template.toString("utf-8")
+    .replace("$Name", name)
     .replace("$RenderedPage", html)
     .replace("$Styles", styleTags)
     .replace("$HydrateScript", hydrateScript);
@@ -118,7 +83,8 @@ const renderPage = (name, component, template, styles, hydrateScript) => {
 //------------------------------------- Request Analysis ----------------------
 
 class RequestAnalyser {
-  constructor(req) {
+  constructor(req, users) {
+    this.dbUsers = users;
     this.resourceDemipath = req.url;
     this.headers = {};
     this.user = null;
@@ -143,7 +109,7 @@ class RequestAnalyser {
     if (req.url.includes("/login?")) {
       this.resourceDemipath = "/login.html"; // TODO : Si el usuario no existe, debe notificarse el error
       const user = req.url.split("?")[1].split("=")[1];
-      users.forEach((u) => {
+      this.dbUsers.forEach((u) => {
         if (u.usuario == user) {
           this.headers["Set-Cookie"] = [`user=${user}`]; //! OJO: Esto solo funciona si no hay mas cookies
           this.resourceDemipath = "/index.html";
@@ -165,12 +131,12 @@ class RequestAnalyser {
 
       this.headers["Set-Cookie"] = [`user=${user}`]; //! OJO: Esto solo funciona si no hay mas cookies
 
-      users.forEach((u) => {
+      this.dbUsers.forEach((u) => {
         // TODO : Si el usuario existe, debe notificarse el error
         if (u.usuario == user) {
           return;
         }
-        users.push({
+        this.dbUsers.push({
           usuario: user,
           nombre: fullName,
           email: email,
@@ -198,7 +164,7 @@ class RequestAnalyser {
   getUserFromCookie = (cookie) => {
     if (cookie) {
       const userCookie = cookie.split(";")[0].split("=")[1];
-      users.forEach((u) => {
+      this.dbUsers.forEach((u) => {
         if (u.usuario == userCookie) this.user = u;
       });
     }
@@ -207,7 +173,7 @@ class RequestAnalyser {
   setUserPropsFromCookie = (cookie, userProps) => {
     if (cookie) {
       const userCookie = cookie.split(";")[0].split("=")[1];
-      users.forEach((u) => {
+      this.dbUsers.forEach((u) => {
         if (u.usuario == userCookie) {
           if (u.usuario == userCookie) {
             this.user = u;
@@ -224,9 +190,11 @@ class RequestAnalyser {
 
 //------------------------------------- Response Packer ------------------------
 class ResponsePacker {
-  constructor(statusCode, contentType, content, cookies = null) {
+  constructor(statusCode, contentPath, content, cookies = null) {
     this.statusCode = statusCode;
-    this.contentType = contentType;
+    this.contentType = this._findContentType(
+      path.extname(contentPath)
+    );
     this.content = content;
     if (cookies) {
       this.cookies = cookies;
@@ -243,6 +211,37 @@ class ResponsePacker {
     }
     return headers;
   }
+  _findContentType = (extname) => {
+    let contentType = "plain/text";
+    // Definir el tipo de contenido según la extensión del archivo
+    switch (extname) {
+      case ".html":
+        contentType = "text/html";
+        break;
+      case ".js":
+        contentType = "text/javascript";
+        break;
+      case ".css":
+        contentType = "text/css";
+        break;
+      case ".json":
+        contentType = "application/json";
+        break;
+      case ".png":
+        contentType = "image/png";
+        break;
+      case ".jpg":
+        contentType = "image/jpg";
+        break;
+      case ".svg":
+        contentType = "image/svg+xml";
+        break;
+      case ".ttf":
+        contentType = "font/ttf";
+        break;
+    }
+    return contentType;
+  };
 }
 
 //------------------------------------- SERVER --------------------------------
@@ -254,12 +253,11 @@ const server = http.createServer(async (req, res) => {
   // Imprime la petición entrante en la consola
   console.log(`Petición entrante: ${req.method} ${req.url}`);
 
-  const reqData = new RequestAnalyser(req);
+  const reqData = new RequestAnalyser(req, users);
   // Si se pide un recurso dinámico, se carga template.html y se renderiza el componente al vuelo
   let resourcePath = reqData.isDynamic
-    ? getResourcePath("/template.html")
-    : getResourcePath(reqData.resourceDemipath);
-  let contentType = findContentType(path.extname(resourcePath));
+    ? "./server/public/template.html"
+    : `./server/public/${reqData.resourceDemipath}`
 
   if (reqData.headers["Set-Cookie"])
     res.setHeader("Set-Cookie", reqData.headers["Set-Cookie"]);
@@ -268,7 +266,7 @@ const server = http.createServer(async (req, res) => {
   console.log(`Sirviendo el archivo: ${resourcePath}`);
 
   // Leer y servir el archivo solicitado
-  fs.readFile(resourcePath, "utf-8", async (error, content) => {
+  fs.readFile(resourcePath, async (error, content) => {
     let resData = null;
     if (error) {
       if (error.code === "ENOENT") {
@@ -276,10 +274,10 @@ const server = http.createServer(async (req, res) => {
         console.error(`File not found: ${resourcePath}`);
         // Si el archivo no existe, servir un 404 personalizado
         // ? Pido perdón a quien corresponda, chatGPT me ha convencido de que esto es más eficiente
-        const content404 = await (async () => {
+        let content404 = await (async () => {
           return new Promise((resolve) => {
             fs.readFile(
-              "./P1/frontend/dist/error-404.html",
+              "./server/public/template.html",
               "utf-8",
               (_, data) => {
                 resolve(data);
@@ -287,10 +285,26 @@ const server = http.createServer(async (req, res) => {
             );
           });
         })();
+        content404 = renderPage(
+          "Error 404",
+          <Error404 />,
+          content404,
+          [
+            reqData.isDarkTheme
+              ? "/styles/colors-darkMode.css"
+              : "/styles/colors.css",
+            "/styles/Nav.css",
+            "/styles/Layout.css",
+            "/styles/Product.css",
+            "/styles/Category.css",
+            "/styles/App.css",
+          ],
+          null
+        );
 
         resData = new ResponsePacker(
           404,
-          "text/html",
+          "./server/public/template.html",
           content404,
           reqData.headers["Set-Cookie"]
         );
@@ -300,7 +314,7 @@ const server = http.createServer(async (req, res) => {
         // Otros errores: error interno del servidor
         resData = new ResponsePacker(
           500,
-          "text/html",
+          "./server/public/undefined.html",
           `<h1>Error interno del servidor:</h1>  
           <p>Server error reading ${resourcePath}: ${error.code}</p>`,
           reqData.headers["Set-Cookie"]
@@ -358,7 +372,7 @@ const server = http.createServer(async (req, res) => {
 
       resData = new ResponsePacker(
         200,
-        contentType,
+        resourcePath,
         content,
         reqData.headers["Set-Cookie"]
       );
