@@ -1,11 +1,11 @@
 import http from "http";
 import fs from "fs";
-import path from "path";
 import React from "react";
 import { renderToString } from "react-dom/server";
 
 import JsonRusticDatabase from "./server/classJsonRusticDatabase.js";
 import RequestAnalyser from "./server/classRequestAnalyser.js";
+import ResponsePacker from "./server/classResponsePacker.js";
 
 import App from "./components/pages/App.jsx";
 import ProductPage from "./components/pages/ProductPage.jsx";
@@ -35,59 +35,7 @@ const renderPage = (name, component, template, styles, hydrateScript) => {
 
 
 
-//------------------------------------- Response Packer ------------------------
-class ResponsePacker {
-  constructor(statusCode, contentPath, content, cookies = null) {
-    this.statusCode = statusCode;
-    this.contentType = this._findContentType(path.extname(contentPath));
-    this.content = content;
-    if (cookies) {
-      this.cookies = cookies;
-    } else {
-      this.cookies = null;
-    }
-  }
-  getResponseHead() {
-    const headers = {
-      "Content-Type": this.contentType,
-    };
-    if (this.cookies) {
-      headers["Set-Cookie"] = this.cookies;
-    }
-    return headers;
-  }
-  _findContentType = (extname) => {
-    let contentType = "plain/text";
-    // Definir el tipo de contenido según la extensión del archivo
-    switch (extname) {
-      case ".html":
-        contentType = "text/html";
-        break;
-      case ".js":
-        contentType = "text/javascript";
-        break;
-      case ".css":
-        contentType = "text/css";
-        break;
-      case ".json":
-        contentType = "application/json";
-        break;
-      case ".png":
-        contentType = "image/png";
-        break;
-      case ".jpg":
-        contentType = "image/jpg";
-        break;
-      case ".svg":
-        contentType = "image/svg+xml";
-        break;
-      case ".ttf":
-        contentType = "font/ttf";
-        break;
-    }
-    return contentType;
-  };
-}
+
 
 //------------------------------------- SERVER --------------------------------
 const db = new JsonRusticDatabase("./server/tienda.json");
