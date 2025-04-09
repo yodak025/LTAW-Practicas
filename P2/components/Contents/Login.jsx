@@ -6,7 +6,7 @@ export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
 
   return (
-    <Layout>
+    <>
       <div className="auth-container">
         <h1 className="auth-title">Bienvenido a la Tienda</h1>
         <p className="auth-description">
@@ -65,6 +65,6 @@ export default function LoginPage() {
           </form>
         )}
       </div>
-    </Layout>
+    </>
   );
 };

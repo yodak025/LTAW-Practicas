@@ -104,5 +104,28 @@ class RequestAnalyser {
       });
     }
   };
+
+  async analyzeRequest(request) {
+    if (request.method === 'POST' && request.url === '/document.html') {
+      return new Promise((resolve, reject) => {
+        let body = '';
+        request.on('data', chunk => {
+          body += chunk.toString();
+        });
+        request.on('end', () => {
+          try {
+            const formData = JSON.parse(body);
+            resolve({
+              type: 'document',
+              method: 'POST',
+              formData: formData
+            });
+          } catch (error) {
+            reject(error);
+          }
+        });
+      });
+    }
+  }
 }
 export default RequestAnalyser;

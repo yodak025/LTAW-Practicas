@@ -1,15 +1,12 @@
 import React from "react";
-import Layout from '../Layout/Layout';
 import Product from '../Product/Product';
 import Category from '../Category/Category';
 import { FrontImg } from '../FrontImg';
 
 
-function App() {
+function Products() {
   return (
     <>
-      <Layout>
-      {/* Contenido específico de la página principal */}
         <header className='os-pageFront'>
           <section className='os-pageFront-text'>
             <h1 className='os-pageFront-text-title'>¡Bienvenido a tu tienda de servicios de redacción!</h1>
@@ -67,9 +64,8 @@ function App() {
             <Product name="Artículo de Opinión" index="6"/>
           </Category> 
         </main>
-    </Layout>
     </>
   )
 }
 
-export default App
+export default Products

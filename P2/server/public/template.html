@@ -5,6 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>$Name</title>
+    $Styles
     <style>
       @font-face {
         font-family: 'BigShoulders';
@@ -13,10 +14,10 @@
         font-style: normal;
       }
     </style>
-    $Styles
+    $InitialState
+    $HydrateScript
   </head>
   <body>
     <div id="root">$RenderedPage</div>
-    <script type="module" src=$HydrateScript></script>
   </body>
 </html>

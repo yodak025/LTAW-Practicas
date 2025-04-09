@@ -1,11 +1,9 @@
 import React from 'react';
-import Nav from '../Nav/Nav'
 
 
 function Layout({ children }) {
   return (
-    <>
-      <Nav className="os-layout-nav"/>
+    <> 
       <main>
         {children}
       </main>

@@ -1,5 +1,7 @@
-import App from '../components/pages/App.jsx';
-import React from 'react';
+import App from '../components/App.jsx';
+import React from 'react'; 
 import { hydrateRoot } from 'react-dom/client';
 
-hydrateRoot(document.getElementById('root'), <App />);
+const initialState = window.__INITIAL_STATE__;
+
+hydrateRoot(document.getElementById('root'), <App content={initialState.content}/>);

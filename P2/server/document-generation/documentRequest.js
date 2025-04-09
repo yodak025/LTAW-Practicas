@@ -4,7 +4,7 @@ const MAX_TOKENS = -1;
 const IS_STREAM = false;
 const LLM_API = "http://localhost:1234/v1/chat/completions";
 
-const generateLlmRequest = (data) => {
+const generatePresentationLetter = (data) => {
 
   return {
   model: "gemma-3-12b-it",
@@ -71,10 +71,8 @@ async function callLMStudioAPI(requestData) {
 }
 
 const documentGenerationRequest = async (request) => {
-  const requestData = generateLlmRequest(JSON.parse(request));
+  const requestData = generatePresentationLetter(JSON.parse(request));
   return await callLMStudioAPI(requestData);
 }
 
-module.exports = {
-  documentGenerationRequest: documentGenerationRequest
-};
+export default documentGenerationRequest;

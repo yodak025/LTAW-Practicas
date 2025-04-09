@@ -4,10 +4,8 @@
   "main": "tienda.js",
   "scripts": {
     "dev": "babel-node tienda.js",
-    "buildApp": "esbuild client/hydrateApp.jsx --bundle --outfile=server/public/bundleApp.js --minify",
-    "buildLogin": "esbuild client/hydrateLogin.jsx --bundle --outfile=server/public/bundleLogin.js --minify",
-    "buildProduct": "esbuild client/hydrateProduct.jsx --bundle --outfile=server/public/bundleProduct.js --minify",
-    "build": "npm run buildApp && npm run buildLogin && npm run buildProduct"
+    "build": "esbuild client/hydrateApp.jsx --bundle --outfile=server/public/bundle.js --minify --jsx=automatic --platform=browser",
+    "dev+build": "npm run build && npm run dev"
   },
   "keywords": [],
   "author": "",

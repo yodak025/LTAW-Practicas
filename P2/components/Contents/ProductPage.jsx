@@ -1,5 +1,4 @@
 import React from 'react'
-import Layout from '../Layout/Layout'
 
 const DemoText = () => (
   <section className="os-product-demo">
@@ -60,7 +59,6 @@ const DemoText = () => (
 
 export default function ProductPage () {
   return(
-    <Layout>
       <main className="os-product-page">
         <section className="os-product-content">
           <div className="os-product-notice">
@@ -76,6 +74,5 @@ export default function ProductPage () {
           <DemoText />
         </section>
       </main>
-    </Layout>
   )
 }
