@@ -6,7 +6,8 @@ class RequestAnalyser {
     this.resourceDemipath = req.url;
     this.headers = {};
     this.user = null;
-    this.body = null;
+    this.body = "";
+    this.isAjax = false;
     this.isDynamic = false;
     this.isDarkTheme = false;
 
@@ -68,15 +69,11 @@ class RequestAnalyser {
       this.setUserPropsFromCookie(req.headers.cookie, { tema: updatedTheme });
       if (this.user.tema == "dark") this.isDarkTheme = true;
     }
+    if (req.url.includes("/document.html")) {
+      this.isDynamic = true;
+    }
+    
 
-    req.on("data", (chunk) => {
-      //! Mucho me temo que esto podría ser un cabo suelto
-      this.body += chunk.toString();
-    });
-
-    req.on("end", () => {
-      //-- Peticiones POST --//
-    });
   }
 
   getUserFromCookie = (cookie) => {
@@ -104,28 +101,26 @@ class RequestAnalyser {
       });
     }
   };
-
-  async analyzeRequest(request) {
-    if (request.method === 'POST' && request.url === '/document.html') {
-      return new Promise((resolve, reject) => {
-        let body = '';
-        request.on('data', chunk => {
-          body += chunk.toString();
-        });
-        request.on('end', () => {
-          try {
-            const formData = JSON.parse(body);
-            resolve({
-              type: 'document',
-              method: 'POST',
-              formData: formData
-            });
-          } catch (error) {
-            reject(error);
+  recievePostData = async (req) => {
+    req.on("data", (chunk) => {
+      //! Mucho me temo que esto podría ser un cabo suelto
+      this.body += chunk.toString();
+    });
+    await new Promise((resolve) => {
+      req.on("end", () => {
+        //-- Peticiones POST --//
+        if (req.method == "POST") {
+          console.log(this.body);
+          //this.body = JSON.parse(this.body);
+          switch (this.resourceDemipath) {
+            case "/generate-document":
+              this.isAjax = true
+              resolve();
+              break;
           }
-        });
-      });
-    }
+        }
+      })
+    });
   }
 }
 export default RequestAnalyser;

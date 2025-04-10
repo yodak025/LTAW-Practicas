@@ -47,6 +47,21 @@ const generatePresentationLetter = (data) => {
   repetition_penalty: 1
 };
 };
+const generateExpandedText = (data) => {
+  return {
+    model: "gemma-3-12b-it",
+    messages: [
+      { role: "user", content: 
+        `Expande el siguiente texto "${data.originalText}" manteniendo su esencia y significado original.` 
+      },
+    ],
+    temperature: TEMPERATURE,
+    max_tokens: MAX_TOKENS, // -1 o ajusta según la cantidad deseada
+    stream: IS_STREAM,  // Usa 'true' si deseas respuestas en streaming (requiere un manejo especial)
+    top_p: 1,
+    repetition_penalty: 1
+  };
+}
 
 // Función asíncrona para enviar la petición y procesar la respuesta
 async function callLMStudioAPI(requestData) {
@@ -70,9 +85,10 @@ async function callLMStudioAPI(requestData) {
   }
 }
 
-const documentGenerationRequest = async (request) => {
-  const requestData = generatePresentationLetter(JSON.parse(request));
-  return await callLMStudioAPI(requestData);
+const documentGenerationRequest = async (request, db) => {
+  const requestData = generateExpandedText(JSON.parse(request));
+  const response = JSON.stringify(await callLMStudioAPI(requestData));
+  return db.addNewOrder(response);
 }
 
 export default documentGenerationRequest;

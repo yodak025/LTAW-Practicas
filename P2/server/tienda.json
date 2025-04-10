@@ -13,6 +13,19 @@
       "tema": "default"
     }
   ],
-  "productos": [],
-  "pedidos": []
+  "productos": [
+    {
+      "nombre": "Expand"
+    }
+  ],
+  "pedidos": [
+    {
+      "id": 0,
+      "content": "\"Aquí tienes algunas expansiones del texto \\\"Me gusta el chocolate\\\", manteniendo la esencia pero añadiendo detalles y matices:\\n\\n**Opción 1 (Simple y descriptiva):**\\n\\n\\\"Disfruto mucho el sabor del chocolate, especialmente cuando es rico y cremoso.\\\"\\n\\n**Opción 2 (Añadiendo un poco de emoción):**\\n\\n\\\"El chocolate me encanta; su aroma y sabor son una verdadera fuente de placer para mí.\\\"\\n\\n**Opción 3 (Especificando tipo de chocolate):**\\n\\n\\\"Me gusta el chocolate, sobre todo el chocolate negro con un alto porcentaje de cacao. Es intenso y delicioso.\\\"\\n\\n**Opción 4 (Añadiendo contexto):**\\n\\n\\\"Después de un día largo, no hay nada mejor que disfrutar de un pedazo de chocolate; me encanta su capacidad para levantarme el ánimo.\\\"\\n\\n**Opción 5 (Más elaborada):**\\n\\n\\\"El chocolate es una de mis debilidades. Me fascina la complejidad de sus sabores, desde las notas dulces y afrutadas hasta los toques amargos y terrosos.  Es un pequeño lujo que me da mucha satisfacción.\\\"\\n\\nLa mejor opción dependerá del tono y el contexto en el que quieres usar la frase expandida. Todas ellas transmiten la misma idea básica: **te gusta el chocolate.**\\n\""
+    },
+    {
+      "id": 1,
+      "content": "\"Para enriquecer la experiencia del usuario y dotar a las páginas web de mayor dinamismo e interactividad, se pueden implementar programas escritos en JavaScript. Estos scripts permiten una comunicación discreta entre el navegador del usuario y el servidor, intercambiando pequeñas cantidades de información en segundo plano, sin interrumpir la navegación habitual. Un ejemplo común y práctico de esta técnica son las sugerencias autocompletadas que aparecen en los buscadores mientras escribimos nuestra consulta; estas predicciones se generan y muestran instantáneamente gracias a este tipo de interacción continua y silenciosa con el servidor.\\n\""
+    }
+  ]
 }

@@ -53,20 +53,5 @@ class ResponsePacker {
     return contentType;
   };
 
-  async packResponse(requestData) {
-    if (requestData.type === 'document' && requestData.method === 'POST') {
-      const response = {
-        status: 'success',
-        message: 'Form data received successfully',
-        data: requestData.formData
-      };
-
-      return {
-        code: 200,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(response)
-      };
-    }
-  }
 }
 export default ResponsePacker;

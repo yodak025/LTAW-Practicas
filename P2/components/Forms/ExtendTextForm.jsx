@@ -1,34 +1,45 @@
-import React from 'react';
+import React from "react";
+
 
 export default function ExtendTextForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
     const formData = {
       originalText: event.target.originalText.value,
       targetLength: event.target.targetLength.value,
       focus: event.target.focus.value,
-      notes: event.target.notes.value
+      notes: event.target.notes.value,
     };
 
-    try {
-      const response = await fetch('/document.html', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-      });
+    const m = new XMLHttpRequest();
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+    m.onreadystatechange = () => {
+
+      //-- Petición enviada y recibida. Todo OK!
+      if (m.readyState==4) {
+
+          console.log("Peticion completada");
+          console.log("status: " + m.status);
+
+          //-- Solo la procesamos si la respuesta es correcta
+          if (m.status==200) {
+
+              //-- La respuesta es un objeto JSON
+              resourceId = m.responseText;
+              window.location.href = `/document.html?resource-id=${resourceId}`;
+              return; 
+
+          } else {
+              //-- Hay un error en la petición
+          }
       }
-
-      const data = await response.json();
-      console.log('Success:', data);
-    } catch (error) {
-      console.error('Error:', error);
     }
+    m.open("POST", "/generate-document", true);
+    m.setRequestHeader("Content-Type", "application/json");
+
+    m.send(JSON.stringify(formData));
+
   };
 
   return (
@@ -36,8 +47,8 @@ export default function ExtendTextForm() {
       <section className="os-form-explanation">
         <h2>Expansión de Texto</h2>
         <p>
-          Esta herramienta te ayuda a expandir un texto manteniendo su esencia y significado original. 
-          Es útil cuando necesitas:
+          Esta herramienta te ayuda a expandir un texto manteniendo su esencia y
+          significado original. Es útil cuando necesitas:
         </p>
         <ul>
           <li>Desarrollar ideas concisas en párrafos completos</li>
@@ -50,9 +61,9 @@ export default function ExtendTextForm() {
       <form className="os-extend-form" onSubmit={handleSubmit}>
         <div className="os-form-field">
           <label htmlFor="originalText">Texto Original:</label>
-          <textarea 
-            id="originalText" 
-            name="originalText" 
+          <textarea
+            id="originalText"
+            name="originalText"
             rows="6"
             placeholder="Introduce el texto que deseas expandir..."
             required
@@ -79,9 +90,9 @@ export default function ExtendTextForm() {
 
         <div className="os-form-field">
           <label htmlFor="notes">Notas adicionales (opcional):</label>
-          <textarea 
-            id="notes" 
-            name="notes" 
+          <textarea
+            id="notes"
+            name="notes"
             rows="3"
             placeholder="Especifica cualquier requisito adicional para la expansión..."
           />
