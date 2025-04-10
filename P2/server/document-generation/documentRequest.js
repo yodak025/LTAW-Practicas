@@ -47,12 +47,36 @@ const generatePresentationLetter = (data) => {
   repetition_penalty: 1
 };
 };
-const generateExpandedText = (data) => {
-  return {
+const generateExpandedText = async (data) => {
+  let extensionTypeSentence = ""
+  switch (data.focus) {
+    case "details":
+      extensionTypeSentence = "añadir más detalles al";
+      break;
+    case "examples":
+      extensionTypeSentence = "ilustrar con ejemplos de";
+      break;
+    case "context":
+      extensionTypeSentence = "expandir el contexto del";
+      break;
+    case "technical":
+      extensionTypeSentence = "profundizar en los aspéctos técnicos del";
+      break;
+  }
+
+  const requestData = {
     model: "gemma-3-12b-it",
     messages: [
       { role: "user", content: 
-        `Expande el siguiente texto "${data.originalText}" manteniendo su esencia y significado original.` 
+        `A continuación se presenta un texto que contiene una serie de ideas y conceptos. 
+        ${data.originalText}
+        Actúa como un experto en redacción y amplía el texto, desarrollando cada idea y concepto de manera clara y detallada.
+        La extensión aproximada del texto resultante debe ser aproximadamente de el ${data.targetLength} de la extensión original.
+        Concretamente, debes enfocarte en ${extensionTypeSentence} texto original. 
+        ${data.notes ? "Además, ten en cuenta las siguientes consideraciones:\n\n" + data.notes : ""}
+        \n
+        Es fundamental que devuelvas el texto generado en un formato de texto completamente plano, sin etiquetas ni comentarios adicionales.
+        Evita incluir comentarios en tu respuesta. Evita incluir títulos o encabezados en el texto final. Evita formatear el texto de ninguna forma.` 
       },
     ],
     temperature: TEMPERATURE,
@@ -61,6 +85,7 @@ const generateExpandedText = (data) => {
     top_p: 1,
     repetition_penalty: 1
   };
+  return JSON.stringify(await callLMStudioAPI(requestData));
 }
 
 // Función asíncrona para enviar la petición y procesar la respuesta
@@ -85,10 +110,9 @@ async function callLMStudioAPI(requestData) {
   }
 }
 
-const documentGenerationRequest = async (request, db) => {
-  const requestData = generateExpandedText(JSON.parse(request));
-  const response = JSON.stringify(await callLMStudioAPI(requestData));
-  return db.addNewOrder(response);
+const documentGenerationRequest = async (requestData, db) => {
+  const response = await generateExpandedText(JSON.parse(requestData.body));
+  return db.addNewOrder(response, requestData.user, "expandir-texto");
 }
 
 export default documentGenerationRequest;

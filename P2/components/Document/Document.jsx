@@ -1,9 +1,28 @@
 import React from 'react';
 
 const Document = ({ structure }) => {
+  const renderText = (text) => {
+    // Dividir el texto en párrafos y filtrar los párrafos vacíos
+    const paragraphs = text.split('\\n').filter(p => p.trim() !== '');
+    
+    if (paragraphs.length === 0) return null;
+    
+    // Si solo hay un párrafo, devolverlo directamente
+    if (paragraphs.length === 1) {
+      return <p className="document-text">{paragraphs[0]}</p>;
+    }
+    
+    // Si hay múltiples párrafos, renderizar cada uno
+    return paragraphs.map((paragraph, index) => (
+      <p key={index} className="document-text">
+        {paragraph}
+      </p>
+    ));
+  };
+
   const renderContent = (content, level = 1) => {
     if (typeof content === 'string') {
-      return <p className="document-text">{content}</p>;
+      return renderText(content);
     }
 
     if (typeof content === 'object' && content !== null) {

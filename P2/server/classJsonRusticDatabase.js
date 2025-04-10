@@ -63,12 +63,12 @@ class JsonRusticDatabase {
     );
   };
 
-  addNewOrder = (order) => {
+  addNewOrder = (order, userName, documentType) => {
     const newOrderID = this.orders.length;
-    const newOrder = { id: newOrderID, content: order }; //! Es redundante que el id esté dentro del contenido
+    const newOrder = { usuario: userName.usuario, tipo: documentType, content: order };
     this.orders.push(newOrder);
     return newOrderID;
-  }
+  };
 }
 
 export default JsonRusticDatabase;

@@ -6,23 +6,23 @@ import App from "../components/App";
 //-------------------------------------- React Rendering ----------------------
 
 export default function renderPage(template, resourcePath, isDarkTheme, db) {
-  let name = "AI Scribe";
+  let name = "AI Scribe"; //TODO - Replantear
   let styles = [`/styles/colors-${isDarkTheme ? "dark" : "default"}.css`];
   const props = { content: null };
 
   if (resourcePath.includes("/document.html")){
     const documentId = resourcePath.split("?")[1].split("=")[1];
     const document = db.orders[documentId].content;
-    return `<!DOCTYPE html>
-    <html lang="es">
-      <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </head>
-      <body>
-        ${document}
-      </body>
-    </html>`;
+    const structure = {"Documento Expandido": document};
+    props.document = structure;
+    props.content = "Document";
+
+    styles.push(
+      "/styles/Nav.css",
+      "/styles/Layout.css",
+      "/styles/Document.css",
+      "/styles/App.css"
+    );
   }
       
 
@@ -71,7 +71,7 @@ export default function renderPage(template, resourcePath, isDarkTheme, db) {
     .map((style) => `<link rel="stylesheet" href="${style}" /> \n`)
     .join("");
 
-  const html = renderToString(<App content={props.content} />);
+  const html = renderToString(<App props={props} />);
 
   const initialStateScript = `<script defer>
       window.__INITIAL_STATE__ = ${JSON.stringify(props)}

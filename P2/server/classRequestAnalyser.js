@@ -115,6 +115,7 @@ class RequestAnalyser {
           switch (this.resourceDemipath) {
             case "/generate-document":
               this.isAjax = true
+              this.getUserFromCookie(req.headers.cookie);
               resolve();
               break;
           }

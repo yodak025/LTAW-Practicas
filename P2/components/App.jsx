@@ -1,13 +1,15 @@
 import React from "react";
 
-import Layout from "../components/Layout/Layout.jsx";
-import Nav from "../components/Nav/Nav.jsx";
-import Products from "../components/Contents/Products.jsx";
-import ExtendTextForm from "../components/Forms/ExtendTextForm.jsx";
-import LoginPage from "../components/Contents/Login.jsx";
-import Error404 from "../components/Contents/Error404.jsx";
+import Layout from "./Layout/Layout.jsx";
+import Nav from "./Nav/Nav.jsx";
+import Products from "./Contents/Products.jsx";
+import ExtendTextForm from "./Forms/ExtendTextForm.jsx";
+import LoginPage from "./Contents/Login.jsx";
+import Error404 from "./Contents/Error404.jsx";
+import Document from "./Document/Document.jsx";
 
-export default function App ({content}){
+export default function App ({props}){
+  const content = props.content;
   switch (content){
     case "Products":
       return (
@@ -21,6 +23,14 @@ export default function App ({content}){
         <Layout>
           <Nav className="os-layout-nav" />
           < ExtendTextForm />
+        </Layout>
+      );
+    case "Document":
+      const structure = props.document;
+      return (
+        <Layout>
+          <Nav className="os-layout-nav" />
+          <Document structure={structure} />
         </Layout>
       );
     case "Login":

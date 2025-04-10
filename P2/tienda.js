@@ -7,7 +7,6 @@ import ResponsePacker from "./server/classResponsePacker.js";
 import renderPage from "./server/rusticServerSideRendering.jsx";
 import documentGenerationRequest from "./server/document-generation/documentRequest.js";
 
-
 const PORT = 8001;
 
 //------------------------------------- SERVER --------------------------------
@@ -27,8 +26,8 @@ const server = http.createServer(async (req, res) => {
 
   if (reqData.isAjax) {
     // Si es una petición AJAX, se procesa el documento y se envía la respuesta
-    let documentID = await documentGenerationRequest(reqData.body, db);
-    res.writeHead(200, {"Content-Type": "text/plain"});
+    let documentID = await documentGenerationRequest(reqData, db);
+    res.writeHead(200, { "Content-Type": "text/plain" });
     res.end(documentID.toString(), "utf-8");
     db.writeDatabase();
     console.log("Petición AJAX procesada y respuesta enviada.");
@@ -62,7 +61,11 @@ const server = http.createServer(async (req, res) => {
             });
           });
         })();
-        content404 = renderPage(content404, "/error-404.html", reqData.isDarkTheme);
+        content404 = renderPage(
+          content404,
+          "/error-404.html",
+          reqData.isDarkTheme
+        );
 
         resData = new ResponsePacker(
           404,
@@ -88,8 +91,13 @@ const server = http.createServer(async (req, res) => {
       // Archivo encontrado, se envía al navegador con un status 200
       if (reqData.isDynamic) {
         // Si se pide un documento, primero debe ser generado
-        content = renderPage(content, reqData.resourceDemipath, reqData.isDarkTheme, db);  
-      } 
+        content = renderPage(
+          content,
+          reqData.resourceDemipath,
+          reqData.isDarkTheme,
+          db
+        );
+      }
 
       resData = new ResponsePacker(
         200,

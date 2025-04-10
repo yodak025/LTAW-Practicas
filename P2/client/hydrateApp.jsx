@@ -4,4 +4,4 @@ import { hydrateRoot } from 'react-dom/client';
 
 const initialState = window.__INITIAL_STATE__;
 
-hydrateRoot(document.getElementById('root'), <App content={initialState.content}/>);
+hydrateRoot(document.getElementById('root'), <App props={initialState}/>);

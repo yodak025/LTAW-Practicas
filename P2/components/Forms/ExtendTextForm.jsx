@@ -73,7 +73,7 @@ export default function ExtendTextForm() {
         <div className="os-form-field">
           <label htmlFor="targetLength">Longitud Objetivo (aproximada):</label>
           <select id="targetLength" name="targetLength" required>
-            <option value="double">Duplicar longitud</option>
+            <option value="doble">Duplicar longitud</option>
             <option value="triple">Triplicar longitud</option>
           </select>
         </div>
