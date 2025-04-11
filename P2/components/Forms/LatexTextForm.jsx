@@ -41,16 +41,6 @@ export default function LatexTextForm() {
         </div>
 
         <div className="os-form-field">
-          <label htmlFor="formatting">Elementos de Formato:</label>
-          <select id="formatting" name="formatting" multiple required>
-            <option value="math">Fórmulas Matemáticas</option>
-            <option value="tables">Tablas</option>
-            <option value="figures">Figuras</option>
-            <option value="citations">Referencias y Citas</option>
-          </select>
-        </div>
-
-        <div className="os-form-field">
           <label htmlFor="notes">Notas adicionales (opcional):</label>
           <textarea
             id="notes"

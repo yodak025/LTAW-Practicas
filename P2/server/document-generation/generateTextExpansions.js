@@ -149,7 +149,7 @@ export const generateWritingReview = async (data) => {
   return { "Corrección de Texto": {"Texto Corregido": reviewResponse},"Feedback": feedbackResponse};
 };
 
-//------------------------------------ Sumarize Text ------------------------------------//
+//------------------------------------ Shematize Text ------------------------------------//
 export const generateShematizedText = async (data) => {
   let typeSentence = "";
   switch (data.schemeType) {
@@ -194,6 +194,51 @@ export const generateShematizedText = async (data) => {
         \n
         Es fundamental que devuelvas el texto generado en un formato de texto completamente plano, sin etiquetas ni comentarios adicionales.
         Evita incluir comentarios en tu respuesta. Evita incluir títulos o encabezados en el texto final. Evita dar formato al texto con markdown, HTML o cualquier otro tipo de sistema formato.`,
+    },
+  ]);
+  const sumarizedText = JSON.stringify(await callLMStudioAPI(requestData));
+  return { "Esquema Generado": sumarizedText };
+};
+
+//------------------------------------ Format Text to LaTeX ------------------------------------//
+export const formatTextToLatex = async (data) => {
+  let documentClass = "";
+  switch (data.documentClass) {
+    case "article":
+      documentClass =
+        "un artículo académico. Debe estructurarse en secciones claras con formato académico, cuidando citas, figuras y bibliografía";
+      break;
+    case "report":
+      documentClass =
+        "un reporte. Requiere una organización lógica con capítulos o secciones numeradas, resúmenes ejecutivos y apéndices opcionales";
+      break;
+    case "book":
+      documentClass = "un libro. Necesita una jerarquía de capítulos y secciones bien definida, índice automático y gestión de numeración continua";
+      break;  
+    case "beamer":
+      documentClass = "una presentación. Debe adaptarse a un formato visualmente claro, con diapositivas breves, uso de bloques y estilo tipo Beamer";
+      break;
+  }
+
+
+  const requestData = requestTemplate([
+    {
+      role: "user",
+      content: `Eres parte de una aplicación web que ayuda a los usuarios a generar textos de forma automática.
+        Tu tarea es generar contenido de texto para que la página web lo maneje de forma adecuada.\n\n
+        A continuación se presenta un texto entre comillas. 
+        "${data.originalText}"
+        Actúa como un experto en el formato LaTex y formatea el contenido del texto, 
+        generando el código LaTex necesario para adecuar el texto original al estílo propio de ${documentClass}.
+        ${
+          data.notes
+            ? "Además, se debe tener en cuenta las siguientes indicaciones proporcionadas por el usuario de la página web:\n\n" +
+              data.notes
+            : ""
+        }
+        \n
+        Es fundamental que devuelvas el texto generado en el formato de texto LaTex, sin etiquetas ni comentarios adicionales.
+        Evita incluir comentarios en tu respuesta. Evita modificar el texto original. Limítate a formatear el texto original en LaTex según los criterios previos.`,
     },
   ]);
   const sumarizedText = JSON.stringify(await callLMStudioAPI(requestData));

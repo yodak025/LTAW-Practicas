@@ -3,7 +3,8 @@ import {
   generateExpandedText,
   generateSumarizedText,
   generateWritingReview,
-  generateShematizedText
+  generateShematizedText,
+  formatTextToLatex
 } from "./generateTextExpansions.js";
 
 const documentGenerationRequest = async (requestData, db) => {
@@ -23,6 +24,9 @@ const documentGenerationRequest = async (requestData, db) => {
       break;
     case "esquematizar-texto":
       response = await generateShematizedText(JSON.parse(requestData.body));
+      break;
+    case "prensar-latex":
+      response = await formatTextToLatex(JSON.parse(requestData.body));
       break;
 
     default:
