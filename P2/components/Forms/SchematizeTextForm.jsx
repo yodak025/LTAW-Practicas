@@ -18,7 +18,7 @@ export default function SchematizeTextForm() {
         </ul>
       </section>
 
-      <BaseForm>
+      <BaseForm type="esquematizar-texto">
         <div className="os-form-field">
           <label htmlFor="originalText">Texto a Esquematizar:</label>
           <textarea
@@ -33,10 +33,8 @@ export default function SchematizeTextForm() {
         <div className="os-form-field">
           <label htmlFor="schemeType">Tipo de Esquema:</label>
           <select id="schemeType" name="schemeType" required>
-            <option value="hierarchical">Jerárquico (con niveles)</option>
             <option value="numeric">Numérico (1, 1.1, 1.1.1)</option>
             <option value="alphabetic">Alfabético (A, A.1, A.1.1)</option>
-            <option value="mindmap">Mapa Mental</option>
           </select>
         </div>
 

@@ -3,6 +3,7 @@ import {
   generateExpandedText,
   generateSumarizedText,
   generateWritingReview,
+  generateShematizedText
 } from "./generateTextExpansions.js";
 
 const documentGenerationRequest = async (requestData, db) => {
@@ -19,6 +20,9 @@ const documentGenerationRequest = async (requestData, db) => {
       break;
     case "revisar-redaccion":
       response = await generateWritingReview(JSON.parse(requestData.body));
+      break;
+    case "esquematizar-texto":
+      response = await generateShematizedText(JSON.parse(requestData.body));
       break;
 
     default:

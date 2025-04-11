@@ -148,3 +148,54 @@ export const generateWritingReview = async (data) => {
   );
   return { "Corrección de Texto": {"Texto Corregido": reviewResponse},"Feedback": feedbackResponse};
 };
+
+//------------------------------------ Sumarize Text ------------------------------------//
+export const generateShematizedText = async (data) => {
+  let typeSentence = "";
+  switch (data.schemeType) {
+    case "numeric":
+      typeSentence =
+        "numérico. Es decir, utilizando números para organizar el contenido (ejemplo: 1, 1.1, 1.1.1)";
+      break;
+    case "alphabetic":
+      typeSentence =
+        "alfabético. Es decir, utilizando letras y números para organizar el contenido (ejemplo: A, A.1, A.1.1)";
+      break;
+  }
+
+  let detailSentence = "";
+  switch (data.detailLevel) {
+    case "high":
+      detailSentence = "alto, con todos los subniveles posibles";
+      break;
+    case "medium":
+      detailSentence = "medio, incluyendo los subniveles más relevantes. Debes limitarte como máximo a un solo subnivel, 3 items por subnivel y 15 items en total";
+      break;
+    case "low":
+      detailSentence = "bajo, con los conceptos principales y sin subniveles. Debes limitarte a 5 items en total";
+      break;
+  }
+
+  const requestData = requestTemplate([
+    {
+      role: "user",
+      content: `Eres parte de una aplicación web que ayuda a los usuarios a generar textos de forma automática.
+        Tu tarea es generar contenido de texto en formato plano para que la página web lo maneje de forma adecuada.\n\n
+        A continuación se presenta un texto entre comillas que contiene una serie de ideas y conceptos. 
+        "${data.originalText}"
+        Actúa como un experto en análisis de textos y esquematiza el contenido del mismo utilizando un formato ${typeSentence}.
+        El esquema debe tener un nivel de detalle ${detailSentence}.
+        ${
+          data.notes
+            ? "Además, se debe tener en cuenta las siguientes indicaciones proporcionadas por el usuario de la página web:\n\n" +
+              data.notes
+            : ""
+        }
+        \n
+        Es fundamental que devuelvas el texto generado en un formato de texto completamente plano, sin etiquetas ni comentarios adicionales.
+        Evita incluir comentarios en tu respuesta. Evita incluir títulos o encabezados en el texto final. Evita dar formato al texto con markdown, HTML o cualquier otro tipo de sistema formato.`,
+    },
+  ]);
+  const sumarizedText = JSON.stringify(await callLMStudioAPI(requestData));
+  return { "Texto Resumido": sumarizedText };
+};

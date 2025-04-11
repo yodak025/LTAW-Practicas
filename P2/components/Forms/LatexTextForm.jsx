@@ -18,7 +18,7 @@ export default function LatexTextForm() {
         </ul>
       </section>
 
-      <BaseForm>
+      <BaseForm type="prensar-latex">
         <div className="os-form-field">
           <label htmlFor="originalText">Texto a Convertir:</label>
           <textarea
