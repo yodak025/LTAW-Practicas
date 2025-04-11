@@ -1,0 +1,123 @@
+
+@font-face {
+    font-family: Jersey;
+    src: url(./Jersey10-Regular.ttf);
+}
+
+html {
+    font-family: Jersey;
+}
+
+.BlueBird {
+    display: none;
+}
+
+.GreenBird {
+    display: none;
+}
+
+#Stone {
+    display: none;
+}
+
+#TimeScore{
+    display: none;
+}
+
+#canvas {
+    background-image: url('Images/BackGround0.jpg');
+    background-size: 100vw 100vh ;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    border-radius: 5px;
+
+    overflow: hidden;
+    position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw; /* Esto hace que el ancho sea igual al ancho de la ventana del navegador */
+            height: 100vh; /* Esto hace que la altura sea igual a la altura de la ventana del navegador */
+            z-index: -1;
+
+}
+
+#drawing-pad{
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.705);
+    border-radius: 10%;
+    position: fixed;
+    bottom: 0;
+}
+
+
+#tutorial-shade{
+    position: fixed; 
+    z-index: 2; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(255,255,255,0.7);
+}
+
+#tutorial-content{
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+}
+
+#tutorial-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#game-over-shade{
+    position: fixed; 
+    z-index: 3; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+#game-over-content{
+    background-color: #fefefe;
+    display: grid;
+    margin: 15% auto; 
+    padding: 20px;
+    width: 80%; 
+    justify-content: center;
+}
+
+.game-over-msg{
+    font-size: 2em;
+    text-align: center;
+}
+
+#reload-img-container{
+    display: flex;
+    justify-content: center;
+}
+
+#reload-img{
+    cursor: pointer;
+    width: 50%;
+}
+
+.hidden{
+    display: none;
+}
+
+.show{
+    display: block;
+}
+
+
