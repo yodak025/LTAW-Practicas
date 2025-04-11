@@ -69,6 +69,7 @@
   font-family: 'BigShoulders', sans-serif;
 }
 
+.os-form-field input,
 .os-form-field textarea,
 .os-form-field select {
   padding: 0.8rem;
@@ -77,13 +78,32 @@
   font-size: 1rem;
   background-color: var(--white-color);
   font-family: 'BigShoulders', sans-serif;
+  color: var(--black-color);
+  transition: all 0.3s ease;
 }
 
+.os-form-field input {
+  height: 2.5rem;
+}
+
+.os-form-field input:focus,
 .os-form-field textarea:focus,
 .os-form-field select:focus {
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px rgba(90, 33, 124, 0.1);
+}
+
+.os-form-field input::placeholder,
+.os-form-field textarea::placeholder {
+  color: var(--neutral-color);
+  opacity: 0.8;
+}
+
+.os-form-field input:hover,
+.os-form-field textarea:hover,
+.os-form-field select:hover {
+  border-color: var(--primary-color);
 }
 
 .os-form-field select {
@@ -94,6 +114,19 @@
   background-position: right 0.8rem center;
   background-size: 1em;
   padding-right: 2.5rem;
+}
+
+.os-form-field input:required,
+.os-form-field textarea:required,
+.os-form-field select:required {
+  border-left: 3px solid var(--accent-color);
+}
+
+.os-form-field input[type="url"],
+.os-form-field input[type="email"],
+.os-form-field input[type="tel"] {
+  font-family: 'BigShoulders', monospace;
+  letter-spacing: 0.5px;
 }
 
 /* Submit button styles */

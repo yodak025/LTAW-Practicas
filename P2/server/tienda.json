@@ -21,32 +21,38 @@
       "componente": "ProductPage"
     },
     {
+      "nombre": "curriculum-vitae",
+      "categoria": "documentos-laborales",
+      "titulo": "Currículum Vitae Personalizado",
+      "componente": "CV"
+    },
+    {
       "nombre": "revisar-redaccion",
-      "categoria": "documentos-academicos",
+      "categoria": "editor",
       "titulo": "Revisar Redacción",
       "componente": "Review"
     },
     {
       "nombre": "resumir-texto",
-      "categoria": "documentos-academicos",
+      "categoria": "editor",
       "titulo": "Resumir Texto",
       "componente": "Summarize"
     },
     {
       "nombre": "esquematizar-texto",
-      "categoria": "documentos-academicos",
+      "categoria": "editor",
       "titulo": "Esquematizar Texto",
       "componente": "Schematize"
     },
     {
       "nombre": "extender-texto",
-      "categoria": "documentos-academicos",
+      "categoria": "editor",
       "titulo": "Extender Texto",
       "componente": "Extend"
     },
     {
       "nombre": "prensar-latex",
-      "categoria": "documentos-academicos",
+      "categoria": "editor",
       "titulo": "Prensar Texto",
       "componente": "Latex"
     }
@@ -241,6 +247,101 @@
       "tipo": "prensar-latex",
       "estructura": {
         "Texto Resumido": "\"\\\\documentclass{article}\\n\\n\\\\usepackage[spanish]{babel}\\n\\\\usepackage{amsmath}\\n\\\\usepackage{graphicx}\\n\\n\\\\title{Efectos del Ruido Blanco en la Concentración}\\n\\\\author{Juan Pérez}\\n\\n\\\\begin{document}\\n\\n\\\\maketitle\\n\\n\\\\section{Resumen}\\n\\nEste artículo explora cómo el ruido blanco puede mejorar la concentración en ambientes laborales. Se presentan resultados de un experimento con 30 participantes.\\n\\n\\\\section{Introducción}\\n\\nLa concentración es clave para la productividad. Diversos estudios sugieren que el ruido blanco puede ayudar a reducir distracciones.\\n\\n\\\\section{Metodología}\\n\\nSe utilizó un diseño experimental con grupo control y grupo experimental, evaluando tareas de atención sostenida.\\n\\n\\\\section{Resultados}\\n\\nEl grupo con ruido blanco mostró una mejora del 15\\\\% en la concentración.\\n\\n\\\\section{Discusión}\\n\\nEstos resultados son consistentes con investigaciones previas y abren nuevas líneas para el diseño de espacios laborales.\\n\\n\\\\begin{thebibliography}{9}\\n\\n\\\\bibitem[1]{Smith2020}\\nSmith, A. (2020). Cognitive Enhancement with Noise.\\n\\n\\\\end{thebibliography}\\n\\n\\\\section{Referencias}\\n\\n\\\\renewcommand{\\\\refname}{}\\n\\n\\\\bibliographystyle{plain}\\n\\\\bibliography{biblio}\\n\\n\\\\end{document}\""
+      }
+    },
+    {
+      "usuario": "Yodak025",
+      "tipo": "curriculum-vitae",
+      "estructura": {
+        "Currículum Vitae": {
+          "Datos de Contacto": {
+            "Nombre Completo": "Diego Sota ",
+            "Dirección": "Avda. Abogados de Atocha, 6",
+            "Teléfono": "646967576",
+            "Correo Electrónico": "diego.sota@gmail.com"
+          },
+          "Perfil": "\"Soy un joven profesional con gran apetito por el trabajo y una mentalidad dispuesta a enfrentar desafíos.\\n\\nComo persona aplicada, estudiosa y perseverante, he logrado desarrollar habilidades que me permiten abordar proyectos complejos de manera efectiva. Esta capacidad se destaca en la creación de esta web, un proyecto que requiere dedicación y esfuerzo constante.\\n\\nMi edad no me impide demostrar una gran cantidad de ganas de trabajar y mejorar continuamente mis habilidades profesionales.\""
+        }
+      }
+    },
+    {
+      "usuario": "Yodak025",
+      "tipo": "curriculum-vitae",
+      "estructura": {
+        "Currículum Vitae": {
+          "Datos de Contacto": {
+            "Nombre Completo": "Diego Sota ",
+            "Dirección": "Avda. Abogados de Atocha, 6",
+            "Teléfono": "646967576",
+            "Correo Electrónico": "diego.sota@gmail.com"
+          },
+          "Perfil": "\"Me considero un chico joven de 24 años con muchas ganas de trabajar y una gran motivación para alcanzar mis objetivos profesionales.\\n\\nMi perfil profesional se caracteriza por ser aplicado, estudioso y perseverante, lo que me permite enfrentar desafíos de manera efectiva y alcanzar mis metas. Me considero cabezota y estoy siempre dispuesto a aprender y mejorar continuamente.\\n\\nEn este sentido, puedo mencionar que he desarrollado una web como resultado de mi dedicación y esfuerzo en aprender nuevas habilidades y tecnologías. Esta experiencia me ha permitido crecer profesionalmente y demostrar mis capacidades para enfrentar proyectos complejos.\\n\\nEstoy emocionado por continuar creciendo y mejorando, y estoy seguro de que puedo aportar valor a cualquier organización o equipo con mi entusiasmo y dedicación.\""
+        }
+      }
+    },
+    {
+      "usuario": "Yodak025",
+      "tipo": "curriculum-vitae",
+      "estructura": {
+        "Currículum Vitae": {
+          "Datos de Contacto": {
+            "Nombre Completo": "Diego Sota ",
+            "Dirección": "Avda. Abogados de Atocha, 6",
+            "Teléfono": "646967576",
+            "Correo Electrónico": "diego.sota@gmail.com"
+          },
+          "Perfil": "\"Soy un joven apasionado por la tecnología y con ganas de trabajar, con una edad de 24 años y una mentalidad aplicada y perseverante que me permite enfrentar desafíos y alcanzar mis objetivos.\\n\\nGracias a mi espíritu estudioso y cabezota, he logrado desarrollar proyectos interesantes como esta web, lo que demuestra mi capacidad para aprender y crecer en mi carrera profesional.\""
+        }
+      }
+    },
+    {
+      "usuario": "Yodak025",
+      "tipo": "curriculum-vitae",
+      "estructura": {
+        "Currículum Vitae": {
+          "Datos de Contacto": {
+            "Nombre Completo": "Diego Sota ",
+            "Dirección": "Avda. Abogados de Atocha, 6",
+            "Teléfono": "646967576",
+            "Correo Electrónico": "diego.sota@gmail.com"
+          },
+          "Perfil": "\"Soy un chico joven de 24 años con muchas ganas de trabajar, dispuesto a enfrentar nuevos desafíos y aprender continuamente. Mi personalidad es caracterizada por ser aplicado, estudioso y perseverante, lo que me permite alcanzar mis metas y superarme a mí mismo.\\n\\nMe considero una persona cabezota que no se rinde fácilmente ante los obstáculos, y estoy orgulloso de haber logrado acabar de desarrollar esta web gracias a mi dedicación y esfuerzo. Me apasiona el aprendizaje constante y estoy siempre en busca de nuevas oportunidades para crecer profesionalmente.\"",
+          "Formación Académica": "\"\\\"Estoy en el cuarto curso de la carrera de Ingeniería en Sistemas Audiovisuales y Multimedia, que comencé en 2020. Me quedan tres asignaturas para completar mi formación académica.\\\"\""
+        }
+      }
+    },
+    {
+      "usuario": "Yodak025",
+      "tipo": "curriculum-vitae",
+      "estructura": {
+        "Currículum Vitae": {
+          "Datos de Contacto": {
+            "Nombre Completo": "Diego Sota ",
+            "Dirección": "Avda. Abogados de Atocha, 6",
+            "Teléfono": "646967576",
+            "Correo Electrónico": "diego.sota@gmail.com"
+          },
+          "Perfil": "\"Soy un chico joven de 24 años con muchas ganas de trabajar, caracterizado por ser aplicado, estudioso y perseverante en todo lo que me propongo hacer.\\nEstos rasgos han sido clave para mí en la consecución de mis objetivos, como el desarrollo de esta web, gracias a mi capacidad analítica y a mi tendencia natural a encontrar soluciones creativas.\"",
+          "Formación Académica": "\"\\\"Estudié Ingeniería en Sistemas Audiovisuales y Multimedia, donde actualmente me encuentro cursando mi cuarto año y quedándome 3 asignaturas pendientes.\\\"\"",
+          "Habilidades": "\"\\\"Como programador, tengo una buena habilidad para desarrollar soluciones tecnológicas.\\\\nAdemás, mi personalidad amable me permite interactuar con personas de manera efectiva y comunicativa.\\\\nA nivel lingüístico, poseo un dominio avanzado del idioma inglés (B2), lo que me facilita el trabajo en entornos internacionales.\\\"\""
+        }
+      }
+    },
+    {
+      "usuario": "Yodak025",
+      "tipo": "curriculum-vitae",
+      "estructura": {
+        "Currículum Vitae": {
+          "Datos de Contacto": {
+            "Nombre Completo": "Diego Sota ",
+            "Dirección": "Avda. Abogados de Atocha, 6",
+            "Teléfono": "646967576",
+            "Correo Electrónico": "diego.sota@gmail.com"
+          },
+          "Perfil": "\"Joven profesional de 24 años con una gran motivación para incorporarse al mercado laboral y aportar valor a un equipo. Poseo una actitud proactiva y una fuerte determinación que me impulsan a superar los desafíos y alcanzar mis objetivos.\\n\\nMi enfoque aplicado, mi constancia en el estudio y mi perseverancia son pilares fundamentales en mi desarrollo profesional. Estas cualidades me han permitido avanzar significativamente en proyectos complejos, como el desarrollo de esta aplicación web, demostrando mi capacidad para resolver problemas y aprender continuamente. Soy una persona decidida y no me rindo fácilmente ante las dificultades.\\n\"",
+          "Formación Académica": "\"\\\"Actualmente curso el cuarto año de Ingeniería en Sistemas Audiovisuales y Multimedia, iniciada en 2020. Me encuentro a punto de finalizar mis estudios, con tan solo tres asignaturas pendientes para obtener la titulación.\\\"\"",
+          "Habilidades": "\"\\\"Poseo sólidas habilidades técnicas como programador, lo que me permite abordar proyectos con eficiencia y creatividad. Además, cuento con excelentes habilidades interpersonales, destacando mi capacidad para establecer relaciones positivas y colaborativas con compañeros y clientes. Mi nivel de inglés es B2, facilitando la comunicación en entornos internacionales.\\\"\""
+        }
       }
     }
   ]

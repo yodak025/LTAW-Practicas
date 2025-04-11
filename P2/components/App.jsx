@@ -7,6 +7,9 @@ import ProductPage from "./Contents/ProductPage.jsx";
 import LoginPage from "./Contents/Login.jsx";
 import Error404 from "./Contents/Error404.jsx";
 import Document from "./Document/Document.jsx";
+
+import CVForm from "./Forms/CVForm.jsx";
+
 import ExtendTextForm from "./Forms/ExtendTextForm.jsx";
 import LatexTextForm from "./Forms/LatexTextForm.jsx";
 import ReviewTextForm from "./Forms/ReviewTextForm.jsx";
@@ -46,6 +49,13 @@ export default function App({ props }) {
         </Layout>
       );
     // --------------- Forms ------------------------------------------
+    case "CV":
+      return (
+        <Layout>
+          <Nav className="os-layout-nav" />
+          <CVForm />
+        </Layout>
+      );
     case "ProductPage":
       return (
         <Layout>

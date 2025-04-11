@@ -2,7 +2,7 @@
 export const TEMPERATURE = 0.6;
 export const MAX_TOKENS = -1;
 export const IS_STREAM = false;
-export const MODEL = "meta-llama-3.1-8b-instruct"; // Cambia esto al modelo que desees usar
+export const MODEL = "gemma-3-12b-it"; // Cambia esto al modelo que desees usar
 
 const LLM_API = "http://localhost:1234/v1/chat/completions";
 

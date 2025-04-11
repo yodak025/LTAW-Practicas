@@ -242,5 +242,5 @@ export const formatTextToLatex = async (data) => {
     },
   ]);
   const sumarizedText = JSON.stringify(await callLMStudioAPI(requestData));
-  return { "Texto Resumido": sumarizedText };
+  return { "Texto Prensado": sumarizedText };
 };
