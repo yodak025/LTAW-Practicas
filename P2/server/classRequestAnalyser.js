@@ -17,7 +17,6 @@ class RequestAnalyser {
       case "/":
         this.resourceDemipath = "/index.html";
       case "/index.html":
-      case "/product.html":
         this.getUserFromCookie(req.headers.cookie);
         if (!this.user) this.resourceDemipath = "/login.html";
         this.isDynamic = true;
@@ -32,6 +31,7 @@ class RequestAnalyser {
         if (u.usuario == user) {
           this.headers["Set-Cookie"] = [`user=${user}`]; //! OJO: Esto solo funciona si no hay mas cookies
           this.resourceDemipath = "/index.html";
+          this.isDynamic = true;
           if (u.tema == "dark") {
             this.isDarkTheme = true;
           }
@@ -43,6 +43,7 @@ class RequestAnalyser {
       // TODO No es muy coherente con la clase
       // ! FALTA CONTROLAR EL TEMAAAA
       this.resourceDemipath = "/index.html";
+      this.isDynamic = true;
       const registerData = req.url.split("?")[1].split("&");
       const user = registerData[0].split("=")[1];
       const fullName = registerData[1].split("=")[1];
@@ -70,6 +71,9 @@ class RequestAnalyser {
       if (this.user.tema == "dark") this.isDarkTheme = true;
     }
     if (req.url.includes("/document.html")) {
+      this.isDynamic = true;
+    }
+    if (req.url.includes("/product.html")) {
       this.isDynamic = true;
     }
     

@@ -1,47 +1,7 @@
 import React from "react";
-
+import BaseForm from "./BaseForm";
 
 export default function ExtendTextForm() {
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const formData = {
-      originalText: event.target.originalText.value,
-      targetLength: event.target.targetLength.value,
-      focus: event.target.focus.value,
-      notes: event.target.notes.value,
-    };
-
-    const m = new XMLHttpRequest();
-
-    m.onreadystatechange = () => {
-
-      //-- Petición enviada y recibida. Todo OK!
-      if (m.readyState==4) {
-
-          console.log("Peticion completada");
-          console.log("status: " + m.status);
-
-          //-- Solo la procesamos si la respuesta es correcta
-          if (m.status==200) {
-
-              //-- La respuesta es un objeto JSON
-              resourceId = m.responseText;
-              window.location.href = `/document.html?resource-id=${resourceId}`;
-              return; 
-
-          } else {
-              //-- Hay un error en la petición
-          }
-      }
-    }
-    m.open("POST", "/generate-document", true);
-    m.setRequestHeader("Content-Type", "application/json");
-
-    m.send(JSON.stringify(formData));
-
-  };
-
   return (
     <div className="os-form-container">
       <section className="os-form-explanation">
@@ -58,7 +18,9 @@ export default function ExtendTextForm() {
         </ul>
       </section>
 
-      <form className="os-extend-form" onSubmit={handleSubmit}>
+      <BaseForm 
+        className="os-extend-form"
+      >
         <div className="os-form-field">
           <label htmlFor="originalText">Texto Original:</label>
           <textarea
@@ -101,7 +63,7 @@ export default function ExtendTextForm() {
         <button type="submit" className="os-form-submit">
           Expandir Texto
         </button>
-      </form>
+      </BaseForm>
     </div>
   );
 }

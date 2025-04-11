@@ -24,45 +24,48 @@ function Products() {
         {/* CUIDADO!! Los nombres identifican los iconos */}
         <main id='products'>
           <Category name="Documentos Laborales">
-            <Product name="Currículum Vitae Personalizado" index="1"/>
-            <Product name="Carta de Presentación" index="2"/>
-            <Product name="Resumen ejecutivo" index="3"/>
-            <Product name="Descripción de Producto" index="4"/>
-            <Product name="Email de Ventas" index="5"/>
-            <Product name="Carta de Recomendación" index="6"/>
+            <Product name="Currículum Vitae Personalizado" id="dev" index="1"/>
+            <Product name="Carta de Presentación" id="dev" index="2"/>
+            <Product name="Resumen ejecutivo" id="dev" index="3"/>
+            <Product name="Descripción de Producto" id="dev" index="4"/>
+            <Product name="Email de Ventas" id="dev" index="5"/>
+            <Product name="Carta de Recomendación" id="dev" index="6"/>
           </Category>
 
           <Category name="Documentos Legales">
-            <Product name="Contrato Laboral" index="1"/>
-            <Product name="Contrato de Compraventa" index="2"/>
-            <Product name="Contrato de Arrendamiento" index="3"/>
-            <Product name="Acuerdo de Confidencialidad" index="4"/>
-            <Product name="Testamento" index="5"/>
-            <Product name="Acta de Reunión" index="6"/>
+            <Product name="Contrato Laboral" id="dev" index="1"/>
+            <Product name="Contrato de Compraventa" id="dev" index="2"/>
+            <Product name="Contrato de Arrendamiento" id="dev" index="3"/>
+            <Product name="Acuerdo de Confidencialidad" id="dev" index="4"/>
+            <Product name="Testamento" id="dev" index="5"/>
+            <Product name="Acta de Reunión" id="dev" index="6"/>
           </Category> 
 
           <Category name="Documentos Académicos">
-            <Product name="Abstract Científico" index="1"/>
-            <Product name="Tarjeta Anki" index="2"/>
-            <Product name="Ensayo" index="3"/>
-            <Product name="Comentario de Texto" index="4"/>
-            <Product name="Test" index="5"/>
-            <Product name="Examen de Problemas" index="6"/>
-            <Product name="Revisar Redacción" index="7"/>
-            <Product name="Resumir Texto" index="8"/>
-            <Product name="Esquematizar Texto" index="9"/>
-            <Product name="Extender Texto" index="10"/>
-            <Product name="Prensar Texto" index="11"/> 
+            <Product name="Abstract Científico" id="dev" index="1"/>
+            <Product name="Tarjeta Anki" id="dev" index="2"/>
+            <Product name="Ensayo" id="dev" index="3"/>
+            <Product name="Comentario de Texto" id="dev" index="4"/>
+            <Product name="Test" id="dev" index="5"/>
+            <Product name="Examen de Problemas" id="dev" index="6"/>
           </Category> 
           
           <Category name="Web y Redes Sociales">
-            <Product name="Guión para vídeo de Youtube" index="1"/>
-            <Product name="Guión para Podcast" index="2"/>
-            <Product name="Descripción para Youtube" index="3"/>
-            <Product name="Post para Instagram" index="4"/>
-            <Product name="Post para Twitter" index="5"/>
-            <Product name="Artículo de Opinión" index="6"/>
+            <Product name="Guión para vídeo de Youtube" id="dev" index="1"/>
+            <Product name="Guión para Podcast" id="dev" index="2"/>
+            <Product name="Descripción para Youtube" id="dev" index="3"/>
+            <Product name="Post para Instagram" id="dev" index="4"/>
+            <Product name="Post para Twitter" id="dev" index="5"/>
+            <Product name="Artículo de Opinión" id="dev" index="6"/>
           </Category> 
+
+          <Category name="Editar Texto">
+            <Product name="Revisar Redacción" id="revisar-redaccion" index="1"/>
+            <Product name="Resumir Texto" id="resumir-texto" index="2"/>
+            <Product name="Esquematizar Texto" id="esquematizar-texto" index="3"/>
+            <Product name="Extender Texto" id="extender-texto" index="4"/>
+            <Product name="Prensar Texto" id="prensar-latex" index="5"/> 
+          </Category>
         </main>
     </>
   )

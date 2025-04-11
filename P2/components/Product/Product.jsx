@@ -20,7 +20,7 @@ const returnTitleLinesArray = (name) => {
   return lines
 };
 
-export default function Product({ name, index }) {
+export default function Product({ name, id ,index }) {
   return (
     <main className={`os-product${setToClassIfEven(index)}`}>
       <section className={`os-product-info${setToClassIfEven(index)}`}>
@@ -36,7 +36,7 @@ export default function Product({ name, index }) {
         </h3>
         <a 
           className={`os-product-btn${setToClassIfEven(index)}`}
-          href='../../product.html'
+          href= {`/product.html?type=${id}`}
         >
           Generate Product
         </a>

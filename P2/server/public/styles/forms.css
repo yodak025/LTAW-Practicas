@@ -51,7 +51,7 @@
 }
 
 /* Form fields styles */
-.os-extend-form {
+.os-form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;

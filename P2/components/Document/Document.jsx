@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Document = ({ structure }) => {
+const Document = ({ structure }) => { //TODO - Mejor con children
   const renderText = (text) => {
     // Dividir el texto en párrafos y filtrar los párrafos vacíos
     const paragraphs = text.split('\\n').filter(p => p.trim() !== '');
