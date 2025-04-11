@@ -3,10 +3,10 @@ import React from "react";
 /**
  * Componente base para manejar la funcionalidad común de formularios
  * @param {Object} props
- * @param {string} props.className - Clases CSS para el formulario
+ * @param {string} props.type - Tipo de formulario
  * @param {React.ReactNode} props.children - Elementos del formulario
  */
-export default function BaseForm({ className, children }) {
+export default function BaseForm({ type, children }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -34,7 +34,7 @@ export default function BaseForm({ className, children }) {
       }
     };
 
-    m.open("POST", "/generate-document", true);
+    m.open("POST", `/generate-document?type=${type}`, true);
     m.setRequestHeader("Content-Type", "application/json");
     m.send(JSON.stringify(formData));
   };

@@ -65,7 +65,7 @@ class JsonRusticDatabase {
 
   addNewOrder = (order, userName, documentType) => {
     const newOrderID = this.orders.length;
-    const newOrder = { usuario: userName.usuario, tipo: documentType, content: order };
+    const newOrder = { usuario: userName.usuario, tipo: documentType, estructura: order };
     this.orders.push(newOrder);
     return newOrderID;
   };

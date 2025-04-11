@@ -18,7 +18,8 @@ export default function SummarizeTextForm() {
         </ul>
       </section>
 
-      <BaseForm>
+      <BaseForm
+        type="resumir-texto">
         <div className="os-form-field">
           <label htmlFor="originalText">Texto a Resumir:</label>
           <textarea
@@ -45,7 +46,6 @@ export default function SummarizeTextForm() {
             <option value="key-points">Puntos clave</option>
             <option value="narrative">Narrativo</option>
             <option value="bullet-points">Lista de puntos</option>
-            <option value="executive">Resumen ejecutivo</option>
           </select>
         </div>
 

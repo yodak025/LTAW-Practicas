@@ -10,6 +10,7 @@ const LLM_API = "http://localhost:1234/v1/chat/completions";
 
 // Función asíncrona para enviar la petición y procesar la respuesta
 export async function callLMStudioAPI(requestData) {
+  console.log("Request Data:", requestData);
   try {
     // Enviar la petición POST con el cuerpo en formato JSON
     const response = await fetch(LLM_API, {
@@ -28,4 +29,16 @@ export async function callLMStudioAPI(requestData) {
   } catch (error) {
     console.error("Error al llamar a la API:", error);
   }
+}
+
+export const requestTemplate = (messages) => {
+  return {
+    model: MODEL,
+    messages: messages,
+    temperature: TEMPERATURE,
+    max_tokens: MAX_TOKENS, // -1 o ajusta según la cantidad deseada
+    stream: IS_STREAM, // Usa 'true' si deseas respuestas en streaming (requiere un manejo especial)
+    top_p: 1,
+    repetition_penalty: 1,
+  };
 }

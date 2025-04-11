@@ -10,20 +10,7 @@ export default function renderPage(template, resourcePath, isDarkTheme, db) {
   let styles = [`/styles/colors-${isDarkTheme ? "dark" : "default"}.css`];
   const props = { content: null };
 
-  if (resourcePath.includes("/document.html")) {
-    const documentId = resourcePath.split("?")[1].split("=")[1];
-    const document = db.orders[documentId].content;
-    const structure = { "Documento Expandido": document };
-    props.document = structure;
-    props.content = "Document";
-
-    styles.push(
-      "/styles/Nav.css",
-      "/styles/Layout.css",
-      "/styles/Document.css",
-      "/styles/App.css"
-    );
-  } else if (resourcePath.includes("/product.html")) {
+  if (resourcePath.includes("/product.html")) {
     // Se fuerza el paso por la base de datos de forma didactica, no es necesario pero así se le da uso
     // a la base de datos 
     const productId = resourcePath.split("?")[1].split("=")[1];
@@ -35,6 +22,18 @@ export default function renderPage(template, resourcePath, isDarkTheme, db) {
       "/styles/Layout.css",
       "/styles/App.css",
       productId=="dev"? "/styles/productPage.css":"/styles/forms.css",//! Chapuza provisional durante el desarrollo
+    );
+  } else if (resourcePath.includes("/document.html")) {
+    const documentId = resourcePath.split("?")[1].split("=")[1];
+    const structure = db.orders[documentId].estructura;
+    props.document = structure;
+    props.content = "Document";
+
+    styles.push(
+      "/styles/Nav.css",
+      "/styles/Layout.css",
+      "/styles/Document.css",
+      "/styles/App.css"
     );
   }
 

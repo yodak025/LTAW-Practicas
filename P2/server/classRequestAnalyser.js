@@ -76,8 +76,6 @@ class RequestAnalyser {
     if (req.url.includes("/product.html")) {
       this.isDynamic = true;
     }
-    
-
   }
 
   getUserFromCookie = (cookie) => {
@@ -116,16 +114,14 @@ class RequestAnalyser {
         if (req.method == "POST") {
           console.log(this.body);
           //this.body = JSON.parse(this.body);
-          switch (this.resourceDemipath) {
-            case "/generate-document":
-              this.isAjax = true
-              this.getUserFromCookie(req.headers.cookie);
-              resolve();
-              break;
+          if (this.resourceDemipath.includes("/generate-document?")) {
+            this.isAjax = true;
+            this.getUserFromCookie(req.headers.cookie);
+            resolve();
           }
         }
-      })
+      });
     });
-  }
+  };
 }
 export default RequestAnalyser;

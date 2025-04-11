@@ -18,7 +18,7 @@ export default function ReviewTextForm() {
         </ul>
       </section>
 
-      <BaseForm>
+      <BaseForm type="revisar-redaccion" >
         <div className="os-form-field">
           <label htmlFor="originalText">Texto a Revisar:</label>
           <textarea

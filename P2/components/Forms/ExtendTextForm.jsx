@@ -19,7 +19,7 @@ export default function ExtendTextForm() {
       </section>
 
       <BaseForm 
-        className="os-extend-form"
+        type="extender-texto"
       >
         <div className="os-form-field">
           <label htmlFor="originalText">Texto Original:</label>
