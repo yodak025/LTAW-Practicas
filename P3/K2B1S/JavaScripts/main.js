@@ -1,66 +1,141 @@
 import { DynamicEntity, StaticEntity, BreakableEntity } from './entities.js';
+import { EntityView, StaticSpriteEntityView, AnimatedEntityView } from './entityViews.js';
 import { DrawingPad } from './drawingPad.js';
 
 const canvas = document.getElementById('canvas');
 const drawingPadCanvas = document.getElementById('drawing-pad');
 const ctx = canvas.getContext('2d');
 
+// Función para cargar imágenes
+function loadImage(src) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.src = src;
+    });
+}
+
 // Array para almacenar todos los objetos del juego
 const gameObjects = [];
 
-// Crear objetos de prueba
-const testObject = new DynamicEntity(100, 100, 50, 50);
-gameObjects.push(testObject);
+// Función principal asíncrona
+async function initGame() {
+    // Cargar sprites
+    const blueBirdSprites = await Promise.all([
+        loadImage('Images/BlueBird/0.png'),
+        loadImage('Images/BlueBird/1.png'),
+        loadImage('Images/BlueBird/2.png'),
+        loadImage('Images/BlueBird/3.png'),
+        loadImage('Images/BlueBird/4.png'),
+        loadImage('Images/BlueBird/5.png')
+    ]);
 
-// Crear una plataforma estática
-const platform = new StaticEntity(300, 400, 200, 20);
-gameObjects.push(platform);
+    const greenBirdSprites = await Promise.all([
+        loadImage('Images/GreenBird/0.png'),
+        loadImage('Images/GreenBird/1.png'),
+        loadImage('Images/GreenBird/2.png'),
+        loadImage('Images/GreenBird/3.png'),
+        loadImage('Images/GreenBird/4.png'),
+        loadImage('Images/GreenBird/5.png')
+    ]);
 
-// Crear una plataforma rompible
-const breakablePlatform = new BreakableEntity(500, 300, 100, 20);
-gameObjects.push(breakablePlatform);
+    const rockSprite = await loadImage('Images/TheRock.png');
 
-// Inicializar el DrawingPad con el objeto dinámico
-const drawingPad = new DrawingPad(drawingPadCanvas, testObject);
-
-function drawObject(gameObject) {
-    // Color según el tipo de objeto
-    if (gameObject instanceof BreakableEntity) {
-        const healthPercent = gameObject.health / 100;
-        ctx.fillStyle = gameObject.broken ? 'red' : `rgb(255, ${155 + (100 * healthPercent)}, 0)`;
-    } else if (gameObject instanceof StaticEntity) {
-        ctx.fillStyle = 'gray';
-    } else {
-        ctx.fillStyle = 'black';
-    }
+    // Crear entidades
+    const dynamicEntity = new DynamicEntity(100, 100, 100, 100);
+    const blueBirdEntity = new BreakableEntity(300, 100, 100, 100);
+    const greenBirdEntity = new BreakableEntity(500, 100, 100, 100);
     
-    ctx.fillRect(gameObject.x, gameObject.y, gameObject.width, gameObject.height);
-}
+    // Crear plataforma estática en el medio
+    const middlePlatform = new StaticEntity(
+        window.innerWidth / 2 - 200, // x centrada
+        window.innerHeight / 2,      // y en medio
+        400,                         // ancho
+        20                          // alto
+    );
 
-function gameLoop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Actualizar y dibujar todos los objetos
-    for (const obj of gameObjects) {
-        obj.update(gameObjects);
-        drawObject(obj);
+    // Crear vistas
+    const rockView = new StaticSpriteEntityView(dynamicEntity, rockSprite);
+    const blueBirdView = new AnimatedEntityView(blueBirdEntity, blueBirdSprites);
+    const greenBirdView = new AnimatedEntityView(greenBirdEntity, greenBirdSprites);
+    const platformView = new EntityView(middlePlatform);
+
+    // Añadir objetos al juego
+    gameObjects.push(dynamicEntity, blueBirdEntity, greenBirdEntity, middlePlatform);
+
+    // Inicializar el DrawingPad
+    const drawingPad = new DrawingPad(drawingPadCanvas, dynamicEntity);
+
+    // Variables para controlar la animación
+    let frameCount = 0;
+    const ANIMATION_SPEED = 5; // Cambiar sprite cada 5 frames
+
+    function gameLoop() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Filtrar las entidades marcadas para eliminación
+        const remainingObjects = gameObjects.filter(obj => !(obj instanceof BreakableEntity && obj.markedForDeletion));
+        
+        if (remainingObjects.length !== gameObjects.length) {
+            gameObjects.length = 0;
+            gameObjects.push(...remainingObjects);
+        }
+        
+        // Actualizar todos los objetos
+        for (const obj of gameObjects) {
+            obj.update(gameObjects);
+        }
+
+        // Función para obtener el color del colider basado en la vida
+        function getColliderColor(health) {
+            const normalizedHealth = health / 100;
+            const red = Math.floor(255 * (1 - normalizedHealth));
+            const green = Math.floor(255 * normalizedHealth);
+            return `rgba(${red}, ${green}, 0, 0.3)`;
+        }
+
+        // Dibujar objetos con sus vistas correspondientes
+        rockView.drawSprite();
+        rockView.drawCollider('rgba(100, 100, 100, 0.3)')
+        
+        // Dibujar la plataforma estática usando su vista
+        platformView.drawCollider('rgba(128, 128, 128, 1)')
+        
+        if (!blueBirdEntity.markedForDeletion) {
+            blueBirdView.drawSprite();
+            blueBirdView.drawCollider(getColliderColor(blueBirdEntity.health));
+        }
+        if (!greenBirdEntity.markedForDeletion) {
+            greenBirdView.drawSprite();
+            greenBirdView.drawCollider(getColliderColor(greenBirdEntity.health));
+        }
+
+        // Actualizar animaciones cada ciertos frames
+        frameCount++;
+        if (frameCount % ANIMATION_SPEED === 0) {
+            blueBirdView.nextFrame();
+            greenBirdView.nextFrame();
+        }
+
+        requestAnimationFrame(gameLoop);
     }
 
-    requestAnimationFrame(gameLoop);
-}
+    // Ajustar el tamaño del canvas
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
 
-// Ajustar el tamaño del canvas al tamaño de la ventana
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-
-// Configuración inicial
-window.addEventListener('load', () => {
+    // Configuración inicial
     resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    
+    // Iniciar el bucle del juego
     gameLoop();
-});
-window.addEventListener('resize', resizeCanvas);
+}
+
+// Iniciar el juego
+initGame().catch(console.error);
 
 
 
