@@ -27,6 +27,18 @@
       "componente": "CV"
     },
     {
+      "nombre": "carta-presentacion",
+      "categoria": "documentos-laborales",
+      "titulo": "Carta de Presentación",
+      "componente": "CoverLetter"
+    },
+    {
+      "nombre": "resumen-ejecutivo",
+      "categoria": "documentos-laborales",
+      "titulo": "Resumen Ejecutivo",
+      "componente": "ExecutiveSummary"
+    },
+    {
       "nombre": "revisar-redaccion",
       "categoria": "editor",
       "titulo": "Revisar Redacción",
@@ -341,6 +353,57 @@
           "Perfil": "\"Joven profesional de 24 años con una gran motivación para incorporarse al mercado laboral y aportar valor a un equipo. Poseo una actitud proactiva y una fuerte determinación que me impulsan a superar los desafíos y alcanzar mis objetivos.\\n\\nMi enfoque aplicado, mi constancia en el estudio y mi perseverancia son pilares fundamentales en mi desarrollo profesional. Estas cualidades me han permitido avanzar significativamente en proyectos complejos, como el desarrollo de esta aplicación web, demostrando mi capacidad para resolver problemas y aprender continuamente. Soy una persona decidida y no me rindo fácilmente ante las dificultades.\\n\"",
           "Formación Académica": "\"\\\"Actualmente curso el cuarto año de Ingeniería en Sistemas Audiovisuales y Multimedia, iniciada en 2020. Me encuentro a punto de finalizar mis estudios, con tan solo tres asignaturas pendientes para obtener la titulación.\\\"\"",
           "Habilidades": "\"\\\"Poseo sólidas habilidades técnicas como programador, lo que me permite abordar proyectos con eficiencia y creatividad. Además, cuento con excelentes habilidades interpersonales, destacando mi capacidad para establecer relaciones positivas y colaborativas con compañeros y clientes. Mi nivel de inglés es B2, facilitando la comunicación en entornos internacionales.\\\"\""
+        }
+      }
+    },
+    {
+      "usuario": "Yodak025",
+      "tipo": "carta-presentacion",
+      "estructura": {
+        "Carta de Presentación": {
+          "Datos del Remitente": {
+            "Nombre Completo": "Diego Sota ",
+            "Dirección": "Avda. Abogados de Atocha, 6",
+            "Teléfono": "646967576",
+            "Correo Electrónico": "diego.sota@gmail.com",
+            "Enlaces Profesionales": "tuctucututuvuguruvugf"
+          },
+          "Datos del Destinatario": {
+            "Fecha": "13 de abril de 2025",
+            "Nombre del Reclutador": "A quien corresponda",
+            "Empresa y Departamento": "cuencaphone",
+            "Dirección": "Avda. Abogados de Atocha, 7"
+          },
+          "Asunto": "REF: Candidatura para el puesto de Butanero",
+          "Cuerpo": "\"Estimado/a [Nombre del destinatario],\\n\\nMe dirijo a usted con gran entusiasmo ante la posibilidad de incorporarme a su equipo como Butanero.  Proviene de una familia con una larga tradición en el sector, y siento un profundo compromiso por continuar con este legado, aportando mi dedicación y experiencia al crecimiento de su empresa.\\n\\nCuento con quince años de experiencia como butanero experto, durante los cuales he desarrollado un amplio conocimiento técnico y habilidades prácticas en todas las áreas relacionadas con la instalación, mantenimiento y reparación de sistemas de gas.  Estoy familiarizado con una gran variedad de equipos y normativas, y me considero capaz de abordar cualquier desafío que se presente.\\n\\nMi perfil profesional se caracteriza por ser una persona amable y cualificada, ambiciosa pero humilde. Estoy motivado para aprender constantemente y mejorar mis habilidades, siempre buscando la manera de aportar valor a la empresa y colaborar en un ambiente de trabajo positivo y productivo.  Estoy seguro de que mi entusiasmo y compromiso serán un activo valioso para su equipo.\\n\\nAgradezco sinceramente su tiempo y consideración, y espero tener la oportunidad de conversar con usted sobre cómo puedo contribuir al éxito de su empresa.\\n\""
+        }
+      }
+    },
+    {
+      "usuario": "Yodak025",
+      "tipo": "carta-presentacion",
+      "estructura": {
+        "Carta de Presentación": {
+          "Asunto": "Candidatura: Butanero - Diego Sota ",
+          "Cuerpo": "\"[13 de abril de 2025]\\n\\nEstimado/a [Nombre del Reclutador - Desconocido],\\n\\nMe dirijo a usted con gran interés en la posición de Butanero dentro de cuencaphone. La oportunidad de unirme a su equipo y contribuir al éxito de la empresa me resulta sumamente atractiva.\\n\\nMi motivación para postular a este puesto es profunda, arraigada en una larga tradición familiar en el campo de la butanería. Deseo con fervor seguir el legado de mi estirpe, aplicando mis conocimientos y dedicación para mantener y mejorar los estándares de excelencia que caracterizan a esta profesión.\\n\\nComo butanero experto con 15 años de experiencia, poseo un amplio conocimiento técnico y habilidades prácticas en todas las áreas relacionadas con la instalación, mantenimiento y reparación de sistemas de butano. Estoy seguro de poder aportar mi experiencia para optimizar procesos y garantizar la seguridad y eficiencia de las instalaciones de cuencaphone.\\n\\nConsidero que mis cualidades personales, como ser amable, cualificado, ambicioso pero humilde y con muchas ganas de trabajar, me permitirán integrarme rápidamente al equipo y contribuir positivamente a la dinámica laboral. Estoy comprometido con el aprendizaje continuo y la mejora constante en mi desempeño profesional.\\n\\nAgradezco sinceramente su tiempo y consideración. Quedo a su entera disposición para una entrevista personal donde podré ampliar esta información y demostrar mi valía como candidato ideal para este puesto.\\n\\nAtentamente,\\n\\nDiego Sota\\n646967576\\ndiego.sota@gmail.com\\nAvda. Abogados de Atocha, 6\\ntuctucututuvuguruvugf\""
+        }
+      }
+    },
+    {
+      "usuario": "Yodak025",
+      "tipo": "resumen-ejecutivo",
+      "estructura": {
+        "Resumen Ejecutivo": {
+          "Título": "Decisión de compra venta",
+          "Subtítulo": "Se debe tomar una decisión sobre la bsorción de chocapic",
+          "Fecha": "13 de abril de 2025",
+          "Autor": "Aurelio torres",
+          "Contenido": {
+            "Introducción": "\"El presente documento, elaborado por Aurelio Torres el 13 de abril de 2025, analiza la oportunidad de adquisición de Chocapic, un competidor en declive que ha ofrecido su venta por una inversión de $200,000. El objetivo principal es evaluar la viabilidad y conveniencia de esta operación, determinando si representa una decisión estratégica adecuada para la empresa. Dada la naturaleza crítica de esta potencial adquisición, cuya implementación podría resultar tanto en un éxito significativo como en un resultado desfavorable, se requiere una evaluación exhaustiva y fundamentada que se detalla a continuación.\\n\"",
+            "Descripción del Proyecto": "\"\\\"Este análisis se ha estructurado a través de un balance de riesgos, buscando identificar y ponderar las potenciales ventajas y desventajas asociadas con la adquisición de Chocapic. Es importante destacar que el presente documento constituye un primer acercamiento a esta oportunidad; por lo tanto, los hallazgos y recomendaciones aquí presentados podrían requerir ajustes o ampliaciones en etapas posteriores del proceso de decisión, dependiendo de la información adicional que se derive.\\\"\"",
+            "Resultados y Conclusiones": "\"\\\"El análisis revela un dato clave significativo: a pesar de su situación actual, Chocapic genera ingresos anuales equivalentes al doble del costo de adquisición propuesto. Con base en esta información y considerando el balance de riesgos realizado, se concluye preliminarmente que la adquisición es viable. Esta conclusión se refuerza con el estudio final, que determina que la compra es crucial para la empresa. Por lo tanto, se recomienda encarecidamente proceder con la adquisición de Chocapic a la brevedad posible, maximizando así las oportunidades derivadas de esta estratégica inversión.\\\"\"",
+            "Cierre": "\"\\\"En resumen, este análisis exhaustivo ha identificado una oportunidad estratégica crucial para la empresa: la adquisición de Chocapic. Agradecemos su atención a esta evaluación. Se insta a tomar acción inmediata – compren YA!! – para asegurar el aprovechamiento pleno de los beneficios potenciales que esta adquisición ofrece.\\\"\""
+          }
         }
       }
     }

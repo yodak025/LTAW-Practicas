@@ -140,46 +140,213 @@ export const generateCV = async (data) => {
   return response;
 };
 
-const generatePresentationLetter = (data) => {
+//------------------------Carta de Presentación------------------------
+export const generateCoverLetter = async (data) => {
+  // Formatear la fecha
+  const dateObj = new Date(data.date);
+  const formattedDate = dateObj.toLocaleDateString('es-ES', { 
+    day: 'numeric', 
+    month: 'long', 
+    year: 'numeric' 
+  });
+
+  const presentationRequest = {
+    role: "user",
+    content: `Eres parte de una aplicación web que ayuda a los usuarios a generar cartas de presentación profesionales.
+        Tu tarea es generar el cuerpo de una carta de presentación empresarial en formato texto plano.
+
+        CONTEXTO DE LA APLICACIÓN:
+        - Puesto al que se aplica: "${data.position}"
+        - Empresa y departamento: "${data.companyInfo}"
+        - ${data.recruiterName ? `El reclutador es ${data.recruiterName}` : 'Se desconoce el nombre del reclutador'}
+        - Fecha de envío: ${formattedDate}
+
+        CONTENIDO PROPORCIONADO POR EL CANDIDATO:
+        Motivación del candidato:
+        "${data.motivation}"
+
+        Experiencia y habilidades relevantes:
+        "${data.relevantExperience}"
+
+        Valor que puede aportar a la empresa:
+        "${data.valueProposition}"
+        ${data.additionalNotes ? `\nNotas adicionales a considerar:\n"${data.additionalNotes}"` : ""}
+
+        INSTRUCCIONES:
+        1. Genera una carta de presentación profesional que integre toda la información proporcionada.
+        2. La carta debe mantener un tono formal y profesional.
+        3. Si conoces el nombre del reclutador, personaliza el saludo.
+        4. Estructura el contenido en párrafos claros y concisos.
+        5. Al final del texto, incluye una sección de firma con los datos de contacto en un formato profesional.
+
+        DATOS DE CONTACTO A INCLUIR AL FINAL:
+        ${data.fullName}
+        ${data.phone}
+        ${data.email}
+        ${data.address}
+        ${data.professionalLinks ? data.professionalLinks : ""}
+
+        Es fundamental que devuelvas SOLO el texto plano de la carta. No incluyas comentarios, títulos ni formato adicional.`,
+  };
+
+  const bodyResponse = JSON.stringify(
+    await callLMStudioAPI(requestTemplate([presentationRequest]))
+  );
+
   return {
-    model: MODEL,
-    messages: [
-      {
-        role: "user",
-        content: `Genera una carta de presentación profesional para buscar trabajo. 
-      La carta debe tener un tono formal y personalizado, y estar estructurada según el siguiente esquema:\n\n
+    "Carta de Presentación": {
+      "Asunto": `Candidatura: ${data.position} - ${data.fullName}`,
+      "Cuerpo": bodyResponse
+    }
+  };
+};
 
-      Encabezado\n
-      Saludo\n
-      Introducción\n
-      Cuerpo\n
-      Cierre\n
-      Despedida\n
-      Firma\n\n 
+//------------------------Resumen Ejecutivo------------------------
+export const generateExecutiveSummary = async (data) => {
+  // Formatear la fecha
+  const dateObj = new Date(data.date);
+  const formattedDate = dateObj.toLocaleDateString('es-ES', { 
+    day: 'numeric', 
+    month: 'long', 
+    year: 'numeric' 
+  });
 
-      1. El encabezado debe contener la siguiente información: 
-      nombre completo "${data.nombre}": , 
-      dirección: "${data.direccion}",
-       número de teléfono "${data.telefono}"
-       y dirección de correo electrónico  "${data.email}".\n
-      2. El saludo debe ser personalizado y dirigido a la persona encargada de la contratación, mencionando su nombre "${data.destinatario}", así como a la empresa "${data.empresa}". 
-      Además, debe utilizar una formula de cortesía adecuada.\n
-      3. La introducción debe incluir una breve presentación personal y una mención del puesto al que se está postulando, que es "${data.cargo}". \n 
-      Para la introducción, intenta basarte en el siguiente texto, si es adecuado: "${data.introduccion}". Si no fuese adecuado adecúalo modificando todo lo que sea necesario.\n
-      4. El cuerpo de la carta debe contener una descripción de las habilidades "${data.habilidades}" y experiencia "${data.experiencia}" del candidato. 
-      También debe mencionar los motivos por los que se postula al puesto y por qué considera que es el candidato ideal para el mismo: "${data.motivacion}".\n
-      5. El cierre debe crearse a partir de la siguiente frase: "${data.cierre}", modificandola si es necesario.\n 
+  // Generar la introducción
+  const introductionRequest = {
+    role: "user",
+    content: `Eres parte de una aplicación web que ayuda a los usuarios a generar resúmenes ejecutivos profesionales.
+        Tu tarea es generar el contenido de la sección de introducción de un resumen ejecutivo.
 
-      Utiliza esta estructura y asegúrate de que la respuesta mantenga la coherencia y el formato indicado.
-      Entrega un resultado final que no contenga placeholders y que sea adecuado en forma, como texto plano legible y sin etiquetas de ningún tipo.
-      Evita incluir comentarios en tu respuesta. Entrega solo el contenido de la carta de presentación. Genera los saltos de línea necesarios para que el texto sea legible. 
-      Asegurate de entregar una carta de presentación en castellano. Integra las secciones y no incluyas los títulos de las mismas entre **[]** en la respuesta final.`,
-      },
-    ],
-    temperature: TEMPERATURE,
-    max_tokens: MAX_TOKENS, // -1 o ajusta según la cantidad deseada
-    stream: IS_STREAM, // Usa 'true' si deseas respuestas en streaming (requiere un manejo especial)
-    top_p: 1,
-    repetition_penalty: 1,
+        CONTEXTO DEL DOCUMENTO:
+        Título: "${data.title}"
+        ${data.subtitle ? `Subtítulo: "${data.subtitle}"` : ''}
+        Autor: ${data.author}
+        Fecha: ${formattedDate}
+
+        CONTENIDO A PROCESAR:
+        Contexto y antecedentes:
+        "${data.context}"
+
+        Objetivos:
+        "${data.objectives}"
+
+        Importancia y relevancia:
+        "${data.importance}"
+
+        INSTRUCCIONES:
+        1. Genera una introducción cohesiva que integre el contexto, los objetivos y la importancia.
+        2. Mantén un tono profesional y ejecutivo.
+        3. La introducción debe ser concisa pero completa.
+        4. No incluyas títulos ni subtítulos.
+        5. Evita repetir información innecesariamente.`,
+  };
+
+  // Generar descripción del proyecto
+  const projectDescriptionRequest = {
+    role: "user",
+    content: `Continuando con el resumen ejecutivo, genera la descripción del proyecto.
+
+        CONTENIDO A PROCESAR:
+        Metodología utilizada:
+        "${data.methodology}"
+
+        Alcance y limitaciones:
+        "${data.scope}"
+
+        INSTRUCCIONES:
+        1. Integra la metodología y el alcance en una descripción fluida.
+        2. Mantén la consistencia con la introducción previa.
+        3. Enfócate en los aspectos más relevantes para la toma de decisiones.
+        4. No incluyas títulos ni subtítulos.`,
+  };
+
+  // Generar resultados y conclusiones
+  const resultsRequest = {
+    role: "user",
+    content: `Continuando con el resumen ejecutivo, genera la sección de resultados y conclusiones.
+
+        CONTENIDO A PROCESAR:
+        Datos clave:
+        "${data.keyData}"
+
+        Conclusiones preliminares:
+        "${data.preliminaryConclusions}"
+
+        Conclusiones finales:
+        "${data.conclusions}"
+
+        Recomendaciones:
+        "${data.recommendations}"
+
+        INSTRUCCIONES:
+        1. Presenta los resultados de manera clara y concisa.
+        2. Integra las conclusiones preliminares y finales de forma coherente.
+        3. Relaciona las recomendaciones con los hallazgos.
+        4. No incluyas títulos ni subtítulos.`,
+  };
+
+  // Generar cierre
+  const closingRequest = {
+    role: "user",
+    content: `Finalizando el resumen ejecutivo, genera la sección de cierre.
+
+        CONTENIDO A PROCESAR:
+        Resumen final:
+        "${data.summary}"
+
+        ${data.nextSteps ? `Próximos pasos:\n"${data.nextSteps}"` : ''}
+
+        Llamado a la acción:
+        "${data.callToAction}"
+
+        INSTRUCCIONES:
+        1. Integra el resumen final con un llamado a la acción claro.
+        2. ${data.nextSteps ? 'Incluye los próximos pasos de manera natural.' : 'Enfócate en el resumen y el llamado a la acción.'}
+        3. El cierre debe ser contundente y motivador.
+        4. No incluyas títulos ni subtítulos.`,
+  };
+
+  // Realizar las llamadas a la API en secuencia para mantener coherencia
+  const introResponse = JSON.stringify(
+    await callLMStudioAPI(requestTemplate([introductionRequest]))
+  );
+
+  const descriptionResponse = JSON.stringify(
+    await callLMStudioAPI(requestTemplate([introductionRequest, 
+      { role: "assistant", content: introResponse },
+      projectDescriptionRequest]))
+  );
+
+  const resultsResponse = JSON.stringify(
+    await callLMStudioAPI(requestTemplate([introductionRequest,
+      { role: "assistant", content: introResponse },
+      projectDescriptionRequest,
+      { role: "assistant", content: descriptionResponse },
+      resultsRequest]))
+  );
+
+  const closingResponse = JSON.stringify(
+    await callLMStudioAPI(requestTemplate([introductionRequest,
+      { role: "assistant", content: introResponse },
+      projectDescriptionRequest,
+      { role: "assistant", content: descriptionResponse },
+      resultsRequest,
+      { role: "assistant", content: resultsResponse },
+      closingRequest]))
+  );
+
+  return {
+    "Resumen Ejecutivo": {
+      "Título": data.title,
+      ...(data.subtitle && { "Subtítulo": data.subtitle }),
+      "Fecha": formattedDate,
+      "Autor": data.author,
+      "Contenido": {
+        "Introducción": introResponse,
+        "Descripción del Proyecto": descriptionResponse,
+        "Resultados y Conclusiones": resultsResponse,
+        "Cierre": closingResponse
+      }
+    }
   };
 };

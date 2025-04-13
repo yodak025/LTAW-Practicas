@@ -7,7 +7,7 @@ import {
   formatTextToLatex
 } from "./generateTextExpansions.js";
 
-import { generateCV } from "./generateWorkRelatedDocuments.js";
+import { generateCV, generateCoverLetter, generateExecutiveSummary } from "./generateWorkRelatedDocuments.js";
 
 const documentGenerationRequest = async (requestData, db) => {
   console.log("Request Data:", JSON.stringify(requestData, null));
@@ -17,6 +17,12 @@ const documentGenerationRequest = async (requestData, db) => {
   switch (documentType) {
     case "curriculum-vitae":
       response = await generateCV(JSON.parse(requestData.body));
+      break;
+    case "carta-presentacion":
+      response = await generateCoverLetter(JSON.parse(requestData.body));
+      break;
+    case "resumen-ejecutivo":
+      response = await generateExecutiveSummary(JSON.parse(requestData.body));
       break;
     case "extender-texto":
       response = await generateExpandedText(JSON.parse(requestData.body));

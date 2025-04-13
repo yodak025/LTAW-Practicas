@@ -9,6 +9,8 @@ import Error404 from "./Contents/Error404.jsx";
 import Document from "./Document/Document.jsx";
 
 import CVForm from "./Forms/CVForm.jsx";
+import CoverLetterForm from "./Forms/CoverLetterForm.jsx";
+import ExecutiveSummaryForm from "./Forms/ExecutiveSummaryForm.jsx";
 
 import ExtendTextForm from "./Forms/ExtendTextForm.jsx";
 import LatexTextForm from "./Forms/LatexTextForm.jsx";
@@ -56,6 +58,13 @@ export default function App({ props }) {
           <CVForm />
         </Layout>
       );
+    case "CoverLetter":
+      return (
+        <Layout>
+          <Nav className="os-layout-nav" />
+          <CoverLetterForm />
+        </Layout>
+      );
     case "ProductPage":
       return (
         <Layout>
@@ -96,6 +105,13 @@ export default function App({ props }) {
         <Layout>
           <Nav className="os-layout-nav" />
           <LatexTextForm />
+        </Layout>
+      );
+    case "ExecutiveSummary":
+      return (
+        <Layout>
+          <Nav className="os-layout-nav" />
+          <ExecutiveSummaryForm />
         </Layout>
       );
     default:
