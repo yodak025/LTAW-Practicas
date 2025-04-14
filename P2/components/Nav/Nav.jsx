@@ -1,38 +1,32 @@
 import React from "react";
 
-export default function Nav({className}) {
-
-  return (
-    <nav className={className + ' os-nav'}>
-      <header className="os-nav-header">
-        Menú de Navegación
-      </header>
-
-      <main className="os-nav-options">
-          <a href="index.html#products">Productos</a>
-          <a href="index.html">Sobre Nosotros</a>
-      </main>
-    </nav>
-  );
-}
-
-function Nav2({className}) {
-
-  return (
-    <nav className={className + ' os-nav'}>
-      <header className="os-nav-header">
-        <p>Menú de Navegación</p>
-        <a href="index.html#products">Productos</a>
-        <a href="index.html">Sobre Nosotros</a>
-      </header>
-
-      <section>
+function NavContent({ isLoggedIn }) {
+  if (isLoggedIn) {
+    return (
+      <>
+        <section>
           <input type="text" placeholder="Buscar..." />
-      </section>
-      <section className="os-nav-options">
+        </section>
+        <section className="os-nav-options">
           <img src="" alt="Logo" className="os-nav-github" />
           <a>Usuario</a>
-      </section>
+        </section>
+      </>
+    );
+  }
+  return;
+}
+
+export default function Nav({ className }) {
+  return (
+    <nav className={className + " os-nav"}>
+      <header className="os-nav-header">AI - Scribe</header>
+
+      <main className="os-nav-options">
+        <a href="index.html#products">Productos</a>
+        <a href="index.html">Sobre Nosotros</a>
+      </main>
+      {NavContent({ isLoggedIn: true })}
     </nav>
   );
 }

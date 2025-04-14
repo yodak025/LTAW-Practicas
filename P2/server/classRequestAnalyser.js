@@ -71,10 +71,16 @@ class RequestAnalyser {
       if (this.user.tema == "dark") this.isDarkTheme = true;
     }
     if (req.url.includes("/document.html")) {
+      this.getUserFromCookie(req.headers.cookie);
+      if (!this.user) this.resourceDemipath = "/login.html";
       this.isDynamic = true;
+      if (this.user && this.user.tema == "dark") this.isDarkTheme = true;
     }
     if (req.url.includes("/product.html")) {
+      this.getUserFromCookie(req.headers.cookie);
+      if (!this.user) this.resourceDemipath = "/login.html";
       this.isDynamic = true;
+      if (this.user && this.user.tema == "dark") this.isDarkTheme = true;
     }
   }
 
@@ -103,7 +109,14 @@ class RequestAnalyser {
       });
     }
   };
+
   recievePostData = async (req) => {
+    this.getUserFromCookie(req.headers.cookie);
+    if (!this.user) {
+      this.resourceDemipath = "/login.html";
+      this.isDynamic = true;
+      return;
+    }
     req.on("data", (chunk) => {
       //! Mucho me temo que esto podría ser un cabo suelto
       this.body += chunk.toString();
@@ -116,9 +129,8 @@ class RequestAnalyser {
           //this.body = JSON.parse(this.body);
           if (this.resourceDemipath.includes("/generate-document?")) {
             this.isAjax = true;
-            this.getUserFromCookie(req.headers.cookie);
-            resolve();
           }
+          resolve();
         }
       });
     });
