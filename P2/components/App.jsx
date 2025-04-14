@@ -39,14 +39,14 @@ export default function App({ props }) {
     case "Login":
       return (
         <Layout>
-          <Nav className="os-layout-nav" />
+          <Nav className="os-layout-nav" isLoggedIn={false} />
           <LoginPage className="os-layout-login" />
         </Layout>
       );
     case "Error404":
       return (
         <Layout>
-          <Nav className="os-layout-nav" />
+          <Nav className="os-layout-nav"/>
           <Error404 className="os-layout-error404" />
         </Layout>
       );
