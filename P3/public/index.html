@@ -6,21 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kill two birds with one stone</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="JavaScripts/main.js" type="module" defer></script>
 </head>
-
-<script src="JavaScripts/main.js" type="module" defer></script>
-
 
 <body>
 
-    
-
-    <canvas id="canvas" onclick="activarPantallaCompleta()">
-    </canvas>
+    <canvas id="canvas" onclick="activarPantallaCompleta()"></canvas>
     <canvas id="drawing-pad"></canvas>
 
     <img src="Images/TheRock.png" id="Stone">
-    <img src="Images/TheRock.png" id="TimeScore"></p>
+    <img src="Images/TheRock.png" id="TimeScore">
 
     <img src="Images/BlueBird/0.png" id="BlueBird0" class="BlueBird">
     <img src="Images/BlueBird/1.png" id="BlueBird1" class="BlueBird">
@@ -36,25 +32,20 @@
     <img src="Images/GreenBird/4.png" id="GreenBird4" class="GreenBird">
     <img src="Images/GreenBird/5.png" id="GreenBird5" class="GreenBird">
 
-
-
-
+    <script>
+        function activarPantallaCompleta() {
+            if (document.documentElement.requestFullscreen) {
+                //document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) { /* Firefox */
+                //document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                //document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) { /* IE/Edge */
+                //document.documentElement.msRequestFullscreen();
+            }
+        }
+    </script>
 
 </body>
-
-<script>
-    function activarPantallaCompleta() {
-        if (document.documentElement.requestFullscreen) {
-            //document.documentElement.requestFullscreen();
-        } else if (document.documentElement.mozRequestFullScreen) { /* Firefox */
-            //document.documentElement.mozRequestFullScreen();
-        } else if (document.documentElement.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-            //document.documentElement.webkitRequestFullscreen();
-        } else if (document.documentElement.msRequestFullscreen) { /* IE/Edge */
-            //document.documentElement.msRequestFullscreen();
-        }
-    }
-
-</script>
 
 </html>

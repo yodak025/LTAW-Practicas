@@ -1,4 +1,4 @@
-// Clase base para todas las entidades
+// Clase base
 export class Entity {
     constructor(x, y, width, height) {
         this.x = x;
@@ -31,30 +31,24 @@ export class Entity {
     }
 }
 
-// Clase para entidades afectadas por la física
-export class DynamicEntity extends Entity {
+// Clase base para entidades con colisiones
+export class CollidingEntity extends Entity {
     constructor(x, y, width, height) {
         super(x, y, width, height);
-        this.velocityY = 0;
-        this.velocityX = 0;
-        this.gravity = 0.5;
-        this.friction = 0.95; // Factor de fricción (1 = sin fricción, 0 = fricción máxima)
-        this.isOnGround = false; // Para detectar si está en contacto con una superficie
+        this.isOnGround = false;
     }
 
     resolveCollision(other) {
         const bounds = this.getBounds();
         const otherBounds = other.getBounds();
 
-        // Calcular la velocidad del impacto
-        const impactVelocity = Math.sqrt(
-            this.velocityX * this.velocityX + 
-            this.velocityY * this.velocityY
-        );
+        // Calcular la velocidad del impacto si existe
+        const impactVelocity = this.velocityX !== undefined && this.velocityY !== undefined ?
+            Math.sqrt(this.velocityX * this.velocityX + this.velocityY * this.velocityY) : 0;
 
-        // Si el objeto es rompible, aplicar daño basado en la velocidad
-        if (other instanceof BreakableEntity) {
-            const damageAmount = impactVelocity * 1; // Factor de daño
+        // Si el objeto tiene el método takeDamage, aplicar daño basado en la velocidad
+        if (other.takeDamage && impactVelocity > 0) {
+            const damageAmount = impactVelocity * 1;
             other.takeDamage(damageAmount);
         }
 
@@ -67,23 +61,93 @@ export class DynamicEntity extends Entity {
             } else {
                 this.x = otherBounds.right;
             }
-            this.velocityX *= -0.5;
+            if (this.velocityX !== undefined) this.velocityX *= -0.5;
         } else {
             if (bounds.bottom - otherBounds.top < otherBounds.bottom - bounds.top) {
                 this.y = otherBounds.top - this.height;
-                this.velocityY = 0;
-                this.isOnGround = true; // Marcar que está en contacto con el suelo
+                if (this.velocityY !== undefined) this.velocityY = 0;
+                this.isOnGround = true;
             } else {
                 this.y = otherBounds.bottom;
-                this.velocityY *= -0.5;
+                if (this.velocityY !== undefined) this.velocityY *= -0.5;
             }
         }
     }
 
-    update(gameObjects) {
-        // Aplicar gravedad
-        this.velocityY += this.gravity;
+    checkBounds() {
+        const canvas = document.getElementById('canvas');
+        const bounds = this.getBounds();
         
+        if (bounds.left < 0) {
+            this.x = 0;
+            if (this.velocityX !== undefined) this.velocityX *= -0.5;
+        }
+        if (bounds.right > canvas.width) {
+            this.x = canvas.width - this.width;
+            if (this.velocityX !== undefined) this.velocityX *= -0.5;
+        }
+        if (bounds.top < 0) {
+            this.y = 0;
+            if (this.velocityY !== undefined) this.velocityY *= -0.5;
+        }
+        if (bounds.bottom > canvas.height) {
+            this.y = canvas.height - this.height;
+            if (this.velocityY !== undefined) this.velocityY *= -0.5;
+            this.isOnGround = true;
+        }
+    }
+
+    update(gameObjects) {
+        this.checkBounds();
+        for (const obj of gameObjects) {
+            if (obj !== this && this.isColliding(obj)) {
+                this.resolveCollision(obj);
+            }
+        }
+    }
+}
+
+// Clase para crear mixins
+const applyMixins = (derivedCtor, constructors) => {
+    constructors.forEach((baseCtor) => {
+        Object.getOwnPropertyNames(baseCtor.prototype).forEach((name) => {
+            if (name !== 'constructor') {
+                Object.defineProperty(
+                    derivedCtor.prototype,
+                    name,
+                    Object.getOwnPropertyDescriptor(baseCtor.prototype, name)
+                );
+            }
+        });
+    });
+};
+
+// Mixin para comportamiento rompible
+class BreakableMixin {
+    initBreakable(health = 100) {
+        this.health = health;
+        this.broken = false;
+        this.markedForDeletion = false;
+    }
+
+    takeDamage(amount) {
+        this.health -= amount;
+        if (this.health <= 0) {
+            this.broken = true;
+            this.markedForDeletion = true;
+        }
+    }
+}
+
+// Mixin para comportamiento controlable
+class PlayableMixin {
+    initPlayable() {
+        this.velocityX = 0;
+        this.velocityY = 0;
+        this.friction = 0.95;
+    }
+
+    updatePlayable() {
         // Aplicar fricción si está en el suelo
         if (this.isOnGround) {
             this.velocityX *= this.friction;
@@ -93,58 +157,77 @@ export class DynamicEntity extends Entity {
         if (Math.abs(this.velocityX) < 0.01) {
             this.velocityX = 0;
         }
-        
+
         // Actualizar posición
-        this.y += this.velocityY;
         this.x += this.velocityX;
+        this.y += this.velocityY;
+    }
+}
+
+// Clase para entidades controlables
+export class PlayableEntity extends CollidingEntity {
+    constructor(x, y, width, height) {
+        super(x, y, width, height);
+        this.velocityX = 0;
+        this.velocityY = 0;
+        this.friction = 0.95;
+    }
+
+    update(gameObjects) {
+        // Aplicar fricción si está en el suelo
+        if (this.isOnGround) {
+            this.velocityX *= this.friction;
+        }
+
+        // Si la velocidad es muy pequeña, detenerla
+        if (Math.abs(this.velocityX) < 0.01) {
+            this.velocityX = 0;
+        }
+
+        // Actualizar posición
+        this.x += this.velocityX;
+        this.y += this.velocityY;
 
         // Resetear el estado de contacto con el suelo
         this.isOnGround = false;
 
-        // Colisiones con los bordes del canvas
-        const canvas = document.getElementById('canvas');
-        const bounds = this.getBounds();
-        
-        if (bounds.left < 0) {
-            this.x = 0;
-            this.velocityX *= -0.5;
-        }
-        if (bounds.right > canvas.width) {
-            this.x = canvas.width - this.width;
-            this.velocityX *= -0.5;
-        }
-        if (bounds.top < 0) {
-            this.y = 0;
-            this.velocityY *= -0.5;
-        }
-        if (bounds.bottom > canvas.height) {
-            this.y = canvas.height - this.height;
-            this.velocityY *= -0.5;
-            this.isOnGround = true; // También aplicar fricción en el suelo del canvas
-        }
+        // Llamar a la actualización de colisiones del padre
+        super.update(gameObjects);
+    }
+}
 
-        // Comprobar colisiones con otros objetos
-        for (const obj of gameObjects) {
-            if (obj !== this && this.isColliding(obj)) {
-                this.resolveCollision(obj);
-            }
-        }
+// Clase para entidades afectadas por la gravedad
+export class GravityEntity extends CollidingEntity {
+    constructor(x, y, width, height) {
+        super(x, y, width, height);
+        this.velocityY = 0;
+        this.gravity = 0.5;
+    }
+
+    update(gameObjects) {
+        // Aplicar gravedad
+        this.velocityY += this.gravity;
+        
+        // Actualizar posición vertical
+        this.y += this.velocityY;
+
+        // Resetear el estado de contacto con el suelo
+        this.isOnGround = false;
+
+        // Llamar a la actualización de colisiones del padre
+        super.update(gameObjects);
     }
 }
 
 // Clase base para entidades estáticas
-export class StaticEntity extends Entity {
-    constructor(x, y, width, height) {
-        super(x, y, width, height);
-    }
-
-    update(gameObjects) {
+export class StaticEntity extends CollidingEntity {
+    update() {
         // Las entidades estáticas no se actualizan
     }
 }
 
-// Clase para entidades estáticas rompibles
-export class BreakableEntity extends StaticEntity {
+// Clase para entidades rompibles
+export class BreakableEntity extends CollidingEntity {
     constructor(x, y, width, height, health = 100) {
         super(x, y, width, height);
         this.health = health;
@@ -161,9 +244,50 @@ export class BreakableEntity extends StaticEntity {
     }
 
     update(gameObjects) {
-        // Si está roto, será eliminado en el próximo frame
         if (this.broken && !this.markedForDeletion) {
             this.markedForDeletion = true;
         }
+        super.update(gameObjects);
     }
 }
+
+// Clase para la roca (combina gravedad y control)
+export class RockEntity extends PlayableEntity {
+    constructor(x, y, width, height) {
+        super(x, y, width, height);
+        this.gravity = 0.5;
+    }
+
+    update(gameObjects) {
+        // Aplicar gravedad
+        this.velocityY += this.gravity;
+        
+        // Llamar a la actualización de PlayableEntity
+        super.update(gameObjects);
+    }
+}
+
+// Clase para los pájaros usando mixins
+export class BirdEntity extends CollidingEntity {
+    constructor(x, y, width, height, health = 100) {
+        super(x, y, width, height);
+        this.initBreakable(health);
+        this.initPlayable();
+    }
+
+    update(gameObjects) {
+        // Actualizar comportamiento controlable
+        this.updatePlayable();
+        
+        // Comprobar si está roto
+        if (this.broken && !this.markedForDeletion) {
+            this.markedForDeletion = true;
+        }
+
+        // Actualizar colisiones
+        super.update(gameObjects);
+    }
+}
+
+// Aplicar mixins a BirdEntity
+applyMixins(BirdEntity, [BreakableMixin, PlayableMixin]);

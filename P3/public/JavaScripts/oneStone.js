@@ -6,6 +6,9 @@ const canvas = document.getElementById('canvas');
 const drawingPadCanvas = document.getElementById('drawing-pad');
 const ctx = canvas.getContext('2d');
 
+// Inicializar Socket.IO
+const socket = io();
+
 // Función para cargar imágenes
 function loadImage(src) {
     return new Promise((resolve) => {
@@ -22,36 +25,36 @@ const gameObjects = [];
 async function initGame() {
     // Cargar sprites
     const blueBirdSprites = await Promise.all([
-        loadImage('Images/BlueBird/0.png'),
-        loadImage('Images/BlueBird/1.png'),
-        loadImage('Images/BlueBird/2.png'),
-        loadImage('Images/BlueBird/3.png'),
-        loadImage('Images/BlueBird/4.png'),
-        loadImage('Images/BlueBird/5.png')
+        loadImage('./Images/BlueBird/0.png'),
+        loadImage('./Images/BlueBird/1.png'),
+        loadImage('./Images/BlueBird/2.png'),
+        loadImage('./Images/BlueBird/3.png'),
+        loadImage('./Images/BlueBird/4.png'),
+        loadImage('./Images/BlueBird/5.png')
     ]);
 
     const greenBirdSprites = await Promise.all([
-        loadImage('Images/GreenBird/0.png'),
-        loadImage('Images/GreenBird/1.png'),
-        loadImage('Images/GreenBird/2.png'),
-        loadImage('Images/GreenBird/3.png'),
-        loadImage('Images/GreenBird/4.png'),
-        loadImage('Images/GreenBird/5.png')
+        loadImage('./Images/GreenBird/0.png'),
+        loadImage('./Images/GreenBird/1.png'),
+        loadImage('./Images/GreenBird/2.png'),
+        loadImage('./Images/GreenBird/3.png'),
+        loadImage('./Images/GreenBird/4.png'),
+        loadImage('./Images/GreenBird/5.png')
     ]);
 
-    const rockSprite = await loadImage('Images/TheRock.png');
+    const rockSprite = await loadImage('./Images/TheRock.png');
 
     // Crear entidades
     const rockEntity = new RockEntity(100, 100, 100, 100);
-    const blueBirdEntity = new BreakableEntity(300, 100, 100, 100);
+    const blueBirdEntity = new BirdEntity(300, 100, 100, 100);
     const greenBirdEntity = new BreakableEntity(500, 100, 100, 100);
     
     // Crear plataforma estática en el medio
     const middlePlatform = new StaticEntity(
-        window.innerWidth / 2 - 200, // x centrada
-        window.innerHeight / 2,      // y en medio
-        400,                         // ancho
-        20                          // alto
+        window.innerWidth / 2 - 200,
+        window.innerHeight / 2,
+        400,
+        20
     );
 
     // Crear vistas
@@ -63,12 +66,20 @@ async function initGame() {
     // Añadir objetos al juego
     gameObjects.push(rockEntity, blueBirdEntity, greenBirdEntity, middlePlatform);
 
-    // Inicializar el DrawingPad
+    // Inicializar el DrawingPad con la roca
     const drawingPad = new DrawingPad(drawingPadCanvas, rockEntity);
 
     // Variables para controlar la animación
     let frameCount = 0;
-    const ANIMATION_SPEED = 5; // Cambiar sprite cada 5 frames
+    const ANIMATION_SPEED = 5;
+
+    // Configurar eventos de socket.io
+    socket.on('updateBlueBird', (position) => {
+        blueBirdEntity.x = position.x;
+        blueBirdEntity.y = position.y;
+        blueBirdEntity.velocityX = position.velocityX;
+        blueBirdEntity.velocityY = position.velocityY;
+    });
 
     function gameLoop() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -86,6 +97,14 @@ async function initGame() {
             obj.update(gameObjects);
         }
 
+        // Enviar la posición de la roca al otro jugador
+        socket.emit('rockUpdate', {
+            x: rockEntity.x,
+            y: rockEntity.y,
+            velocityX: rockEntity.velocityX,
+            velocityY: rockEntity.velocityY
+        });
+
         // Función para obtener el color del colider basado en la vida
         function getColliderColor(health) {
             const normalizedHealth = health / 100;
@@ -96,10 +115,10 @@ async function initGame() {
 
         // Dibujar objetos con sus vistas correspondientes
         rockView.drawSprite();
-        rockView.drawCollider('rgba(100, 100, 100, 0.3)')
+        rockView.drawCollider('rgba(100, 100, 100, 0.3)');
         
         // Dibujar la plataforma estática usando su vista
-        platformView.drawCollider('rgba(128, 128, 128, 1)')
+        platformView.drawCollider('rgba(128, 128, 128, 1)');
         
         if (!blueBirdEntity.markedForDeletion) {
             blueBirdView.drawSprite();
@@ -136,6 +155,3 @@ async function initGame() {
 
 // Iniciar el juego
 initGame().catch(console.error);
-
-
-
