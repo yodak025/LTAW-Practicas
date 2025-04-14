@@ -10,10 +10,17 @@ export class DrawingPad {
         // Configurar tamaño y posición
         this.resize();
 
-        // Event listeners
+        // Event listeners para ratón
         this.canvas.addEventListener('mousedown', this.startDrawing.bind(this));
         this.canvas.addEventListener('mousemove', this.draw.bind(this));
         window.addEventListener('mouseup', this.endDrawing.bind(this));
+
+        // Event listeners para touch
+        this.canvas.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: false });
+        this.canvas.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: false });
+        this.canvas.addEventListener('touchend', this.endDrawing.bind(this));
+        this.canvas.addEventListener('touchcancel', this.endDrawing.bind(this));
+
         window.addEventListener('resize', this.resize.bind(this));
 
         // Estilo inicial
@@ -31,7 +38,47 @@ export class DrawingPad {
         this.canvas.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
     }
 
+    handleTouchStart(event) {
+        event.preventDefault(); // Prevenir scroll
+        const touch = event.touches[0];
+        const rect = this.canvas.getBoundingClientRect();
+        this.isDrawing = true;
+        this.startPoint = {
+            x: touch.clientX - rect.left,
+            y: touch.clientY - rect.top
+        };
+        this.currentPoint = { ...this.startPoint };
+    }
+
+    handleTouchMove(event) {
+        event.preventDefault(); // Prevenir scroll
+        if (!this.isDrawing) return;
+
+        const touch = event.touches[0];
+        const rect = this.canvas.getBoundingClientRect();
+        this.currentPoint = {
+            x: touch.clientX - rect.left,
+            y: touch.clientY - rect.top
+        };
+
+        // Limpiar el canvas
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Dibujar la línea
+        this.ctx.beginPath();
+        this.ctx.moveTo(this.startPoint.x, this.startPoint.y);
+        this.ctx.lineTo(this.currentPoint.x, this.currentPoint.y);
+        this.ctx.stroke();
+
+        // Comprobar si el touch está fuera del canvas
+        if (touch.clientX < rect.left || touch.clientX > rect.right ||
+            touch.clientY < rect.top || touch.clientY > rect.bottom) {
+            this.endDrawing();
+        }
+    }
+
     startDrawing(event) {
+        if (event.type === 'touchstart') return; // Ignorar eventos touch aquí
         this.isDrawing = true;
         const rect = this.canvas.getBoundingClientRect();
         this.startPoint = {
@@ -42,6 +89,7 @@ export class DrawingPad {
     }
 
     draw(event) {
+        if (event.type === 'touchmove') return; // Ignorar eventos touch aquí
         if (!this.isDrawing) return;
 
         const rect = this.canvas.getBoundingClientRect();
