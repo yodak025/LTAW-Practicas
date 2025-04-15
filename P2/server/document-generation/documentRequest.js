@@ -7,7 +7,14 @@ import {
   formatTextToLatex
 } from "./generateTextExpansions.js";
 
-import { generateCV, generateCoverLetter, generateExecutiveSummary } from "./generateWorkRelatedDocuments.js";
+import { 
+  generateCV, 
+  generateCoverLetter, 
+  generateExecutiveSummary,
+  generateProductDescription,
+  generateSalesEmail,
+  generateRecommendationLetter
+} from "./generateWorkRelatedDocuments.js";
 
 const documentGenerationRequest = async (requestData, db) => {
   console.log("Request Data:", JSON.stringify(requestData, null));
@@ -23,6 +30,15 @@ const documentGenerationRequest = async (requestData, db) => {
       break;
     case "resumen-ejecutivo":
       response = await generateExecutiveSummary(JSON.parse(requestData.body));
+      break;
+    case "descripcion-producto":
+      response = await generateProductDescription(JSON.parse(requestData.body));
+      break;
+    case "email-ventas":
+      response = await generateSalesEmail(JSON.parse(requestData.body));
+      break;
+    case "carta-recomendacion":
+      response = await generateRecommendationLetter(JSON.parse(requestData.body));
       break;
     case "extender-texto":
       response = await generateExpandedText(JSON.parse(requestData.body));

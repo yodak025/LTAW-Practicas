@@ -24,15 +24,25 @@ const server = http.createServer(async (req, res) => {
     await reqData.recievePostData(req);
   }
 
-  if (reqData.isAjax) {
-    // Si es una petición AJAX, se procesa el documento y se envía la respuesta
-    let documentID = await documentGenerationRequest(reqData, db);
-    res.writeHead(200, { "Content-Type": "text/plain" });
-    res.end(documentID.toString(), "utf-8");
-    db.writeDatabase();
-    console.log("Petición AJAX procesada y respuesta enviada.");
-    return;
+  switch (reqData.ajax){
+    case null:
+      break;
+    case "document":
+      let documentID = await documentGenerationRequest(reqData, db);
+      res.writeHead(200, { "Content-Type": "text/plain" });
+      res.end(documentID.toString(), "utf-8");
+      db.writeDatabase();
+      console.log("Petición AJAX procesada. Tipo: DocumentGenRequest. Respuesta enviada.");
+      return;
+    case "theme":
+      res.writeHead(200, { "Content-Type": "text/plain" });
+      res.end();
+      console.log("Petición AJAX procesada. Tipo: ToggleTheme. Respuesta enviada.");
+      db.writeDatabase();
+      return;
   }
+    
+  
 
   // Si se pide un recurso dinámico, se carga template.html y se renderiza el componente al vuelo
   let resourcePath = reqData.isDynamic
@@ -64,7 +74,7 @@ const server = http.createServer(async (req, res) => {
         content404 = renderPage(
           content404,
           "/error-404.html",
-          reqData.isDarkTheme
+          reqData
         );
 
         resData = new ResponsePacker(
@@ -94,7 +104,7 @@ const server = http.createServer(async (req, res) => {
         content = renderPage(
           content,
           reqData.resourceDemipath,
-          reqData.isDarkTheme,
+          reqData,
           db
         );
       }

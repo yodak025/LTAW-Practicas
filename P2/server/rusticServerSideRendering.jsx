@@ -5,10 +5,11 @@ import App from "../components/App";
 
 //-------------------------------------- React Rendering ----------------------
 
-export default function renderPage(template, resourcePath, isDarkTheme, db) {
+export default function renderPage(template, resourcePath, reqData, db) {
   let name = "AI Scribe"; //TODO - Replantear
-  let styles = [`/styles/colors-${isDarkTheme ? "dark" : "default"}.css`];
+  let styles = [`/styles/colors-${reqData.isDarkTheme ? "dark" : "default"}.css`];
   const props = { content: null };
+  props.userName = reqData.user ? reqData.user.usuario : null;
 
   if (resourcePath.includes("/product.html")) {
     // Se fuerza el paso por la base de datos de forma didactica, no es necesario pero así se le da uso

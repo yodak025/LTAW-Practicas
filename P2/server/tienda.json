@@ -39,6 +39,24 @@
       "componente": "ExecutiveSummary"
     },
     {
+      "nombre": "descripcion-producto",
+      "categoria": "documentos-laborales",
+      "titulo": "Descripción de Producto",
+      "componente": "ProductDescription"
+    },
+    {
+      "nombre": "email-ventas",
+      "categoria": "documentos-laborales",
+      "titulo": "Email de Ventas",
+      "componente": "SalesEmail"
+    },
+    {
+      "nombre": "carta-recomendacion",
+      "categoria": "documentos-laborales",
+      "titulo": "Carta de Recomendación",
+      "componente": "RecommendationLetter"
+    },
+    {
       "nombre": "revisar-redaccion",
       "categoria": "editor",
       "titulo": "Revisar Redacción",
@@ -404,6 +422,57 @@
             "Resultados y Conclusiones": "\"\\\"El análisis revela un dato clave significativo: a pesar de su situación actual, Chocapic genera ingresos anuales equivalentes al doble del costo de adquisición propuesto. Con base en esta información y considerando el balance de riesgos realizado, se concluye preliminarmente que la adquisición es viable. Esta conclusión se refuerza con el estudio final, que determina que la compra es crucial para la empresa. Por lo tanto, se recomienda encarecidamente proceder con la adquisición de Chocapic a la brevedad posible, maximizando así las oportunidades derivadas de esta estratégica inversión.\\\"\"",
             "Cierre": "\"\\\"En resumen, este análisis exhaustivo ha identificado una oportunidad estratégica crucial para la empresa: la adquisición de Chocapic. Agradecemos su atención a esta evaluación. Se insta a tomar acción inmediata – compren YA!! – para asegurar el aprovechamiento pleno de los beneficios potenciales que esta adquisición ofrece.\\\"\""
           }
+        }
+      }
+    },
+    {
+      "usuario": "Yodak025",
+      "tipo": "curriculum-vitae",
+      "estructura": {
+        "Currículum Vitae": {
+          "Datos de Contacto": {
+            "Nombre Completo": "Diego Sota ",
+            "Dirección": "Avda. Abogados de Atocha, 6",
+            "Teléfono": "646967576",
+            "Correo Electrónico": "diego.sota@gmail.com"
+          },
+          "Perfil": "\"Profesional dinámico y con una perspectiva única, enfocado en la búsqueda de oportunidades que permitan aplicar habilidades y conocimientos para alcanzar objetivos desafiantes.  Mi enfoque se basa en la adaptabilidad y la resolución innovadora de problemas, buscando constantemente maneras de optimizar procesos y generar resultados positivos. \\n\\nPoseo una capacidad demostrada para superar obstáculos imprevistos y mantener la calma bajo presión. Mi trayectoria profesional se caracteriza por la perseverancia y la habilidad para encontrar soluciones creativas a situaciones complejas, lo que me permite destacar en entornos exigentes y contribuir significativamente al éxito de cualquier equipo.\\n\"",
+          "Habilidades": "\"Poseo una gran capacidad para la organización y planificación, lo que me permite gestionar eficientemente mi tiempo y priorizar tareas incluso bajo presión. Mi proactividad me impulsa a anticipar desafíos y buscar soluciones antes de que se conviertan en problemas, asegurando el cumplimiento de objetivos y plazos establecidos.\\n\\nAdemás, soy una persona colaborativa y con facilidad para establecer relaciones interpersonales positivas.  Mi actitud amigable y mi disposición a ayudar fomentan un ambiente de trabajo armonioso y productivo, contribuyendo al bienestar del equipo y a la consecución de metas comunes.\""
+        }
+      }
+    },
+    {
+      "usuario": "Yodak025",
+      "tipo": "descripcion-producto",
+      "estructura": {
+        "Descripción de Producto": {
+          "Título": "AI- Scribe",
+          "Subtítulo": "Automatic Inkless Scribe",
+          "Contenido": {
+            "Introducción y Características": "\"En un mundo cada vez más digitalizado, la necesidad de generar contenido de alta calidad se vuelve cada vez más apremiante. Es aquí donde entra en escena \\\"AI-Scribe\\\", una herramienta innovadora que revoluciona la forma en que creamos documentos de texto de manera automática. Basado en el uso controlado de Textos Generados por Modelos de Lenguaje de Máquina (LLMs), AI-Scribe permite generar una gran variedad de archivos con precisión y eficiencia.\\n\\nCon \\\"AI-Scribe\\\", puedes decir adiós a la tediosa tarea de escribir documentos desde cero. Nuestro servicio web utiliza algoritmos avanzados para crear contenido de alta calidad, en formato de texto, que se ajusta perfectamente a tus necesidades. Ya no es necesario contar con habilidades de escritura destacadas o dedicar horas a la creación de contenido; con \\\"AI-Scribe\\\", los usuarios no especializados pueden obtener resultados satisfactorios y profesionales.\\n\\nEntre las características principales de \\\"AI-Scribe\\\" se encuentran su capacidad para generar una gran variedad de archivos, lo que te permite adaptarte a cualquier tipo de proyecto o necesidad. Además, nuestro servicio ofrece la posibilidad de controlar los resultados obtenidos, asegurando que el contenido creado sea preciso y relevante.\\n\\nAl utilizar \\\"AI-Scribe\\\", disfrutarás de varios beneficios importantes:\\n\\nAutomatización: Reduce significativamente el tiempo y esfuerzo dedicado a la creación de documentos.\\nResultados más controlados: Nuestro servicio te permite ajustar los resultados obtenidos para que se adapten perfectamente a tus necesidades específicas.\\nAccesibilidad: Los usuarios no especializados pueden obtener resultados satisfactorios sin necesidad de habilidades avanzadas en escritura.\\n\\nCon \\\"AI-Scribe\\\", puedes enfocarte en lo que importa mientras dejamos que la tecnología haga el trabajo duro por ti. ¡Prueba hoy mismo nuestra herramienta innovadora y descubre cómo puede mejorar tu productividad y eficiencia en la creación de contenido!\"",
+            "Especificaciones Técnicas": "\"\\\"Nuestra plataforma \\\\\\\"AI-Scribe\\\\\\\" está diseñada para ser adaptable e independiente del modelo del LLM utilizado, lo que significa que puedes confiar en nuestra precisión y eficiencia sin importar cuál sea el modelo subyacente. Esto se debe a nuestro compromiso con la innovación y la mejora continua, asegurando que siempre estemos al día con las últimas tecnologías y tendencias en procesamiento de lenguaje natural.\\\\n\\\\nBajo la capa, nuestra plataforma está construida sobre Nodejs y React con Server-Side Rendering (SSR), lo que permite una experiencia de usuario inmersiva y dinámica. Nuestra arquitectura robusta garantiza que nuestros servicios estén disponibles en todo momento, sin interrupciones ni retrasos.\\\\n\\\\nAl utilizar \\\\\\\"AI-Scribe\\\\\\\", también disfrutarás de la tranquilidad que ofrece nuestra amplia certificación y garantías. Nuestra plataforma ha sido exhaustivamente probada y refinada para garantizar su precisión y seguridad, lo que te permite confiar en nuestros servicios sin dudar. Nuestro equipo de expertos se esfuerza constantemente por mejorar y mantener la integridad de nuestra plataforma, asegurando que siempre estés protegido y seguro al utilizar \\\\\\\"AI-Scribe\\\\\\\".\\\"\"",
+            "Opiniones y Cierre": "\"\\\"\\\\\\\"Nuestra comunidad de clientes está creciendo rápidamente, y no solo por nuestra tecnología innovadora, sino también por los resultados tangibles que han logrado gracias a \\\\\\\\\\\\\\\"AI-Scribe\\\\\\\\. Algunos de nuestros clientes más satisfechos nos comparten sus experiencias con nuestra herramienta:\\\\\\\\n\\\\\\\\n\\\\\\\"Con \\\\\\\\\\\\\\\"AI-Scribe\\\\\\\\\\\\\\\", he podido aumentar mi productividad en un 15% y mejorar la calidad de mis documentos. Es una herramienta que realmente vale la pena invertir en ella.\\\\\\\" - Juan, gerente de marketing\\\\\\\\n\\\\\\\\n\\\\\\\"Me sorprendió la precisión y velocidad con la que \\\\\\\\\\\\\\\"AI-Scribe\\\\\\\\\\\\\\\" puede generar contenido de alta calidad. Ha sido un verdadero juego cambiador para mi negocio.\\\\\\\" - María, escritora freelance\\\\\\\\n\\\\\\\\nNo esperes más para aprovechar las ventajas que ofrece \\\\\\\\\\\\\\\"AI-Scribe\\\\\\\\. Invierte en nuestra herramienta hoy mismo y descubre cómo puedes transformar tu productividad y eficiencia en la creación de contenido. ¡Con \\\\\\\\\\\\\\\"AI-Scribe\\\\\\\\\\\\\\\", no solo obtendrás mejores resultados, sino también una mayor libertad para enfocarte en lo que realmente importa: tus objetivos y metas.\\\\\\\"\""
+          }
+        }
+      }
+    },
+    {
+      "usuario": "Yodak025",
+      "tipo": "email-ventas",
+      "estructura": {
+        "Email de Ventas": {
+          "Título": "Compra AI- Scribe!",
+          "Contenido": "\"Asunto: Compra AI-Scribe!\\n\\nEstimado Director de Ventas Pedro Palotes,\\n\\nMe dirijo a usted como representante de Rustic SL, una empresa emprendedora que ha desarrollado un producto innovador para ayudar a las empresas a mejorar sus resultados financieros. Me gustaría presentarle nuestro producto, AI-Scribe, diseñado específicamente para satisfacer las necesidades de su sector.\\n\\nComo sabe, ganar dinero es un objetivo común para todas las organizaciones. Sin embargo, en la actualidad, muchas empresas enfrentan desafíos para alcanzar este objetivo. Es aquí donde entra en juego AI-Scribe, una solución que puede ayudarlo a superar estos obstáculos y alcanzar sus objetivos financieros.\\n\\nNuestro producto ofrece varias ventajas clave:\\n\\n- Rapido: AI-Scribe es rápido y eficiente, permitiéndole implementarlo en su negocio con la mayor brevedad posible.\\n- Sencillo de interconectar: Nuestra solución se integra fácilmente con sus sistemas LLM existentes, minimizando el tiempo y los recursos necesarios para su implementación.\\n- Alta calidad: AI-Scribe está diseñado para ofrecer resultados de alta calidad, lo que le permite mejorar significativamente sus resultados financieros.\\n- Diseño interesante: Nuestro producto cuenta con un diseño atractivo y fácil de usar, lo que facilita la adopción por parte de su equipo.\\n\\nMe gustaría destacar que AI-Scribe es una herramienta única y exclusiva diseñada para satisfacer las necesidades específicas de su sector. Puede utilizarlo con sus propios modelos LLM existentes, lo que significa que no necesita invertir en hardware o software adicionales.\\n\\nEn resumen, AI-Scribe es la solución perfecta para ayudarlo a alcanzar sus objetivos financieros. Me gustaría invitarlo a considerar nuestra oferta y aprovechar las ventajas que nuestro producto le ofrece.\\n\\nPor favor, considere COCOCOMPRA AI-SRIBE!!\\n\\nSi tiene alguna pregunta o desea obtener más información sobre cómo puede beneficiarse de AI-Scribe, no dude en contactarme.\\n\\nAtentamente,\\nJosue Perez\\nEmprendedor\\nRustic SL\\nJP@rustic.com\""
+        }
+      }
+    },
+    {
+      "usuario": "Yodak025",
+      "tipo": "carta-recomendacion",
+      "estructura": {
+        "Carta de Recomendación": {
+          "Asunto": "Carta de Recomendación: Pepe Lopez",
+          "Contenido": "\"Estimado/a A quien corresponda,\\n\\nMe dirijo a usted con el fin de presentar al Sr. Pepe Lopez, un colaborador excepcional que ha tenido el placer de trabajar bajo mi dirección durante los últimos tres años en ButanCorp.\\n\\nEn ese tiempo, he tenido la oportunidad de conocer a fondo las cualidades y habilidades del Sr. Lopez, y puedo afirmar sin vacilación que es una persona con un trabajo, esfuerzo, perseverancia, profesionalidad y sumisión excepcionales. Su capacidad para trabajar en equipo, su dedicación y su compromiso con la empresa han sido fundamentales para nuestro éxito.\\n\\nEn particular, me gustaría destacar sus logros y contribuciones al crecimiento de ButanCorp. Ha trabajado incansablemente para duplicar las ventas de la empresa, lo que ha llevado a un aumento significativo en nuestra posición en el mercado. Su habilidad para identificar oportunidades y liderar proyectos ha sido invaluable.\\n\\nAdemás de sus logros profesionales, también puedo hablar con entusiasmo sobre su personalidad. Es un gran amigo y persona confiable, siempre dispuesto a ayudar a los demás y apoyar a su equipo.\\n\\nEn resumen, puedo recomendar sin reserva al Sr. Pepe Lopez como profesional excepcional. Su habilidades, trabajo duro y compromiso con la empresa lo convierten en un empleado invaluable para cualquier organización.\\n\\nA continuación, se presentan mis datos de contacto:\\n\\nNombre: Pedro Gimenez Lopez\\nCargo: Butanero\\nEmpresa: ButanCorp\\nDirección: Calle Mayor 13\\nEmail: PGL@BC.com\\nTeléfono: +33 232 33 32 33\\n\\nAtentamente,\\n\\nPedro Gimenez Lopez\\nButanero\\nButanCorp\""
         }
       }
     }

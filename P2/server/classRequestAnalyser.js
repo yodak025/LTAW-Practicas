@@ -7,7 +7,7 @@ class RequestAnalyser {
     this.headers = {};
     this.user = null;
     this.body = "";
-    this.isAjax = false;
+    this.ajax = null;
     this.isDynamic = false;
     this.isDarkTheme = false;
 
@@ -30,6 +30,7 @@ class RequestAnalyser {
       this.dbUsers.forEach((u) => {
         if (u.usuario == user) {
           this.headers["Set-Cookie"] = [`user=${user}`]; //! OJO: Esto solo funciona si no hay mas cookies
+          this.user = u;
           this.resourceDemipath = "/index.html";
           this.isDynamic = true;
           if (u.tema == "dark") {
@@ -37,6 +38,14 @@ class RequestAnalyser {
           }
         }
       });
+    }
+
+    if (req.url.includes("/logout")) {
+      this.resourceDemipath = "/login.html";
+      this.isDynamic = true;
+      this.headers["Set-Cookie"] = [`user=;`]; //! OJO: Si aumentan los campos de la cookie, hay que tenerlos en cuenta
+      this.user = null;
+      this.isDarkTheme = false;
     }
 
     if (req.url.includes("/register?")) {
@@ -65,8 +74,15 @@ class RequestAnalyser {
       });
     }
 
-    if (req.url.includes("/update-theme?")) {
-      const updatedTheme = req.url.split("?")[1].split("=")[1];
+    if (req.url.includes("/toggle-theme")) {
+      this.getUserFromCookie(req.headers.cookie);
+      if (!this.user) {
+        this.resourceDemipath = "/login.html";
+        this.isDynamic = true;
+        return;
+      }
+      this.ajax = "theme";
+      let updatedTheme = this.user.tema == "dark" ? "default" : "dark";
       this.setUserPropsFromCookie(req.headers.cookie, { tema: updatedTheme });
       if (this.user.tema == "dark") this.isDarkTheme = true;
     }
@@ -80,7 +96,6 @@ class RequestAnalyser {
       this.getUserFromCookie(req.headers.cookie);
       if (!this.user) this.resourceDemipath = "/login.html";
       this.isDynamic = true;
-      if (this.user && this.user.tema == "dark") this.isDarkTheme = true;
     }
   }
 
@@ -99,11 +114,11 @@ class RequestAnalyser {
       this.dbUsers.forEach((u) => {
         if (u.usuario == userCookie) {
           if (u.usuario == userCookie) {
-            this.user = u;
             u.usuario = userProps.usuario || u.usuario;
             u.nombre = userProps.nombre || u.nombre;
             u.email = userProps.email || u.email;
             u.tema = userProps.tema || u.tema;
+            this.user = u;
           }
         }
       });
@@ -128,7 +143,7 @@ class RequestAnalyser {
           console.log(this.body);
           //this.body = JSON.parse(this.body);
           if (this.resourceDemipath.includes("/generate-document?")) {
-            this.isAjax = true;
+            this.ajax = "document";
           }
           resolve();
         }

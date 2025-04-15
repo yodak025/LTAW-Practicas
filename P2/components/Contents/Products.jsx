@@ -27,9 +27,9 @@ function Products() {
             <Product name="Currículum Vitae Personalizado" id="curriculum-vitae" index="1"/>
             <Product name="Carta de Presentación" id="carta-presentacion" index="2"/>
             <Product name="Resumen Ejecutivo" id="resumen-ejecutivo" index="3"/>
-            <Product name="Descripción de Producto" id="dev" index="4"/>
-            <Product name="Email de Ventas" id="dev" index="5"/>
-            <Product name="Carta de Recomendación" id="dev" index="6"/>
+            <Product name="Descripción de Producto" id="descripcion-producto" index="4"/>
+            <Product name="Email de Ventas" id="email-ventas" index="5"/>
+            <Product name="Carta de Recomendación" id="carta-recomendacion" index="6"/>
           </Category>
 
           <Category name="Documentos Legales">

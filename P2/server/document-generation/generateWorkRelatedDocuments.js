@@ -238,7 +238,8 @@ export const generateExecutiveSummary = async (data) => {
         2. Mantén un tono profesional y ejecutivo.
         3. La introducción debe ser concisa pero completa.
         4. No incluyas títulos ni subtítulos.
-        5. Evita repetir información innecesariamente.`,
+        5. Evita repetir información innecesariamente.
+        6. Evita dar formato a la respuesta, devuelve solo texto plano, sin etiquetas ni comentarios.`,
   };
 
   // Generar descripción del proyecto
@@ -257,7 +258,8 @@ export const generateExecutiveSummary = async (data) => {
         1. Integra la metodología y el alcance en una descripción fluida.
         2. Mantén la consistencia con la introducción previa.
         3. Enfócate en los aspectos más relevantes para la toma de decisiones.
-        4. No incluyas títulos ni subtítulos.`,
+        4. No incluyas títulos ni subtítulos.
+        5. Evita dar formato a la respuesta, devuelve solo texto plano, sin etiquetas ni comentarios.`,
   };
 
   // Generar resultados y conclusiones
@@ -282,7 +284,8 @@ export const generateExecutiveSummary = async (data) => {
         1. Presenta los resultados de manera clara y concisa.
         2. Integra las conclusiones preliminares y finales de forma coherente.
         3. Relaciona las recomendaciones con los hallazgos.
-        4. No incluyas títulos ni subtítulos.`,
+        4. No incluyas títulos ni subtítulos.
+        5. Evita dar formato a la respuesta, devuelve solo texto plano, sin etiquetas ni comentarios.`,
   };
 
   // Generar cierre
@@ -303,7 +306,8 @@ export const generateExecutiveSummary = async (data) => {
         1. Integra el resumen final con un llamado a la acción claro.
         2. ${data.nextSteps ? 'Incluye los próximos pasos de manera natural.' : 'Enfócate en el resumen y el llamado a la acción.'}
         3. El cierre debe ser contundente y motivador.
-        4. No incluyas títulos ni subtítulos.`,
+        4. No incluyas títulos ni subtítulos.
+        5. Evita dar formato a la respuesta, devuelve solo texto plano, sin etiquetas ni comentarios.`,
   };
 
   // Realizar las llamadas a la API en secuencia para mantener coherencia
@@ -347,6 +351,234 @@ export const generateExecutiveSummary = async (data) => {
         "Resultados y Conclusiones": resultsResponse,
         "Cierre": closingResponse
       }
+    }
+  };
+};
+
+//------------------------Descripción de Producto------------------------
+export const generateProductDescription = async (data) => {
+  // Generar la introducción y características principales
+  const mainContentRequest = {
+    role: "user",
+    content: `Eres parte de una aplicación web que ayuda a los usuarios a generar descripciones de productos profesionales.
+        Tu tarea es generar el contenido de la introducción y características principales de una descripción de producto.
+
+        INFORMACIÓN DEL PRODUCTO:
+        Nombre: "${data.productName}"
+        ${data.subtitle ? `Subtítulo: "${data.subtitle}"` : ''}
+
+        CONTENIDO A PROCESAR:
+        Descripción con palabras clave:
+        "${data.keywordDescription}"
+
+        Características principales:
+        "${data.features}"
+
+        Beneficios para el usuario:
+        "${data.benefits}"
+
+        INSTRUCCIONES:
+        1. Genera una introducción atractiva que capture la atención.
+        2. Integra las palabras clave de manera natural.
+        3. Presenta las características y beneficios de forma persuasiva.
+        4. Mantén un tono profesional pero cercano.
+        5. No incluyas títulos ni subtítulos en el texto.
+        6. Evita dar formato a la respuesta, devuelve solo texto plano, sin etiquetas ni comentarios.`,
+  };
+
+  // Generar especificaciones técnicas si existen
+  const technicalRequest = data.technicalDetails || data.certifications ? {
+    role: "user",
+    content: `Continuando con la descripción del producto, genera la sección técnica.
+
+        CONTENIDO A PROCESAR:
+        ${data.technicalDetails ? `Detalles técnicos:\n"${data.technicalDetails}"` : ''}
+        ${data.certifications ? `\nCertificaciones y garantías:\n"${data.certifications}"` : ''}
+
+        INSTRUCCIONES:
+        1. Presenta la información técnica de manera clara y precisa.
+        2. Destaca las certificaciones y garantías relevantes.
+        3. Mantén la coherencia con el contenido anterior.
+        4. No incluyas títulos ni subtítulos.
+        5. Evita dar formato a la respuesta, devuelve solo texto plano, sin etiquetas ni comentarios.`,
+  } : null;
+
+  // Generar sección de opiniones y cierre
+  const closingRequest = {
+    role: "user",
+    content: `Finalizando la descripción del producto, genera la sección de opiniones y cierre.
+
+        CONTENIDO A PROCESAR:
+        Opiniones de clientes:
+        "${data.reviews}"
+
+        Llamado a la acción:
+        "${data.callToAction}"
+
+        INSTRUCCIONES:
+        1. Integra los testimonios de manera convincente.
+        2. Concluye con un llamado a la acción persuasivo.
+        3. Mantén la coherencia con el contenido anterior.
+        4. No incluyas títulos ni subtítulos.
+        5. Evita dar formato a la respuesta, devuelve solo texto plano, sin etiquetas ni comentarios.`,
+  };
+
+  // Realizar las llamadas a la API en secuencia para mantener coherencia
+  const mainResponse = JSON.stringify(
+    await callLMStudioAPI(requestTemplate([mainContentRequest]))
+  );
+
+  let technicalResponse = null;
+  if (technicalRequest) {
+    technicalResponse = JSON.stringify(
+      await callLMStudioAPI(requestTemplate([mainContentRequest,
+        { role: "assistant", content: mainResponse },
+        technicalRequest]))
+    );
+  }
+
+  const closingResponse = JSON.stringify(
+    await callLMStudioAPI(requestTemplate([mainContentRequest,
+      { role: "assistant", content: mainResponse },
+      ...(technicalRequest ? [
+        technicalRequest,
+        { role: "assistant", content: technicalResponse }
+      ] : []),
+      closingRequest]))
+  );
+
+  return {
+    "Descripción de Producto": {
+      "Título": data.productName,
+      ...(data.subtitle && { "Subtítulo": data.subtitle }),
+      "Contenido": {
+        "Introducción y Características": mainResponse,
+        ...(technicalResponse && { "Especificaciones Técnicas": technicalResponse }),
+        "Opiniones y Cierre": closingResponse
+      }
+    }
+  };
+};
+
+//------------------------Email de Ventas------------------------
+export const generateSalesEmail = async (data) => {
+  // Generar el contenido del email
+  const emailRequest = {
+    role: "user",
+    content: `Eres parte de una aplicación web que ayuda a los usuarios a generar emails de venta efectivos.
+        Tu tarea es generar un email de ventas persuasivo y profesional en texto plano.
+
+        INFORMACIÓN DEL EMAIL:
+        Título: "${data.emailTitle}"
+        
+        DESTINATARIO:
+        Nombre: ${data.recipientName}
+        Cargo: ${data.recipientPosition}
+        Empresa: ${data.recipientCompany}
+
+        REMITENTE:
+        Nombre: ${data.senderName}
+        Cargo: ${data.senderPosition}
+        Empresa: ${data.senderCompany}
+
+        CONTENIDO PROPORCIONADO:
+        Motivo del contacto:
+        "${data.contactReason}"
+
+        Necesidad identificada:
+        "${data.clientNeed}"
+
+        Solución propuesta:
+        "${data.proposedSolution}"
+
+        Factores diferenciadores:
+        "${data.differentiators}"
+
+        Llamado a la acción:
+        "${data.callToAction}"
+
+        INSTRUCCIONES:
+        1. Genera un email de ventas profesional que integre toda la información proporcionada.
+        2. El email debe mantener un tono profesional pero cercano.
+        3. Estructura el contenido de manera clara y persuasiva.
+        4. Al final, incluye los datos de contacto proporcionados.
+        5. El email debe estar en texto plano, sin formato ni etiquetas.
+        6. No incluyas comentarios ni instrucciones en el texto generado.
+
+        DATOS DE CONTACTO A INCLUIR AL FINAL:
+        ${data.contactInfo}`,
+  };
+
+  const emailResponse = JSON.stringify(
+    await callLMStudioAPI(requestTemplate([emailRequest]))
+  );
+
+  return {
+    "Email de Ventas": {
+      "Título": data.emailTitle,
+      "Contenido": emailResponse
+    }
+  };
+};
+
+//------------------------Carta de Recomendación------------------------
+export const generateRecommendationLetter = async (data) => {
+  const letterRequest = {
+    role: "user",
+    content: `Eres parte de una aplicación web que ayuda a los usuarios a generar cartas de recomendación profesionales.
+        Tu tarea es generar una carta de recomendación en texto plano, sin formato ni etiquetas.
+
+        DATOS DEL RECOMENDANTE:
+        Nombre: ${data.recommenderName}
+        Cargo: ${data.recommenderPosition}
+        Empresa: ${data.recommenderCompany}
+        Dirección: ${data.recommenderAddress}
+        Email: ${data.recommenderEmail}
+        Teléfono: ${data.recommenderPhone}
+
+        ${data.recipientName ? `DATOS DEL DESTINATARIO:
+        Nombre: ${data.recipientName}
+        ${data.recipientPosition ? `Cargo: ${data.recipientPosition}` : ''}
+        ${data.recipientCompany ? `Empresa/Institución: ${data.recipientCompany}` : ''}
+        ${data.recipientAddress ? `Dirección: ${data.recipientAddress}` : ''}` : ''}
+
+        DATOS DEL CANDIDATO:
+        Nombre: ${data.candidateName}
+        Relación con el candidato: "${data.relationship}"
+        Tiempo de conocer al candidato: ${data.timeKnown}
+
+        CUALIDADES Y EXPERIENCIA:
+        Cualidades y habilidades:
+        "${data.qualities}"
+
+        Logros y contribuciones:
+        "${data.achievements}"
+
+        Valoración personal:
+        "${data.personalEvaluation}"
+
+        ${data.additionalInfo ? `Información adicional:
+        "${data.additionalInfo}"` : ''}
+
+        INSTRUCCIONES:
+        1. Genera una carta de recomendación profesional que integre toda la información proporcionada.
+        2. La carta debe mantener un tono formal y profesional.
+        3. Estructura el contenido de manera clara y convincente.
+        4. Incluye todos los datos del recomendante al final de la carta.
+        5. La carta debe estar en texto plano, sin formato ni etiquetas.
+        6. No incluyas comentarios ni instrucciones en el texto generado.
+        7. No uses placeholders ni texto entre corchetes.
+        8. Si no hay destinatario específico, usa una referencia genérica. Por ejemplo "A quien corresponda".`,
+  };
+
+  const letterResponse = JSON.stringify(
+    await callLMStudioAPI(requestTemplate([letterRequest]))
+  );
+
+  return {
+    "Carta de Recomendación": {
+      "Asunto": `Carta de Recomendación: ${data.candidateName}`,
+      "Contenido": letterResponse
     }
   };
 };

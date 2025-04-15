@@ -4,94 +4,33 @@
   justify-content: space-between;
   align-items: center;
   position: fixed;
-
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1;
-
-  height: 10vh; /* ! CUALQUIER CAMBIO DEBE TENERSE EN CUENTA PARA EL main DEFINDIDO EN Layout.css!!! */
+  z-index: 1000;
+  height: 10vh;
   width: 100%;
   padding: 15px;
   font-size: 2.5vh;
-
   background-color: var(--primary-color);
   color: var(--black-color);
 }
 
-.os-nav-clickable {
+.os-nav-item {
   background-color: var(--accent-color);
   padding: 8px 16px;
   border-radius: 8px;
-  transition: all 0.3s ease;
-  position: relative;
+  transition: background-color 0.3s ease;
   cursor: pointer;
 }
 
-.os-nav-clickable:hover {
+.os-nav-item:hover {
   background-color: var(--neutral-color);
-}
-
-.os-nav-clickable.active {
-  background-color: var(--neutral-color);
-  border-radius: 8px 8px 0 0;
-}
-
-.title-container {
-  padding: 8px 16px;
-  width: fit-content;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-}
-
-.user-container {
-  padding: 6px 12px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-}
-
-.user-content {
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .os-nav-header {
   flex: 1;
   margin: 10px;
-  padding: 0;
-  line-height: 1; /* Normalize line height */
-}
-
-.os-nav-header a {
-  color: var(--black-color); /* Normalize line height */
-}
-
-.os-nav-options {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 2;
-  margin: 10px;
-  padding: 0;
-  line-height: 1; /* Normalize line height */
-  color: var(--black-color);
-}
-
-.os-nav-options a {
-  margin: 0 15px;
-  padding: 0;
-  text-decoration: none;
-  line-height: 1; /* Normalize line height */
-  color: var(--black-color);
-  transition: opacity 0.2s ease;
-}
-
-.os-nav-options a:hover {
-  opacity: 0.8;
 }
 
 .os-nav-search {
@@ -122,93 +61,94 @@
   box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.2);
 }
 
-.os-nav-user {
+.os-nav-options {
   flex: 1;
-  position: relative;
+  display: flex;
   justify-content: flex-end;
+  margin: 10px;
 }
 
-.os-nav-dropdown {
+.os-nav-github {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+/* Dropdown container styles */
+.os-dropdown {
   position: relative;
   display: inline-block;
+  min-width: 150px; /* Establecemos un ancho mínimo consistente */
 }
 
-.os-nav-dropdown-trigger {
-  color: var(--black-color);
-  cursor: pointer;
-  font-weight: 500;
-  display: block;
-  padding: 4px 8px;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-}
-
-.os-nav-dropdown-trigger:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-1px);
-}
-
-.os-nav-dropdown-content {
-  position: absolute;
-  left: 0;
-  top: 100%;
-  background-color: var(--neutral-color);
+.os-dropdown-trigger {
   width: 100%;
-  border: 2px solid var(--primary-color);
-  border-top: none;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  transform-origin: top center;
-  animation: dropdownExpand 0.3s ease-out forwards;
-  z-index: 1000;
-  overflow: hidden;
-}
-
-@keyframes dropdownAppear {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes dropdownExpand {
-  from {
-    opacity: 0;
-    transform: scaleY(0);
-  }
-  to {
-    opacity: 1;
-    transform: scaleY(1);
-  }
-}
-
-.menu-dropdown {
-  left: 0;
-  border-radius: 0 0 8px 8px;
-  min-width: 100%;
-}
-
-.user-dropdown {
-  right: 0;
-  border-radius: 0 0 8px 8px;
-  min-width: 100%;
-  transform-origin: top right;
-}
-
-.os-nav-dropdown-content a {
+  background-color: var(--accent-color);
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
   color: var(--black-color);
-  padding: 12px 16px;
-  text-decoration: none;
+  font-family: 'BigShoulders', sans-serif;
+  text-align: center;
+}
+
+.os-dropdown-trigger:hover {
+  background-color: var(--neutral-color);
+}
+
+.os-dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%); /* Centrar horizontalmente */
+  width: 100%; /* Mismo ancho que el trigger */
+  margin-top: 0.5rem;
+  background-color: var(--light-color);
+  border: 2px solid var(--black-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow: hidden; /* Para que el hover respete el border-radius */
+}
+
+.os-dropdown-content a {
   display: block;
-  transition: all 0.2s ease;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  white-space: nowrap;
+  padding: 0.8rem 1rem;
+  color: var(--black-color);
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  text-align: center;
 }
 
-.os-nav-dropdown-content a:last-child {
-  border-bottom: none;
+.os-dropdown-content a:first-child {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
 }
 
-.os-nav-dropdown-content a:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  padding-left: 24px;
+.os-dropdown-content a:last-child {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.os-dropdown-content a:hover {
+  background-color: var(--neutral-color);
+}
+
+/* Specific styles for user dropdown */
+.os-dropdown.--user {
+  min-width: 180px; /* Un poco más ancho para el dropdown de usuario */
+}
+
+.os-dropdown.--user .os-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.os-dropdown.--user img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
 }
