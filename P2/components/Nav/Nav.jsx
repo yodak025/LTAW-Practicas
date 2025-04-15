@@ -65,7 +65,7 @@ function NavContent({ user }) {
             {showUserDropdown && (
               <div className="os-dropdown-content">
                 <a href="#cart">Carrito</a>
-                <a href="" onClick={toggleTheme}>Cambiar Tema</a>
+                <a href="" onClick={ toggleTheme }>Cambiar Tema</a>
                 <a href="#settings">Configuración</a>
                 <a href="/logout">LogOut</a>
               </div>
