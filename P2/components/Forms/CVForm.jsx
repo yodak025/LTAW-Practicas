@@ -18,7 +18,7 @@ export default function CVForm() {
         </ul>
       </section>
 
-      <BaseForm type="curriculum-vitae">
+      <BaseForm type="curriculum-vitae" submitText="Generar CV">
         {/* Datos Fundamentales */}
         <section className="os-form-section">
           <h3>Datos Fundamentales</h3>
@@ -218,10 +218,6 @@ export default function CVForm() {
             />
           </div>
         </section>
-
-        <button type="submit" className="os-form-submit">
-          Generar CV
-        </button>
       </BaseForm>
     </div>
   );

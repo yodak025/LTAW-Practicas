@@ -4,13 +4,40 @@
       "usuario": "root",
       "nombre": "root",
       "correo": "root",
-      "tema": "dark"
+      "tema": "dark",
+      "carrito": []
     },
     {
       "usuario": "Yodak025",
       "nombre": "DSOTA",
       "email": "diego.sota%40gmail.com",
-      "tema": "default"
+      "tema": "default",
+      "carrito": [
+        {
+          "tipo": "revisar-redaccion",
+          "cuerpo": "{\"originalText\":\"ekjfeifjeifjeijfiejfiejfief\",\"toneStyle\":\"informal\"}"
+        },
+        {
+          "tipo": "revisar-redaccion",
+          "cuerpo": "{\"originalText\":\"djndfjdnfdjnfdjnfdjfndf\",\"toneStyle\":\"informal\"}"
+        },
+        {
+          "tipo": "revisar-redaccion",
+          "cuerpo": "{\"originalText\":\"ekeirjeirjeirjeirjeirer\",\"toneStyle\":\"informal\"}"
+        },
+        {
+          "tipo": "revisar-redaccion",
+          "cuerpo": "{\"originalText\":\"sdsdsdsdsd\",\"toneStyle\":\"informal\"}"
+        },
+        {
+          "tipo": "resumir-texto",
+          "cuerpo": "{\"originalText\":\"dsdsdsdsdsds\",\"summaryLength\":\"very-short\",\"focusType\":\"key-points\",\"notes\":\"sd\"}"
+        },
+        {
+          "tipo": "resumir-texto",
+          "cuerpo": "{\"originalText\":\"odfkfrmrnrv\\n\",\"summaryLength\":\"very-short\",\"focusType\":\"key-points\",\"notes\":\"\"}"
+        }
+      ]
     }
   ],
   "productos": [

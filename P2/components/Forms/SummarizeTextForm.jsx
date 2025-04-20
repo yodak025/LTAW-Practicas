@@ -19,7 +19,9 @@ export default function SummarizeTextForm() {
       </section>
 
       <BaseForm
-        type="resumir-texto">
+        type="resumir-texto"
+        submitText="Resumir Texto"
+      >
         <div className="os-form-field">
           <label htmlFor="originalText">Texto a Resumir:</label>
           <textarea
@@ -58,10 +60,6 @@ export default function SummarizeTextForm() {
             placeholder="Especifica cualquier requisito adicional para el resumen..."
           />
         </div>
-
-        <button type="submit" className="os-form-submit">
-          Resumir Texto
-        </button>
       </BaseForm>
     </div>
   );

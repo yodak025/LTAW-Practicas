@@ -27,12 +27,12 @@ const server = http.createServer(async (req, res) => {
   switch (reqData.ajax){
     case null:
       break;
-    case "document":
-      let documentID = await documentGenerationRequest(reqData, db);
-      res.writeHead(200, { "Content-Type": "text/plain" });
-      res.end(documentID.toString(), "utf-8");
+    case "cart":
+      db.addOrderToCart(reqData);
+      res.writeHead(200, { "Content-Type": "text/plain" , "Set-Cookie": db.getCartCookie(reqData.user.usuario)});
+      res.end();
       db.writeDatabase();
-      console.log("Petición AJAX procesada. Tipo: DocumentGenRequest. Respuesta enviada.");
+      console.log("Petición AJAX procesada. Tipo: AddToCart. Respuesta enviada.");
       return;
     case "theme":
       res.writeHead(200, { "Content-Type": "text/plain" });

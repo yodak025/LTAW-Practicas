@@ -89,6 +89,24 @@ class JsonRusticDatabase {
       normalizeString(product.titulo).includes(normalizeString(demiName))
     );
   };
+
+  addOrderToCart = (reqData) => {
+    const order = {
+      tipo: reqData.type,
+      cuerpo: reqData.body
+    }
+
+    this.users.filter((u)=> u.usuario == reqData.user.usuario)[0].carrito.push(order);
+  }
+  
+  getCartCookie = (user) => {
+    const cart = this.users.filter((u)=> u.usuario == user)[0].carrito;
+    let cartCookie = "cart=";
+    cart.forEach((order, index) => {
+      cartCookie += `product${index + 1}:${order.tipo}&`;
+    });
+    return cartCookie.slice(0, -1) + ';';
+  }
 }
 
 export default JsonRusticDatabase;

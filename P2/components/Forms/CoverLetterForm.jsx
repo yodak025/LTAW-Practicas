@@ -18,7 +18,7 @@ export default function CoverLetterForm() {
         </ul>
       </section>
 
-      <BaseForm type="carta-presentacion">
+      <BaseForm type="carta-presentacion" submitText="Generar Carta">
         {/* Datos Fundamentales */}
         <section className="os-form-section">
           <h3>Datos Fundamentales</h3>
@@ -183,10 +183,6 @@ export default function CoverLetterForm() {
             />
           </div>
         </section>
-
-        <button type="submit" className="os-form-submit">
-          Generar Carta
-        </button>
       </BaseForm>
     </div>
   );

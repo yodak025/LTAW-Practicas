@@ -18,7 +18,7 @@ export default function RecommendationLetterForm() {
         </ul>
       </section>
 
-      <BaseForm type="carta-recomendacion">
+      <BaseForm type="carta-recomendacion" submitText="Generar Carta">
         {/* Datos del Recomendante */}
         <section className="os-form-section">
           <h3>Datos del Recomendante</h3>
@@ -226,9 +226,6 @@ export default function RecommendationLetterForm() {
           </div>
         </section>
 
-        <button type="submit" className="os-form-submit">
-          Generar Carta
-        </button>
       </BaseForm>
     </div>
   );

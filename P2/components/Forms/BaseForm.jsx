@@ -4,9 +4,10 @@ import React from "react";
  * Componente base para manejar la funcionalidad común de formularios
  * @param {Object} props
  * @param {string} props.type - Tipo de formulario
+ * @param {string} props.submitText - Texto del botón de envío
  * @param {React.ReactNode} props.children - Elementos del formulario
  */
-export default function BaseForm({ type, children }) {
+export default function BaseForm({ type, submitText, children }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -29,12 +30,12 @@ export default function BaseForm({ type, children }) {
 
         if (m.status === 200) {
           const resourceId = m.responseText;
-          window.location.href = `/document.html?resource-id=${resourceId}`;
+          window.location.href = `/`;
         }
       }
     };
 
-    m.open("POST", `/generate-document?type=${type}`, true);
+    m.open("POST", `/add-to-cart?type=${type}`, true);
     m.setRequestHeader("Content-Type", "application/json");
     m.send(JSON.stringify(formData));
   };
@@ -42,6 +43,9 @@ export default function BaseForm({ type, children }) {
   return (
     <form onSubmit={handleSubmit} className="os-form">
       {children}
+      <button type="submit" className="os-form-submit">
+        {submitText}
+      </button>
     </form>
   );
 }

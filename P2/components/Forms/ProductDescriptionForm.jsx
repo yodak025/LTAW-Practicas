@@ -18,7 +18,7 @@ export default function ProductDescriptionForm() {
         </ul>
       </section>
 
-      <BaseForm type="descripcion-producto">
+      <BaseForm type="descripcion-producto" submitText="Generar Descripción">
         {/* Título */}
         <section className="os-form-section">
           <h3>Identificación del Producto</h3>
@@ -144,10 +144,6 @@ export default function ProductDescriptionForm() {
             />
           </div>
         </section>
-
-        <button type="submit" className="os-form-submit">
-          Generar Descripción
-        </button>
       </BaseForm>
     </div>
   );

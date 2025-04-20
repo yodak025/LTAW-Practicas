@@ -20,6 +20,7 @@ export default function ExtendTextForm() {
 
       <BaseForm 
         type="extender-texto"
+        submitText="Expandir Texto"
       >
         <div className="os-form-field">
           <label htmlFor="originalText">Texto Original:</label>
@@ -59,10 +60,6 @@ export default function ExtendTextForm() {
             placeholder="Especifica cualquier requisito adicional para la expansión..."
           />
         </div>
-
-        <button type="submit" className="os-form-submit">
-          Expandir Texto
-        </button>
       </BaseForm>
     </div>
   );

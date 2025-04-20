@@ -149,6 +149,25 @@
   color: var(--white-color);
 }
 
+.os-form-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: flex-end;
+}
+
+.os-form-cart-submit {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--black-color);
+}
+
+.os-form-cart-submit:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--white-color);
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .os-form-container {

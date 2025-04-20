@@ -18,7 +18,7 @@ export default function LatexTextForm() {
         </ul>
       </section>
 
-      <BaseForm type="prensar-latex">
+      <BaseForm type="prensar-latex" submitText="Convertir a LaTeX">
         <div className="os-form-field">
           <label htmlFor="originalText">Texto a Convertir:</label>
           <textarea
@@ -49,10 +49,6 @@ export default function LatexTextForm() {
             placeholder="Especifica cualquier requisito adicional para la conversión..."
           />
         </div>
-
-        <button type="submit" className="os-form-submit">
-          Convertir a LaTeX
-        </button>
       </BaseForm>
     </div>
   );

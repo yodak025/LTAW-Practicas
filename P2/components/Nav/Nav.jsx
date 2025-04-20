@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
+import Cart from './Cart';
 
 const toggleTheme = () => {
   const m = new XMLHttpRequest();
@@ -22,6 +23,7 @@ function NavContent({ user }) {
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
+  const [showCartDropdown, setShowCartDropdown] = useState(false);
   const [searchValue, setSearchValue] = useState([]);
 
   const dropdownRef = useRef(null);
@@ -32,6 +34,7 @@ function NavContent({ user }) {
         setShowUserDropdown(false);
         setShowMenuDropdown(false);
         setShowSearchDropdown(false);
+        setShowCartDropdown(false);
       }
     };
 
@@ -46,12 +49,24 @@ function NavContent({ user }) {
     e.stopPropagation();
     setShowUserDropdown((prev) => !prev);
     setShowMenuDropdown(false);
+    setShowCartDropdown(false);
+    setShowSearchDropdown(false);
   }, []);
 
   const toggleMenuDropdown = useCallback((e) => {
     e.stopPropagation();
     setShowMenuDropdown((prev) => !prev);
     setShowUserDropdown(false);
+    setShowCartDropdown(false);
+    setShowSearchDropdown(false);
+  }, []);
+
+  const toggleCartDropdown = useCallback((e) => {
+    e.stopPropagation();
+    setShowCartDropdown((prev) => !prev);
+    setShowUserDropdown(false);
+    setShowMenuDropdown(false);
+    setShowSearchDropdown(false);
   }, []);
 
   const handleSearch = (e) => {
@@ -63,7 +78,10 @@ function NavContent({ user }) {
         if (m.status === 200) {
           const response = JSON.parse(m.responseText);
           setSearchValue(response);
-          if (response.length === 0) {
+          setShowCartDropdown(false);
+          setShowUserDropdown(false);
+          setShowMenuDropdown(false);
+          if (response.length === 0 || e.target.value.length < 3) {
             setShowSearchDropdown(false);
           } else {
             setShowSearchDropdown(true);
@@ -94,7 +112,7 @@ function NavContent({ user }) {
           </div>
         </header>
 
-        <section className="os-nav-search">
+        <section className="os-nav-search" ref={dropdownRef}>
           <input type="text" placeholder="Buscar..." onChange={handleSearch} />
           {showSearchDropdown && (
             <div className="os-dropdown-content">
@@ -110,7 +128,17 @@ function NavContent({ user }) {
         </section>
 
         <section className="os-nav-options">
-          <div className="os-dropdown --user">
+          <div className="os-dropdown --cart" ref={dropdownRef}>
+            <div className="os-dropdown-trigger" onClick={toggleCartDropdown}>
+              <span>Carrito</span>
+            </div>
+            {showCartDropdown && (
+              <div className="os-dropdown-content">
+                <Cart />
+              </div>
+            )}
+          </div>
+          <div className="os-dropdown --user" ref={dropdownRef}>
             <div className="os-dropdown-trigger" onClick={toggleUserDropdown}>
               <span>{user}</span>
             </div>

@@ -67,6 +67,7 @@
   display: flex;
   justify-content: flex-end;
   margin: 10px;
+  gap: 10px; /* Añadir espacio entre los elementos */
 }
 
 .os-nav-github {
@@ -152,4 +153,27 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
+}
+
+/* Specific styles for cart dropdown */
+.os-dropdown.--cart {
+  min-width: 120px;
+}
+
+.os-dropdown.--cart .os-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.os-dropdown.--cart .os-dropdown-content {
+  background-color: var(--neutral-color);
+  min-height: 100px; /* Para que se vea el dropdown vacío */
+  width: auto; /* Cambiamos el ancho fijo por auto */
+  min-width: 100%; /* Aseguramos que al menos tenga el ancho del botón */
+  left: auto;
+  right: 0;
+  transform: none;
+  z-index: 1001;
+  white-space: nowrap; /* Evita que el texto se rompa en múltiples líneas */
 }

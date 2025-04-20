@@ -18,7 +18,7 @@ export default function SalesEmailForm() {
         </ul>
       </section>
 
-      <BaseForm type="email-ventas">
+      <BaseForm type="email-ventas" submitText="Generar Email">
         {/* Título y Destinatario */}
         <section className="os-form-section">
           <h3>Título y Destinatario</h3>
@@ -176,10 +176,6 @@ export default function SalesEmailForm() {
             />
           </div>
         </section>
-
-        <button type="submit" className="os-form-submit">
-          Generar Email
-        </button>
       </BaseForm>
     </div>
   );

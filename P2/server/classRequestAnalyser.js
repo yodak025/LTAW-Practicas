@@ -1,3 +1,4 @@
+import { get } from "http";
 import url from "url";
 const URL = url.URL;
 //------------------------------------- Request Analysis ----------------------
@@ -13,7 +14,7 @@ class RequestAnalyser {
     this.isDynamic = false;
     this.isDarkTheme = false;
 
-    let urlContent = new URL(req.url, `http://${req.headers.host}`);
+    this.urlContent = new URL(req.url, `http://${req.headers.host}`);
 
     //-- Cambios inmediatos --//
 
@@ -30,7 +31,7 @@ class RequestAnalyser {
     //-- Peticiones Get --//
     if (req.url.includes("/login?")) {
       this.resourceDemipath = "/login.html"; // TODO : Si el usuario no existe, debe notificarse el error
-      const user = urlContent.searchParams.get("user");
+      const user = this.urlContent.searchParams.get("user");
       this.dbUsers.forEach((u) => {
         if (u.usuario == user) {
           this.headers["Set-Cookie"] = [`user=${user}`]; //! OJO: Esto solo funciona si no hay mas cookies
@@ -57,9 +58,9 @@ class RequestAnalyser {
       // ! FALTA CONTROLAR EL TEMAAAA
       this.resourceDemipath = "/index.html";
       this.isDynamic = true;
-      const user = urlContent.searchParams.get("userName");
-      const fullName = urlContent.searchParams.get("fullName");
-      const email = urlContent.searchParams.get("email");
+      const user = this.urlContent.searchParams.get("userName");
+      const fullName = this.urlContent.searchParams.get("fullName");
+      const email = this.urlContent.searchParams.get("email");
 
       this.headers["Set-Cookie"] = [`user=${user}`]; //! OJO: Esto solo funciona si no hay mas cookies
 
@@ -78,9 +79,8 @@ class RequestAnalyser {
     }
     if (req.url.includes("/search?")) {
       this.ajax = "search";
-      this.body = urlContent.searchParams.get("q");
+      this.body = this.urlContent.searchParams.get("q");
       return;
-
     }
 
     if (req.url.includes("/toggle-theme")) {
@@ -108,7 +108,8 @@ class RequestAnalyser {
     }
   }
 
-  getUserFromCookie = (cookie) => { //! Si da tiempo molaría una gestión de cookies más robusta
+  getUserFromCookie = (cookie) => {
+    //! Si da tiempo molaría una gestión de cookies más robusta
     if (cookie) {
       const userCookie = cookie.split(";")[0].split("=")[1];
       this.dbUsers.forEach((u) => {
@@ -150,9 +151,10 @@ class RequestAnalyser {
         //-- Peticiones POST --//
         if (req.method == "POST") {
           console.log(this.body);
-          //this.body = JSON.parse(this.body);
-          if (this.resourceDemipath.includes("/generate-document?")) {
-            this.ajax = "document";
+          if (this.resourceDemipath.includes("/add-to-cart?")) {
+            this.ajax = "cart";
+            this.type = this.urlContent.searchParams.get("type");
+            this.getUserFromCookie(req.headers.cookie);
           }
           resolve();
         }

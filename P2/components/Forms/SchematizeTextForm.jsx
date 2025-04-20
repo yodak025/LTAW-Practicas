@@ -18,7 +18,10 @@ export default function SchematizeTextForm() {
         </ul>
       </section>
 
-      <BaseForm type="esquematizar-texto">
+      <BaseForm 
+        type="esquematizar-texto"
+        submitText="Esquematizar Texto"
+      >
         <div className="os-form-field">
           <label htmlFor="originalText">Texto a Esquematizar:</label>
           <textarea
@@ -56,10 +59,6 @@ export default function SchematizeTextForm() {
             placeholder="Especifica cualquier requisito adicional para el esquema..."
           />
         </div>
-
-        <button type="submit" className="os-form-submit">
-          Esquematizar Texto
-        </button>
       </BaseForm>
     </div>
   );

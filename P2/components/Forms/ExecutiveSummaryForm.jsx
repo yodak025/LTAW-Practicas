@@ -18,7 +18,7 @@ export default function ExecutiveSummaryForm() {
         </ul>
       </section>
 
-      <BaseForm type="resumen-ejecutivo">
+      <BaseForm type="resumen-ejecutivo" submitText="Generar Resumen Ejecutivo">
         {/* Datos Fundamentales */}
         <section className="os-form-section">
           <h3>Identificación del Documento</h3>
@@ -221,10 +221,6 @@ export default function ExecutiveSummaryForm() {
             />
           </div>
         </section>
-
-        <button type="submit" className="os-form-submit">
-          Generar Resumen Ejecutivo
-        </button>
       </BaseForm>
     </div>
   );
