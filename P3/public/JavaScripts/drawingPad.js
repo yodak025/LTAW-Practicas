@@ -127,8 +127,8 @@ export class DrawingPad {
         
         // Normalizar respecto al tamaño del pad
         const maxLength = this.canvas.width;
-        const speedFactor = 40; // Factor de velocidad base
-        const normalizedLength = Math.min(length / maxLength, 1);
+        const speedFactor = 5000; // Aumentado considerablemente
+        const normalizedLength = length / maxLength; // Eliminado el límite de 1
 
         // Calcular las velocidades normalizadas
         if (this.targetEntity) {
@@ -140,7 +140,22 @@ export class DrawingPad {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    setTargetEntity(entity) {
-        this.targetEntity = entity;
+    handleMouseUp() {
+        if (this.isDrawing && this.points.length > 1) {
+            const start = this.points[0];
+            const end = this.points[this.points.length - 1];
+            
+            // Calcular el vector de dirección
+            const dx = start.x - end.x;
+            const dy = start.y - end.y;
+            
+            
+            // Aumentar el factor de fuerza para compensar el deltaTime
+            const forceFactor = 1000; // Aumentado de ~2-3 a 8
+            
+            // Aplicar la fuerza al objeto controlado
+            this.controlledObject.velocityX = dx * forceFactor;
+            this.controlledObject.velocityY = dy * forceFactor;
+        }
     }
 }

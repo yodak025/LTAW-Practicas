@@ -7,45 +7,23 @@
     <title>Kill two birds with one stone</title>
     <link rel="stylesheet" href="styles.css">
     <script src="/socket.io/socket.io.js"></script>
+    <script src="JavaScripts/singlePlayer.js" type="module"></script>
     <script src="JavaScripts/main.js" type="module" defer></script>
 </head>
 
 <body>
+    <div id="menu" class="menu">
+        <h1>Kill Two Birds with One Stone</h1>
+        <div class="button-container">
+            <button id="singleplayer">Single Player</button>
+            <button id="multiplayer">Multiplayer</button>
+        </div>
+    </div>
 
-    <canvas id="canvas" onclick="activarPantallaCompleta()"></canvas>
-    <canvas id="drawing-pad"></canvas>
-
-    <img src="Images/TheRock.png" id="Stone">
-    <img src="Images/TheRock.png" id="TimeScore">
-
-    <img src="Images/BlueBird/0.png" id="BlueBird0" class="BlueBird">
-    <img src="Images/BlueBird/1.png" id="BlueBird1" class="BlueBird">
-    <img src="Images/BlueBird/2.png" id="BlueBird2" class="BlueBird">
-    <img src="Images/BlueBird/3.png" id="BlueBird3" class="BlueBird">
-    <img src="Images/BlueBird/4.png" id="BlueBird4" class="BlueBird">
-    <img src="Images/BlueBird/5.png" id="BlueBird5" class="BlueBird">
-
-    <img src="Images/GreenBird/0.png" id="GreenBird0" class="GreenBird">
-    <img src="Images/GreenBird/1.png" id="GreenBird1" class="GreenBird">
-    <img src="Images/GreenBird/2.png" id="GreenBird2" class="GreenBird">
-    <img src="Images/GreenBird/3.png" id="GreenBird3" class="GreenBird">
-    <img src="Images/GreenBird/4.png" id="GreenBird4" class="GreenBird">
-    <img src="Images/GreenBird/5.png" id="GreenBird5" class="GreenBird">
-
-    <script>
-        function activarPantallaCompleta() {
-            if (document.documentElement.requestFullscreen) {
-                //document.documentElement.requestFullscreen();
-            } else if (document.documentElement.mozRequestFullScreen) { /* Firefox */
-                //document.documentElement.mozRequestFullScreen();
-            } else if (document.documentElement.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-                //document.documentElement.webkitRequestFullscreen();
-            } else if (document.documentElement.msRequestFullscreen) { /* IE/Edge */
-                //document.documentElement.msRequestFullscreen();
-            }
-        }
-    </script>
-
+    <div id="game-container" class="hidden">
+        <canvas id="canvas"></canvas>
+        <canvas id="drawing-pad"></canvas>
+    </div>
 </body>
 
 </html>

@@ -26,7 +26,7 @@ export class Entity {
                bounds.bottom > otherBounds.top;
     }
 
-    update(gameObjects) {
+    update(gameObjects, deltaTime) {
         // Método base para ser sobrescrito
     }
 }
@@ -97,7 +97,7 @@ export class CollidingEntity extends Entity {
         }
     }
 
-    update(gameObjects) {
+    update(gameObjects, deltaTime) {
         this.checkBounds();
         for (const obj of gameObjects) {
             if (obj !== this && this.isColliding(obj)) {
@@ -173,10 +173,10 @@ export class PlayableEntity extends CollidingEntity {
         this.friction = 0.95;
     }
 
-    update(gameObjects) {
+    update(gameObjects, deltaTime) {
         // Aplicar fricción si está en el suelo
         if (this.isOnGround) {
-            this.velocityX *= this.friction;
+            this.velocityX *= Math.pow(this.friction, deltaTime * 60); // Ajustar fricción al deltaTime
         }
 
         // Si la velocidad es muy pequeña, detenerla
@@ -184,15 +184,15 @@ export class PlayableEntity extends CollidingEntity {
             this.velocityX = 0;
         }
 
-        // Actualizar posición
-        this.x += this.velocityX;
-        this.y += this.velocityY;
+        // Actualizar posición con deltaTime
+        this.x += this.velocityX * deltaTime;
+        this.y += this.velocityY * deltaTime;
 
         // Resetear el estado de contacto con el suelo
         this.isOnGround = false;
 
         // Llamar a la actualización de colisiones del padre
-        super.update(gameObjects);
+        super.update(gameObjects, deltaTime);
     }
 }
 
@@ -201,21 +201,21 @@ export class GravityEntity extends CollidingEntity {
     constructor(x, y, width, height) {
         super(x, y, width, height);
         this.velocityY = 0;
-        this.gravity = 0.5;
+        this.gravity = 980; // Ajustado para deltaTime (unidades/segundo²)
     }
 
-    update(gameObjects) {
-        // Aplicar gravedad
-        this.velocityY += this.gravity;
+    update(gameObjects, deltaTime) {
+        // Aplicar gravedad con deltaTime
+        this.velocityY += this.gravity * deltaTime;
         
-        // Actualizar posición vertical
-        this.y += this.velocityY;
+        // Actualizar posición vertical con deltaTime
+        this.y += this.velocityY * deltaTime;
 
         // Resetear el estado de contacto con el suelo
         this.isOnGround = false;
 
         // Llamar a la actualización de colisiones del padre
-        super.update(gameObjects);
+        super.update(gameObjects, deltaTime);
     }
 }
 
@@ -243,11 +243,11 @@ export class BreakableEntity extends CollidingEntity {
         }
     }
 
-    update(gameObjects) {
+    update(gameObjects, deltaTime) {
         if (this.broken && !this.markedForDeletion) {
             this.markedForDeletion = true;
         }
-        super.update(gameObjects);
+        super.update(gameObjects, deltaTime);
     }
 }
 
@@ -255,15 +255,15 @@ export class BreakableEntity extends CollidingEntity {
 export class RockEntity extends PlayableEntity {
     constructor(x, y, width, height) {
         super(x, y, width, height);
-        this.gravity = 0.5;
+        this.gravity = 9000; // Ajustado para deltaTime (unidades/segundo²)
     }
 
-    update(gameObjects) {
-        // Aplicar gravedad
-        this.velocityY += this.gravity;
+    update(gameObjects, deltaTime) {
+        // Aplicar gravedad con deltaTime
+        this.velocityY += this.gravity * deltaTime;
         
         // Llamar a la actualización de PlayableEntity
-        super.update(gameObjects);
+        super.update(gameObjects, deltaTime);
     }
 }
 
@@ -275,7 +275,7 @@ export class BirdEntity extends CollidingEntity {
         this.initPlayable();
     }
 
-    update(gameObjects) {
+    update(gameObjects, deltaTime) {
         // Actualizar comportamiento controlable
         this.updatePlayable();
         
@@ -285,7 +285,7 @@ export class BirdEntity extends CollidingEntity {
         }
 
         // Actualizar colisiones
-        super.update(gameObjects);
+        super.update(gameObjects, deltaTime);
     }
 }
 

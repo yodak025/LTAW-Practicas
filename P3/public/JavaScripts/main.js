@@ -1,141 +1,216 @@
-import { StaticEntity, RockEntity, BirdEntity, BreakableEntity } from './entities.js';
-import { EntityView, StaticSpriteEntityView, AnimatedEntityView } from './entityViews.js';
-import { DrawingPad } from './drawingPad.js';
+// Elementos DOM
+const menu = document.getElementById('menu');
+const gameContainer = document.getElementById('game-container');
+const singlePlayerButton = document.getElementById('singleplayer');
+const multiPlayerButton = document.getElementById('multiplayer');
 
-const canvas = document.getElementById('canvas');
-const drawingPadCanvas = document.getElementById('drawing-pad');
-const ctx = canvas.getContext('2d');
+// Inicializar Socket.IO
+const socket = io();
 
-// Función para cargar imágenes
-function loadImage(src) {
-    return new Promise((resolve) => {
-        const img = new Image();
-        img.onload = () => resolve(img);
-        img.src = src;
+// Función para mostrar el juego y ocultar el menú
+function showGame() {
+    menu.classList.add('hidden');
+    gameContainer.classList.remove('hidden');
+}
+
+// Crear elementos para el menú de roles y salas
+const roleMenu = document.createElement('div');
+roleMenu.className = 'role-menu hidden';
+roleMenu.innerHTML = `
+    <h2>Elige tu rol</h2>
+    <div class="role-buttons">
+        <button id="bird-role">Jugar como Pájaro</button>
+        <button id="stone-role">Jugar como Piedra</button>
+    </div>
+`;
+
+const roomMenu = document.createElement('div');
+roomMenu.className = 'room-menu hidden';
+roomMenu.innerHTML = `
+    <h2>Salas Disponibles</h2>
+    <div class="create-room">
+        <input type="text" id="room-name" placeholder="Nombre de la sala">
+        <button id="create-room-btn">Crear Sala</button>
+    </div>
+    <div id="room-list"></div>
+    <button id="back-to-role" class="back-button">Volver a selección de rol</button>
+`;
+
+document.body.appendChild(roleMenu);
+document.body.appendChild(roomMenu);
+
+let selectedPlayerType = null;
+
+// Funciones para gestionar roles y salas
+function showRoleMenu() {
+    menu.classList.add('hidden');
+    roleMenu.classList.remove('hidden');
+}
+
+function showRoomMenu() {
+    roleMenu.classList.add('hidden');
+    roomMenu.classList.remove('hidden');
+    socket.emit('getRooms');
+}
+
+function updateRoomList(rooms) {
+    const roomListDiv = document.getElementById('room-list');
+    roomListDiv.innerHTML = '';
+    rooms.forEach(room => {
+        const roomElement = document.createElement('div');
+        roomElement.className = 'room-item';
+        
+        let statusText = '';
+        let canJoin = false;
+        
+        if (selectedPlayerType === 'bird') {
+            if (room.hasBird) {
+                statusText = '(Ocupado: Ya hay un pájaro)';
+                canJoin = false;
+            } else if (room.hasStone) {
+                statusText = '(Disponible: Falta pájaro)';
+                canJoin = true;
+            } else {
+                statusText = '(Vacía)';
+                canJoin = true;
+            }
+        } else { // stone
+            if (room.hasStone) {
+                statusText = '(Ocupado: Ya hay una piedra)';
+                canJoin = false;
+            } else if (room.hasBird) {
+                statusText = '(Disponible: Falta piedra)';
+                canJoin = true;
+            } else {
+                statusText = '(Vacía)';
+                canJoin = true;
+            }
+        }
+
+        roomElement.innerHTML = `
+            <span>${room.name} ${statusText}</span>
+            <button ${!canJoin ? 'disabled' : ''}>Unirse</button>
+        `;
+        
+        if (canJoin) {
+            roomElement.querySelector('button').onclick = () => {
+                socket.emit('joinRoom', {
+                    roomName: room.name,
+                    playerType: selectedPlayerType
+                });
+            };
+        }
+        
+        roomListDiv.appendChild(roomElement);
     });
 }
 
-// Array para almacenar todos los objetos del juego
-const gameObjects = [];
+// Event Listeners
+document.getElementById('bird-role').addEventListener('click', () => {
+    selectedPlayerType = 'bird';
+    showRoomMenu();
+});
 
-// Función principal asíncrona
-async function initGame() {
-    // Cargar sprites
-    const blueBirdSprites = await Promise.all([
-        loadImage('Images/BlueBird/0.png'),
-        loadImage('Images/BlueBird/1.png'),
-        loadImage('Images/BlueBird/2.png'),
-        loadImage('Images/BlueBird/3.png'),
-        loadImage('Images/BlueBird/4.png'),
-        loadImage('Images/BlueBird/5.png')
-    ]);
+document.getElementById('stone-role').addEventListener('click', () => {
+    selectedPlayerType = 'stone';
+    showRoomMenu();
+});
 
-    const greenBirdSprites = await Promise.all([
-        loadImage('Images/GreenBird/0.png'),
-        loadImage('Images/GreenBird/1.png'),
-        loadImage('Images/GreenBird/2.png'),
-        loadImage('Images/GreenBird/3.png'),
-        loadImage('Images/GreenBird/4.png'),
-        loadImage('Images/GreenBird/5.png')
-    ]);
-
-    const rockSprite = await loadImage('Images/TheRock.png');
-
-    // Crear entidades
-    const rockEntity = new RockEntity(100, 100, 100, 100);
-    const blueBirdEntity = new BreakableEntity(300, 100, 100, 100);
-    const greenBirdEntity = new BreakableEntity(500, 100, 100, 100);
-    
-    // Crear plataforma estática en el medio
-    const middlePlatform = new StaticEntity(
-        window.innerWidth / 2 - 200, // x centrada
-        window.innerHeight / 2,      // y en medio
-        400,                         // ancho
-        20                          // alto
-    );
-
-    // Crear vistas
-    const rockView = new StaticSpriteEntityView(rockEntity, rockSprite);
-    const blueBirdView = new AnimatedEntityView(blueBirdEntity, blueBirdSprites);
-    const greenBirdView = new AnimatedEntityView(greenBirdEntity, greenBirdSprites);
-    const platformView = new EntityView(middlePlatform);
-
-    // Añadir objetos al juego
-    gameObjects.push(rockEntity, blueBirdEntity, greenBirdEntity, middlePlatform);
-
-    // Inicializar el DrawingPad
-    const drawingPad = new DrawingPad(drawingPadCanvas, rockEntity);
-
-    // Variables para controlar la animación
-    let frameCount = 0;
-    const ANIMATION_SPEED = 5; // Cambiar sprite cada 5 frames
-
-    function gameLoop() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // Filtrar las entidades marcadas para eliminación
-        const remainingObjects = gameObjects.filter(obj => !(obj instanceof BirdEntity && obj.markedForDeletion));
-        
-        if (remainingObjects.length !== gameObjects.length) {
-            gameObjects.length = 0;
-            gameObjects.push(...remainingObjects);
-        }
-        
-        // Actualizar todos los objetos
-        for (const obj of gameObjects) {
-            obj.update(gameObjects);
-        }
-
-        // Función para obtener el color del colider basado en la vida
-        function getColliderColor(health) {
-            const normalizedHealth = health / 100;
-            const red = Math.floor(255 * (1 - normalizedHealth));
-            const green = Math.floor(255 * normalizedHealth);
-            return `rgba(${red}, ${green}, 0, 0.3)`;
-        }
-
-        // Dibujar objetos con sus vistas correspondientes
-        rockView.drawSprite();
-        rockView.drawCollider('rgba(100, 100, 100, 0.3)')
-        
-        // Dibujar la plataforma estática usando su vista
-        platformView.drawCollider('rgba(128, 128, 128, 1)')
-        
-        if (!blueBirdEntity.markedForDeletion) {
-            blueBirdView.drawSprite();
-            blueBirdView.drawCollider(getColliderColor(blueBirdEntity.health));
-        }
-        if (!greenBirdEntity.markedForDeletion) {
-            greenBirdView.drawSprite();
-            greenBirdView.drawCollider(getColliderColor(greenBirdEntity.health));
-        }
-
-        // Actualizar animaciones cada ciertos frames
-        frameCount++;
-        if (frameCount % ANIMATION_SPEED === 0) {
-            blueBirdView.nextFrame();
-            greenBirdView.nextFrame();
-        }
-
-        requestAnimationFrame(gameLoop);
+document.getElementById('create-room-btn').addEventListener('click', () => {
+    const roomName = document.getElementById('room-name').value.trim();
+    if (roomName) {
+        socket.emit('createRoom', {
+            roomName,
+            playerType: selectedPlayerType
+        });
     }
+});
 
-    // Ajustar el tamaño del canvas
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
+document.getElementById('back-to-role').addEventListener('click', () => {
+    roomMenu.classList.add('hidden');
+    roleMenu.classList.remove('hidden');
+});
 
-    // Configuración inicial
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+// Socket.IO event handlers
+socket.on('roomList', updateRoomList);
+
+socket.on('startGame', ({playerType}) => {
+    roomMenu.classList.add('hidden');
+    showGame();
     
-    // Iniciar el bucle del juego
-    gameLoop();
-}
+    // Cargar el juego correspondiente según el rol
+    if (playerType === 'bird') {
+        import('./twoBirds.js')
+            .then(module => {
+                module.initBirdsGame(socket)
+                    .catch(console.error);
+            })
+            .catch(console.error);
+    } else {
+        import('./oneStone.js')
+            .then(module => {
+                module.initStoneGame(socket)
+                    .catch(console.error);
+            })
+            .catch(console.error);
+    }
+});
 
-// Iniciar el juego
-initGame().catch(console.error);
+socket.on('playerDisconnected', (playerType) => {
+    alert(`El jugador ${playerType === 'bird' ? 'pájaro' : 'piedra'} se ha desconectado`);
+    // Volver al menú principal
+    gameContainer.classList.add('hidden');
+    menu.classList.remove('hidden');
+});
 
+socket.on('gameReady', (isReady) => {
+    if (isReady) {
+        alert('¡La partida está lista! Ambos jugadores están conectados.');
+    }
+});
 
+socket.on('roomError', (error) => {
+    alert(error);
+});
 
+socket.on('roomCreated', (roomName) => {
+    socket.emit('joinRoom', {
+        roomName,
+        playerType: selectedPlayerType
+    });
+});
+
+socket.on('roomJoined', ({roomName, playerType, isComplete}) => {
+    roomMenu.classList.add('hidden');
+    showGame();
+    
+    // Cargar el juego correspondiente según el rol
+    if (playerType === 'bird') {
+        import('./twoBirds.js')
+            .then(module => {
+                module.initBirdsGame(socket)
+                    .catch(console.error);
+            })
+            .catch(console.error);
+    } else {
+        import('./oneStone.js')
+            .then(module => {
+                module.initStoneGame(socket)
+                    .catch(console.error);
+            })
+            .catch(console.error);
+    }
+});
+
+// Botón de un jugador
+singlePlayerButton.addEventListener('click', () => {
+    showGame();
+    import('./singlePlayer.js')
+        .then(module => {
+            module.initSinglePlayerMode()
+                .catch(console.error);
+        })
+        .catch(console.error);
+});
+
+multiPlayerButton.addEventListener('click', showRoleMenu);

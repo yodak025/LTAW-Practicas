@@ -11,11 +11,10 @@ import {
 } from "./entityViews.js";
 import { DrawingPad } from "./drawingPad.js";
 
-export async function initStoneGame(socket) {
+export async function initSinglePlayerMode() {
   const canvas = document.getElementById("canvas");
   const drawingPadCanvas = document.getElementById("drawing-pad");
   const ctx = canvas.getContext("2d");
-;
 
   // Función para cargar imágenes
   function loadImage(src) {
@@ -31,36 +30,36 @@ export async function initStoneGame(socket) {
 
   // Cargar sprites
   const blueBirdSprites = await Promise.all([
-    loadImage("./Images/BlueBird/0.png"),
-    loadImage("./Images/BlueBird/1.png"),
-    loadImage("./Images/BlueBird/2.png"),
-    loadImage("./Images/BlueBird/3.png"),
-    loadImage("./Images/BlueBird/4.png"),
-    loadImage("./Images/BlueBird/5.png"),
+    loadImage("Images/BlueBird/0.png"),
+    loadImage("Images/BlueBird/1.png"),
+    loadImage("Images/BlueBird/2.png"),
+    loadImage("Images/BlueBird/3.png"),
+    loadImage("Images/BlueBird/4.png"),
+    loadImage("Images/BlueBird/5.png"),
   ]);
 
   const greenBirdSprites = await Promise.all([
-    loadImage("./Images/GreenBird/0.png"),
-    loadImage("./Images/GreenBird/1.png"),
-    loadImage("./Images/GreenBird/2.png"),
-    loadImage("./Images/GreenBird/3.png"),
-    loadImage("./Images/GreenBird/4.png"),
-    loadImage("./Images/GreenBird/5.png"),
+    loadImage("Images/GreenBird/0.png"),
+    loadImage("Images/GreenBird/1.png"),
+    loadImage("Images/GreenBird/2.png"),
+    loadImage("Images/GreenBird/3.png"),
+    loadImage("Images/GreenBird/4.png"),
+    loadImage("Images/GreenBird/5.png"),
   ]);
 
-  const rockSprite = await loadImage("./Images/TheRock.png");
+  const rockSprite = await loadImage("Images/TheRock.png");
 
   // Crear entidades
   const rockEntity = new RockEntity(100, 100, 100, 100);
-  const blueBirdEntity = new BirdEntity(300, 100, 100, 100);
+  const blueBirdEntity = new BreakableEntity(300, 100, 100, 100);
   const greenBirdEntity = new BreakableEntity(500, 100, 100, 100);
 
   // Crear plataforma estática en el medio
   const middlePlatform = new StaticEntity(
-    window.innerWidth / 2 - 200,
-    window.innerHeight / 2,
-    400,
-    20
+    window.innerWidth / 2 - 200, // x centrada
+    window.innerHeight / 2, // y en medio
+    400, // ancho
+    20 // alto
   );
 
   // Crear vistas
@@ -75,37 +74,12 @@ export async function initStoneGame(socket) {
   // Añadir objetos al juego
   gameObjects.push(rockEntity, blueBirdEntity, greenBirdEntity, middlePlatform);
 
-  // Inicializar el DrawingPad con la roca
+  // Inicializar el DrawingPad
   const drawingPad = new DrawingPad(drawingPadCanvas, rockEntity);
 
   // Variables para controlar la animación
   let frameCount = 0;
-  const ANIMATION_SPEED = 5;
-
-  // Variables para trackear cambios en la posición
-  let lastRockUpdate = {
-    x: rockEntity.x,
-    y: rockEntity.y,
-    velocityX: rockEntity.velocityX || 0,
-    velocityY: rockEntity.velocityY || 0,
-  };
-
-  function hasPositionChanged(current, last) {
-    return (
-      Math.abs(current.x - last.x) > 0.01 ||
-      Math.abs(current.y - last.y) > 0.01 ||
-      Math.abs(current.velocityX - last.velocityX) > 0.01 ||
-      Math.abs(current.velocityY - last.velocityY) > 0.01
-    );
-  }
-
-  // Configurar eventos de socket.io
-  socket.on("updateBlueBird", (position) => {
-    blueBirdEntity.x = position.x;
-    blueBirdEntity.y = position.y;
-    blueBirdEntity.velocityX = position.velocityX;
-    blueBirdEntity.velocityY = position.velocityY;
-  });
+  const ANIMATION_SPEED = 5; // Cambiar sprite cada 5 frames
 
   let lastTime = 0;
   const MAX_DELTA = 1 / 30; // Cap at 30 FPS
@@ -129,19 +103,6 @@ export async function initStoneGame(socket) {
     // Actualizar todos los objetos con deltaTime
     for (const obj of gameObjects) {
       obj.update(gameObjects, deltaTime);
-    }
-
-    // Enviar la posición de la roca al otro jugador solo si ha cambiado
-    const currentRockState = {
-      x: rockEntity.x,
-      y: rockEntity.y,
-      velocityX: rockEntity.velocityX,
-      velocityY: rockEntity.velocityY,
-    };
-
-    if (hasPositionChanged(currentRockState, lastRockUpdate)) {
-      socket.emit("rockUpdate", currentRockState);
-      lastRockUpdate = { ...currentRockState };
     }
 
     // Función para obtener el color del colider basado en la vida
@@ -194,3 +155,4 @@ export async function initStoneGame(socket) {
     gameLoop(time);
   });
 }
+initSinglePlayerMode().catch(console.error);

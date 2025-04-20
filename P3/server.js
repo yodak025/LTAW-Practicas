@@ -3,8 +3,6 @@ import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import fs from "fs";
-
 import qrcode from "qrcode-terminal";
 
 // Obtener __dirname en módulos ES
@@ -16,30 +14,15 @@ const httpServer = createServer(app);
 const io = new Server(httpServer);
 const PORT = process.env.PORT || 9000;
 
+// Estructura para almacenar las salas (usando objeto en lugar de Map)
+const rooms = {};
+
 // Configurar el middleware para servir archivos estáticos
 app.use(express.static(join(__dirname, "public")));
 
 // Ruta por defecto - sirve index.html
 app.get("/", (req, res) => {
   res.sendFile(join(__dirname, "public", "index.html"));
-});
-
-app.get("/twoBirds", (req, res) => {
-  const chapucisima = fs.readFileSync(
-    join(__dirname, "public", "index.html"),
-    "utf-8"
-  );
-  const modifiedChapucisima = chapucisima.replace("main.js", "twoBirds.js");
-  res.send(modifiedChapucisima);
-});
-
-app.get("/oneStone", (req, res) => {
-  const chapucisima = fs.readFileSync(
-    join(__dirname, "public", "index.html"),
-    "utf-8"
-  );
-  const modifiedChapucisima = chapucisima.replace("main.js", "oneStone.js");
-  res.send(modifiedChapucisima);
 });
 
 // Manejo de rutas no encontradas
@@ -51,25 +34,172 @@ app.use((req, res) => {
 io.on("connection", (socket) => {
   console.log("Un cliente se ha conectado");
 
-  // Manejar la actualización de posición del pájaro azul
-  socket.on("blueBirdUpdate", (position) => {
-    socket.broadcast.emit("updateBlueBird", position);
+  // Crear una nueva sala
+  socket.on("createRoom", ({roomName, playerType}) => {
+    if (!rooms[roomName]) {
+      rooms[roomName] = {
+        players: 1,
+        birdPlayer: playerType === 'bird' ? socket.id : null,
+        stonePlayer: playerType === 'stone' ? socket.id : null
+      };
+      socket.join(roomName);
+      socket.emit("startGame", {
+        roomName,
+        playerType
+      });
+      broadcastRoomList();
+    } else {
+      socket.emit("roomError", "La sala ya existe");
+    }
   });
 
-  // Manejar la actualización de posición de la roca
+  // Obtener lista de salas disponibles
+  socket.on("getRooms", () => {
+    const requestingPlayerType = Array.from(socket.rooms)[1] ? 
+      (rooms[Array.from(socket.rooms)[1]]?.birdPlayer === socket.id ? 'bird' : 'stone') : 
+      null;
+
+    const roomInfo = Object.entries(rooms)
+      .filter(([_, data]) => {
+        if (data.birdPlayer && data.stonePlayer) return false;
+        if (requestingPlayerType === 'bird') return !data.birdPlayer;
+        if (requestingPlayerType === 'stone') return !data.stonePlayer;
+        return true;
+      })
+      .map(([name, data]) => ({
+        name,
+        hasStone: !!data.stonePlayer,
+        hasBird: !!data.birdPlayer
+      }));
+
+    socket.emit("roomList", roomInfo);
+  });
+
+  // Unirse a una sala
+  socket.on("joinRoom", ({roomName, playerType}) => {
+    const room = rooms[roomName];
+    if (room) {
+      if (playerType === 'bird' && room.birdPlayer) {
+        socket.emit("roomError", "Ya hay un jugador pájaro en esta sala");
+        return;
+      }
+      if (playerType === 'stone' && room.stonePlayer) {
+        socket.emit("roomError", "Ya hay un jugador piedra en esta sala");
+        return;
+      }
+
+      const currentRoom = Array.from(socket.rooms)[1];
+      if (currentRoom) {
+        leaveCurrentRoom(socket, currentRoom);
+      }
+
+      socket.join(roomName);
+      if (playerType === 'bird') {
+        room.birdPlayer = socket.id;
+      } else {
+        room.stonePlayer = socket.id;
+      }
+      room.players++;
+
+      socket.emit("startGame", {
+        roomName,
+        playerType
+      });
+      
+      if (room.birdPlayer && room.stonePlayer) {
+        io.to(roomName).emit("gameReady", true);
+      }
+      
+      broadcastRoomList();
+    } else {
+      socket.emit("roomError", "La sala no existe");
+    }
+  });
+
+  // Función auxiliar para abandonar una sala
+  function leaveCurrentRoom(socket, roomName) {
+    const room = rooms[roomName];
+    if (room) {
+      socket.leave(roomName);
+      if (room.birdPlayer === socket.id) {
+        room.birdPlayer = null;
+        if (room.stonePlayer) {
+          io.to(roomName).emit("playerDisconnected", "bird");
+        }
+      }
+      if (room.stonePlayer === socket.id) {
+        room.stonePlayer = null;
+        if (room.birdPlayer) {
+          io.to(roomName).emit("playerDisconnected", "stone");
+        }
+      }
+      room.players--;
+      
+      if (room.players === 0) {
+        delete rooms[roomName];
+      }
+      broadcastRoomList();
+    }
+  }
+
+  // Función auxiliar para transmitir la lista de salas actualizada
+  function broadcastRoomList() {
+    const clients = io.sockets.sockets;
+    clients.forEach(client => {
+      const clientId = client.id;
+      const clientRoom = Array.from(client.rooms)[1];
+      const clientType = clientRoom ? 
+        (rooms[clientRoom]?.birdPlayer === clientId ? 'bird' : 'stone') : 
+        null;
+
+      const roomInfo = Object.entries(rooms)
+        .filter(([_, data]) => {
+          if (data.birdPlayer && data.stonePlayer) return false;
+          if (clientType === 'bird') return !data.birdPlayer;
+          if (clientType === 'stone') return !data.stonePlayer;
+          return true;
+        })
+        .map(([name, data]) => ({
+          name,
+          hasStone: !!data.stonePlayer,
+          hasBird: !!data.birdPlayer
+        }));
+
+      client.emit("roomList", roomInfo);
+    });
+  }
+
+  // Manejar la actualización de posición del pájaro azul dentro de la sala
+  socket.on("blueBirdUpdate", (position) => {
+    const room = Array.from(socket.rooms)[1];
+    if (room && rooms[room]?.birdPlayer === socket.id) {
+      socket.to(room).emit("updateBlueBird", position);
+    }
+    console.log("Actualización de pájaro azul recibida:", position);
+  });
+
+  // Manejar la actualización de posición de la roca dentro de la sala
   socket.on("rockUpdate", (position) => {
-    socket.broadcast.emit("updateRock", position);
+    const room = Array.from(socket.rooms)[1];
+    if (room && rooms[room]?.stonePlayer === socket.id) {
+      socket.to(room).emit("updateRock", position);
+      console.log("Entra en el rock if");
+    }
+    console.log("Actualización de roca recibida:", position);
+    console.log(Array.from(socket.rooms)[1])
+    console.log(rooms[room]?.stonePlayer === socket.id);
+    console.log(socket.id);
   });
 
   socket.on("disconnect", () => {
     console.log("Un cliente se ha desconectado");
+    const room = Array.from(socket.rooms)[1];
+    if (room) {
+      leaveCurrentRoom(socket, room);
+    }
   });
 });
 
 httpServer.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
-  console.log(`TwoBirds: http://192.168.0.11:${PORT}/twoBirds`);
-  qrcode.generate(`http://192.168.0.11:${PORT}/twoBirds`);
-  console.log(`OneStone: http://192.168.0.11:${PORT}/oneStone`);
-  qrcode.generate(`http://192.168.0.11:${PORT}/oneStone`);
 });
