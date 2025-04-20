@@ -40,6 +40,17 @@ const server = http.createServer(async (req, res) => {
       console.log("Petición AJAX procesada. Tipo: ToggleTheme. Respuesta enviada.");
       db.writeDatabase();
       return;
+    case "search":
+      const products = db.findProductsByDemiName(reqData.body);
+      const searchResults = products.map((p) => {
+        return {
+          id: p.nombre,
+          name: p.titulo
+        };
+      });
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(searchResults), "utf-8");
+      return;
   }
     
   

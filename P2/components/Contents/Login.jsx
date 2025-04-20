@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import Layout from "../Layout/Layout.jsx";
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);

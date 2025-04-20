@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 
 const toggleTheme = () => {
   const m = new XMLHttpRequest();
@@ -16,30 +16,71 @@ const toggleTheme = () => {
   m.setRequestHeader("Content-Type", "text/plain");
   m.send();
   console.log("Peticion ToggleTheme enviada");
-
-}
+};
 
 function NavContent({ user }) {
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
+  const [showSearchDropdown, setShowSearchDropdown] = useState(false);
+  const [searchValue, setSearchValue] = useState([]);
+
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowUserDropdown(false);
+        setShowMenuDropdown(false);
+        setShowSearchDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
 
   const toggleUserDropdown = useCallback((e) => {
     e.stopPropagation();
-    setShowUserDropdown(prev => !prev);
+    setShowUserDropdown((prev) => !prev);
     setShowMenuDropdown(false);
   }, []);
 
   const toggleMenuDropdown = useCallback((e) => {
     e.stopPropagation();
-    setShowMenuDropdown(prev => !prev);
+    setShowMenuDropdown((prev) => !prev);
     setShowUserDropdown(false);
   }, []);
 
+  const handleSearch = (e) => {
+    const m = new XMLHttpRequest();
+    m.onreadystatechange = () => {
+      if (m.readyState === 4) {
+        console.log("Peticion Search");
+        console.log("status: " + m.status);
+        if (m.status === 200) {
+          const response = JSON.parse(m.responseText);
+          setSearchValue(response);
+          if (response.length === 0) {
+            setShowSearchDropdown(false);
+          } else {
+            setShowSearchDropdown(true);
+          }
+        }
+      }
+    };
+    m.open("GET", `/search?q=${e.target.value}`, true);
+    m.setRequestHeader("Content-Type", "text/plain");
+    m.send();
+    console.log("Peticion Search enviada");
+  };
 
   if (user) {
     return (
       <>
-        <header className="os-nav-header">
+        <header className="os-nav-header" ref={dropdownRef}>
           <div className="os-dropdown">
             <div className="os-dropdown-trigger" onClick={toggleMenuDropdown}>
               AI - Scribe
@@ -54,7 +95,18 @@ function NavContent({ user }) {
         </header>
 
         <section className="os-nav-search">
-          <input type="text" placeholder="Buscar..." />
+          <input type="text" placeholder="Buscar..." onChange={handleSearch} />
+          {showSearchDropdown && (
+            <div className="os-dropdown-content">
+              {searchValue.map((product) => {
+                return (
+                  <a href={`/product.html?type=${product.id}`}>
+                    {product.name}
+                  </a>
+                );
+              })}
+            </div>
+          )}
         </section>
 
         <section className="os-nav-options">
@@ -65,7 +117,9 @@ function NavContent({ user }) {
             {showUserDropdown && (
               <div className="os-dropdown-content">
                 <a href="#cart">Carrito</a>
-                <a href="" onClick={ toggleTheme }>Cambiar Tema</a>
+                <a href="" onClick={toggleTheme}>
+                  Cambiar Tema
+                </a>
                 <a href="#settings">Configuración</a>
                 <a href="/logout">LogOut</a>
               </div>

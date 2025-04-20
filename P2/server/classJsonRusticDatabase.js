@@ -1,5 +1,15 @@
 import fs from "fs";
 
+//--------------------------------------- AUX FUNCTIONS ---------------------
+function normalizeString(str) {
+  return str
+    .normalize("NFD") // Separa los caracteres acentuados. Ejemplo: á -> a + ́
+    .replace(/[\u0300-\u036f]/g, "") // Elimina diacríticos
+    .replace(/\s+/g, "") // Elimina todos los espacios
+    .replace(/[^\w]/g, "") // Elimina caracteres no alfanuméricos como signos de puntuación
+    .toLowerCase(); // Convierte a minúsculas
+}
+
 //------------------------------------- DATABASE ------------------------------
 // ! la base de datos da errores de lectura y escritura y no sabemos por qué
 
@@ -36,8 +46,8 @@ class JsonRusticDatabase {
   writeDatabase = () => {
     // ? En solución a un bug terrible de concurrencia de tareas,
     // ? el desarrollador ha optado por bloquear el hilo de ejecución
-    // ? mientras se escribe la base de datos, lo cual no es óptimo
-    // ? y representa una decisión de puto cobarde, pero es lo que hay.
+    // ? mientras se escribe la base de datos, lo que no es óptimo
+    // ? y representa una decisión realmente cobarde, pero es lo que hay.
 
     fs.writeFileSync(
       this.path,
@@ -65,9 +75,19 @@ class JsonRusticDatabase {
 
   addNewOrder = (order, userName, documentType) => {
     const newOrderID = this.orders.length;
-    const newOrder = { usuario: userName.usuario, tipo: documentType, estructura: order };
+    const newOrder = {
+      usuario: userName.usuario,
+      tipo: documentType,
+      estructura: order,
+    };
     this.orders.push(newOrder);
     return newOrderID;
+  };
+
+  findProductsByDemiName = (demiName) => {
+    return this.products.filter((product) =>
+      normalizeString(product.titulo).includes(normalizeString(demiName))
+    );
   };
 }
 
