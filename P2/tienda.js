@@ -1,5 +1,6 @@
 import http from "http";
 import fs from "fs";
+import printLog from "./server/logs.js";
 
 import JsonRusticDatabase from "./server/classJsonRusticDatabase.js";
 import RequestAnalyser from "./server/classRequestAnalyser.js";
@@ -12,14 +13,14 @@ const PORT = 8001;
 //------------------------------------- SERVER --------------------------------
 const db = new JsonRusticDatabase("./server/tienda.json");
 
+db.readDatabase();
+
 const server = http.createServer(async (req, res) => {
   // Leer la base de datos al iniciar el servidor
-  await db.readDatabase();
-
+  
   // Imprime la petición entrante en la consola
-  console.log(`Petición entrante: ${req.method} ${req.url}`);
 
-  const reqData = new RequestAnalyser(req, db.users);
+  const reqData = new RequestAnalyser(req, db);
   if (req.method == "POST") {
     await reqData.recievePostData(req);
   }
@@ -32,12 +33,12 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(200, { "Content-Type": "text/plain" , "Set-Cookie": db.getCartCookie(reqData.user.usuario)});
       res.end();
       db.writeDatabase();
-      console.log("Petición AJAX procesada. Tipo: AddToCart. Respuesta enviada.");
+      printLog("ajax", "cart", reqData.resourceDemipath);
       return;
     case "theme":
       res.writeHead(200, { "Content-Type": "text/plain" });
       res.end();
-      console.log("Petición AJAX procesada. Tipo: ToggleTheme. Respuesta enviada.");
+      printLog("ajax", "theme", reqData.resourceDemipath);
       db.writeDatabase();
       return;
     case "search":
@@ -50,6 +51,7 @@ const server = http.createServer(async (req, res) => {
       });
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify(searchResults), "utf-8");
+      printLog("ajax", "search", reqData.resourceDemipath);
       return;
   }
     
@@ -64,7 +66,6 @@ const server = http.createServer(async (req, res) => {
     res.setHeader("Set-Cookie", reqData.headers["Set-Cookie"]);
 
   // Imprimir la ruta del archivo solicitado en la consola
-  console.log(`Sirviendo el archivo: ${resourcePath}`);
 
   // Leer y servir el archivo solicitado
   fs.readFile(resourcePath, async (error, content) => {
@@ -72,7 +73,6 @@ const server = http.createServer(async (req, res) => {
     if (error) {
       if (error.code === "ENOENT") {
         // Log file not found error
-        console.error(`File not found: ${resourcePath}`);
         // Si el archivo no existe, servir un 404 personalizado
         // ? Pido perdón a quien corresponda, chatGPT me ha convencido de que esto es más eficiente
         let content404 = await (async () => {
@@ -87,6 +87,7 @@ const server = http.createServer(async (req, res) => {
           "/error-404.html",
           reqData
         );
+        printLog("error404", null, reqData.resourceDemipath);
 
         resData = new ResponsePacker(
           404,
@@ -96,19 +97,17 @@ const server = http.createServer(async (req, res) => {
         );
       } else {
         // Log internal server error
-        console.error(`Server error reading ${resourcePath}: ${error.code}`);
+        printLog("error", error.code, null);
         // Otros errores: error interno del servidor
         resData = new ResponsePacker(
           500,
           "./server/public/undefined.html",
           `<h1>Error interno del servidor:</h1>  
-          <p>Server error reading ${resourcePath}: ${error.code}</p>`,
+          <p>Error leyendo el recurso ${resourcePath}: ${error.code}</p>`,
           reqData.headers["Set-Cookie"]
         );
       }
     } else {
-      // Log successful file serving
-      console.log(`File served successfully: ${resourcePath}`);
       // Archivo encontrado, se envía al navegador con un status 200
       if (reqData.isDynamic) {
         // Si se pide un documento, primero debe ser generado
@@ -126,12 +125,17 @@ const server = http.createServer(async (req, res) => {
         content,
         reqData.headers["Set-Cookie"]
       );
+      printLog(
+        resData.contentType,
+        resourcePath,
+        `${req.method} ${req.url}`
+        
+      );
     }
     res.writeHead(resData.statusCode, resData.getResponseHead());
     res.end(resData.content, "utf-8");
   });
   // reescribir la base de datos
-  db.writeDatabase();
 });
 
 // Escucha en el puerto 8001 (puedes cambiarlo si lo necesitas)

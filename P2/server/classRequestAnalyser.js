@@ -4,8 +4,8 @@ const URL = url.URL;
 //------------------------------------- Request Analysis ----------------------
 
 class RequestAnalyser {
-  constructor(req, users) {
-    this.dbUsers = users;
+  constructor(req, db) {
+    this.dbUsers = db.users;
     this.resourceDemipath = req.url;
     this.headers = {};
     this.user = null;
@@ -35,7 +35,7 @@ class RequestAnalyser {
       const user = this.urlContent.searchParams.get("username");
       this.dbUsers.forEach((u) => {
         if (u.usuario == user) {
-          this.headers["Set-Cookie"] = [`user=${user}`]; //! OJO: Esto solo funciona si no hay mas cookies
+          this.headers["Set-Cookie"] = [`user=${user}`,  db.getCartCookie(user)];
           this.user = u;
           this.resourceDemipath = "/index.html";
           if (u.tema == "dark") {
@@ -48,7 +48,7 @@ class RequestAnalyser {
     if (req.url.includes("/logout")) {
       this.resourceDemipath = "/login.html";
       this.isDynamic = true;
-      this.headers["Set-Cookie"] = [`user=;`]; //! OJO: Si aumentan los campos de la cookie, hay que tenerlos en cuenta
+      this.headers["Set-Cookie"] = [`user=;`, `cart=;`];
       this.user = null;
       this.isDarkTheme = false;
     }
@@ -62,7 +62,7 @@ class RequestAnalyser {
       const fullName = this.urlContent.searchParams.get("fullName");
       const email = this.urlContent.searchParams.get("email");
 
-      this.headers["Set-Cookie"] = [`user=${user}`]; //! OJO: Esto solo funciona si no hay mas cookies
+      this.headers["Set-Cookie"] = [`user=${user}`, db.getCartCookie(user)]; 
 
       this.dbUsers.forEach((u) => {
         // TODO : Si el usuario existe, debe notificarse el error
@@ -76,6 +76,7 @@ class RequestAnalyser {
           tema: "light",
         });
       });
+      db.writeDatabase();
     }
     if (req.url.includes("/search?")) {
       this.ajax = "search";
@@ -94,6 +95,7 @@ class RequestAnalyser {
       let updatedTheme = this.user.tema == "dark" ? "default" : "dark";
       this.setUserPropsFromCookie(req.headers.cookie, { tema: updatedTheme });
       if (this.user.tema == "dark") this.isDarkTheme = true;
+      db.writeDatabase();
     }
     if (req.url.includes("/document.html")) {
       this.getUserFromCookie(req.headers.cookie);
@@ -107,11 +109,21 @@ class RequestAnalyser {
       this.isDynamic = true;
     }
   }
+  // METODOS DE LA CLASE \\ 
+
+  getCookies = (cookie) => {
+    return cookie.split(";").reduce((cookies, c) => {
+      const [name, value] = c.trim().split("=");
+      cookies[name] = value || "";
+      return cookies;
+    }, {});
+  };
 
   getUserFromCookie = (cookie) => {
-    //! Si da tiempo molaría una gestión de cookies más robusta
     if (cookie) {
-      const userCookie = cookie.split(";")[1].split("=")[1];
+      const userCookie = this.getCookies(cookie)["user"];
+      if (!userCookie) return;
+      console.log(userCookie);
       this.dbUsers.forEach((u) => {
         if (u.usuario == userCookie) this.user = u;
       });
@@ -120,8 +132,8 @@ class RequestAnalyser {
 
   setUserPropsFromCookie = (cookie, userProps) => {
     if (cookie) {
-      //! Si da tiempo molaría una gestión de cookies más robusta
-      const userCookie = cookie.split(";")[1].split("=")[1];
+      const userCookie = this.getCookies(cookie)["user"];
+      if (!userCookie) return;
       this.dbUsers.forEach((u) => {
         if (u.usuario == userCookie) {
           if (u.usuario == userCookie) {

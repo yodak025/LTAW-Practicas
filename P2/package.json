@@ -17,6 +17,7 @@
     "@babel/node": "^7.26.0",
     "@babel/preset-env": "^7.26.9",
     "@babel/preset-react": "^7.26.3",
+    "colors": "^1.4.0",
     "esbuild": "^0.25.2",
     "express": "^5.1.0",
     "react": "^19.1.0",

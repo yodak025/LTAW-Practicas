@@ -40,6 +40,10 @@
         {
           "tipo": "revisar-redaccion",
           "cuerpo": "{\"originalText\":\"dfdfdfedfdfdfd\",\"toneStyle\":\"informal\"}"
+        },
+        {
+          "tipo": "revisar-redaccion",
+          "cuerpo": "{\"originalText\":\"dfdfdfdfdfdfdf\",\"toneStyle\":\"informal\"}"
         }
       ]
     }

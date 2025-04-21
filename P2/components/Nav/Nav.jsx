@@ -26,15 +26,23 @@ function NavContent({ user }) {
   const [showCartDropdown, setShowCartDropdown] = useState(false);
   const [searchValue, setSearchValue] = useState([]);
 
-  const dropdownRef = useRef(null);
+  const menuRef = useRef(null);
+  const searchRef = useRef(null);
+  const cartRef = useRef(null);
+  const userRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setShowUserDropdown(false);
-        setShowMenuDropdown(false);
-        setShowSearchDropdown(false);
-        setShowCartDropdown(false);
+      if (!menuRef.current?.contains(event.target) &&
+          !searchRef.current?.contains(event.target) &&
+          !cartRef.current?.contains(event.target) &&
+          !userRef.current?.contains(event.target)) {
+        setTimeout(() => {
+          setShowUserDropdown(false);
+          setShowMenuDropdown(false);
+          setShowSearchDropdown(false);
+          setShowCartDropdown(false);
+        }, 100);
       }
     };
 
@@ -98,7 +106,7 @@ function NavContent({ user }) {
   if (user) {
     return (
       <>
-        <header className="os-nav-header" ref={dropdownRef}>
+        <header className="os-nav-header" ref={menuRef}>
           <div className="os-dropdown">
             <div className="os-dropdown-trigger" onClick={toggleMenuDropdown}>
               AI - Scribe
@@ -112,7 +120,7 @@ function NavContent({ user }) {
           </div>
         </header>
 
-        <section className="os-nav-search" ref={dropdownRef}>
+        <section className="os-nav-search" ref={searchRef}>
           <input type="text" placeholder="Buscar..." onChange={handleSearch} />
           {showSearchDropdown && (
             <div className="os-dropdown-content">
@@ -128,7 +136,7 @@ function NavContent({ user }) {
         </section>
 
         <section className="os-nav-options">
-          <div className="os-dropdown --cart" ref={dropdownRef}>
+          <div className="os-dropdown --cart" ref={cartRef}>
             <div className="os-dropdown-trigger" onClick={toggleCartDropdown}>
               <span>Carrito</span>
             </div>
@@ -138,7 +146,7 @@ function NavContent({ user }) {
               </div>
             )}
           </div>
-          <div className="os-dropdown --user" ref={dropdownRef}>
+          <div className="os-dropdown --user" ref={userRef}>
             <div className="os-dropdown-trigger" onClick={toggleUserDropdown}>
               <span>{user}</span>
             </div>

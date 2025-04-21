@@ -52,6 +52,7 @@ class ResponsePacker {
     }
     return contentType;
   };
+  
 
 }
 export default ResponsePacker;
