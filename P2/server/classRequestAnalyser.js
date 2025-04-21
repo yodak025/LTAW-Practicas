@@ -30,14 +30,14 @@ class RequestAnalyser {
     }
     //-- Peticiones Get --//
     if (req.url.includes("/login?")) {
+      this.isDynamic = true;
       this.resourceDemipath = "/login.html"; // TODO : Si el usuario no existe, debe notificarse el error
-      const user = this.urlContent.searchParams.get("user");
+      const user = this.urlContent.searchParams.get("username");
       this.dbUsers.forEach((u) => {
         if (u.usuario == user) {
           this.headers["Set-Cookie"] = [`user=${user}`]; //! OJO: Esto solo funciona si no hay mas cookies
           this.user = u;
           this.resourceDemipath = "/index.html";
-          this.isDynamic = true;
           if (u.tema == "dark") {
             this.isDarkTheme = true;
           }
@@ -111,7 +111,7 @@ class RequestAnalyser {
   getUserFromCookie = (cookie) => {
     //! Si da tiempo molaría una gestión de cookies más robusta
     if (cookie) {
-      const userCookie = cookie.split(";")[0].split("=")[1];
+      const userCookie = cookie.split(";")[1].split("=")[1];
       this.dbUsers.forEach((u) => {
         if (u.usuario == userCookie) this.user = u;
       });
@@ -120,7 +120,8 @@ class RequestAnalyser {
 
   setUserPropsFromCookie = (cookie, userProps) => {
     if (cookie) {
-      const userCookie = cookie.split(";")[0].split("=")[1];
+      //! Si da tiempo molaría una gestión de cookies más robusta
+      const userCookie = cookie.split(";")[1].split("=")[1];
       this.dbUsers.forEach((u) => {
         if (u.usuario == userCookie) {
           if (u.usuario == userCookie) {

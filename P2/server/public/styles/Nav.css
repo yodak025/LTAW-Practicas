@@ -177,3 +177,66 @@
   z-index: 1001;
   white-space: nowrap; /* Evita que el texto se rompa en múltiples líneas */
 }
+
+.cart-empty {
+  padding: 1rem;
+  color: var(--black-color);
+  text-align: center;
+  font-style: italic;
+}
+
+.cart-items {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.cart-items ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem;
+  margin: 0.5rem 0;
+  background-color: var(--light-color);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  border: 1px solid var(--neutral-color);
+}
+
+.cart-item:hover {
+  background-color: var(--secondary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.cart-item-title {
+  flex: 1;
+  margin-right: 1rem;
+  color: var(--black-color);
+  font-size: 0.9rem;
+}
+
+.cart-item-remove {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.cart-item-remove:hover {
+  background-color: var(--accent-color);
+  color: white;
+  transform: scale(1.1);
+}
+

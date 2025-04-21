@@ -36,6 +36,10 @@
         {
           "tipo": "resumir-texto",
           "cuerpo": "{\"originalText\":\"odfkfrmrnrv\\n\",\"summaryLength\":\"very-short\",\"focusType\":\"key-points\",\"notes\":\"\"}"
+        },
+        {
+          "tipo": "revisar-redaccion",
+          "cuerpo": "{\"originalText\":\"dfdfdfedfdfdfd\",\"toneStyle\":\"informal\"}"
         }
       ]
     }

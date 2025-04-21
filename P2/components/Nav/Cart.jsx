@@ -1,6 +1,21 @@
 import React from 'react';
 
 const Cart = () => {
+  // Objeto para mapear nombres a títulos basado en tienda.json
+  const productMap = {
+    'curriculum-vitae': 'Currículum Vitae Personalizado',
+    'carta-presentacion': 'Carta de Presentación',
+    'resumen-ejecutivo': 'Resumen Ejecutivo',
+    'descripcion-producto': 'Descripción de Producto',
+    'email-ventas': 'Email de Ventas',
+    'carta-recomendacion': 'Carta de Recomendación',
+    'revisar-redaccion': 'Revisar Redacción',
+    'resumir-texto': 'Resumir Texto',
+    'esquematizar-texto': 'Esquematizar Texto',
+    'extender-texto': 'Extender Texto',
+    'prensar-latex': 'Prensar Texto'
+  };
+
   const parseCartCookie = () => {
     const cookies = document.cookie.split(';');
     const cartCookie = cookies.find(cookie => cookie.trim().startsWith('cart='));
@@ -26,7 +41,17 @@ const Cart = () => {
     <div className="cart-items">
       <ul>
         {cartItems.map((tipo, index) => (
-          <li key={index}>{tipo}</li>
+          <li key={index} className="cart-item">
+            <span className="cart-item-title">
+              {productMap[tipo] || tipo}
+            </span>
+            <button 
+              className="cart-item-remove" 
+              aria-label="Eliminar del carrito"
+            >
+              ×
+            </button>
+          </li>
         ))}
       </ul>
     </div>
