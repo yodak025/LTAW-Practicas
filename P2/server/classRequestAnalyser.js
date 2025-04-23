@@ -123,7 +123,6 @@ class RequestAnalyser {
     if (cookie) {
       const userCookie = this.getCookies(cookie)["user"];
       if (!userCookie) return;
-      console.log(userCookie);
       this.dbUsers.forEach((u) => {
         if (u.usuario == userCookie) this.user = u;
       });
@@ -163,7 +162,6 @@ class RequestAnalyser {
       req.on("end", () => {
         //-- Peticiones POST --//
         if (req.method == "POST") {
-          console.log(this.body);
           if (this.resourceDemipath.includes("/add-to-cart?")) {
             this.ajax = "cart";
             this.type = this.urlContent.searchParams.get("type");

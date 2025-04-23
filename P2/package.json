@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "babel-node tienda.js",
     "build": "esbuild client/hydrateApp.jsx --bundle --outfile=server/public/bundle.js --minify --jsx=automatic --platform=browser",
-    "dev+build": "npm run build && npm run dev"
+    "dev+build": "clear && npm run build && npm run dev"
   },
   "keywords": [],
   "author": "",

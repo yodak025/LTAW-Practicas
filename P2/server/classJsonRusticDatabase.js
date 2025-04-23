@@ -1,4 +1,5 @@
 import fs from "fs";
+import colors from "colors";
 
 //--------------------------------------- AUX FUNCTIONS ---------------------
 function normalizeString(str) {
@@ -24,8 +25,9 @@ class JsonRusticDatabase {
   readDatabase = () => {
     return new Promise((resolve, reject) => {
       fs.readFile(this.path, "utf-8", (err, data) => {
+        console.log("\nLeyendo base de datos...".bgWhite);
         if (err) {
-          console.error("Error al leer el archivo JSON:", err);
+          console.error("\nError al leer el archivo JSON:\n".bgRed, err);
           reject(err);
         } else {
           try {
@@ -33,10 +35,10 @@ class JsonRusticDatabase {
             this.users = jsonData.usuarios;
             this.products = jsonData.productos;
             this.orders = jsonData.pedidos;
-            console.log("Base de datos leída correctamente.");
+            console.log("\nBase de datos leída correctamente.\n".bgGreen);
             resolve();
           } catch (parseError) {
-            console.error("Error al analizar el JSON:", parseError);
+            console.error("\nError al analizar el JSON:\n".bgRed, parseError);
             reject(parseError);
           }
         }
@@ -63,10 +65,10 @@ class JsonRusticDatabase {
       (err) => {
         isWriting = false;
         if (err) {
-          console.error("Error al escribir el archivo JSON:", err);
+          console.error("\nError al escribir el archivo JSON:\n".bgRed, err);
           reject(err);
         } else {
-          console.log("Base de datos actualizada correctamente.");
+          console.log("\nBase de datos actualizada correctamente.\n".bgGreen);
           resolve();
         }
       }
@@ -93,20 +95,22 @@ class JsonRusticDatabase {
   addOrderToCart = (reqData) => {
     const order = {
       tipo: reqData.type,
-      cuerpo: reqData.body
-    }
+      cuerpo: reqData.body,
+    };
 
-    this.users.filter((u)=> u.usuario == reqData.user.usuario)[0].carrito.push(order);
-  }
-  
+    this.users
+      .filter((u) => u.usuario == reqData.user.usuario)[0]
+      .carrito.push(order);
+  };
+
   getCartCookie = (user) => {
-    const cart = this.users.filter((u)=> u.usuario == user)[0].carrito;
+    const cart = this.users.filter((u) => u.usuario == user)[0].carrito;
     let cartCookie = "cart=";
     cart.forEach((order, index) => {
       cartCookie += `product${index + 1}:${order.tipo}&`;
     });
-    return cartCookie.slice(0, -1) + ';';
-  }
+    return cartCookie.slice(0, -1) + ";";
+  };
 }
 
 export default JsonRusticDatabase;

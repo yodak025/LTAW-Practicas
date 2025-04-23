@@ -42,10 +42,6 @@ export default function ReviewTextForm() {
             </option>
           </select>
         </div>
-
-        <button type="submit" className="os-form-submit">
-          Revisar Texto
-        </button>
       </BaseForm>
     </div>
   );

@@ -119,6 +119,11 @@ const Cart = () => {
     });
   };
 
+  // Función para tramitar el pedido
+  const handleProcessOrder = () => {
+    window.location.href = "/process-order.html";
+  };
+
   const handleModalCancel = () => {
     setModalConfig({ isOpen: false, message: "", callback: null });
   };
@@ -164,9 +169,14 @@ const Cart = () => {
           </li>
         ))}
       </ul>
-      <button className="cart-empty-button" onClick={handleEmptyCart}>
-        Vaciar Carrito
-      </button>
+      <div className="cart-buttons">
+        <button className="cart-empty-button" onClick={handleEmptyCart}>
+          Vaciar Carrito
+        </button>
+        <button className="cart-process-button" onClick={handleProcessOrder}>
+          Tramitar Pedido
+        </button>
+      </div>
       <ConfirmModal
         isOpen={modalConfig.isOpen}
         message={modalConfig.message}

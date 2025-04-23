@@ -78,6 +78,10 @@ function NavContent({ user }) {
   }, []);
 
   const handleSearch = (e) => {
+    if (e.target.value.length < 3) {
+      setShowSearchDropdown(false);
+      return;
+    }
     const m = new XMLHttpRequest();
     m.onreadystatechange = () => {
       if (m.readyState === 4) {
@@ -109,7 +113,7 @@ function NavContent({ user }) {
         <header className="os-nav-header" ref={menuRef}>
           <div className="os-dropdown">
             <div className="os-dropdown-trigger" onClick={toggleMenuDropdown}>
-              AI - Scribe
+              📄 AI - Scribe
             </div>
             {showMenuDropdown && (
               <div className="os-dropdown-content">
@@ -121,7 +125,7 @@ function NavContent({ user }) {
         </header>
 
         <section className="os-nav-search" ref={searchRef}>
-          <input type="text" placeholder="Buscar..." onChange={handleSearch} />
+          <input type="text" placeholder="🔍 Buscar..." onChange={handleSearch} />
           {showSearchDropdown && (
             <div className="os-dropdown-content">
               {searchValue.map((product) => {
@@ -138,7 +142,7 @@ function NavContent({ user }) {
         <section className="os-nav-options">
           <div className="os-dropdown --cart" ref={cartRef}>
             <div className="os-dropdown-trigger" onClick={toggleCartDropdown}>
-              <span>Carrito</span>
+              <span>🛒 Carrito</span>
             </div>
             {showCartDropdown && (
               <div className="os-dropdown-content">
@@ -148,7 +152,7 @@ function NavContent({ user }) {
           </div>
           <div className="os-dropdown --user" ref={userRef}>
             <div className="os-dropdown-trigger" onClick={toggleUserDropdown}>
-              <span>{user}</span>
+              <span>{"👤 " + user}</span>
             </div>
             {showUserDropdown && (
               <div className="os-dropdown-content">

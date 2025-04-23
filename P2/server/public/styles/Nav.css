@@ -240,23 +240,43 @@
   transform: scale(1.1);
 }
 
-.cart-empty-button {
-  width: 100%;
+/* Estilos para el contenedor de botones */
+.cart-buttons {
+  display: flex;
+  gap: 0.5rem;
   margin-top: 1rem;
+}
+
+.cart-empty-button, .cart-process-button {
+  flex: 1;
   padding: 0.8rem;
-  background-color: var(--accent-color);
-  color: var(--black-color);
   border: none;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: 'BigShoulders', sans-serif;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.cart-empty-button {
+  background-color: var(--accent-color);
+  color: var(--black-color);
+}
+
+.cart-process-button {
+  background-color: var(--primary-color);
+  color: var(--white-color);
 }
 
 .cart-empty-button:hover {
-  background-color: var(--primary-color);
-  color: var(--white-color);
+  background-color: var(--light-color);
+}
+
+.cart-process-button:hover {
+  background-color: var(--secondary-color);
   transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .cart-modal-overlay {

@@ -13,11 +13,10 @@ const PORT = 8001;
 //------------------------------------- SERVER --------------------------------
 const db = new JsonRusticDatabase("./server/tienda.json");
 
+console.log("\nIniciando servidor...\n");
 db.readDatabase();
 
 const server = http.createServer(async (req, res) => {
-  // Leer la base de datos al iniciar el servidor
-  
   // Imprime la petición entrante en la consola
 
   const reqData = new RequestAnalyser(req, db);
@@ -25,15 +24,18 @@ const server = http.createServer(async (req, res) => {
     await reqData.recievePostData(req);
   }
 
-  switch (reqData.ajax){
+  switch (reqData.ajax) {
     case null:
       break;
     case "cart":
       db.addOrderToCart(reqData);
-      res.writeHead(200, { "Content-Type": "text/plain" , "Set-Cookie": db.getCartCookie(reqData.user.usuario)});
+      res.writeHead(200, {
+        "Content-Type": "text/plain",
+        "Set-Cookie": db.getCartCookie(reqData.user.usuario),
+      });
       res.end();
       db.writeDatabase();
-      printLog("ajax", "cart", reqData.resourceDemipath);
+      printLog("ajax", "cart", reqData.body);
       return;
     case "theme":
       res.writeHead(200, { "Content-Type": "text/plain" });
@@ -46,7 +48,7 @@ const server = http.createServer(async (req, res) => {
       const searchResults = products.map((p) => {
         return {
           id: p.nombre,
-          name: p.titulo
+          name: p.titulo,
         };
       });
       res.writeHead(200, { "Content-Type": "application/json" });
@@ -54,8 +56,6 @@ const server = http.createServer(async (req, res) => {
       printLog("ajax", "search", reqData.resourceDemipath);
       return;
   }
-    
-  
 
   // Si se pide un recurso dinámico, se carga template.html y se renderiza el componente al vuelo
   let resourcePath = reqData.isDynamic
@@ -82,11 +82,7 @@ const server = http.createServer(async (req, res) => {
             });
           });
         })();
-        content404 = renderPage(
-          content404,
-          "/error-404.html",
-          reqData
-        );
+        content404 = renderPage(content404, "/error-404.html", reqData);
         printLog("error404", null, reqData.resourceDemipath);
 
         resData = new ResponsePacker(
@@ -111,12 +107,7 @@ const server = http.createServer(async (req, res) => {
       // Archivo encontrado, se envía al navegador con un status 200
       if (reqData.isDynamic) {
         // Si se pide un documento, primero debe ser generado
-        content = renderPage(
-          content,
-          reqData.resourceDemipath,
-          reqData,
-          db
-        );
+        content = renderPage(content, reqData.resourceDemipath, reqData, db);
       }
 
       resData = new ResponsePacker(
@@ -125,12 +116,7 @@ const server = http.createServer(async (req, res) => {
         content,
         reqData.headers["Set-Cookie"]
       );
-      printLog(
-        resData.contentType,
-        resourcePath,
-        `${req.method} ${req.url}`
-        
-      );
+      printLog(resData.contentType, resourcePath, `${req.method} ${req.url}`);
     }
     res.writeHead(resData.statusCode, resData.getResponseHead());
     res.end(resData.content, "utf-8");
@@ -138,7 +124,12 @@ const server = http.createServer(async (req, res) => {
   // reescribir la base de datos
 });
 
-// Escucha en el puerto 8001 (puedes cambiarlo si lo necesitas)
-server.listen(PORT, () =>
-  console.log("Servidor corriendo en http://127.0.0.1:" + PORT + "/")
-);
+server.listen(PORT, async () => {
+
+  setInterval(() => {
+    console.log("\nActualizando base de datos...".bgWhite);
+    db.writeDatabase();
+    console.log("\nBase de datos actualizada correctamente\n".bgGreen);
+  }, 300000);
+  console.log("\nServidor corriendo en http://127.0.0.1:" + PORT + "/\n");
+});

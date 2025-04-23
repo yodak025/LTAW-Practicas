@@ -44,6 +44,10 @@
         {
           "tipo": "revisar-redaccion",
           "cuerpo": "{\"originalText\":\"dfdfdfdfdfdfdf\",\"toneStyle\":\"informal\"}"
+        },
+        {
+          "tipo": "curriculum-vitae",
+          "cuerpo": "{\"fullName\":\"Diego Sota \",\"address\":\"Avda. Abogados de Atocha, 6\",\"phone\":\"646967576\",\"email\":\"diego.sota@gmail.com\",\"professionalLinks\":\"sdsds\",\"briefPresentation\":\"sdsdsd\",\"strengthsAchievements\":\"sdsd\",\"workExperience\":\"sdsdsd\",\"education\":\"sdsds\",\"technicalSkills\":\"sdsdsds\",\"softSkills\":\"sdsdsds\",\"languages\":\"sdsdsdsdsd\",\"certificates\":\"sdsdsdsdsdsd\",\"projectsAchievements\":\"sdsdsdsd\",\"additionalInfo\":\"vferfesfedfe\"}"
         }
       ]
     }
