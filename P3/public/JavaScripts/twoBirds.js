@@ -5,6 +5,16 @@ import {
   AnimatedEntityView,
 } from "./entityViews.js";
 import { DrawingPad } from "./drawingPad.js";
+import {
+  ANIMATION,
+  UI,
+  LEVEL,
+  RESOURCES,
+  ENTITY,
+  NETWORK,
+  NORMALIZED_SPACE,
+  CANVAS
+} from "./constants.js";
 
 export async function initBirdsGame(socket) {
   const canvas = document.getElementById("canvas");
@@ -24,37 +34,53 @@ export async function initBirdsGame(socket) {
   const gameObjects = [];
 
   // Cargar sprites
-  const blueBirdSprites = await Promise.all([
-    loadImage("./Images/BlueBird/0.png"),
-    loadImage("./Images/BlueBird/1.png"),
-    loadImage("./Images/BlueBird/2.png"),
-    loadImage("./Images/BlueBird/3.png"),
-    loadImage("./Images/BlueBird/4.png"),
-    loadImage("./Images/BlueBird/5.png"),
-  ]);
+  const blueBirdSprites = await Promise.all(
+    Array.from({ length: RESOURCES.IMAGES.BLUE_BIRD_FRAMES }, (_, i) =>
+      loadImage(`${RESOURCES.IMAGES.BLUE_BIRD_PREFIX}${i}.png`)
+    )
+  );
 
-  const greenBirdSprites = await Promise.all([
-    loadImage("./Images/GreenBird/0.png"),
-    loadImage("./Images/GreenBird/1.png"),
-    loadImage("./Images/GreenBird/2.png"),
-    loadImage("./Images/GreenBird/3.png"),
-    loadImage("./Images/GreenBird/4.png"),
-    loadImage("./Images/GreenBird/5.png"),
-  ]);
+  const greenBirdSprites = await Promise.all(
+    Array.from({ length: RESOURCES.IMAGES.GREEN_BIRD_FRAMES }, (_, i) =>
+      loadImage(`${RESOURCES.IMAGES.GREEN_BIRD_PREFIX}${i}.png`)
+    )
+  );
 
-  const rockSprite = await loadImage("./Images/TheRock.png");
+  const rockSprite = await loadImage(RESOURCES.IMAGES.ROCK_PATH);
 
-  // Crear entidades
-  const rockEntity = new RockEntity(100, 100, 100, 100);
-  const blueBirdEntity = new BirdEntity(300, 100, 100, 100);
-  const greenBirdEntity = new BirdEntity(500, 100, 100, 100);
+  // Crear entidades con tamaños y posiciones normalizadas
+  const entitySize = CANVAS.DEFAULT_ENTITY_SIZE;
+  
+  const rockEntity = new RockEntity(
+    2, // Posición x normalizada
+    2, // Posición y normalizada
+    entitySize, // Ancho normalizado
+    entitySize  // Alto normalizado
+  );
+  
+  const blueBirdEntity = new BirdEntity(
+    6, // Posición x normalizada
+    2, // Posición y normalizada
+    entitySize, // Ancho normalizado
+    entitySize  // Alto normalizado
+  );
+  
+  const greenBirdEntity = new BirdEntity(
+    10, // Posición x normalizada
+    2, // Posición y normalizada
+    entitySize, // Ancho normalizado
+    entitySize  // Alto normalizado
+  );
 
   // Crear plataforma estática en el medio
+  const platformWidth = 4; // Ancho normalizado
+  const platformHeight = 0.2; // Alto normalizado
+  
   const middlePlatform = new StaticEntity(
-    window.innerWidth / 2 - 200,
-    window.innerHeight / 2,
-    400,
-    20
+    (NORMALIZED_SPACE.WIDTH / 2) - (platformWidth / 2), // x centrada
+    NORMALIZED_SPACE.HEIGHT / 2,                       // y en medio
+    platformWidth,                                      // ancho
+    platformHeight                                      // alto
   );
 
   // Crear vistas
@@ -70,11 +96,10 @@ export async function initBirdsGame(socket) {
   gameObjects.push(rockEntity, blueBirdEntity, greenBirdEntity, middlePlatform);
 
   // Inicializar el DrawingPad con el pájaro azul
-  const drawingPad = new DrawingPad(drawingPadCanvas, blueBirdEntity);
+  const drawingPad = new DrawingPad(drawingPadCanvas, canvas, blueBirdEntity);
 
   // Variables para controlar la animación
   let frameCount = 0;
-  const ANIMATION_SPEED = 5;
 
   // Variables para trackear cambios en la posición
   let lastBirdUpdate = {
@@ -86,10 +111,11 @@ export async function initBirdsGame(socket) {
 
   function hasPositionChanged(current, last) {
     return (
-      Math.abs(current.x - last.x) > 0.01 ||
-      Math.abs(current.y - last.y) > 0.01 ||
-      Math.abs(current.velocityX - last.velocityX) > 0.01 ||
-      Math.abs(current.velocityY - last.velocityY) > 0.01
+      Math.abs(current.x - last.x) > NETWORK.POSITION_THRESHOLD ||
+      Math.abs(current.y - last.y) > NETWORK.POSITION_THRESHOLD ||
+      Math.abs(current.velocityX - last.velocityX) >
+        NETWORK.POSITION_THRESHOLD ||
+      Math.abs(current.velocityY - last.velocityY) > NETWORK.POSITION_THRESHOLD
     );
   }
 
@@ -102,10 +128,12 @@ export async function initBirdsGame(socket) {
   });
 
   let lastTime = 0;
-  const MAX_DELTA = 1 / 30; // Cap at 30 FPS
 
   function gameLoop(currentTime) {
-    const deltaTime = Math.min((currentTime - lastTime) / 1000, MAX_DELTA);
+    const deltaTime = Math.min(
+      (currentTime - lastTime) / 1000,
+      ANIMATION.MAX_DELTA_TIME
+    );
     lastTime = currentTime;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -140,18 +168,22 @@ export async function initBirdsGame(socket) {
 
     // Función para obtener el color del colider basado en la vida
     function getColliderColor(health) {
-      const normalizedHealth = health / 100;
-      const red = Math.floor(255 * (1 - normalizedHealth));
-      const green = Math.floor(255 * normalizedHealth);
-      return `rgba(${red}, ${green}, 0, 0.3)`;
+      const normalizedHealth = health / ENTITY.BIRD.DEFAULT_HEALTH;
+      const red = Math.floor(
+        UI.COLLIDER_COLORS.HEALTH_BASE_RED * (1 - normalizedHealth)
+      );
+      const green = Math.floor(
+        UI.COLLIDER_COLORS.HEALTH_BASE_GREEN * normalizedHealth
+      );
+      return `rgba(${red}, ${green}, 0, ${UI.COLLIDER_COLORS.HEALTH_ALPHA})`;
     }
 
     // Dibujar objetos con sus vistas correspondientes
     rockView.drawSprite();
-    rockView.drawCollider("rgba(100, 100, 100, 0.3)");
+    rockView.drawCollider(UI.COLLIDER_COLORS.DEFAULT);
 
     // Dibujar la plataforma estática
-    platformView.drawCollider("rgba(128, 128, 128, 1)");
+    platformView.drawCollider(UI.COLLIDER_COLORS.PLATFORM);
 
     // Dibujar el pájaro azul (controlable y rompible)
     if (!blueBirdEntity.markedForDeletion) {
@@ -166,7 +198,7 @@ export async function initBirdsGame(socket) {
 
     // Actualizar animaciones cada ciertos frames
     frameCount++;
-    if (frameCount % ANIMATION_SPEED === 0) {
+    if (frameCount % ANIMATION.SPRITE_FRAME_SPEED === 0) {
       blueBirdView.nextFrame();
       greenBirdView.nextFrame();
     }
@@ -174,15 +206,7 @@ export async function initBirdsGame(socket) {
     requestAnimationFrame(gameLoop);
   }
 
-  // Ajustar el tamaño del canvas
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-
-  // Configuración inicial
-  resizeCanvas();
-  window.addEventListener("resize", resizeCanvas);
+  // Resizing ya se maneja en main.js
 
   // Iniciar el bucle del juego con timestamp inicial
   requestAnimationFrame((time) => {

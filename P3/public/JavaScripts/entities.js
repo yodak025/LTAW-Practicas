@@ -1,6 +1,9 @@
 // Clase base
+import { ENTITY, NORMALIZED_SPACE } from './constants.js';
+
 export class Entity {
     constructor(x, y, width, height) {
+        // Las coordenadas ahora son normalizadas (0-16 para x, 0-9 para y)
         this.x = x;
         this.y = y;
         this.width = width;
@@ -48,7 +51,7 @@ export class CollidingEntity extends Entity {
 
         // Si el objeto tiene el método takeDamage, aplicar daño basado en la velocidad
         if (other.takeDamage && impactVelocity > 0) {
-            const damageAmount = impactVelocity * 1;
+            const damageAmount = impactVelocity * ENTITY.PHYSICS.DAMAGE_MULTIPLIER;
             other.takeDamage(damageAmount);
         }
 
@@ -61,7 +64,7 @@ export class CollidingEntity extends Entity {
             } else {
                 this.x = otherBounds.right;
             }
-            if (this.velocityX !== undefined) this.velocityX *= -0.5;
+            if (this.velocityX !== undefined) this.velocityX *= ENTITY.PHYSICS.BOUNCE_FACTOR;
         } else {
             if (bounds.bottom - otherBounds.top < otherBounds.bottom - bounds.top) {
                 this.y = otherBounds.top - this.height;
@@ -69,30 +72,30 @@ export class CollidingEntity extends Entity {
                 this.isOnGround = true;
             } else {
                 this.y = otherBounds.bottom;
-                if (this.velocityY !== undefined) this.velocityY *= -0.5;
+                if (this.velocityY !== undefined) this.velocityY *= ENTITY.PHYSICS.BOUNCE_FACTOR;
             }
         }
     }
 
     checkBounds() {
-        const canvas = document.getElementById('canvas');
         const bounds = this.getBounds();
         
+        // Verificar límites en el espacio normalizado
         if (bounds.left < 0) {
             this.x = 0;
-            if (this.velocityX !== undefined) this.velocityX *= -0.5;
+            if (this.velocityX !== undefined) this.velocityX *= ENTITY.PHYSICS.BOUNCE_FACTOR;
         }
-        if (bounds.right > canvas.width) {
-            this.x = canvas.width - this.width;
-            if (this.velocityX !== undefined) this.velocityX *= -0.5;
+        if (bounds.right > NORMALIZED_SPACE.WIDTH) {
+            this.x = NORMALIZED_SPACE.WIDTH - this.width;
+            if (this.velocityX !== undefined) this.velocityX *= ENTITY.PHYSICS.BOUNCE_FACTOR;
         }
         if (bounds.top < 0) {
             this.y = 0;
-            if (this.velocityY !== undefined) this.velocityY *= -0.5;
+            if (this.velocityY !== undefined) this.velocityY *= ENTITY.PHYSICS.BOUNCE_FACTOR;
         }
-        if (bounds.bottom > canvas.height) {
-            this.y = canvas.height - this.height;
-            if (this.velocityY !== undefined) this.velocityY *= -0.5;
+        if (bounds.bottom > NORMALIZED_SPACE.HEIGHT) {
+            this.y = NORMALIZED_SPACE.HEIGHT - this.height;
+            if (this.velocityY !== undefined) this.velocityY *= ENTITY.PHYSICS.BOUNCE_FACTOR;
             this.isOnGround = true;
         }
     }
@@ -124,7 +127,7 @@ const applyMixins = (derivedCtor, constructors) => {
 
 // Mixin para comportamiento rompible
 class BreakableMixin {
-    initBreakable(health = 100) {
+    initBreakable(health = ENTITY.BIRD.DEFAULT_HEALTH) {
         this.health = health;
         this.broken = false;
         this.markedForDeletion = false;
@@ -144,7 +147,7 @@ class PlayableMixin {
     initPlayable() {
         this.velocityX = 0;
         this.velocityY = 0;
-        this.friction = 0.95;
+        this.friction = ENTITY.PHYSICS.FRICTION;
     }
 
     updatePlayable() {
@@ -154,7 +157,7 @@ class PlayableMixin {
         }
 
         // Si la velocidad es muy pequeña, detenerla
-        if (Math.abs(this.velocityX) < 0.01) {
+        if (Math.abs(this.velocityX) < ENTITY.BIRD.VELOCITY_THRESHOLD) {
             this.velocityX = 0;
         }
 
@@ -170,7 +173,7 @@ export class PlayableEntity extends CollidingEntity {
         super(x, y, width, height);
         this.velocityX = 0;
         this.velocityY = 0;
-        this.friction = 0.95;
+        this.friction = ENTITY.PHYSICS.FRICTION;
     }
 
     update(gameObjects, deltaTime) {
@@ -180,7 +183,7 @@ export class PlayableEntity extends CollidingEntity {
         }
 
         // Si la velocidad es muy pequeña, detenerla
-        if (Math.abs(this.velocityX) < 0.01) {
+        if (Math.abs(this.velocityX) < ENTITY.BIRD.VELOCITY_THRESHOLD) {
             this.velocityX = 0;
         }
 
@@ -201,7 +204,7 @@ export class GravityEntity extends CollidingEntity {
     constructor(x, y, width, height) {
         super(x, y, width, height);
         this.velocityY = 0;
-        this.gravity = 980; // Ajustado para deltaTime (unidades/segundo²)
+        this.gravity = ENTITY.PHYSICS.GRAVITY; // Ajustado para deltaTime (unidades/segundo²)
     }
 
     update(gameObjects, deltaTime) {
@@ -228,7 +231,7 @@ export class StaticEntity extends CollidingEntity {
 
 // Clase para entidades rompibles
 export class BreakableEntity extends CollidingEntity {
-    constructor(x, y, width, height, health = 100) {
+    constructor(x, y, width, height, health = ENTITY.BIRD.DEFAULT_HEALTH) {
         super(x, y, width, height);
         this.health = health;
         this.broken = false;
@@ -255,7 +258,7 @@ export class BreakableEntity extends CollidingEntity {
 export class RockEntity extends PlayableEntity {
     constructor(x, y, width, height) {
         super(x, y, width, height);
-        this.gravity = 9000; // Ajustado para deltaTime (unidades/segundo²)
+        this.gravity = ENTITY.ROCK.GRAVITY; // Ajustado para deltaTime (unidades/segundo²)
     }
 
     update(gameObjects, deltaTime) {
@@ -269,7 +272,7 @@ export class RockEntity extends PlayableEntity {
 
 // Clase para los pájaros usando mixins
 export class BirdEntity extends CollidingEntity {
-    constructor(x, y, width, height, health = 100) {
+    constructor(x, y, width, height, health = ENTITY.BIRD.DEFAULT_HEALTH) {
         super(x, y, width, height);
         this.initBreakable(health);
         this.initPlayable();

@@ -1,161 +1,196 @@
-export class DrawingPad {
-    constructor(canvas, targetEntity) {
-        this.canvas = canvas;
-        this.ctx = canvas.getContext('2d');
-        this.targetEntity = targetEntity;
-        this.isDrawing = false;
-        this.startPoint = { x: 0, y: 0 };
-        this.currentPoint = { x: 0, y: 0 };
+import { UI, NORMALIZED_SPACE } from './constants.js';
 
-        // Configurar tamaño y posición
+export class DrawingPad {
+    constructor(drawingPadCanvas, gameCanvas, controlEntity) {
+        this.canvas = drawingPadCanvas;
+        this.gameCanvas = gameCanvas;
+        this.ctx = this.canvas.getContext('2d');
+        this.controlEntity = controlEntity;
+        this.isDrawing = false;
+        this.startPoint = null;
+        this.endPoint = null;
+        this.isVisible = true;
+
+        // Configurar tamaño inicial
         this.resize();
 
-        // Event listeners para ratón
-        this.canvas.addEventListener('mousedown', this.startDrawing.bind(this));
-        this.canvas.addEventListener('mousemove', this.draw.bind(this));
-        window.addEventListener('mouseup', this.endDrawing.bind(this));
+        // Configurar eventos de mouse/touch
+        this.setupEventListeners();
 
-        // Event listeners para touch
-        this.canvas.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: false });
-        this.canvas.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: false });
-        this.canvas.addEventListener('touchend', this.endDrawing.bind(this));
-        this.canvas.addEventListener('touchcancel', this.endDrawing.bind(this));
-
-        window.addEventListener('resize', this.resize.bind(this));
-
-        // Estilo inicial
-        this.ctx.strokeStyle = 'white';
-        this.ctx.lineWidth = 2;
+        // Lanzamiento automático al soltar
+        this.autoLaunch = true;
     }
 
-    resize() {
-        const size = Math.min(window.innerHeight / 2, window.innerHeight / 2);
-        this.canvas.width = size;
-        this.canvas.height = size;
-        this.canvas.style.position = 'fixed';
-        this.canvas.style.bottom = '0';
-        this.canvas.style.left = '0';
-        this.canvas.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
-    }
-
-    handleTouchStart(event) {
-        event.preventDefault(); // Prevenir scroll
-        const touch = event.touches[0];
+    // Convertir coordenadas de pantalla a normalizadas
+    screenToNormalized(x, y) {
         const rect = this.canvas.getBoundingClientRect();
-        this.isDrawing = true;
-        this.startPoint = {
-            x: touch.clientX - rect.left,
-            y: touch.clientY - rect.top
-        };
-        this.currentPoint = { ...this.startPoint };
-    }
-
-    handleTouchMove(event) {
-        event.preventDefault(); // Prevenir scroll
-        if (!this.isDrawing) return;
-
-        const touch = event.touches[0];
-        const rect = this.canvas.getBoundingClientRect();
-        this.currentPoint = {
-            x: touch.clientX - rect.left,
-            y: touch.clientY - rect.top
-        };
-
-        // Limpiar el canvas
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-        // Dibujar la línea
-        this.ctx.beginPath();
-        this.ctx.moveTo(this.startPoint.x, this.startPoint.y);
-        this.ctx.lineTo(this.currentPoint.x, this.currentPoint.y);
-        this.ctx.stroke();
-
-        // Comprobar si el touch está fuera del canvas
-        if (touch.clientX < rect.left || touch.clientX > rect.right ||
-            touch.clientY < rect.top || touch.clientY > rect.bottom) {
-            this.endDrawing();
-        }
-    }
-
-    startDrawing(event) {
-        if (event.type === 'touchstart') return; // Ignorar eventos touch aquí
-        this.isDrawing = true;
-        const rect = this.canvas.getBoundingClientRect();
-        this.startPoint = {
-            x: event.clientX - rect.left,
-            y: event.clientY - rect.top
-        };
-        this.currentPoint = { ...this.startPoint };
-    }
-
-    draw(event) {
-        if (event.type === 'touchmove') return; // Ignorar eventos touch aquí
-        if (!this.isDrawing) return;
-
-        const rect = this.canvas.getBoundingClientRect();
-        this.currentPoint = {
-            x: event.clientX - rect.left,
-            y: event.clientY - rect.top
-        };
-
-        // Limpiar el canvas
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-        // Dibujar la línea
-        this.ctx.beginPath();
-        this.ctx.moveTo(this.startPoint.x, this.startPoint.y);
-        this.ctx.lineTo(this.currentPoint.x, this.currentPoint.y);
-        this.ctx.stroke();
-
-        // Comprobar si el ratón está fuera del canvas
-        if (event.clientX < rect.left || event.clientX > rect.right ||
-            event.clientY < rect.top || event.clientY > rect.bottom) {
-            this.endDrawing();
-        }
-    }
-
-    endDrawing() {
-        if (!this.isDrawing) return;
-        this.isDrawing = false;
-
-        // Calcular el vector de movimiento
-        const dx = this.currentPoint.x - this.startPoint.x;
-        const dy = this.currentPoint.y - this.startPoint.y;
-
-        // Calcular la longitud del vector
-        const length = Math.sqrt(dx * dx + dy * dy);
+        const scaleX = NORMALIZED_SPACE.WIDTH / this.canvas.width;
+        const scaleY = NORMALIZED_SPACE.HEIGHT / this.canvas.height;
         
-        // Normalizar respecto al tamaño del pad
-        const maxLength = this.canvas.width;
-        const speedFactor = 5000; // Aumentado considerablemente
-        const normalizedLength = length / maxLength; // Eliminado el límite de 1
+        return {
+            x: (x - rect.left) * scaleX,
+            y: (y - rect.top) * scaleY
+        };
+    }
 
-        // Calcular las velocidades normalizadas
-        if (this.targetEntity) {
-            this.targetEntity.velocityX = (dx / length) * normalizedLength * speedFactor;
-            this.targetEntity.velocityY = (dy / length) * normalizedLength * speedFactor;
+    // Redimensionar el canvas del DrawingPad
+    resize() {
+        // Calcular el tamaño y posición del drawing pad
+        const gameRect = this.gameCanvas.getBoundingClientRect();
+        const padSize = gameRect.height * 0.5; // Tamaño cuadrado igual a 1/2 de la altura del canvas
+        
+        // Configurar el tamaño del drawing pad (cuadrado)
+        this.canvas.width = padSize;
+        this.canvas.height = padSize;
+        
+        // Posicionar en la esquina inferior izquierda del canvas del juego
+        this.canvas.style.position = 'absolute';
+        this.canvas.style.left = `${gameRect.left}px`;
+        this.canvas.style.top = `${gameRect.top + gameRect.height - padSize}px`;
+        
+        // Añadir fondo semi-transparente
+        this.canvas.style.backgroundColor = UI.DRAWING_PAD.BACKGROUND_COLOR;
+        
+        // Añadir un borde para mejor visibilidad
+        this.canvas.style.border = '1px solid rgba(255, 255, 255, 0.3)';
+        this.canvas.style.zIndex = '10'; // Asegurar que esté por encima del canvas del juego
+    }
+
+    // Configuración de event listeners
+    setupEventListeners() {
+        // Eventos de ratón
+        this.canvas.addEventListener('mousedown', this.handleStart.bind(this));
+        this.canvas.addEventListener('mousemove', this.handleMove.bind(this));
+        this.canvas.addEventListener('mouseup', this.handleEnd.bind(this));
+        this.canvas.addEventListener('mouseout', this.handleCancel.bind(this));
+
+        // Eventos táctiles
+        this.canvas.addEventListener('touchstart', this.handleStart.bind(this));
+        this.canvas.addEventListener('touchmove', this.handleMove.bind(this));
+        this.canvas.addEventListener('touchend', this.handleEnd.bind(this));
+        this.canvas.addEventListener('touchcancel', this.handleCancel.bind(this));
+
+        // Evento de resize
+        window.addEventListener('resize', this.resize.bind(this));
+    }
+
+    handleStart(e) {
+        e.preventDefault();
+        
+        // Obtener posición en coordenadas normalizadas
+        const point = this.getPointFromEvent(e);
+        this.startPoint = point;
+        this.isDrawing = true;
+        
+        // Limpiar canvas
+        this.clearCanvas();
+    }
+
+    handleMove(e) {
+        e.preventDefault();
+        if (!this.isDrawing) return;
+        
+        // Obtener posición en coordenadas normalizadas
+        const point = this.getPointFromEvent(e);
+        this.endPoint = point;
+        
+        // Redibujar
+        this.clearCanvas();
+        this.drawLine();
+    }
+
+    handleEnd(e) {
+        e.preventDefault();
+        if (!this.isDrawing) return;
+        
+        this.isDrawing = false;
+        
+        // Si está configurado para lanzamiento automático, lanzar la entidad
+        if (this.autoLaunch && this.startPoint && this.endPoint) {
+            this.launchEntity();
         }
+        
+        // Limpiar puntos y canvas
+        this.clearCanvas();
+        this.startPoint = null;
+        this.endPoint = null;
+    }
 
-        // Limpiar el canvas
+    handleCancel(e) {
+        e.preventDefault();
+        this.isDrawing = false;
+        this.clearCanvas();
+        this.startPoint = null;
+        this.endPoint = null;
+    }
+
+    // Obtener punto normalizado desde un evento
+    getPointFromEvent(e) {
+        let x, y;
+        
+        // Touch o mouse
+        if (e.touches && e.touches.length > 0) {
+            x = e.touches[0].clientX;
+            y = e.touches[0].clientY;
+        } else {
+            x = e.clientX;
+            y = e.clientY;
+        }
+        
+        // Convertir a coordenadas normalizadas
+        return this.screenToNormalized(x, y);
+    }
+
+    // Limpiar el canvas
+    clearCanvas() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    handleMouseUp() {
-        if (this.isDrawing && this.points.length > 1) {
-            const start = this.points[0];
-            const end = this.points[this.points.length - 1];
-            
-            // Calcular el vector de dirección
-            const dx = start.x - end.x;
-            const dy = start.y - end.y;
-            
-            
-            // Aumentar el factor de fuerza para compensar el deltaTime
-            const forceFactor = 1000; // Aumentado de ~2-3 a 8
-            
-            // Aplicar la fuerza al objeto controlado
-            this.controlledObject.velocityX = dx * forceFactor;
-            this.controlledObject.velocityY = dy * forceFactor;
+    // Convertir coordenadas normalizadas a coordenadas de pantalla para dibujar
+    normalizedToScreen(x, y) {
+        const scaleX = this.canvas.width / NORMALIZED_SPACE.WIDTH;
+        const scaleY = this.canvas.height / NORMALIZED_SPACE.HEIGHT;
+        
+        return {
+            x: x * scaleX,
+            y: y * scaleY
+        };
+    }
+
+    // Dibujar la línea de lanzamiento
+    drawLine() {
+        if (!this.startPoint || !this.endPoint || !this.isVisible) return;
+        
+        // Convertir a coordenadas de pantalla para dibujar
+        const start = this.normalizedToScreen(this.startPoint.x, this.startPoint.y);
+        const end = this.normalizedToScreen(this.endPoint.x, this.endPoint.y);
+        
+        this.ctx.beginPath();
+        this.ctx.moveTo(start.x, start.y);
+        this.ctx.lineTo(end.x, end.y);
+        this.ctx.strokeStyle = UI.DRAWING_PAD.STROKE_STYLE;
+        this.ctx.lineWidth = UI.DRAWING_PAD.LINE_WIDTH;
+        this.ctx.stroke();
+    }
+
+    // Lanzar la entidad controlada
+    launchEntity() {
+        if (!this.controlEntity || !this.startPoint || !this.endPoint) return;
+        
+        // Calcular velocidad basada en la diferencia entre puntos
+        const velocityX = (this.startPoint.x - this.endPoint.x) * UI.DRAWING_PAD.SPEED_FACTOR;
+        const velocityY = (this.startPoint.y - this.endPoint.y) * UI.DRAWING_PAD.SPEED_FACTOR;
+        
+        // Actualizar la entidad
+        this.controlEntity.velocityX = - velocityX;
+        this.controlEntity.velocityY = - velocityY;
+    }
+
+    // Mostrar/ocultar el pad de dibujo
+    setVisible(visible) {
+        this.isVisible = visible;
+        if (!visible) {
+            this.clearCanvas();
         }
     }
 }

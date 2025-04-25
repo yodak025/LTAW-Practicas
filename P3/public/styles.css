@@ -7,11 +7,9 @@ html {
     font-family: Jersey;
 }
 
-
-
 #canvas {
     background-image: url('Images/BackGround0.jpg');
-    background-size: 100vw 100vh ;
+    background-size: 100% 100% ;
     border-style: solid;
     border-width: 1px;
     border-color: black;
@@ -21,8 +19,8 @@ html {
     position: absolute;
             top: 0;
             left: 0;
-            width: 100vw; /* Esto hace que el ancho sea igual al ancho de la ventana del navegador */
-            height: 100vh; /* Esto hace que la altura sea igual a la altura de la ventana del navegador */
+            width: 100%; /* Esto hace que el ancho sea igual al ancho de la ventana del navegador */
+            height: 100%; /* Esto hace que la altura sea igual a la altura de la ventana del navegador */
             z-index: -1;
 
 }

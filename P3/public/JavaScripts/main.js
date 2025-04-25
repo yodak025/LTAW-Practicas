@@ -3,14 +3,95 @@ const menu = document.getElementById('menu');
 const gameContainer = document.getElementById('game-container');
 const singlePlayerButton = document.getElementById('singleplayer');
 const multiPlayerButton = document.getElementById('multiplayer');
+const canvas = document.getElementById('canvas');
+const drawingPadCanvas = document.getElementById('drawing-pad');
+
+// Importar constantes
+import { NORMALIZED_SPACE, CANVAS, DOM, MESSAGES } from './constants.js';
 
 // Inicializar Socket.IO
 const socket = io();
+
+// Función para redimensionar el canvas con relación de aspecto 16:9
+function resizeCanvas() {
+    const containerWidth = window.innerWidth;
+    const containerHeight = window.innerHeight;
+    
+    // Calcular el margen basado en el porcentaje definido en las constantes
+    const marginPercentage = CANVAS.MARGIN_PERCENT / 100;
+    const horizontalMargin = containerWidth * marginPercentage;
+    const verticalMargin = containerHeight * marginPercentage;
+    
+    // Espacio disponible después de aplicar márgenes
+    // Añadir margen adicional para asegurar que los bordes sean visibles
+    const safetyMargin = Math.max(horizontalMargin, verticalMargin) * 0.5; // Margen de seguridad adicional
+    
+    const availableWidth = containerWidth - (horizontalMargin * 2) - safetyMargin;
+    const availableHeight = containerHeight - (verticalMargin * 2) - safetyMargin;
+    
+    // Calcular dimensiones manteniendo estrictamente relación de aspecto 16:9
+    let canvasWidth, canvasHeight;
+    
+    // Determinar la dimensión limitante (altura o anchura) para preservar la relación de aspecto
+    if (availableWidth / availableHeight > NORMALIZED_SPACE.ASPECT_RATIO) {
+        // La pantalla es más ancha que 16:9, limitar por altura
+        canvasHeight = availableHeight;
+        canvasWidth = canvasHeight * NORMALIZED_SPACE.ASPECT_RATIO;
+    } else {
+        // La pantalla es más alta que 16:9, limitar por anchura
+        canvasWidth = availableWidth;
+        canvasHeight = canvasWidth / NORMALIZED_SPACE.ASPECT_RATIO;
+    }
+    
+    // Comprobación de seguridad para pantallas muy pequeñas
+    const minVisibleWidth = CANVAS.MIN_VISIBLE_WIDTH;
+    const minVisibleHeight = minVisibleWidth / NORMALIZED_SPACE.ASPECT_RATIO;
+    
+    if (canvasWidth < minVisibleWidth || canvasHeight < minVisibleHeight) {
+        if (availableWidth < availableHeight * NORMALIZED_SPACE.ASPECT_RATIO) {
+            canvasWidth = Math.min(minVisibleWidth, availableWidth);
+            canvasHeight = canvasWidth / NORMALIZED_SPACE.ASPECT_RATIO;
+        } else {
+            canvasHeight = Math.min(minVisibleHeight, availableHeight);
+            canvasWidth = canvasHeight * NORMALIZED_SPACE.ASPECT_RATIO;
+        }
+    }
+    
+    // Aplicar dimensiones al canvas de juego
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    
+    // Aplicar dimensiones al canvas de dibujo
+    // El drawing pad tiene su propia gestión de redimensionamiento
+    
+    // Centrar el contenedor del juego con un poco más de margen
+    gameContainer.style.width = `${canvasWidth}px`;
+    gameContainer.style.height = `${canvasHeight}px`;
+    gameContainer.style.margin = 'auto';
+    gameContainer.style.position = DOM.POSITION.CENTERED.POSITION;
+    gameContainer.style.top = DOM.POSITION.CENTERED.TOP;
+    gameContainer.style.left = DOM.POSITION.CENTERED.LEFT;
+    gameContainer.style.transform = DOM.POSITION.CENTERED.TRANSFORM;
+    gameContainer.style.backgroundColor = CANVAS.BACKGROUND_COLOR;
+    
+    // Añadir un borde para que sea visible en cualquier fondo
+    gameContainer.style.boxShadow = CANVAS.BOX_SHADOW;
+    
+    // Aplicar un padding al contenedor para asegurar visibilidad completa
+    gameContainer.style.padding = `${safetyMargin/4}px`;
+    
+    // Forzar una actualización del drawing pad después de cambiar el tamaño del canvas
+    const drawingPads = document.querySelectorAll('[id^="drawing-pad"]');
+    drawingPads.forEach(pad => {
+        if (pad.resize) pad.resize();
+    });
+}
 
 // Función para mostrar el juego y ocultar el menú
 function showGame() {
     menu.classList.add('hidden');
     gameContainer.classList.remove('hidden');
+    resizeCanvas();
 }
 
 // Crear elementos para el menú de roles y salas
@@ -63,26 +144,26 @@ function updateRoomList(rooms) {
         let statusText = '';
         let canJoin = false;
         
-        if (selectedPlayerType === 'bird') {
+        if (selectedPlayerType === DOM.PLAYER_TYPES.BIRD) {
             if (room.hasBird) {
-                statusText = '(Ocupado: Ya hay un pájaro)';
+                statusText = MESSAGES.ROOM_STATUS.OCCUPIED_BIRD;
                 canJoin = false;
             } else if (room.hasStone) {
-                statusText = '(Disponible: Falta pájaro)';
+                statusText = MESSAGES.ROOM_STATUS.AVAILABLE_BIRD;
                 canJoin = true;
             } else {
-                statusText = '(Vacía)';
+                statusText = MESSAGES.ROOM_STATUS.EMPTY;
                 canJoin = true;
             }
         } else { // stone
             if (room.hasStone) {
-                statusText = '(Ocupado: Ya hay una piedra)';
+                statusText = MESSAGES.ROOM_STATUS.OCCUPIED_STONE;
                 canJoin = false;
             } else if (room.hasBird) {
-                statusText = '(Disponible: Falta piedra)';
+                statusText = MESSAGES.ROOM_STATUS.AVAILABLE_STONE;
                 canJoin = true;
             } else {
-                statusText = '(Vacía)';
+                statusText = MESSAGES.ROOM_STATUS.EMPTY;
                 canJoin = true;
             }
         }
@@ -107,12 +188,12 @@ function updateRoomList(rooms) {
 
 // Event Listeners
 document.getElementById('bird-role').addEventListener('click', () => {
-    selectedPlayerType = 'bird';
+    selectedPlayerType = DOM.PLAYER_TYPES.BIRD;
     showRoomMenu();
 });
 
 document.getElementById('stone-role').addEventListener('click', () => {
-    selectedPlayerType = 'stone';
+    selectedPlayerType = DOM.PLAYER_TYPES.STONE;
     showRoomMenu();
 });
 
@@ -139,7 +220,7 @@ socket.on('startGame', ({playerType}) => {
     showGame();
     
     // Cargar el juego correspondiente según el rol
-    if (playerType === 'bird') {
+    if (playerType === DOM.PLAYER_TYPES.BIRD) {
         import('./twoBirds.js')
             .then(module => {
                 module.initBirdsGame(socket)
@@ -157,7 +238,10 @@ socket.on('startGame', ({playerType}) => {
 });
 
 socket.on('playerDisconnected', (playerType) => {
-    alert(`El jugador ${playerType === 'bird' ? 'pájaro' : 'piedra'} se ha desconectado`);
+    const message = playerType === DOM.PLAYER_TYPES.BIRD 
+        ? MESSAGES.PLAYER_DISCONNECTED.BIRD 
+        : MESSAGES.PLAYER_DISCONNECTED.STONE;
+    alert(message);
     // Volver al menú principal
     gameContainer.classList.add('hidden');
     menu.classList.remove('hidden');
@@ -165,7 +249,7 @@ socket.on('playerDisconnected', (playerType) => {
 
 socket.on('gameReady', (isReady) => {
     if (isReady) {
-        alert('¡La partida está lista! Ambos jugadores están conectados.');
+        alert(MESSAGES.GAME_READY);
     }
 });
 
@@ -185,7 +269,7 @@ socket.on('roomJoined', ({roomName, playerType, isComplete}) => {
     showGame();
     
     // Cargar el juego correspondiente según el rol
-    if (playerType === 'bird') {
+    if (playerType === DOM.PLAYER_TYPES.BIRD) {
         import('./twoBirds.js')
             .then(module => {
                 module.initBirdsGame(socket)
@@ -214,3 +298,12 @@ singlePlayerButton.addEventListener('click', () => {
 });
 
 multiPlayerButton.addEventListener('click', showRoleMenu);
+
+// Añadir evento de resize a la ventana
+window.addEventListener('resize', resizeCanvas);
+
+// Aplicar el tamaño inicial al cargar la página
+window.addEventListener('load', () => {
+    // Inicializar canvas con el fondo negro
+    document.body.style.backgroundColor = CANVAS.BACKGROUND_COLOR;
+});
