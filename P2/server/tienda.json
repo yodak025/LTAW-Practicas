@@ -204,6 +204,32 @@
           }
         }
       ]
+    },
+    {
+      "usuario": "Yodak025",
+      "fecha": "2025-04-26T14:03:01.194Z",
+      "dirección": "diego.sota@gmail.com",
+      "tarjeta": "11111212121212121212",
+      "documentos": [
+        {
+          "tipo": "revisar-redaccion",
+          "cuerpo": {
+            "Corrección de Texto": {
+              "Texto Corregido": "\"el texto parece ser solo un conjunto de letras sin ningún sentido o significado claro por lo que no hay mucho que resumir en realidad no se presenta ninguna idea o concepto concreto solo una serie de caracteres que no forman palabras o frases coherentes sería necesario tener más contexto o información para poder entender qué se intenta comunicar con este texto\""
+            },
+            "Feedback": "\"para comenzar es importante destacar que el texto presentado debe ser revisado en detalle para identificar áreas de mejora y errores potenciales en cuanto a coherencia sintáctica y claridad en la exposición de las ideas el lenguaje utilizado debe ser sencillo y fácil de entender para garantizar que el mensaje llegue de manera efectiva a los lectores en este sentido sugiero evitar el uso de términos o expresiones muy complejos o técnicos que puedan dificultar la comprensión del texto para los usuarios en general también es crucial verificar la ortografía y la gramática para asegurarse de que no haya errores que puedan restar credibilidad al contenido otra sugerencia es trabajar en la estructura del texto para que fluya de manera lógica y sea fácil de seguir es importante presentar las ideas de forma clara y concisa y utilizar transiciones suaves entre los diferentes párrafos o ideas adicionalmente sería beneficioso incluir ejemplos o anécdotas que ilustren los puntos principales y hagan que el texto sea más atractivo y relatable para el lector es fundamental recordar que el tono debe ser informal y coloquial por lo que es recomendable usar un lenguaje cotidiano y evitar el lenguaje formal o académico en la medida de lo posible finalmente es esencial leer el texto en voz alta para detectar cualquier error o falta de fluidez en la lectura y hacer los ajustes necesarios antes de considerarlo listo para su publicación\""
+          }
+        },
+        {
+          "tipo": "revisar-redaccion",
+          "cuerpo": {
+            "Corrección de Texto": {
+              "Texto Corregido": "\"el texto que se proporciona parece ser un conjunto de caracteres aleatorios y no tiene un significado claro, por lo que es imposible generar un resumen coherente a partir de esa información, lo ideal seria tener un texto con ideas y conceptos claros para poder resumirlo de manera efectiva y llevar acabo una conversación fluida y bilateral con el usuario.\""
+            },
+            "Feedback": "\"Para empezar, considera que el texto debe ser claro y conciso, evitando la repetición de ideas y utilizando un lenguaje que sea fácil de entender para el público en general. La estructura debe ser lógica, comenzando con una introducción que capte la atención del lector, seguida de una explicación más detallada de los conceptos y terminando con una conclusión que resuma los puntos clave. \\n\\nEl uso de un tono informal y coloquial puede hacer que el texto sea más atractivo y cercano al lector, pero es importante mantener un equilibrio para que el contenido siga siendo respetuoso y profesional. La gramática y la ortografía deben ser impecables para transmitir credibilidad y seriedad. \\n\\nEn cuanto a la longitud, considera que lo ideal es que el texto sea lo suficientemente largo como para cubrir todos los aspectos importantes, pero no tan largo que pierda la atención del lector. Un buen punto de partida podría ser entre 500 y 700 palabras, aunque esto puede variar dependiendo del tema y del público objetivo. \\n\\nPara mejorar la legibilidad, sugiero utilizar párrafos cortos y bien estructurados, con oraciones que no sean demasiado largas o complejas. También puede ser útil incluir ejemplos o anécdotas que ilustren los puntos que se están haciendo, ya que esto puede hacer que el texto sea más engaging y fácil de entender. \\n\\nRecuerda que la coherencia y la cohesión son fundamentales para que el texto fluya de manera natural y sea fácil de seguir. Asegúrate de que cada párrafo esté bien conectado con el anterior y que el lector pueda seguir tu línea de pensamiento de manera clara. \\n\\nEn resumen, para que el texto sea efectivo, es crucial encontrar un equilibrio entre claridad, concisión, y un lenguaje atractivo, mientras se mantiene una gramática y ortografía impecables, y se estructura de manera lógica y coherente.\""
+          }
+        }
+      ]
     }
   ]
 }

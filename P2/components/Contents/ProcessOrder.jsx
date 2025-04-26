@@ -70,9 +70,11 @@ const PaymentModal = ({ isOpen, onConfirm, onCancel }) => {
         ) : (
           <div className="os-modal-success">
             <h2>¡Pedido Realizado con Éxito!</h2>
-            <p>Recibirás un email con la confirmación del pedido.</p>
-            <button className="os-modal-button confirm" onClick={onCancel}>
-              Cerrar
+            <button className="os-modal-button confirm" onClick={() => window.location.href = "/"}>
+              Página Principal
+            </button>
+            <button className="os-modal-button confirm" onClick={() => window.location.href = "/my-documents.html"}>
+              Mis documentos 
             </button>
           </div>
         )}
