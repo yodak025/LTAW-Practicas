@@ -1,4 +1,5 @@
 // Crea el objeto con los datos de la petición
+import printLog from "../logs.js";
 import {
   generateExpandedText,
   generateSumarizedText,
@@ -57,6 +58,7 @@ const documentGenerationRequest = async (type, body) => {
     default:
       throw new Error(`Tipo de documento "${documentType}" no soportado`);
   }
+  printLog("generated-document", response, null);
   return {
     type: type,
     body: response,

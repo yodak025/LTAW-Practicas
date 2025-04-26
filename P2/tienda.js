@@ -63,14 +63,19 @@ const server = http.createServer(async (req, res) => {
         `user: ${reqData.user.usuario}, mail: ${reqData.body.mail}, card: ${reqData.body.card}`
       );
       // Procesamiento asíncrono de documentos
+      printLog("processing-order", cart, null);
 
-      const documentPromises = cart.map(order => {
-        printLog("generate-document", order.tipo, JSON.stringify(order.cuerpo));
+      const documentPromises = cart.map((order, index) => {
+        printLog(
+          "generating-document",
+          { idx: index, type: order.tipo, content: JSON.parse(order.cuerpo)},
+          null
+        );
         return documentGenerationRequest(order.tipo, order.cuerpo);
       });
       const documents = await Promise.all(documentPromises);
-      console.log("Documentos generados:", JSON.stringify(documents, null, 2));
-        
+      printLog("processed-order", null, null);
+
       db.addNewOrder(
         documents,
         reqData.user.usuario,

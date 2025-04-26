@@ -92,113 +92,7 @@
   "pedidos": [
     {
       "usuario": "Yodak025",
-      "fecha": "2025-04-25T16:44:59.190Z",
-      "dirección": "esrebollo@gmail.com",
-      "tarjeta": "sasasasasasasasa",
-      "documentos": [
-        {},
-        {},
-        {},
-        {}
-      ]
-    },
-    {
-      "usuario": "Yodak025",
-      "fecha": "2025-04-25T16:54:20.294Z",
-      "dirección": "as@sd.d",
-      "tarjeta": "ssdsddssdsdsdsds",
-      "documentos": [
-        {},
-        {},
-        {},
-        {}
-      ]
-    },
-    {
-      "usuario": "Yodak025",
-      "fecha": "2025-04-25T16:56:01.835Z",
-      "dirección": "d.sota.2020@alumnos.urjc.es",
-      "tarjeta": "ssdsddssdsdsdsds",
-      "documentos": [
-        {},
-        {},
-        {},
-        {}
-      ]
-    },
-    {
-      "usuario": "Yodak025",
-      "fecha": "2025-04-25T16:57:32.502Z",
-      "dirección": "diego.sota@gmail.com",
-      "tarjeta": "11111212121212121212",
-      "documentos": [
-        {
-          "tipo": "resumir-texto",
-          "cuerpo": {
-            "Texto Resumido": "\"Desafortunadamente, no se puede generar un resumen del texto original debido a que no es posible analizar su contenido ya que consta solo de caracteres aleatorios sin sentido.\\n\\nSin embargo, puedo sugerirte una posible forma de abordar este problema:\\n\\n1. Reemplaza el texto original con un mensaje de error o una solicitud para que el usuario ingrese un texto válido.\\n2. Puedes generar un resumen vacío o un mensaje indicando que no se puede analizar el texto debido a su contenido.\\n\\nAquí te muestro un posible resultado:\\n\\nel texto ingresado es inválido, por favor ingresa un texto real para poder realizar la análisis y generar un resumen adecuado.\\n\\nSi deseas, puedo sugerirte una forma de mejorar tu aplicación para que pueda manejar textos vacíos o con contenido no válido.\""
-          }
-        },
-        {
-          "tipo": "esquematizar-texto",
-          "cuerpo": {
-            "Esquema Generado": "\"1. cvcvcvc\\n2. cvdcvcvcvcv\\n3. \\n4. cvcvcvc\\n5. 1. cvcvcvcvcv\\n6. 1.1. cvcvcvc\\n7. 1.1.1. cvcvcvcvc\\n8. 1.1.2. cvcvcvcv\\n9. 1.2. cvcvcvcvcv\\n10. cvdcvcvcv\""
-          }
-        },
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": {
-            "Corrección de Texto": {
-              "Texto Corregido": "\"El texto original no tiene sentido y parece ser un conjunto aleatorio de caracteres. No hay estructura ni contenido claro que pueda ser resumido.\""
-            },
-            "Feedback": "\"¡Claro! Aquí te presento mi feedback sobre el texto original:\\n\\nMe parece que el texto está bien estructurado y fácil de leer, pero hay algunas cosas que podrían mejorarse. En primer lugar, la ortografía y gramática están correctas, lo cual es genial.\\n\\nSin embargo, noté que hay algunos conceptos que se repiten en diferentes partes del texto. Podrías considerar crear una estructura más lógica y jerárquica para que el contenido sea más fácil de seguir.\\n\\nTambién me parece que algunas frases son un poco largas y difíciles de entender. Procura dividirlas en oraciones más cortas y sencillas para que sean más fáciles de leer.\\n\\nEn cuanto a la coherencia, hay algunos puntos que no están claramente relacionados entre sí. Podrías considerar crear una estructura de ideas más lógica y conexiva.\\n\\nOtra cosa que me parece interesante es agregar un poco de variedad en el lenguaje. Aunque el tono es informal y coloquial, algunas frases son un poco genéricas y podrían ser reemplazadas con algo más original.\\n\\nFinalmente, no te olvides de revisar la consistencia en la puntuación y el uso de comas, puntos suspensivos, etc. Aunque no es un error grave, puede afectar la lectura del texto.\\n\\nEn resumen, el texto tiene buenos y malos puntos. Con algunas mejoras en la estructura, coherencia y lenguaje, podría ser aún más efectivo y atractivo para los usuarios.\""
-          }
-        },
-        {
-          "tipo": "resumir-texto",
-          "cuerpo": {
-            "Texto Resumido": "\"El texto original no parece contener ninguna información coherente ni significativa. Sin embargo, puedo intentar analizarlo y generar un resumen basado en la longitud del texto.\\n\\nSi el texto original tiene una longitud de 20 caracteres, entonces el resumen debe tener aproximadamente 5 caracteres.\\n\\ncvcv\\n\\nPero si consideramos que el texto es solo un conjunto aleatorio de caracteres, no hay puntos clave ni conceptos que resumir. \\n\\nEntonces, el resumen podría ser simplemente un mensaje indicando que el texto original no contiene información útil.\\n\\ncvcvv\""
-          }
-        }
-      ]
-    },
-    {
-      "usuario": "Yodak025",
-      "fecha": "2025-04-25T17:47:44.140Z",
-      "dirección": "diego.sota@gmail.com",
-      "tarjeta": "11111212121212121212",
-      "documentos": [
-        {
-          "tipo": "resumir-texto",
-          "cuerpo": {
-            "Texto Resumido": "\"Desafortunadamente, no se puede generar un resumen del texto original ya que parece ser una cadena aleatoria sin sentido.\\n\\nSin embargo, si asumimos que la cadena \\\"ijidjeneunfuenfuenfef\\\" es solo un ejemplo y que el texto original es un conjunto de ideas o conceptos reales, podemos intentar analizar la cadena para extraer algunas características generales.\\n\\nAquí te presento un posible resumen del texto en formato plano:\\n\\nno hay información en el texto original\\nno se pueden identificar conceptos o ideas claras\\nla cadena parece ser aleatoria y sin sentido\\n\\nSi necesitas ayuda con otro texto, por favor proporciona el texto real y yo estaré encantado de ayudarte a generar un resumen.\""
-          }
-        },
-        {
-          "tipo": "esquematizar-texto",
-          "cuerpo": {
-            "Esquema Generado": "\"1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9\\n10\\n11\\n12\\n13\\n14\\n15\\n16\\n17\\n18\\n19\\n20\\n\\n1. cvcvcvcvcv\\n2. cvdcvcvcvcv\\n3. cvcvcvcvcv\\n4. cvcvcvcvcv\\n5. cvcvcvcvcv\\n6. cvcvcvcvcv\\n7. cvcvcvcvcv\\n8. cvcvcvcvcv\""
-          }
-        },
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": {
-            "Corrección de Texto": {
-              "Texto Corregido": "\"No hay nada que resumir, parece que se proporcionó un texto vacío. Si deseas generar un resumen de algo específico, por favor proporciona el texto completo y yo estaré encantado de ayudarte.\""
-            },
-            "Feedback": "\"¡Claro! A continuación te presento un feedback constructivo sobre el texto proporcionado:\\n\\nEl texto parece ser una mezcla de ideas y conceptos interesantes, pero podría beneficiarse de algunas mejoras para que se sienta más fluido y fácil de leer.\\n\\nPrimero, es importante destacar que hay algunos errores de gramática y ortografía en el texto. Por ejemplo, en la oración \\\"El usuario puede generar contenido de forma automática\\\" debería decir \\\"El usuario puede generar contenido de manera automática\\\". También hay algunas palabras mal escritas como \\\"coloquial\\\" en lugar de \\\"colloquial\\\".\\n\\nEn cuanto al tono, creo que se está más cerca del formal que del informal. Para lograr un tono coloquial y cercano es importante utilizar un lenguaje más relajado y natural. Por ejemplo, en lugar de decir \\\"La aplicación web ayudará a los usuarios\\\" podría decirse \\\"Con nuestra app podrás generar contenido sin problemas\\\".\\n\\nOtra sugerencia que tengo es que el texto sea más conciso y directo. Hay algunas oraciones largas y complejas que pueden ser divididas en párrafos más cortos y fáciles de leer.\\n\\nFinalmente, me parece que el texto podría beneficiarse de algunos ejemplos o ilustraciones para hacerlo más atractivo y comprensible para los lectores. ¿Qué te parece si incluimos algunas imágenes o gráficos para respaldar las ideas presentadas?\\n\\nEn resumen, creo que con algunas mejoras en la gramática, ortografía, tono y estructura del texto podríamos lograr un resultado mucho más efectivo y atractivo para nuestros lectores.\""
-          }
-        },
-        {
-          "tipo": "resumir-texto",
-          "cuerpo": {
-            "Texto Resumido": "\"El texto original parece ser un conjunto de caracteres aleatorios sin sentido aparente. Sin embargo, puedo intentar analizarlo y generar un resumen conciso.\\n\\nDespués de analizar el texto, no se han encontrado puntos clave o conceptos significativos. El texto parece ser simplemente una secuencia de caracteres al azar.\\n\\nAquí te presento un posible resumen del texto original:\\n\\n\\\"El texto es una serie de caracteres aleatorios sin sentido aparente.\\\"\\n\\nNota que este resumen es aproximadamente el 25% de la longitud del texto original y se ajusta a las consideraciones proporcionadas.\""
-          }
-        }
-      ]
-    },
-    {
-      "usuario": "Yodak025",
-      "fecha": "2025-04-25T17:52:39.414Z",
+      "fecha": "2025-04-26T11:17:55.684Z",
       "dirección": "diego.sota@gmail.com",
       "tarjeta": "11111212121212121212",
       "documentos": [
@@ -212,10 +106,75 @@
                 "Teléfono": "646967576",
                 "Correo Electrónico": "diego.sota@gmail.com"
               },
-              "Perfil": "\"Soy Diego Sota, un profesional apasionado y con un alto nivel de motivación, lo que me permite mantener una actitud insaciable hacia mis objetivos profesionales.\\n\\nMi personalidad es la clave para entender mi enfoque en el trabajo: soy un jodido genio, capaz de encontrar soluciones innovadoras a los desafíos más complejos. Esta fortaleza me permite abordar proyectos con una visión creativa y una gran capacidad de resolución de problemas.\\n\\nMi perfil profesional se caracteriza por la búsqueda constante de excelencia en cada proyecto que emprenda, siempre buscando mejorar procesos y resultados.\"",
-              "Experiencia Laboral": "\"\\\"Actualmente estoy en la etapa final de mi carrera como ingeniero de sistemas, lo que me proporciona una sólida base teórica y práctica en el campo de la tecnología y la informática.\\\\n\\\\nMi formación académica se centra en la adquisición de habilidades y conocimientos en áreas específicas como programación, redes de computadoras, bases de datos y sistemas operativos, entre otras.\\\"\"",
-              "Formación Académica": "\"\\\"Estoy a punto de graduarme como ingeniero de sistemas, lo que me proporciona una sólida base teórica y práctica en el campo de la tecnología y la informática.\\\\n\\\\nMi formación académica se centra en la adquisición de habilidades y conocimientos en áreas específicas como programación, redes de computadoras, bases de datos y sistemas operativos, entre otras.\\\\n\\\\nEstoy a punto de obtener un título oficial que acredita mi capacidad para diseñar, desarrollar y implementar soluciones informáticas eficientes y efectivas.\\\"\"",
-              "Habilidades": "\"\\\"\\\\\\\"Como profesional capacitado, tengo una amplia gama de habilidades técnicas y blandas que me permiten desempeñar mi trabajo de manera efectiva.\\\\\\\\n\\\\\\\\nEn el ámbito técnico, soy capaz de programar en Python y desarrollar aplicaciones web. Además, poseo la capacidad de resolver problemas de manera eficiente y creativa.\\\\\\\\n\\\\\\\\nMi personalidad es muy atractiva para los clientes, ya que soy tranquilo, agradable y accesible. Tengo una actitud proactiva y estoy siempre dispuesto a echar una mano cuando se requiere. También tengo experiencia hablando en público y actuando en pequeños escenarios, lo que me permite comunicarme de manera efectiva con mis clientes y colegas.\\\\\\\\n\\\\\\\\nEn cuanto a mi comunicación internacional, puedo expresarme con fluidez en inglés y castellano, lo que me permite interactuar con clientes y colegas de diferentes partes del mundo.\\\\\\\"\\\"\""
+              "Perfil": "\"Soy diego, un profesional con una amplia gama de habilidades y fortalezas que me permiten destacar en mi campo laboral. Me considero un amor de chaval, alguien apasionado y comprometido con mi trabajo, siempre dispuesto a aprender y crecer profesionalmente. Con una mentalidad positiva y proactiva, busco aprovechar al máximo mis oportunidades y alcanzar mis objetivos de manera efectiva. Mi enfoque está en generar valor y hacer una diferencia positiva en mi entorno laboral, donde la capacidad de trabajar en equipo y la comunicación efectiva son fundamentales para el éxito de cualquier proyecto.\"",
+              "Formación Académica": "\"Cuento con una formación académica sólida, habiendo cursado 4º de GISAM en la Universidad Rey Juan Carlos, lo que me ha proporcionado una base sólida en conocimientos y habilidades específicas de la materia, y me ha permitido desarrollar una visión integral y comprensiva de las áreas clave de mi formación, preparándome adecuadamente para desempeñar roles profesionales con competencia y eficacia. Esta etapa de estudios ha sido fundamental en mi crecimiento personal y profesional, permitiéndome adquirir herramientas y métodos que aplico de manera efectiva en mi carrera.\"",
+              "Habilidades": "\"\\\"Poseo una combinación de habilidades técnicas y blandas que me permiten abordar desafíos complejos de manera efectiva. En el ámbito tecnológico, tengo dominio de lenguajes de programación como Python y Javascript, lo que me facilita el desarrollo de soluciones informáticas innovadoras y personalizadas. Complementariamente, cuento con habilidades blandas como el pensamiento ingenieril, que me permite analizar problemas desde diferentes perspectivas, diseñar soluciones creativas y aplicar principios de ingeniería para resolverlos de manera eficiente. Esta combinación de habilidades técnicas y capacidades de pensamiento y resolución de problemas me hace un profesional versátil y capaz de adaptarme a entornos y proyectos diversos.\\\"\""
+            }
+          }
+        },
+        {
+          "tipo": "carta-presentacion",
+          "cuerpo": {
+            "Carta de Presentación": {
+              "Asunto": "Candidatura: Becario del equipo - Diego Sota ",
+              "Cuerpo": "\"Estimada Beatriz,\\n\\nMe dirijo a usted para expresar mi interés en el puesto de Becario del equipo en Telefonica VCT. Me siento muy motivado por la oportunidad de mejorar y aprender dentro de una empresa líder en el sector, y estoy convencido de que mi incorporación puede aportar valor a su equipo.\\n\\nComo casi graduado en Sistemas Audiovisuales, poseo conocimientos sólidos en codecs de audio y video relevantes, lo que me permite entender y contribuir en proyectos relacionados con la tecnología audiovisual. Además, tengo habilidades en programación en lenguajes como Python, JavaScript, Swift y Matlab, lo que me hace una persona versátil y capaz de adaptarme a distintas necesidades y proyectos dentro de la empresa.\\n\\nDurante la beca, aspiro a adquirir los conocimientos necesarios para ser un valioso miembro del equipo en el futuro. Estoy ansioso por aprender de los profesionales de Telefonica VCT y contribuir con mis habilidades y conocimientos para ayudar a alcanzar los objetivos de la empresa. Mi objetivo principal es crecer profesionalmente y aportar valor significativo a la organización.\\n\\nAgradezco de antemano su tiempo y consideración. Me gustaría tener la oportunidad de discutir cómo puedo contribuir al éxito de Telefonica VCT.\\n\\nAtentamente,\\nDiego Sota\\n646967576\\ndiego.sota@gmail.com\\nAvda. Abogados de Atocha, 6\\nhttps://github.com/yodak025\""
+            }
+          }
+        },
+        {
+          "tipo": "revisar-redaccion",
+          "cuerpo": {
+            "Corrección de Texto": {
+              "Texto Corregido": "\"El término filtrar se utiliza en español para denotar el acto de revelar o proporcionar información de manera no autorizada, siendo equivalente al verbo to leak en inglés, que se define como el acto de permitir que algo escape o se divulgue de manera no controlada, especialmente referido a información confidencial o secreta. En este contexto, el verbo leakear se utiliza para describir la acción de una fuente anónima que proporciona información sensible a los medios de comunicación, como se ilustra en el ejemplo donde una fuente cercana al ministro filtró una noticia a la prensa, lo que sugiere que la fuente fue alguien con acceso a información confidencial y que decidió compartir esa información de manera no autorizada con el público a través de los canales de comunicación.\""
+            },
+            "Feedback": "\"El texto proporcionado carece de claridad en varios puntos, lo que dificulta su comprensión. En primer lugar, sería beneficioso empezar con una introducción más concisa que establezca el contexto y el propósito del texto de manera clara. \\n\\nLa estructura del texto es en general desorganizada, saltando entre ideas sin una transición coherente, lo que puede causar confusión en el lector. Sería recomendable organizar las ideas en párrafos con temas específicos, cada uno desarrollando un concepto de forma detallada y coherente.\\n\\nEn cuanto al lenguaje utilizado, se nota un uso excesivo de jerga técnica sin explicar adecuadamente sus significados, lo que puede hacer que el texto sea inaccesible para lectores no familiarizados con el tema. Incluir definiciones breves o explicaciones para estos términos técnicos mejoraría significativamente la comprensión del texto.\\n\\nAdemás, hay varias oraciones largas y complejas que dificultan la lectura. Sería beneficioso dividirlas en oraciones más cortas y directas, lo que mejoraría la claridad y flujo del texto.\\n\\nEn términos de contenido, hay conceptos que se mencionan pero no se desarrollan adecuadamente. Proporcionar ejemplos concretos o estudios de caso relevantes ayudaría a ilustrar estos conceptos y hacer el texto más interesante y convincente.\\n\\nFinalmente, sería útil incluir una conclusión que resuma los puntos principales y ofrezca perspectivas futuras o llamadas a la acción, dando al lector una sensación de finalización y un punto de partida para explorar el tema más a fondo.\""
+          }
+        }
+      ]
+    },
+    {
+      "usuario": "Yodak025",
+      "fecha": "2025-04-26T12:25:40.812Z",
+      "dirección": "diego.sota@gmail.com",
+      "tarjeta": "11111212121212121212",
+      "documentos": [
+        {
+          "tipo": "revisar-redaccion",
+          "cuerpo": {
+            "Corrección de Texto": {
+              "Texto Corregido": "\"El texto parece ser solo una serie de letras y palabras sin sentido, por lo que no se puede hacer un resumen de sus ideas o conceptos. En su lugar, sugiero comenzar de cero y escribir algo nuevo que tenga un propósito claro y un mensaje coherente. Podríamos trabajar juntos para crear un texto que sea interesante y fácil de entender, utilizando un lenguaje coloquial y cercano que haga que los lectores se sientan conectados con el contenido. Podemos empezar por identificar el tema o idea principal que se quiere transmitir y luego desarrollar un plan para estructurar el texto de manera clara y concisa. Estoy aquí para ayudar a crear algo nuevo y significativo.\""
+            },
+            "Feedback": "\"El texto proporcionado parece tener varias ideas y conceptos interesantes, pero está un poco desorganizado y cuesta trabajo entenderlo en algunos puntos. Una posible mejora sería estructurar el texto de manera más clara, dividiéndolo en párrafos con ideas más concretas y utilizandolecciones de transición para conectar las diferentes partes del texto. \\n\\nTambién sería útil intentar utilizar un vocabulario más variado y coloquial para darle un toque más cercano y accesible al texto, ya que en algunos momentos se siente un poco formal. \\n\\nAdemás, incluir ejemplos concretos o anécdotas podría ayudar a ilustrar algunos de los conceptos presentados y hacer que el texto sea más atractivo y fácil de seguir. \\n\\nEn cuanto a la longitud del texto, podría ser beneficioso intentar ser un poco más conciso y directo en algunos párrafos, evitando repeticiones innecesarias y centrando la atención en las ideas principales. \\n\\nPor último, sería útil revisar el texto para corregir pequeños errores gramaticales y de puntuación que pueden restar claridad y fluidez al texto en general. \\n\\nCon estas sugerencias, el texto podría ser más atractivo y fácil de leer para el público objetivo, transmitiendo las ideas de manera clara y efectiva.\""
+          }
+        },
+        {
+          "tipo": "esquematizar-texto",
+          "cuerpo": {
+            "Esquema Generado": "\"1. Introducción al texto\\n1.1. Descripción general del contenido\\n1.1.1. Identificación de ideas principales\\n1.1.2. Análisis de conceptos clave\\n1.1.3. Revisión de la estructura del texto\\n1.2. Análisis de la estructura del texto\\n1.2.1. Identificación de patrones y tendencias\\n1.2.2. Examen de la cohesión y coherencia\\n1.2.3. Evaluación de la claridad y precisión\\n1.3. Identificación de temas y subtemas\\n1.3.1. Clasificación de ideas y conceptos\\n1.3.2. Asignación de categorías y subcategorías\\n1.3.3. Creación de un mapa conceptual\\n1.4. Análisis de la relación entre ideas\\n1.4.1. Identificación de conexiones y relaciones\\n1.4.2. Examen de la lógica y la secuencia\\n1.4.3. Evaluación de la consistencia y relevancia\\n1.5. Revisión de la completitud y exactitud\\n1.5.1. Verificación de la información\\n1.5.2. Comprobación de la precisión de los datos\\n1.5.3. Validación de la consistencia de los conceptos\\n2. Desarrollo del contenido\\n2.1. Ampliación de ideas y conceptos\\n2.1.1. Desarrollo de subtemas y subcategorías\\n2.1.2. Creación de ejemplos y casos de estudio\\n2.1.3. Incorporación de datos y estadísticas\\n2.2. Análisis de la estructura y organización\\n2.2.1. Revisión de la secuencia lógica\\n2.2.2. Evaluación de la claridad y la concisión\\n2.2.3. Optimización de la presentación y el formato\\n2.3. Revisión y edición del contenido\\n2.3.1. Corrección de errores y omisiones\\n2.3.2. Revisión de la coherencia y la consistencia\\n2.3.3. Evaluación de la efectividad y el impacto\\n3. Conclusión y recomendaciones\\n3.1. Resumen de los hallazgos y conclusiones\\n3.1.1. Síntesis de las ideas y conceptos clave\\n3.1.2. Revisión de las implicaciones y consecuencias\\n3.1.3. Identificación de áreas de mejora y futuro desarrollo\\n3.2. Recomendaciones y sugerencias\\n3.2.1. Propuestas de acciones y estrategias\\n3.2.2. Identificación de recursos y apoyo necesario\\n3.2.3. Evaluación de la factibilidad y viabilidad\\n3.3. Cierre y reflexión final\\n3.3.1. Recapitulación de los logros y resultados\\n3.3.2. Reflexión sobre el proceso y la experiencia\\n3.3.3. Identificación de oportunidades y desafíos futuros\""
+          }
+        }
+      ]
+    },
+    {
+      "usuario": "Yodak025",
+      "fecha": "2025-04-26T12:33:46.718Z",
+      "dirección": "diego.sota@gmail.com",
+      "tarjeta": "11111212121212121212",
+      "documentos": [
+        {
+          "tipo": "curriculum-vitae",
+          "cuerpo": {
+            "Currículum Vitae": {
+              "Datos de Contacto": {
+                "Nombre Completo": "Diego Sota ",
+                "Dirección": "Avda. Abogados de Atocha, 6",
+                "Teléfono": "646967576",
+                "Correo Electrónico": "diego.sota@gmail.com"
+              },
+              "Perfil": "\"Como profesional apasionado y motivado, gfgfgfgf. Con una sólida base en logros y fortalezas profesionales, fgfgfgfgfg,Demostrando habilidades y competencias que destacan en el campo, con una amplia gama de habilidades y competencias que destacan en el campo.\"",
+              "Experiencia Laboral": "\"fgfgfgfgfg, con un enfoque en adquirir conocimientos y habilidades que respalden mi crecimiento profesional, he logrado obtener una base sólida en mi campo de estudio, lo que me permite abordar desafíos y oportunidades con confianza y determinación, destacando mi capacidad para el aprendizaje continuo y la adaptación a nuevos entornos y tecnologías.\"",
+              "Formación Académica": "\"Con una base educativa sólida, fgfgfgfgfg, he podido desarrollar una comprensión profunda de los conceptos y principios que rigen mi campo de interés, lo que me permite aplicar mis conocimientos de manera efectiva en entornos prácticos y contribuir significativamente en equipos y proyectos, demostrando mi capacidad para el análisis, la resolución de problemas y la toma de decisiones informadas.\"",
+              "Habilidades": "\"\\\"Poseo una amplia gama de habilidades técnicas, fgfgfgfgfgfg, que me permiten abordar desafíos complejos con eficacia y precisión, lo que se combina con habilidades blandas como gfgfgfgfgfgf, que facilitan mi integración en equipos y mi capacidad para comunicarme de manera efectiva con colegas y clientes, además de contar con dominio de idiomas como fgfgfgfgg, lo que me permite interactuar y trabajar de manera fluida en entornos multiculturales y globales.\\\"\""
             }
           }
         }
@@ -223,177 +182,25 @@
     },
     {
       "usuario": "Yodak025",
-      "fecha": "2025-04-26T09:16:36.267Z",
-      "dirección": "esrebollo@gmail.com",
-      "tarjeta": "11111212121212121212",
-      "documentos": [
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": {
-            "Corrección de Texto": {}
-          }
-        }
-      ]
-    },
-    {
-      "usuario": "Yodak025",
-      "fecha": "2025-04-26T09:20:34.670Z",
-      "dirección": "esrebollo@gmail.com",
-      "tarjeta": "11111212121212121212",
-      "documentos": [
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": {
-            "Corrección de Texto": {}
-          }
-        }
-      ]
-    },
-    {
-      "usuario": "Yodak025",
-      "fecha": "2025-04-26T09:34:19.371Z",
-      "dirección": "esrebollo@gmail.com",
-      "tarjeta": "11111212121212121212",
-      "documentos": [
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": {
-            "Corrección de Texto": {}
-          }
-        }
-      ]
-    },
-    {
-      "usuario": "Yodak025",
-      "fecha": "2025-04-26T09:36:14.689Z",
-      "dirección": "diego.sota@gmail.com",
-      "tarjeta": "11111212121212121212",
-      "documentos": [
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": {
-            "Corrección de Texto": {}
-          }
-        }
-      ]
-    },
-    {
-      "usuario": "Yodak025",
-      "fecha": "2025-04-26T09:37:06.959Z",
-      "dirección": "esrebollo@gmail.com",
-      "tarjeta": "11111212121212121212",
-      "documentos": [
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": {
-            "Corrección de Texto": {}
-          }
-        }
-      ]
-    },
-    {
-      "usuario": "Yodak025",
-      "fecha": "2025-04-26T09:41:34.713Z",
-      "dirección": "diego.sota@gmail.com",
-      "tarjeta": "11111212121212121212",
-      "documentos": [
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": {
-            "Corrección de Texto": {}
-          }
-        }
-      ]
-    },
-    {
-      "usuario": "Yodak025",
-      "fecha": "2025-04-26T09:49:04.040Z",
-      "dirección": "diego.sota@gmail.com",
-      "tarjeta": "11111212121212121212",
-      "documentos": [
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": {
-            "Corrección de Texto": {}
-          }
-        },
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": {
-            "Corrección de Texto": {}
-          }
-        }
-      ]
-    },
-    {
-      "usuario": "Yodak025",
-      "fecha": "2025-04-26T09:51:29.747Z",
+      "fecha": "2025-04-26T12:40:11.370Z",
       "dirección": "esrebollo@gmail.com",
       "tarjeta": "ssdsddssdsdsdsds",
       "documentos": [
         {
-          "tipo": "revisar-redaccion",
+          "tipo": "curriculum-vitae",
           "cuerpo": {
-            "Corrección de Texto": {}
-          }
-        }
-      ]
-    },
-    {
-      "usuario": "Yodak025",
-      "fecha": "2025-04-26T10:00:59.371Z",
-      "dirección": "esrebollo@gmail.com",
-      "tarjeta": "11111212121212121212",
-      "documentos": [
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": {
-            "Corrección de Texto": {}
-          }
-        }
-      ]
-    },
-    {
-      "usuario": "Yodak025",
-      "fecha": "2025-04-26T10:08:54.736Z",
-      "dirección": "diego.sota@gmail.com",
-      "tarjeta": "11111212121212121212",
-      "documentos": [
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": {
-            "Corrección de Texto": {}
-          }
-        }
-      ]
-    },
-    {
-      "usuario": "Yodak025",
-      "fecha": "2025-04-26T10:40:25.324Z",
-      "dirección": "diego.sota@gmail.com",
-      "tarjeta": "11111212121212121212",
-      "documentos": [
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": {
-            "Corrección de Texto": {}
-          }
-        }
-      ]
-    },
-    {
-      "usuario": "Yodak025",
-      "fecha": "2025-04-26T10:41:37.440Z",
-      "dirección": "esrebollo@gmail.com",
-      "tarjeta": "11111212121212121212",
-      "documentos": [
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": {
-            "Corrección de Texto": {
-              "Texto Corregido": "\"El texto parece ser un conjunto de caracteres aleatorios que no forman una oración coherente ni transmiten un mensaje claro. No se puede entender ningún concepto o idea detrás de estas palabras, por lo que es difícil generar un resumen o extrapolar algún tipo de información relevante. En resumen, el texto no contiene información útil o comprensible, por lo que no se puede generar un resumen significativo.\""
-            },
-            "Feedback": "\"El texto presentado parece tener un buen punto de partida para generar contenido de forma automática. Sin embargo, hay algunos errores y áreas de mejora que debemos considerar para lograr un tono informal, coloquial y cercano.\\n\\nEn primer lugar, es importante revisar la estructura del texto para asegurarnos de que fluya de manera lógica y fácil de seguir. Algunas oraciones parecen un poco largas y confusas, lo que podría dificultar la comprensión del lector. Sería beneficioso dividir estas oraciones en frases más cortas y concisas para mejorar la claridad.\\n\\nAdemás, el lenguaje utilizado en algunas partes del texto se siente un poco formal y distante. Para lograr un tono más informal y coloquial, sugiero utilizar expresiones y palabras más comunes en el lenguaje cotidiano. Esto ayudará a crear una conexión más cercana con el lector y a hacer que el texto se sienta más accesible y amigable.\\n\\nOtro punto a considerar es la inclusión de ejemplos y anécdotas que ilustren los conceptos presentados. Esto no solo hará que el texto sea más interesante y divertido de leer, sino que también ayudará a que los lectores puedan relacionarse mejor con las ideas y conceptos expuestos.\\n\\nEn cuanto a la organización del contenido, sería útil agrupar las ideas de manera más coherente y lógica. Esto podría implicar la creación de secciones o subtítulos que guíen al lector a través del texto y le ayuden a entender mejor la estructura y el propósito del contenido.\\n\\nFinalmente, es crucial revisar el texto en busca de errores gramaticales, ortográficos y de puntuación. Aunque el texto en general se entiende bien, hay algunos pequeños errores que podrían afectar la credibilidad y la profesionalidad del contenido.\\n\\nEn resumen, el texto tiene un buen potencial, pero requiere algunas correcciones y mejoras para lograr un tono informal, coloquial y cercano. Con algunas revisiones y ajustes, el texto podría convertirse en un contenido atractivo y accesible para los lectores.\""
+            "Currículum Vitae": {
+              "Datos de Contacto": {
+                "Nombre Completo": "Diego Sota ",
+                "Dirección": "Avda. Abogados de Atocha, 6",
+                "Teléfono": "646967576",
+                "Correo Electrónico": "diego.sota@gmail.com"
+              },
+              "Perfil": "\"Como profesional apasionado y comprometido, me presento con una amplia gama de habilidades y experiencia en diversos campos, htbyrhtybthyyuni, lo que me permite abordar desafíos de manera innovadora y efectiva. \\n\\nEn mi trayectoria profesional, he destacado por mi capacidad para lograr resultados excepcionales y superar expectativas, ui, demostrando una sólida ética de trabajo y una mentalidad enfocada en el éxito.\"",
+              "Experiencia Laboral": "\"He completado mi formación académica con iu, lo que me ha proporcionado una base sólida en teorías y prácticas especializadas, permitiéndome desarrollar habilidades y conocimientos que son esenciales en mi campo profesional y me han preparado para abordar desafíos con confianza y rigor intelectual.\"",
+              "Formación Académica": "\"\\\"He completado mi formación académica con iu, lo que me ha proporcionado una base sólida en teorías y prácticas especializadas, permitiéndome desarrollar habilidades y conocimientos que son esenciales en mi campo profesional y me han preparado para abordar desafíos con confianza y rigor intelectual.\\\"\"",
+              "Habilidades": "\"\\\"Poseo una amplia gama de habilidades que me permiten destacar en mi campo profesional, entre ellas se encuentran habilidades técnicas como iyyuyuiu, que me han sido de gran valor en el desarrollo de proyectos y la resolución de problemas complejos. Además, cuento con habilidades blandas como iu, que me facilitan el trabajo en equipo, la comunicación efectiva y la gestión de situaciones diversas. También domino varios idiomas, incluyendo iu, lo que me abre oportunidades para colaborar a nivel internacional y comunicarme de manera efectiva con personas de diferentes culturas y origen.\\\"\""
+            }
           }
         }
       ]
