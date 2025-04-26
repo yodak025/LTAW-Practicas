@@ -1,0 +1,103 @@
+@import url('../assets/colors.css');
+
+.os-my-documents {
+  display: flex;
+  flex-direction: column;
+  min-height: 90vh;
+  margin-top: 10vh;
+  padding: 0 5vh;
+}
+
+.os-my-documents-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.os-my-documents-header h2 {
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.os-my-documents-header p {
+  color: var(--black-color);
+  font-size: 1.2rem;
+}
+
+.os-document-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0 auto;
+  max-width: 800px;
+  width: 100%;
+}
+
+.os-document-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--light-color);
+  border: 2px solid var(--black-color);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.os-document-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.os-document-info {
+  flex: 1;
+}
+
+.os-document-title {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.os-document-id {
+  color: var(--black-color);
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.os-document-view-btn {
+  background-color: var(--accent-color);
+  border: none;
+  border-radius: 5px;
+  color: var(--black-color);
+  cursor: pointer;
+  font-family: 'BigShoulders', sans-serif;
+  font-size: 1rem;
+  padding: 0.8rem 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.os-document-view-btn:hover {
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  transform: scale(1.05);
+}
+
+.os-documents-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--neutral-color);
+  border-radius: 1rem;
+  height: 200px;
+  margin: 0 auto;
+  max-width: 800px;
+  width: 100%;
+}
+
+.os-documents-empty p {
+  color: var(--black-color);
+  font-size: 1.2rem;
+  font-style: italic;
+  text-align: center;
+}

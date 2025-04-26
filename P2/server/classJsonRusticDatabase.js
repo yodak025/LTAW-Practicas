@@ -75,15 +75,22 @@ class JsonRusticDatabase {
     );
   };
 
-  addNewOrder = (order, userName, documentType) => {
-    const newOrderID = this.orders.length;
+  addNewOrder = (orders, userName, mail, card) => {
     const newOrder = {
-      usuario: userName.usuario,
-      tipo: documentType,
-      estructura: order,
+      usuario: userName,
+      fecha: new Date().toISOString(),
+      dirección: mail,
+      tarjeta: card,
+      documentos: [],
     };
+    orders.forEach((order) => {
+      newOrder.documentos.push({
+        tipo: order.type,
+        cuerpo: order.body,
+      });
+    });
     this.orders.push(newOrder);
-    return newOrderID;
+    this.users.filter((u) => u.usuario == userName)[0].carrito = []; // Vaciar el carrito del usuario
   };
 
   findProductsByDemiName = (demiName) => {
@@ -103,13 +110,64 @@ class JsonRusticDatabase {
       .carrito.push(order);
   };
 
+  updateCart = (reqData) => {
+    const user = this.users.filter((u) => u.usuario == reqData.user.usuario)[0];
+    let newCart = [];
+    const dbCart = user.carrito;
+    if (!reqData.cart) {
+      user.carrito = [];
+    } else {
+      const cookieCart = reqData.cart.split("&").reduce((acc, order) => {
+        const [id, type] = order.split(":");
+        acc[id] = type;
+        return acc;
+      }, {});
+      dbCart.forEach((order, index) => {
+        if (order.tipo == cookieCart[`product${index}`]) {
+          newCart.push(order);
+        }
+      });
+      user.carrito = newCart;
+    }
+    return this.getCartCookie(user.usuario);
+  };
+
   getCartCookie = (user) => {
     const cart = this.users.filter((u) => u.usuario == user)[0].carrito;
     let cartCookie = "cart=";
     cart.forEach((order, index) => {
-      cartCookie += `product${index + 1}:${order.tipo}&`;
+      cartCookie += `product${index}:${order.tipo}&`;
     });
     return cartCookie.slice(0, -1) + ";";
+  };
+
+  getDocumentAbsoluteIndexesFromUser = (userName) => {
+    let currentIndex = 0;
+    let indexes = [];
+    this.orders.forEach((order) => {
+      if (order.usuario == userName) {
+        order.documentos.forEach((doc) => {
+          indexes.push(currentIndex);
+          currentIndex++;
+        });
+      } else {
+        currentIndex += order.documentos.length;
+      }
+    });
+    return indexes;
+  };
+
+  getDocumentFromAbsoluteIndex = (index) => {
+    let currentIndex = 0;
+    let document = undefined;
+    this.orders.forEach((order) => {
+      if (currentIndex + order.documentos.length > index) {
+        document = order.documentos[index - currentIndex];
+      } else {
+        currentIndex += order.documentos.length;
+      }
+    });
+    return document;
   };
 }
 

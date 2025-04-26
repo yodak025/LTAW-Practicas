@@ -4,9 +4,11 @@ import Layout from "./Layout/Layout.jsx";
 import Nav from "./Nav/Nav.jsx";
 import Products from "./Contents/Products.jsx";
 import ProductPage from "./Contents/ProductPage.jsx";
+import ProcessOrder from "./Contents/ProcessOrder.jsx";
 import LoginPage from "./Contents/Login.jsx";
 import Error404 from "./Contents/Error404.jsx";
 import Document from "./Document/Document.jsx";
+import MyDocuments from "./Contents/MyDocuments.jsx";
 
 import CVForm from "./Forms/CVForm.jsx";
 import CoverLetterForm from "./Forms/CoverLetterForm.jsx";
@@ -44,6 +46,20 @@ export default function App({ props }) {
         <Layout>
           <Nav user={null} />
           <LoginPage className="os-layout-login" />
+        </Layout>
+      );
+    case "ProcessOrder":
+      return (
+        <Layout>
+          <Nav user={props.userName} />
+          <ProcessOrder />
+        </Layout>
+      );
+    case "MyDocuments":
+      return (
+        <Layout>
+          <Nav user={props.userName} />
+          <MyDocuments documents={props.documents} />
         </Layout>
       );
     case "Error404":

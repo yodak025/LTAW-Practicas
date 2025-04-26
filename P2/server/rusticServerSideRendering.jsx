@@ -26,8 +26,8 @@ export default function renderPage(template, resourcePath, reqData, db) {
     );
   } else if (resourcePath.includes("/document.html")) {
     const documentId = resourcePath.split("?")[1].split("=")[1];
-    const structure = db.orders[documentId].estructura;
-    props.document = structure;
+    const body = db.getDocumentFromAbsoluteIndex(documentId).cuerpo;
+    props.document = body;
     props.content = "Document";
 
     styles.push(
@@ -48,6 +48,35 @@ export default function renderPage(template, resourcePath, reqData, db) {
         "/styles/App.css"
       );
       props.content = "Products";
+      break;
+    case "/process-order.html":
+      styles.push(
+        "/styles/Nav.css",
+        "/styles/Layout.css",
+        "/styles/ProcessOrder.css",
+        "/styles/App.css"
+      );
+      props.content = "ProcessOrder";
+      break;
+
+    case "/my-documents.html":
+      styles.push(
+        "/styles/Nav.css",
+        "/styles/Layout.css",
+        "/styles/MyDocuments.css",
+        "/styles/App.css"
+      );
+      props.content = "MyDocuments";
+      let indexes = db.getDocumentAbsoluteIndexesFromUser(
+        reqData.user.usuario
+      );
+      props.documents = indexes.map((index) => {
+        return {
+          index: index,
+          type: db.getDocumentFromAbsoluteIndex(index).tipo,
+        };
+
+      });
       break;
     case "/login.html":
       styles.push(

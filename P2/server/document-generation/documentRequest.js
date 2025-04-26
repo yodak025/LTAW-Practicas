@@ -16,8 +16,7 @@ import {
   generateRecommendationLetter
 } from "./generateWorkRelatedDocuments.js";
 
-const documentGenerationRequest = async (requestData, type, body) => {
-  console.log("Request Data:", JSON.stringify(requestData, null));
+const documentGenerationRequest = async (type, body) => {
 
   let response = undefined;
   switch (type) {
@@ -58,7 +57,10 @@ const documentGenerationRequest = async (requestData, type, body) => {
     default:
       throw new Error(`Tipo de documento "${documentType}" no soportado`);
   }
-  return db.addNewOrder(response, requestData.user, documentType); //!! ESto no debería ser así!!!
+  return {
+    type: type,
+    body: response,
+  };
 };
 
 export default documentGenerationRequest;

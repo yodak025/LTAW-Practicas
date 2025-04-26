@@ -62,6 +62,12 @@ export default function printLog(type, resource, request) {
           .cyan
       );
       break;
+    case "generate-document":
+      console.log(
+        `\nPetición de generación de documento procesada.\n  Tipo: ${resource}.\n    contenido: ${request}\n Generando documento...\n`
+          .blue
+      );
+      break
     case "error404":
       console.log(
         `\nPetición errónea.\n  Recurso no encontrado: ${request}.\nRespuesta enviada.\n`
@@ -74,5 +80,6 @@ export default function printLog(type, resource, request) {
           .red
       );
       break;
+    
   }
 }

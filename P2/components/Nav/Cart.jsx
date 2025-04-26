@@ -43,21 +43,21 @@ const Cart = () => {
     const loadCartItems = () => {
       const cookies = getCookies();
       const cartContent = cookies.cart;
-      
+
       if (!cartContent) {
         setCartItems([]);
         return;
       }
-      
+
       const items = cartContent.split("&");
       const parsedItems = items.map((item) => {
         const [, tipo] = item.split(":");
         return tipo;
       });
-      
+
       setCartItems(parsedItems);
     };
-    
+
     loadCartItems();
   }, []);
 
@@ -65,41 +65,55 @@ const Cart = () => {
   const updateCartCookie = (indexes = []) => {
     const cookies = getCookies();
     const cartContent = cookies.cart;
-    
+
     if (!cartContent) return;
-    
+
     let items = cartContent.split("&");
-    
+
     // Si indices está vacío, eliminar todo el carrito
     if (indexes.length === 0) {
       document.cookie = `cart=; path=/; max-age=0`;
       setCartItems([]);
-      return;
-    }
-    
-    // Eliminar elementos por índice en orden descendente
-    indexes
-      .sort((a, b) => b - a)
-      .forEach((index) => {
-        items.splice(index, 1);
-      });
-    
-    // Actualizar cookie y estado local
-    if (items.length > 0) {
-      const newCartContent = items.join("&");
-      document.cookie = `cart=${newCartContent}; path=/`;
-      
-      // Actualizar el estado local con los nuevos elementos
-      const newCartItems = items.map((item) => {
-        const [, tipo] = item.split(":");
-        return tipo;
-      });
-      
-      setCartItems(newCartItems);
     } else {
-      document.cookie = `cart=; path=/; max-age=0`;
-      setCartItems([]);
+      // Eliminar elementos por índice en orden descendente
+      indexes
+        .sort((a, b) => b - a)
+        .forEach((index) => {
+          items.splice(index, 1);
+        });
+
+      // Actualizar cookie y estado local
+      if (items.length > 0) {
+        const newCartContent = items.join("&");
+        document.cookie = `cart=${newCartContent}; path=/`;
+
+        // Actualizar el estado local con los nuevos elementos
+        const newCartItems = items.map((item) => {
+          const [, tipo] = item.split(":");
+          return tipo;
+        });
+
+        setCartItems(newCartItems);
+      } else {
+        document.cookie = `cart=; path=/; max-age=0`;
+        setCartItems([]);
+      }
     }
+      const m = new XMLHttpRequest();
+      m.onreadystatechange = () => {
+        if (m.readyState === 4) {
+          console.log("Peticion UpdateCart");
+          console.log("status: " + m.status);
+          if (m.status === 200) {
+            console.log("Carrito actualizado correctamente");
+          }
+        }
+      };
+    
+      m.open("GET", `/update-cart`, true);
+      m.setRequestHeader("Content-Type", "text/plain");
+      m.send();
+      console.log("Peticion UpdateCart enviada");
   };
 
   const handleRemoveItem = (index) => {

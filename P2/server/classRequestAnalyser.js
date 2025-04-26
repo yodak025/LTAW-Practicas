@@ -27,6 +27,21 @@ class RequestAnalyser {
         this.isDynamic = true;
         if (this.user && this.user.tema == "dark") this.isDarkTheme = true;
         break;
+      case "/update-cart":
+        this.ajax = "update-cart";
+        this.getUserFromCookie(req.headers.cookie);
+        this.cart = this.getCookies(req.headers.cookie)["cart"];
+        break;
+      case "/process-order.html":
+        this.isDynamic = true;
+        this.getUserFromCookie(req.headers.cookie);
+        break;
+      case "/my-documents.html":
+        this.isDynamic = true;
+        this.getUserFromCookie(req.headers.cookie);
+        if (!this.user) this.resourceDemipath = "/login.html";
+        break;
+
     }
     //-- Peticiones Get --//
     if (req.url.includes("/login?")) {
@@ -108,6 +123,15 @@ class RequestAnalyser {
       if (!this.user) this.resourceDemipath = "/login.html";
       this.isDynamic = true;
     }
+    if (req.url.includes("/new-order?")) {
+        this.body = {
+          mail: this.urlContent.searchParams.get("mail"),
+          card: this.urlContent.searchParams.get("card"),
+        }
+        this.ajax = "new-order";
+        this.getUserFromCookie(req.headers.cookie);
+        this.cart = this.getCookies(req.headers.cookie)["cart"];
+      }
   }
   // METODOS DE LA CLASE \\ 
 
@@ -163,7 +187,7 @@ class RequestAnalyser {
         //-- Peticiones POST --//
         if (req.method == "POST") {
           if (this.resourceDemipath.includes("/add-to-cart?")) {
-            this.ajax = "cart";
+            this.ajax = "add-to-cart";
             this.type = this.urlContent.searchParams.get("type");
             this.getUserFromCookie(req.headers.cookie);
           }

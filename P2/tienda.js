@@ -17,8 +17,6 @@ console.log("\nIniciando servidor...\n");
 db.readDatabase();
 
 const server = http.createServer(async (req, res) => {
-  // Imprime la petición entrante en la consola
-
   const reqData = new RequestAnalyser(req, db);
   if (req.method == "POST") {
     await reqData.recievePostData(req);
@@ -27,7 +25,19 @@ const server = http.createServer(async (req, res) => {
   switch (reqData.ajax) {
     case null:
       break;
-    case "cart":
+
+    case "update-cart":
+      let newCart = db.updateCart(reqData);
+      res.writeHead(200, {
+        "Content-Type": "text/plain",
+        "Set-Cookie": newCart,
+      });
+      res.end();
+      db.writeDatabase();
+      printLog("ajax", "add-to-cart", newCart);
+      return;
+
+    case "add-to-cart":
       db.addOrderToCart(reqData);
       res.writeHead(200, {
         "Content-Type": "text/plain",
@@ -35,14 +45,48 @@ const server = http.createServer(async (req, res) => {
       });
       res.end();
       db.writeDatabase();
-      printLog("ajax", "cart", reqData.body);
+      printLog("ajax", "add-to-cart", reqData.body);
       return;
+
+    case "new-order":
+      db.updateCart(reqData);
+      let cart = db.users.filter((u) => u.usuario == reqData.user.usuario)[0]
+        .carrito;
+      res.writeHead(200, {
+        "Content-Type": "text/plain",
+        "Set-Cookie": "cart=",
+      });
+      res.end();
+      printLog(
+        "ajax",
+        "new-order",
+        `user: ${reqData.user.usuario}, mail: ${reqData.body.mail}, card: ${reqData.body.card}`
+      );
+      // Procesamiento asíncrono de documentos
+
+      const documentPromises = cart.map(order => {
+        printLog("generate-document", order.tipo, JSON.stringify(order.cuerpo));
+        return documentGenerationRequest(order.tipo, order.cuerpo);
+      });
+      const documents = await Promise.all(documentPromises);
+      console.log("Documentos generados:", JSON.stringify(documents, null, 2));
+        
+      db.addNewOrder(
+        documents,
+        reqData.user.usuario,
+        reqData.body.mail,
+        reqData.body.card
+      );
+
+      return;
+
     case "theme":
       res.writeHead(200, { "Content-Type": "text/plain" });
       res.end();
       printLog("ajax", "theme", reqData.resourceDemipath);
       db.writeDatabase();
       return;
+
     case "search":
       const products = db.findProductsByDemiName(reqData.body);
       const searchResults = products.map((p) => {
@@ -125,11 +169,10 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, async () => {
-
   setInterval(() => {
     console.log("\nActualizando base de datos...".bgWhite);
     db.writeDatabase();
     console.log("\nBase de datos actualizada correctamente\n".bgGreen);
-  }, 300000);
+  }, 30000);
   console.log("\nServidor corriendo en http://127.0.0.1:" + PORT + "/\n");
 });

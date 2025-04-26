@@ -12,44 +12,7 @@
       "nombre": "DSOTA",
       "email": "diego.sota%40gmail.com",
       "tema": "default",
-      "carrito": [
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": "{\"originalText\":\"ekjfeifjeifjeijfiejfiejfief\",\"toneStyle\":\"informal\"}"
-        },
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": "{\"originalText\":\"djndfjdnfdjnfdjnfdjfndf\",\"toneStyle\":\"informal\"}"
-        },
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": "{\"originalText\":\"ekeirjeirjeirjeirjeirer\",\"toneStyle\":\"informal\"}"
-        },
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": "{\"originalText\":\"sdsdsdsdsd\",\"toneStyle\":\"informal\"}"
-        },
-        {
-          "tipo": "resumir-texto",
-          "cuerpo": "{\"originalText\":\"dsdsdsdsdsds\",\"summaryLength\":\"very-short\",\"focusType\":\"key-points\",\"notes\":\"sd\"}"
-        },
-        {
-          "tipo": "resumir-texto",
-          "cuerpo": "{\"originalText\":\"odfkfrmrnrv\\n\",\"summaryLength\":\"very-short\",\"focusType\":\"key-points\",\"notes\":\"\"}"
-        },
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": "{\"originalText\":\"dfdfdfedfdfdfd\",\"toneStyle\":\"informal\"}"
-        },
-        {
-          "tipo": "revisar-redaccion",
-          "cuerpo": "{\"originalText\":\"dfdfdfdfdfdfdf\",\"toneStyle\":\"informal\"}"
-        },
-        {
-          "tipo": "curriculum-vitae",
-          "cuerpo": "{\"fullName\":\"Diego Sota \",\"address\":\"Avda. Abogados de Atocha, 6\",\"phone\":\"646967576\",\"email\":\"diego.sota@gmail.com\",\"professionalLinks\":\"sdsds\",\"briefPresentation\":\"sdsdsd\",\"strengthsAchievements\":\"sdsd\",\"workExperience\":\"sdsdsd\",\"education\":\"sdsds\",\"technicalSkills\":\"sdsdsds\",\"softSkills\":\"sdsdsds\",\"languages\":\"sdsdsdsdsd\",\"certificates\":\"sdsdsdsdsdsd\",\"projectsAchievements\":\"sdsdsdsd\",\"additionalInfo\":\"vferfesfedfe\"}"
-        }
-      ]
+      "carrito": []
     }
   ],
   "productos": [
@@ -129,391 +92,134 @@
   "pedidos": [
     {
       "usuario": "Yodak025",
-      "tipo": "extender-texto",
-      "estructura": {
-        "Texto Expandido": "\"trucutucu es una expresión que puede parecer confusa y sin sentido a primera vista, pero en realidad, puede tener varios significados dependiendo del contexto en el que se utilice. En este sentido, podemos considerar trucutucu como un término que describe la capacidad de encontrar soluciones creativas y fuera de lo común para resolver problemas complejos.\\n\\nEn muchos casos, cuando enfrentamos un problema difícil, tendemos a buscar respuestas tradicionales y predecibles, pero esto no siempre es la mejor opción. En cambio, trucutucu nos invita a pensar de manera innovadora y a explorar soluciones que puedan parecer inusuales o incluso absurdas al principio. Esto requiere una mente abierta y un espíritu aventurero que esté dispuesto a arriesgar y a experimentar con diferentes enfoques.\\n\\nUna de las claves para desarrollar la capacidad de pensar como trucutucu es cultivar la curiosidad y el interés por aprender. Cuando nos enfrentamos a un problema, debemos estar dispuestos a investigar y a explorar nuevas ideas y conceptos que puedan ayudarnos a encontrar una solución creativa. Esto implica estar dispuesto a salir de nuestra zona de confort y a experimentar con cosas nuevas.\\n\\nAdemás, la capacidad de pensar como trucutucu también requiere desarrollar habilidades como la observación atenta, la capacidad de analizar información compleja y la capacidad de sintetizar ideas y conceptos en una sola solución. Esto implica tener una mente lúcida y estar dispuesto a considerar diferentes perspectivas y puntos de vista.\\n\\nEn muchos casos, la capacidad de pensar como trucutucu también implica tomar riesgos y arriesgar algo. Esto puede ser un desafío para algunas personas que prefieren la seguridad y la certeza, pero en realidad, es una parte fundamental del proceso creativo. Cuando estamos dispuestos a tomar riesgos y a experimentar con cosas nuevas, abrimos ourselves a nuevas oportunidades y a soluciones innovadoras.\\n\\nEn resumen, trucutucu es un término que describe la capacidad de pensar de manera creativa y innovadora para resolver problemas complejos. Requiere una mente abierta, un espíritu aventurero y la capacidad de tomar riesgos. Cultivar la curiosidad y el interés por aprender, desarrollar habilidades como la observación atenta y la capacidad de analizar información compleja son claves para desarrollar esta capacidad.\""
-      }
+      "fecha": "2025-04-25T16:44:59.190Z",
+      "dirección": "esrebollo@gmail.com",
+      "tarjeta": "sasasasasasasasa",
+      "documentos": [
+        {},
+        {},
+        {},
+        {}
+      ]
     },
     {
       "usuario": "Yodak025",
-      "tipo": "resumir-texto",
-      "estructura": {
-        "Texto Resumido": "\"Las pautas formales para presentar un trabajo universitario consisten en seguir unas normas básicas como titular el trabajo, identificar su autoría y paginar. También es importante hacer un índice que incluya los capítulos con sus números de página y las imágenes o figuras. El trabajo debe estructurarse con introducción, nudo y conclusiones y citar las fuentes utilizadas.\\n\\nPara presentar el trabajo se puede encuadernar con canutillo en una reprografía económica, recordando colocar al final del trabajo una hoja blanca de cortesía. El título general debe constar en letras destacadas como negritas, cursivas y mayúsculas de tamaño 20.\\n\\nDebajo del título se coloca la autoría del trabajo con nombre y apellidos, y otros datos complementarios como correo electrónico o curso académico. También es aconsejable agregar una hoja de salva entre el título e índice.\\n\\nEl índice se coloca al principio del trabajo aunque normalmente se redacta al acabar la investigación. Un índice debe incluir los capítulos con sus números de página y las imágenes o figuras.\\n\\nLa presentación del trabajo en sí debe imprimirse en folios blancos por ambas caras, ubicando la paginación centrada en la parte inferior para evitar desequilibrios. El título no debe tener paginación.\""
-      }
+      "fecha": "2025-04-25T16:54:20.294Z",
+      "dirección": "as@sd.d",
+      "tarjeta": "ssdsddssdsdsdsds",
+      "documentos": [
+        {},
+        {},
+        {},
+        {}
+      ]
     },
     {
       "usuario": "Yodak025",
-      "tipo": "resumir-texto",
-      "estructura": {
-        "Texto Resumido": "\"Para presentar un trabajo universitario se deben seguir unas pautas formales básicas. El título general debe constar en letras destacadas y condensar sintéticamente el trabajo que se presenta. Debajo del título se coloca la autoría del trabajo, incluyendo nombre y apellidos de quien haya participado en él.\\n\\nSe puede añadir otros datos complementarios del autor como correo electrónico, curso académico o grupo donde está matriculado para facilitar localizar la atribución del trabajo en caso de traspapel. También es aconsejable incluir una hoja de salva entre el título y el índice.\\n\\nEl índice se coloca delante del trabajo y requiere que consten los capítulos con sus correspondientes números de página, así como las imágenes, gráficos o figuras que tenga. La paginación debe ubicarse centrada en la parte inferior para evitar desequilibrios en el aspecto general de la obra.\\n\\nSe recomienda imprimir en folios blancos por las dos caras y ubicar la paginación en la parte inferior. El título no debe tener paginación.\""
-      }
+      "fecha": "2025-04-25T16:56:01.835Z",
+      "dirección": "d.sota.2020@alumnos.urjc.es",
+      "tarjeta": "ssdsddssdsdsdsds",
+      "documentos": [
+        {},
+        {},
+        {},
+        {}
+      ]
     },
     {
       "usuario": "Yodak025",
-      "tipo": "resumir-texto",
-      "estructura": {
-        "Texto Resumido": "\"Para presentar un trabajo universitario es necesario seguir unas pautas formales básicas como titular el trabajo, identificar su autoría y paginar. Además, se debe estructurar el trabajo con introducción, nudo y conclusiones y citar las fuentes utilizadas.\\n\\nEl título general debe constar en letras destacadas y condensar de forma sintética el trabajo que se presenta. Debajo del título, se debe incluir la autoría del trabajo con nombre y apellidos y otros datos complementarios como correo electrónico o curso académico.\\n\\nUn índice es necesario para colocarlo delante del trabajo y constar los capítulos con sus correspondientes números de página y las imágenes o gráficos que tenga. La presentación del trabajo debe imprimirse en folios blancos por las dos caras con la paginación centrada en la parte inferior.\\n\\nSe recomienda reflexionar sobre el tema, hacer un esquema y luego desarrollar las ideas con claridad. También se puede presentar el trabajo encuadernado con canutillo en cualquier reprografía recordando colocar al final una hoja en blanco de cortesía.\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "resumir-texto",
-      "estructura": {
-        "Texto Resumido": "\"Las sugerencias para presentar un trabajo universitario siguen unas pautas formales básicas. El título del trabajo debe ser destacado y condensar la idea principal en síntesis. Debajo del título se coloca la autoría del trabajo, que incluye nombre y apellidos de quien participó en él, junto con otros datos complementarios como correo electrónico o curso académico.\\n\\nSe recomienda agregar una hoja de salva entre el título y el índice para evitar confusiones. El índice se coloca al principio del trabajo y debe contener los capítulos con sus números de página correspondientes, imágenes, gráficos y figuras que tengan.\\n\\nLa presentación del trabajo en sí debe seguir las recomendaciones para textos breves con adecuaciones necesarias para un texto extenso. Se aconseja imprimir en folios blancos por las dos caras y ubicar la paginación centrada en la parte inferior para evitar desequilibrios.\\n\\nEs importante reflexionar, hacer un esquema y luego desarrollar las ideas con claridad. El trabajo también puede presentarse encuadernado de forma económica en cualquier reprografía, recordando colocar al final una hoja en blanco de cortesía.\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "resumir-texto",
-      "estructura": {
-        "Texto Resumido": "\"Los universitarios deben seguir pautas formales básicas para presentar un trabajo adecuadamente. Esto incluye titular el trabajo, identificar su autoría, paginar, hacer un índice y estructurar el trabajo con introducción, nudo y conclusiones. Además, es necesario citar las fuentes utilizadas.\\n\\nEl título general debe ser destacado en letras mayúsculas de tamaño 20. Debajo del título, se debe incluir la autoría del trabajo, nombre y apellidos, así como otros datos complementarios del autor.\\n\\nEl índice se coloca delante del trabajo y debe constar los capítulos con sus correspondientes números de página, y las imágenes, gráficos o figuras que tenga. La presentación del trabajo en sí debe seguir las sugerencias ya propuestas para textos breves, con adecuaciones convenientes.\\n\\nLa paginación se debe ubicar centrada en la parte inferior de cada folio, evitando desequilibrios en el aspecto general de la obra. El título no debe tener paginación.\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "resumir-texto",
-      "estructura": {
-        "Texto Resumido": "\"Para presentar un trabajo universitario adecuadamente es necesario seguir unas pautas formales básicas. Estas incluyen titular el trabajo, identificar su autoría, paginar, hacer un índice y citar las fuentes utilizadas. \\n\\nEl título general debe constar en letras destacadas, por ejemplo en negritas o cursivas de tamaño 20. Debe condensar de forma sintética el trabajo presentado. Debajo del título se coloca la autoría del trabajo, incluyendo nombre y apellidos, así como otros datos complementarios que faciliten localizar la atribución del trabajo en caso de traspapele por accidente.\\n\\nEl índice se coloca delante del trabajo, aunque normalmente es lo último que se redacta al acabar la investigación. Un índice requiere constar los capítulos con sus correspondientes números de página, y las imágenes, gráficos o figuras que tenga. \\n\\nLa presentación del trabajo en sí debe imprimirse en folios blancos por las dos caras. La paginación se ubica centrada en la parte inferior para evitar desequilibrios en el aspecto general de la obra. El título no debe tener paginación.\\n\\nPara redactar un trabajo universitario, es recomendable seguir los pasos de reflexionar sobre el tema, hacer un esquema y luego desarrollar las ideas con claridad. También se puede presentar encuadernado con canutillo en cualquier reprografía, recordando colocar al final del trabajo una hoja en blanco de cortesía.\\n\\nEs importante citar las fuentes utilizadas para evitar plagio y dar crédito a los autores originales. Además, es recomendable añadir una hoja de salva entre el título y el índice para facilitar la localización de la atribución del trabajo en caso de traspapele por accidente.\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "resumir-texto",
-      "estructura": {
-        "Texto Resumido": "\"Para presentar un trabajo universitario se deben seguir unas pautas formales básicas como titular el trabajo, identificar su autoría, paginar, hacer un índice y citar las fuentes utilizadas. Se recomienda reflexionar sobre el tema, hacer un esquema y luego desarrollar las ideas con claridad.\\n\\nEl título general debe constar en letras destacadas y condensar de forma sintética el trabajo presentado. Debajo del título se coloca la autoría del trabajo, incluyendo nombre y apellidos, correo electrónico, curso académico o grupo donde está matriculado. Es recomendable añadir una hoja de salva entre el título y el índice.\\n\\nEl índice se coloca al principio del trabajo y debe contener los capítulos con sus correspondientes números de página, así como las imágenes, gráficos o figuras que tenga. La presentación del trabajo se puede hacer en folios blancos por las dos caras, ubicando la paginación centrada en la parte inferior. El título no debe tener paginación.\\n\\nPara el desarrollo del trabajo, se deben seguir los pasos de reflexionar sobre el tema, hacer un esquema y luego desarrollar las ideas con claridad. Se puede presentar el trabajo encuadernado con canutillo de forma económica en cualquier reprografía, recordando colocar al final una hoja en blanco de cortesía.\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "resumir-texto",
-      "estructura": {
-        "Texto Resumido": "\"Para presentar un trabajo universitario se deben seguir unas pautas formales básicas como titular el trabajo, identificar su autoría y paginar. El título general consta en letras destacadas y debe condensar de forma sintética el trabajo que se presenta.\\n\\nDebajo del título, consta la autoría del trabajo con nombre y apellidos y otros datos complementarios del autor. También es aconsejable añadir una hoja de salva entre el título y el índice.\\n\\nEl índice se coloca delante del trabajo y requiere que consten los capítulos con sus correspondientes números de página y las imágenes, gráficos o figuras que tenga. Un índice puede seguir el propio esquema previo para después estructurar el escrito.\\n\\nLa presentación del trabajo en sí se imprime en folios blancos por las dos caras y la paginación se centra en la parte inferior para evitar desequilibrios en el aspecto general de la obra. El título no debe tener paginación.\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "resumir-texto",
-      "estructura": {
-        "Texto Resumido": "\"Para presentar un trabajo universitario adecuadamente, es necesario seguir unas pautas formales básicas como titular el trabajo, identificar su autoría y paginar.\\n\\nEl título general debe estar en letras destacadas, condensando de forma sintética el trabajo que se presenta. Debajo del título, debe constar la autoría del trabajo con nombre y apellidos, correo electrónico, curso académico o grupo donde está matriculado.\\n\\nUn índice es necesario para colocarlo delante del trabajo, conteniendo los capítulos con sus correspondientes números de página, imágenes, gráficos o figuras. El índice debe seguir el propio esquema previo para estructurar el escrito.\\n\\nLa presentación del trabajo en sí se puede imprimir en folios blancos por las dos caras, ubicando la paginación centrada en la parte inferior para evitar desequilibrios. El título no debe tener paginación.\\n\\nEs importante seguir los pasos de reflexionar, hacer un esquema y desarrollar las ideas con claridad. También se puede presentar el trabajo encuadernado con canutillo y colocar al final una hoja en blanco de cortesía.\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "resumir-texto",
-      "estructura": {
-        "Texto Resumido": "\"El trabajo universitario debe tener un título general destacado en letras mayúsculas.\\nEl título condensa el trabajo presentado.\\nDebajo del título consta la autoría del trabajo: nombre y apellidos.\\n\\nSe puede agregar correo electrónico, curso académico o grupo donde está matriculado para facilitar la atribución del trabajo.\\nUna hoja de salva se coloca entre el título y el índice.\\n\\nEl índice se coloca delante del trabajo y consta de capítulos con números de página y imágenes, gráficos o figuras.\\n\\nLa paginación se ubica centrada en la parte inferior para evitar desequilibrios.\\nEl título no tiene paginación.\\n\\nUn esquema previo estructura el escrito y guía el índice.\\n\\nLas fuentes utilizadas deben ser citadas.\\n\\nEl trabajo se puede presentar encuadernado con canutillo de forma económica en cualquier reprografía.\\n\\nSe debe colocar una hoja en blanco al final del trabajo como cortesía.\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "resumir-texto",
-      "estructura": {
-        "Texto Resumido": "\"Los universitarios necesitan saber cómo presentar un trabajo de manera adecuada. Para ello deben seguir pautas formales básicas como titular el trabajo, identificar su autoría y paginarlo correctamente. Además, es importante hacer un índice estructurado con capítulos y números de página.\\n\\nPara empezar a trabajar en un proyecto académico, se recomienda reflexionar sobre la temática, hacer un esquema y luego desarrollar las ideas con claridad. El trabajo debe estar bien organizado y estructurado, con una introducción, un nudo central y conclusiones.\\n\\nLa presentación del trabajo también es importante. Se puede presentar encuadernado con canutillo de manera económica en cualquier reprografía. El título general debe ser destacado en letras mayúsculas y cursivas, y el autoría debe estar debajo del título, incluyendo nombre, apellidos y otros datos complementarios.\\n\\nUn índice es fundamental para ayudar a los lectores a encontrar fácilmente las secciones y capítulos del trabajo. Debe incluir números de página y cualquier imagen o gráfico que tenga. La paginación debe estar centrada en la parte inferior de cada folio para evitar desequilibrios.\\n\\nEn resumen, para presentar un trabajo académico de manera adecuada, se deben seguir las pautas formales básicas, estructurar el trabajo con una introducción, nudo y conclusiones, hacer un índice bien organizado y presentarlo con un título destacado y paginación centrada.\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "extender-texto",
-      "estructura": {
-        "Texto Expandido": "\"Estas sugerencias responden a la necesidad que algunos universitarios tienen de conocer la forma adecuada de presentar un trabajo. Para ello, han de seguir unas pautas formales básicas.\\n\\nLa primera pauta es titular el trabajo de manera clara y concisa. El título debe reflejar el tema o objetivo del trabajo y debe estar libre de errores gramaticales. Es importante que el título sea atractivo y estimule la curiosidad del lector. Algunas sugerencias para titular un trabajo son utilizar frases completas, preguntas o afirmaciones que resuman el contenido del texto.\\n\\nLa segunda pauta es identificar la autoría del trabajo. Esto implica mencionar el nombre de los autores, su título académico y la institución a la que pertenecen. Es importante que se incluya también la fecha en que se realizó el trabajo y cualquier otra información relevante. La autoría debe ser clara y no debe haber dudas sobre quién es el responsable del trabajo.\\n\\nLa tercera pauta es paginar de manera adecuada. Esto implica utilizar un sistema de numeración o letra para referirse a cada página del trabajo. Es importante que se incluya también la información de contacto del autor, como su correo electrónico o dirección postal. La paginación debe ser clara y no debe haber dudas sobre cuál es la página que se está mencionando.\\n\\nLa cuarta pauta es hacer un índice del contenido del trabajo. Esto implica crear una tabla o lista con las diferentes secciones del texto, incluyendo el título de cada capítulo y la página en la que se encuentra. El índice debe ser claro y fácil de seguir para que el lector pueda navegar por el texto de manera eficiente.\\n\\nLa quinta pauta es estructurar el trabajo de manera adecuada. Esto implica dividir el texto en diferentes secciones, como la introducción, el nudo o conclusión y las referencias bibliográficas. La estructura debe ser lógica y fácil de seguir para que el lector pueda entender claramente el contenido del texto.\\n\\nLa introducción es la primera parte del trabajo y debe presentar el tema o problema que se va a abordar. Debe incluir una breve descripción del contexto en el que se desarrolla el trabajo y una exposición clara de los objetivos y metas del estudio.\\n\\nEl nudo o conclusión es la segunda parte del trabajo y debe presentar los resultados y conclusiones del estudio. Debe incluir una discusión detallada de los hallazgos y una explicación clara de cómo se llegó a ellos.\\n\\nLa sexta pauta es citar las fuentes utilizadas en el trabajo. Esto implica mencionar todas las obras, artículos o sitios web que se han utilizado para recopilar información relevante para el texto. Las citas deben ser precisas y debe incluir la fuente original del material.\\n\\nFinalmente, cabe seguir los pasos comentados con anterioridad, consistentes en reflexionar sobre el tema o problema a abordar, hacer un esquema de cómo se estructurará el trabajo y luego desarrollar las ideas con claridad.\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "extender-texto",
-      "estructura": {
-        "Texto Expandido": "\"Estas sugerencias responden a la necesidad que algunos universitarios tienen de conocer la forma adecuada de presentar un trabajo. Para ello, han de seguir unas pautas formales básicas, como titular el trabajo, identificar su autoría, paginar, hacer un índice y estructurar el trabajo (con introducción, nudo y conclusiones) y citar las fuentes utilizadas.\\n\\nPara empezar, es fundamental titular el trabajo de manera clara y concisa. El título debe reflejar el contenido del trabajo y ser lo suficientemente atractivo para que los lectores se sientan motivados a leerlo. Debe estar escrito en mayúsculas o minúsculas dependiendo de las normas establecidas por la institución educativa.\\n\\nAdemás, es importante identificar la autoría del trabajo. Esto significa que debes incluir tu nombre y los nombres de tus compañeros de equipo, si el trabajo fue realizado en colaboración. La autoría se utiliza para dar crédito a quienes han contribuido al trabajo y evitar cualquier tipo de conflicto.\\n\\nLa paginación es otro aspecto fundamental en la presentación de un trabajo. Debes dividir el texto en páginas con un número de página claro y visible. Esto facilita la lectura y el estudio del trabajo, especialmente si se trata de un largo documento.\\n\\nUn índice también es crucial en la presentación de un trabajo. El índice debe incluir los títulos de las secciones principales y los subtítulos de las subsecciones. Esto permite a los lectores navegar fácilmente por el texto y encontrar información específica.\\n\\nLa estructura del trabajo es fundamental para que sea comprensible y fácil de seguir. Una estructura típica consta de una introducción, un nudo (también conocido como la parte central) y conclusiones. La introducción debe presentar el tema y proporcionar contexto. El nudo debe desarrollar las ideas y argumentos principales del trabajo. Las conclusiones deben resumir los hallazgos y proporcionar recomendaciones.\\n\\nPara estructurar el trabajo, debes seguir algunos pasos básicos. Primero, debes reflexionar sobre el tema y determinar qué ideas y conceptos se deben incluir en el trabajo. Luego, debes hacer un esquema general que organice las ideas y conceptos de manera lógica. Finalmente, debes desarrollar cada idea y concepto con claridad y detalladamente.\\n\\nFinalmente, es importante citar las fuentes utilizadas en el trabajo. Esto significa que debes incluir referencias a los libros, artículos, documentos y otros recursos que hayas utilizado para recopilar información y apoyar tus argumentos. Las citas se utilizan para dar crédito a los autores originales de la información y evitar cualquier tipo de plagio.\\n\\nAdemás, cabe seguir los pasos comentados con anterioridad, consistentes en reflexionar, hacer después un esquema y luego desarrollar las ideas con claridad. Esto te permitirá presentar un trabajo bien estructurado y fácil de seguir.\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "extender-texto",
-      "estructura": {
-        "Texto Expandido": "\"Estas sugerencias responden a la necesidad que algunos universitarios tienen de conocer la forma adecuada de presentar un trabajo. Para ello, han de seguir unas pautas formales básicas, como titular el trabajo, identificar su autoría, paginar, hacer un índice, estructurar el trabajo (con introducción, nudo y conclusiones) y citar las fuentes utilizadas.\\n\\nEl primer paso es titular el trabajo de manera clara y concisa. Esto se logra escribiendo en la primera página del documento el título del trabajo, seguido de su autoría y la fecha de entrega. Por ejemplo: \\\"Análisis del Impacto Ambiental de la Actividad Minera en la Región Norte\\\" - Juan Pérez, Universidad de Chile, 2022.\\n\\nA continuación, es importante identificar la autoría del trabajo. Esto se hace incluyendo el nombre y apellido del autor o autores, así como cualquier otra información relevante, como su título académico o cargo en la institución educativa. Por ejemplo: \\\"Estudio sobre la Eficiencia Energética en Edificios de Oficinas\\\" - Ana Gómez, Licenciada en Ingeniería Civil, Universidad de Santiago.\\n\\nLa paginación es otra pauta fundamental para presentar un trabajo de manera adecuada. Esto se logra incluyendo números de página en la parte inferior de cada hoja del documento. Por ejemplo: \\\"Evaluación de la Calidad de Agua en la Región Metropolitana\\\" - Página 1, Página 2, etc.\\n\\nUn índice es un recurso valioso para que el lector pueda acceder rápidamente a los diferentes temas tratados en el trabajo. Esto se logra creando una lista alfabética de palabras clave y números de página correspondientes. Por ejemplo: \\\"Índice\\\" - Página 3, Página 5, Página 7.\\n\\nLa estructura del trabajo es fundamental para que el lector pueda seguir con facilidad la argumentación presentada. Esto se logra incluyendo una introducción que presenta el tema y su importancia, un nudo que desarrolla las ideas principales y conclusiones que resumen los hallazgos y recomendaciones.\\n\\nLa introducción debe presentar brevemente el contexto del trabajo y su objetivo. Por ejemplo: \\\"El uso excesivo de fertilizantes en la agricultura ha generado graves problemas ambientales, como la contaminación del agua y la degradación del suelo. Este estudio busca evaluar el impacto de los fertilizantes en la calidad del agua en la Región Metropolitana.\\\"\\n\\nEl nudo es el corazón del trabajo y debe desarrollar las ideas principales presentadas en la introducción. Por ejemplo: \\\"Los resultados obtenidos en este estudio muestran que el uso de fertilizantes ha aumentado significativamente la concentración de nutrientes en el agua, lo que puede generar problemas para la salud humana y animal.\\\"\\n\\nLas conclusiones deben resumir los hallazgos y recomendaciones presentadas en el trabajo. Por ejemplo: \\\"En conclusión, este estudio muestra que el uso excesivo de fertilizantes es un problema grave que debe ser abordado de inmediato. Se recomienda a las autoridades regionales implementar políticas para reducir la cantidad de fertilizantes utilizados en la agricultura.\\\"\\n\\nFinalmente, es fundamental citar las fuentes utilizadas en el trabajo. Esto se logra incluyendo una lista de referencias que incluya los detalles necesarios para que el lector pueda acceder a los textos originales. Por ejemplo: \\\"Referencias\\\" - Pérez, J. (2022). Análisis del Impacto Ambiental de la Actividad Minera en la Región Norte. Universidad de Chile.\\n\\nAdemás, es importante seguir los pasos comentados con anterioridad, consistentes en reflexionar, hacer un esquema y luego desarrollar las ideas con claridad. Esto se logra creando una secuencia lógica que permita al lector seguir con facilidad la argumentación presentada.\\n\\nLa reflexión es el primer paso para crear un trabajo de calidad. Implica analizar críticamente los temas tratados y sus relaciones entre sí. Por ejemplo: \\\"¿Qué impacto tiene el uso excesivo de fertilizantes en la calidad del agua? ¿Cómo se puede reducir este impacto?\\\"\\n\\nA continuación, es importante hacer un esquema que permita visualizar las ideas principales y su relación con los conceptos tratados. Por ejemplo: \\\"Esquema\\\" - A) Introducción; B) Nudo; C) Conclusiones.\\n\\nFinalmente, se debe desarrollar las ideas con claridad, incluyendo ejemplos y casos de estudio que ilustren la argumentación presentada. Por ejemplo: \\\"El uso excesivo de fertilizantes ha generado graves problemas ambientales en la Región Metropolitana. Por ejemplo, el río Mapocho ha sufrido una contaminación significativa debido al derrame de nutrientes provenientes de las granjas lecheras.\\\"\\n\\nEn resumen, presentar un trabajo de manera adecuada requiere seguir unas pautas formales básicas, como titular el trabajo, identificar la autoría, paginar, hacer un índice, estructurar el trabajo (con introducción, nudo y conclusiones) y citar las fuentes utilizadas. Además, es importante reflexionar, hacer un esquema y luego desarrollar las ideas con claridad.\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "resumir-texto",
-      "estructura": {
-        "Texto Resumido": "\"Para presentar un trabajo universitario es necesario seguir pautas formales básicas como titular el trabajo, identificar su autoría y paginar.\\n\\nEl título debe ser destacado en letras mayúsculas y cursivas, condensando la idea principal del trabajo. La autoría debe incluir nombre y apellidos, correo electrónico y otros datos complementarios.\\n\\nUn índice es necesario que conste los capítulos con sus correspondientes números de página y las imágenes, gráficos o figuras que tenga.\\n\\nLa presentación del trabajo debe ser en folios blancos por las dos caras, ubicando la paginación centrada en la parte inferior. El título no debe tener paginación.\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "resumir-texto",
-      "estructura": {
-        "Texto Resumido": "\"Para presentar un trabajo universitario es necesario seguir pautas formales básicas. Estas incluyen titular el trabajo, identificar la autoría y paginar. Además, se debe hacer un índice y estructurar el trabajo con introducción, nudo y conclusiones. Es importante citar las fuentes utilizadas.\\n\\nEl título general debe constar en letras destacadas y condensar sintéticamente el trabajo presentado. Debajo del título se debe incluir la autoría con nombre y apellidos del autor y otros datos complementarios como correo electrónico o curso académico.\\n\\nUn índice requiere que consten los capítulos con sus correspondientes números de página y las imágenes, gráficos o figuras que tenga. La paginación se debe ubicar centrada en la parte inferior para evitar desequilibrios en el aspecto general de la obra.\\n\\nEs recomendable reflexionar sobre el trabajo antes de empezar a escribirlo. Luego se puede hacer un esquema y desarrollar las ideas con claridad. El trabajo también se puede presentar encuadernado con canutillo, lo que puede ser realizado de forma económica en cualquier reprografía.\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "revisar-redaccion",
-      "estructura": {
-        "Corrección de Texto": {
-          "Texto Corregido": "\"Estructura del contenido debe ser mejorada para facilitar la lectura y comprensión. Oraciones largas deben ser reescritas para ser más simples y concisas. Uso excesivo de jerga técnica debe evitarse. Estructura clara de presentación de ideas y conceptos es necesaria. Cada oración debe contribuir al desarrollo principal del contenido. Consistencia en estilo y uso de mayúsculas y minúsculas es fundamental. Revisión y edición antes de publicar para asegurar coherencia y fácil comprensión.\"",
-          "Feedback sobre el Texto Original": "\"He revisado el texto proporcionado y aquí te presento mi feedback constructivo:\\n\\nDebes mejorar la estructura del texto para que sea más fácil de leer y entender. Considera dividir el contenido en secciones o párrafos con un tema específico.\\n\\nAlgunas oraciones son muy largas y difíciles de seguir, lo que puede llevar a la confusión. Sigue una estructura de oración simple y concisa para transmitir tus ideas de manera efectiva.\\n\\nEs importante evitar el uso excesivo de jerga o términos técnicos sin explicar su significado. Utiliza un lenguaje claro y accesible para que todos puedan entender el contenido.\\n\\nNo hay una estructura clara para presentar las ideas y conceptos. Considera utilizar un patrón de presentación consistente, como enumeraciones o listas, para hacer más fácil la comprensión del texto.\\n\\nAlgunas frases carecen de contexto o no están relacionadas con el resto del contenido. Asegúrate de que cada oración contribuya al desarrollo de la idea principal.\\n\\nEl uso de mayúsculas y minúsculas es inconsistente en algunas partes del texto. Mantén un estilo consistente para evitar confusión visual.\\n\\nRecuerda revisar y editar tu trabajo antes de publicarlo para asegurarte de que sea coherente y fácil de entender.\""
-        }
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "revisar-redaccion",
-      "estructura": {
-        "Corrección de Texto": {
-          "Texto Corregido": "\"El texto debe ser revisado para eliminar el uso excesivo de mayúsculas iniciales y corregir errores gramaticales y ortográficos para asegurar la claridad del mensaje. El contenido debe ser estructurado en párrafos lógicos y dividido en oraciones más cortas y sencillas para facilitar la lectura y el seguimiento. Esto ayudará a mejorar la concisión y efectividad del mensaje empresarial.\"",
-          "Feedback sobre el Texto Original": "\"Al revisar el texto proporcionado, se identifican algunos errores y áreas de mejora para adecuarlo a un tono empresarial, profesional y conciso.\\n\\nEl uso de mayúsculas iniciales en algunas oraciones puede resultar demasiado formal o incluso discordante. Es recomendable utilizar mayúsculas solo al inicio del texto principal y evitarlas en las siguientes oraciones.\\n\\nSe detectan algunos errores gramaticales y ortográficos que deben corregirse para asegurar la claridad del mensaje. Por ejemplo, el uso de comas o puntos adecuados puede variar dependiendo del contexto.\\n\\nAlgunos conceptos y ideas se presentan de manera dispersa, lo que puede dificultar su comprensión. Es recomendable estructurar el contenido en párrafos lógicos para facilitar la lectura y el seguimiento.\\n\\nEn cuanto a la sintaxis y la coherencia del mensaje, es importante evitar oraciones largas e intrincadas. En su lugar, se pueden dividir las ideas en varias oraciones más cortas y sencillas.\\n\\nA continuación, se presentan algunas sugerencias para mejorar el texto:\\n\\n*   Evitar el uso excesivo de mayúsculas iniciales.\\n*   Corregir errores gramaticales y ortográficos.\\n*   Estructurar el contenido en párrafos lógicos.\\n*   Dividir las ideas en varias oraciones más cortas y sencillas.\\n\\nEstas sugerencias pueden ayudar a mejorar la claridad, efectividad y concisión del mensaje.\""
-        }
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "revisar-redaccion",
-      "estructura": {
-        "Corrección de Texto": {
-          "Texto Corregido": "\"Para presentar un trabajo formalmente básico, se deben seguir unas pautas establecidas. Estas incluyen titular el trabajo, identificar su autoría, paginar, hacer un índice y citar las fuentes utilizadas. El título debe ser claro y conciso, destacado mediante letras mayúsculas, negritas o cursivas de tamaño 20. Debajo del título, se debe incluir la autoría con nombre y apellidos, correo electrónico, curso académico o grupo donde está matriculado.\\n\\nEl índice se coloca al inicio del trabajo y debe incluir los capítulos con sus números de página y cualquier imagen, gráfico o figura. La paginación se debe ubicar centrada en la parte inferior de cada folio, evitando desequilibrios visuales. El título no debe contener paginación.\\n\\nEs recomendable reflejar el esquema previo en el índice para luego estructurar el trabajo con una introducción, nudo y conclusiones. Se deben citar las fuentes utilizadas y considerar la inclusión de una hoja de salva entre el título e índice. La presentación del trabajo debe seguir un formato estándar, con folios blancos por ambas caras y paginación centrada en la parte inferior.\""
+      "fecha": "2025-04-25T16:57:32.502Z",
+      "dirección": "diego.sota@gmail.com",
+      "tarjeta": "11111212121212121212",
+      "documentos": [
+        {
+          "tipo": "resumir-texto",
+          "cuerpo": {
+            "Texto Resumido": "\"Desafortunadamente, no se puede generar un resumen del texto original debido a que no es posible analizar su contenido ya que consta solo de caracteres aleatorios sin sentido.\\n\\nSin embargo, puedo sugerirte una posible forma de abordar este problema:\\n\\n1. Reemplaza el texto original con un mensaje de error o una solicitud para que el usuario ingrese un texto válido.\\n2. Puedes generar un resumen vacío o un mensaje indicando que no se puede analizar el texto debido a su contenido.\\n\\nAquí te muestro un posible resultado:\\n\\nel texto ingresado es inválido, por favor ingresa un texto real para poder realizar la análisis y generar un resumen adecuado.\\n\\nSi deseas, puedo sugerirte una forma de mejorar tu aplicación para que pueda manejar textos vacíos o con contenido no válido.\""
+          }
         },
-        "": "\"Me parece que el texto proporcionado necesita algunas correcciones y mejoras para adaptarse a un tono empresarial y profesional adecuado. A continuación, se presentan mis sugerencias:\\n\\nEl texto original puede ser demasiado vago y no proporciona suficiente información clara. Es importante tener en cuenta que la audiencia objetivo de la aplicación web es probablemente diversos usuarios con diferentes niveles de conocimientos.\\n\\nAlgunas recomendaciones para mejorar el texto incluyen:\\n- Reducir el uso de palabras generales como \\\"ideas\\\" y \\\"conceptos\\\". En su lugar, se pueden utilizar términos más específicos que permitan a los usuarios entender mejor qué tipo de contenido se está tratando de generar.\\n- Agregar detalles sobre el propósito o beneficio del contenido generado. Esto ayudará a los usuarios a comprender por qué necesitan ese tipo de contenido y cómo puede beneficiarles.\\n- Considerar la inclusión de ejemplos concretos para ilustrar mejor las características del contenido que se está tratando de generar.\\n\\nEs importante recordar que el objetivo es proporcionar una descripción clara y concisa que permita a los usuarios comprender qué tipo de contenido pueden esperar obtener. \\n\\nSe deberían incluir detalles sobre la estructura y organización del contenido generado, como la longitud promedio de cada sección o si cuenta con algún tipo de introducción o resumen.\\n\\nSe recomienda mantener el tono formal y profesional para atraer a usuarios interesados en herramientas y servicios de alta calidad que pueden ayudarles a mejorar su trabajo.\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "esquematizar-texto",
-      "estructura": {
-        "Texto Resumido": "\"1. Sugerencias para presentar un trabajo universitario\\n  1.1. Pautas formales básicas para la presentación del trabajo\\n    1.1.1. Titular el trabajo\\n    1.1.2. Identificar la autoría del trabajo\\n    1.1.3. Paginar el trabajo\\n    1.1.4. Hacer un índice del trabajo\\n    1.1.5. Estructurar el trabajo con introducción, nudo y conclusiones\\n    1.1.6. Citar las fuentes utilizadas\\n  1.2. Pasos para presentar un trabajo universitario\\n    1.2.1. Reflexionar sobre la temática del trabajo\\n    1.2.2. Hacer un esquema de ideas y estructura\\n    1.2.3. Desarrollar las ideas con claridad en el texto\\n  1.3. Opciones para presentar el trabajo encuadernado\\n    1.3.1. Utilizar canutillo económico en cualquier reprografía\\n    1.3.2. Colocar una hoja en blanco de cortesía al final del trabajo\\n  1.4. Formato para el título general\\n    1.4.1. Utilizar letras destacadas (negritas, cursivas o mayúsculas)\\n    1.4.2. Acentuar el tamaño del título con normalidad\\n    1.4.3. Evitar subrayar el título salvo en caso de utilizar máquina de escribir\\n  1.5. Formato para la autoría y datos complementarios\\n    1.5.1. Colocar la autoría debajo del título en menor tamaño\\n    1.5.2. Incluir nombre y apellidos del autor\\n    1.5.3. Agregar correo electrónico, curso académico o grupo de matrícula (opcional)\\n  1.6. Utilidad de la hoja de salva\\n    1.6.1. Colocar una hoja en blanco entre el título y el índice\\n  1.7. Formato para el índice del trabajo\\n    1.7.1. Colocar el índice delante del trabajo (normalmente lo último que se redacta)\\n    1.7.2. Incluir capítulos con números de página y imágenes, gráficos o figuras\\n    1.7.3. Utilizar el esquema previo para estructurar el índice\\n  1.8. Adecuaciones para presentar textos extensos\\n    1.8.1. Imprimir en folios blancos por las dos caras\\n    1.8.2. Ubicar la paginación centrada en la parte inferior del trabajo\\n  1.9. Excepciones para el título y la paginación\\n    1.9.1. Evitar paginar el título\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "esquematizar-texto",
-      "estructura": {
-        "Texto Resumido": "\"A. Autoría del trabajo\\nA.1. Identificación del autor\\nA.2. Otros datos complementarios del autor\\n\\nB. Estructura del trabajo\\nB.1. Introducción\\nB.2. Nudo (parte central)\\nB.3. Conclusiones\\nB.4. Índice y paginación\\n\\nC. Formato de presentación del trabajo\\nC.1. Título general\\nC.1.1. Características del título\\nC.1.2. Ubicación del título\\nC.2. Autoría del trabajo\\nC.3. Hoja de salva\\nC.4. Índice\\n\\nD. Formato de presentación gráfica\\nD.1. Imágenes, gráficos o figuras en el índice\\nD.2. Paginación centrada en la parte inferior\\n\\nE. Habilidades necesarias para presentar un trabajo\\nE.1. Reflexionar sobre las ideas\\nE.2. Crear un esquema previo\\nE.3. Desarrollar las ideas con claridad\\n\\nF. Material de apoyo para presentar el trabajo\\nF.1. Encuadernado con canutillo\\nF.2. Reprografía económica\\n\\nG. Otras consideraciones\\nG.1. Redundancia en la subrayación del título\\nG.2. Uso de máquina de escribir\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "esquematizar-texto",
-      "estructura": {
-        "Texto Resumido": "\"A. Autoría del trabajo\\n  A.1 El título general debe condensar de forma sintética el trabajo que se presenta.\\n  A.2 Debajo del título, en menor tamaño, ha de constar la autoría del trabajo: nombre y apellidos de quien haya participado en él.\\n  A.3 Puede añadirse otros datos complementarios del autor, como el correo electrónico o el curso académico.\\n\\nB. Capítulos estructurales\\n  B.1 El índice se coloca delante del trabajo, aunque normalmente es lo último que se redacta al acabar la investigación.\\n  B.2 Un índice requiere que consten los capítulos con sus correspondientes números de página.\\n\\nC. Citas y fuentes\\n  C.1 Es importante citar las fuentes utilizadas en el trabajo.\\n\\nD. Estructura del trabajo\\n  D.1 El trabajo debe seguir una estructura básica: introducción, nudo y conclusiones.\\n  D.2 Debe hacerse un índice para organizar los capítulos del trabajo.\\n\\nE. Formato de presentación\\n  E.1 Se puede presentar el trabajo encuadernado con canutillo en cualquier reprografía.\\n  E.2 El título general debe constar en letras destacadas, por ejemplo, en negritas, cursivas y mayúsculas (de tamaño 20).\\n  E.3 Es importante colocar al final del trabajo una hoja en blanco de cortesía.\\n\\nF. Imágenes y gráficos\\n  F.1 Un índice debe incluir las imágenes, gráficos o figuras que tenga el trabajo.\\n\\nG. Paginación\\n  G.1 La paginación se coloca centrada en la parte inferior del folio.\\n  G.2 El título no debe tener paginación.\\n\\nH. Reflexión y estructuración\\n  H.1 Es importante reflexionar sobre el tema antes de empezar a escribir.\\n  H.2 Debe hacerse un esquema para organizar las ideas.\\n\\nI. Título del trabajo\\n  I.1 El título debe condensar de forma sintética el contenido del trabajo.\\n\\nJ. Uso de máquina de escribir\\n  J.1 Salvo que se use una máquina de escribir, no es necesario subrayar el título.\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "esquematizar-texto",
-      "estructura": {
-        "Texto Resumido": "\"A. Autoría del trabajo\\n  - El título general debe constar en letras destacadas.\\n  - El título ha de condensar de forma sintética el trabajo que se presenta.\\n  - El autor debe ser identificado con nombre y apellidos.\\n  - Pueden incluirse otros datos complementarios del autor.\\n\\nB. Citas y fuentes utilizadas\\n  - Es importante citar las fuentes utilizadas en la investigación.\\n\\nC. Estructura del trabajo\\n  - Debe tener una introducción que presente el tema.\\n  - Un nudo que contenga la información principal.\\n  - Conclusiones que resuman los resultados obtenidos.\\n\\nD. Índice\\n  - El índice se coloca al principio del trabajo, aunque normalmente es lo último que se redacta.\\n  - Debe incluir los capítulos con sus correspondientes números de página.\\n  - Las imágenes, gráficos o figuras deben estar incluidas en el índice.\\n\\nE. Presentación general\\n  - El trabajo debe ser presentado encuadernado con canutillo.\\n  - Puede imprimirse en folios blancos por las dos caras.\\n  - La paginación debe ubicarse centrada en la parte inferior del papel.\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "esquematizar-texto",
-      "estructura": {
-        "Texto Resumido": "\"1. Presentación del trabajo\\n1.1. Forma adecuada de presentar un trabajo\\n   1.1.1. Pautas formales básicas\\n      1.1.1.1. Titular el trabajo\\n      1.1.1.2. Identificar la autoría\\n      1.1.1.3. Paginar\\n      1.1.1.4. Hacer un índice\\n      1.1.1.5. Estructurar el trabajo (introducción, nudo y conclusiones)\\n      1.1.1.6. Citar las fuentes utilizadas\\n\\n2. Pasos para presentar un trabajo\\n   2.1. Reflexionar sobre el tema\\n   2.2. Crear un esquema previo\\n   2.3. Desarrollar las ideas con claridad\\n\\n3. Formato de presentación del trabajo\\n   3.1. Encuadernado con canutillo\\n      3.1.1. Realizar en cualquier reprografía\\n   3.2. Colocar una hoja en blanco de cortesía al final del trabajo\\n\\n4. Título general del trabajo\\n   4.1. Forma sintética del trabajo\\n   4.2. Letras destacadas (negritas, cursivas y mayúsculas)\\n   4.3. Tamaño de las letras (20)\\n\\n5. Autoría del trabajo\\n   5.1. Nombre y apellidos del autor\\n   5.2. Correo electrónico del autor\\n   5.3. Curso académico o grupo donde está matriculado\\n\\n6. Índice del trabajo\\n   6.1. Colocación en el inicio del trabajo (delante de la introducción)\\n   6.2. Contenido del índice\\n      6.2.1. Capítulos con números de página\\n      6.2.2. Imágenes, gráficos o figuras\\n\\n7. Paginación en el trabajo\\n   7.1. Colocación centrada en la parte inferior del folio\\n   7.2. Evitar desequilibrios en el aspecto general de la obra\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "prensar-latex",
-      "estructura": {
-        "Texto Resumido": "\"\\\\documentclass{article}\\n\\n\\\\usepackage[spanish]{babel}\\n\\\\usepackage{amsmath}\\n\\\\usepackage{graphicx}\\n\\n\\\\title{Efectos del Ruido Blanco en la Concentración}\\n\\\\author{Juan Pérez}\\n\\n\\\\begin{document}\\n\\n\\\\maketitle\\n\\n\\\\section{Resumen}\\n\\nEste artículo explora cómo el ruido blanco puede mejorar la concentración en ambientes laborales. Se presentan resultados de un experimento con 30 participantes.\\n\\n\\\\section{Introducción}\\n\\nLa concentración es clave para la productividad. Diversos estudios sugieren que el ruido blanco puede ayudar a reducir distracciones.\\n\\n\\\\section{Metodología}\\n\\nSe utilizó un diseño experimental con grupo control y grupo experimental, evaluando tareas de atención sostenida.\\n\\n\\\\section{Resultados}\\n\\nEl grupo con ruido blanco mostró una mejora del 15\\\\% en la concentración.\\n\\n\\\\section{Discusión}\\n\\nEstos resultados son consistentes con investigaciones previas y abren nuevas líneas para el diseño de espacios laborales.\\n\\n\\\\begin{thebibliography}{9}\\n\\n\\\\bibitem[1]{Smith2020}\\nSmith, A. (2020). Cognitive Enhancement with Noise.\\n\\n\\\\end{thebibliography}\\n\\n\\\\section{Referencias}\\n\\n\\\\renewcommand{\\\\refname}{}\\n\\n\\\\bibliographystyle{plain}\\n\\\\bibliography{biblio}\\n\\n\\\\end{document}\""
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "curriculum-vitae",
-      "estructura": {
-        "Currículum Vitae": {
-          "Datos de Contacto": {
-            "Nombre Completo": "Diego Sota ",
-            "Dirección": "Avda. Abogados de Atocha, 6",
-            "Teléfono": "646967576",
-            "Correo Electrónico": "diego.sota@gmail.com"
-          },
-          "Perfil": "\"Soy un joven profesional con gran apetito por el trabajo y una mentalidad dispuesta a enfrentar desafíos.\\n\\nComo persona aplicada, estudiosa y perseverante, he logrado desarrollar habilidades que me permiten abordar proyectos complejos de manera efectiva. Esta capacidad se destaca en la creación de esta web, un proyecto que requiere dedicación y esfuerzo constante.\\n\\nMi edad no me impide demostrar una gran cantidad de ganas de trabajar y mejorar continuamente mis habilidades profesionales.\""
-        }
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "curriculum-vitae",
-      "estructura": {
-        "Currículum Vitae": {
-          "Datos de Contacto": {
-            "Nombre Completo": "Diego Sota ",
-            "Dirección": "Avda. Abogados de Atocha, 6",
-            "Teléfono": "646967576",
-            "Correo Electrónico": "diego.sota@gmail.com"
-          },
-          "Perfil": "\"Me considero un chico joven de 24 años con muchas ganas de trabajar y una gran motivación para alcanzar mis objetivos profesionales.\\n\\nMi perfil profesional se caracteriza por ser aplicado, estudioso y perseverante, lo que me permite enfrentar desafíos de manera efectiva y alcanzar mis metas. Me considero cabezota y estoy siempre dispuesto a aprender y mejorar continuamente.\\n\\nEn este sentido, puedo mencionar que he desarrollado una web como resultado de mi dedicación y esfuerzo en aprender nuevas habilidades y tecnologías. Esta experiencia me ha permitido crecer profesionalmente y demostrar mis capacidades para enfrentar proyectos complejos.\\n\\nEstoy emocionado por continuar creciendo y mejorando, y estoy seguro de que puedo aportar valor a cualquier organización o equipo con mi entusiasmo y dedicación.\""
-        }
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "curriculum-vitae",
-      "estructura": {
-        "Currículum Vitae": {
-          "Datos de Contacto": {
-            "Nombre Completo": "Diego Sota ",
-            "Dirección": "Avda. Abogados de Atocha, 6",
-            "Teléfono": "646967576",
-            "Correo Electrónico": "diego.sota@gmail.com"
-          },
-          "Perfil": "\"Soy un joven apasionado por la tecnología y con ganas de trabajar, con una edad de 24 años y una mentalidad aplicada y perseverante que me permite enfrentar desafíos y alcanzar mis objetivos.\\n\\nGracias a mi espíritu estudioso y cabezota, he logrado desarrollar proyectos interesantes como esta web, lo que demuestra mi capacidad para aprender y crecer en mi carrera profesional.\""
-        }
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "curriculum-vitae",
-      "estructura": {
-        "Currículum Vitae": {
-          "Datos de Contacto": {
-            "Nombre Completo": "Diego Sota ",
-            "Dirección": "Avda. Abogados de Atocha, 6",
-            "Teléfono": "646967576",
-            "Correo Electrónico": "diego.sota@gmail.com"
-          },
-          "Perfil": "\"Soy un chico joven de 24 años con muchas ganas de trabajar, dispuesto a enfrentar nuevos desafíos y aprender continuamente. Mi personalidad es caracterizada por ser aplicado, estudioso y perseverante, lo que me permite alcanzar mis metas y superarme a mí mismo.\\n\\nMe considero una persona cabezota que no se rinde fácilmente ante los obstáculos, y estoy orgulloso de haber logrado acabar de desarrollar esta web gracias a mi dedicación y esfuerzo. Me apasiona el aprendizaje constante y estoy siempre en busca de nuevas oportunidades para crecer profesionalmente.\"",
-          "Formación Académica": "\"\\\"Estoy en el cuarto curso de la carrera de Ingeniería en Sistemas Audiovisuales y Multimedia, que comencé en 2020. Me quedan tres asignaturas para completar mi formación académica.\\\"\""
-        }
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "curriculum-vitae",
-      "estructura": {
-        "Currículum Vitae": {
-          "Datos de Contacto": {
-            "Nombre Completo": "Diego Sota ",
-            "Dirección": "Avda. Abogados de Atocha, 6",
-            "Teléfono": "646967576",
-            "Correo Electrónico": "diego.sota@gmail.com"
-          },
-          "Perfil": "\"Soy un chico joven de 24 años con muchas ganas de trabajar, caracterizado por ser aplicado, estudioso y perseverante en todo lo que me propongo hacer.\\nEstos rasgos han sido clave para mí en la consecución de mis objetivos, como el desarrollo de esta web, gracias a mi capacidad analítica y a mi tendencia natural a encontrar soluciones creativas.\"",
-          "Formación Académica": "\"\\\"Estudié Ingeniería en Sistemas Audiovisuales y Multimedia, donde actualmente me encuentro cursando mi cuarto año y quedándome 3 asignaturas pendientes.\\\"\"",
-          "Habilidades": "\"\\\"Como programador, tengo una buena habilidad para desarrollar soluciones tecnológicas.\\\\nAdemás, mi personalidad amable me permite interactuar con personas de manera efectiva y comunicativa.\\\\nA nivel lingüístico, poseo un dominio avanzado del idioma inglés (B2), lo que me facilita el trabajo en entornos internacionales.\\\"\""
-        }
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "curriculum-vitae",
-      "estructura": {
-        "Currículum Vitae": {
-          "Datos de Contacto": {
-            "Nombre Completo": "Diego Sota ",
-            "Dirección": "Avda. Abogados de Atocha, 6",
-            "Teléfono": "646967576",
-            "Correo Electrónico": "diego.sota@gmail.com"
-          },
-          "Perfil": "\"Joven profesional de 24 años con una gran motivación para incorporarse al mercado laboral y aportar valor a un equipo. Poseo una actitud proactiva y una fuerte determinación que me impulsan a superar los desafíos y alcanzar mis objetivos.\\n\\nMi enfoque aplicado, mi constancia en el estudio y mi perseverancia son pilares fundamentales en mi desarrollo profesional. Estas cualidades me han permitido avanzar significativamente en proyectos complejos, como el desarrollo de esta aplicación web, demostrando mi capacidad para resolver problemas y aprender continuamente. Soy una persona decidida y no me rindo fácilmente ante las dificultades.\\n\"",
-          "Formación Académica": "\"\\\"Actualmente curso el cuarto año de Ingeniería en Sistemas Audiovisuales y Multimedia, iniciada en 2020. Me encuentro a punto de finalizar mis estudios, con tan solo tres asignaturas pendientes para obtener la titulación.\\\"\"",
-          "Habilidades": "\"\\\"Poseo sólidas habilidades técnicas como programador, lo que me permite abordar proyectos con eficiencia y creatividad. Además, cuento con excelentes habilidades interpersonales, destacando mi capacidad para establecer relaciones positivas y colaborativas con compañeros y clientes. Mi nivel de inglés es B2, facilitando la comunicación en entornos internacionales.\\\"\""
-        }
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "carta-presentacion",
-      "estructura": {
-        "Carta de Presentación": {
-          "Datos del Remitente": {
-            "Nombre Completo": "Diego Sota ",
-            "Dirección": "Avda. Abogados de Atocha, 6",
-            "Teléfono": "646967576",
-            "Correo Electrónico": "diego.sota@gmail.com",
-            "Enlaces Profesionales": "tuctucututuvuguruvugf"
-          },
-          "Datos del Destinatario": {
-            "Fecha": "13 de abril de 2025",
-            "Nombre del Reclutador": "A quien corresponda",
-            "Empresa y Departamento": "cuencaphone",
-            "Dirección": "Avda. Abogados de Atocha, 7"
-          },
-          "Asunto": "REF: Candidatura para el puesto de Butanero",
-          "Cuerpo": "\"Estimado/a [Nombre del destinatario],\\n\\nMe dirijo a usted con gran entusiasmo ante la posibilidad de incorporarme a su equipo como Butanero.  Proviene de una familia con una larga tradición en el sector, y siento un profundo compromiso por continuar con este legado, aportando mi dedicación y experiencia al crecimiento de su empresa.\\n\\nCuento con quince años de experiencia como butanero experto, durante los cuales he desarrollado un amplio conocimiento técnico y habilidades prácticas en todas las áreas relacionadas con la instalación, mantenimiento y reparación de sistemas de gas.  Estoy familiarizado con una gran variedad de equipos y normativas, y me considero capaz de abordar cualquier desafío que se presente.\\n\\nMi perfil profesional se caracteriza por ser una persona amable y cualificada, ambiciosa pero humilde. Estoy motivado para aprender constantemente y mejorar mis habilidades, siempre buscando la manera de aportar valor a la empresa y colaborar en un ambiente de trabajo positivo y productivo.  Estoy seguro de que mi entusiasmo y compromiso serán un activo valioso para su equipo.\\n\\nAgradezco sinceramente su tiempo y consideración, y espero tener la oportunidad de conversar con usted sobre cómo puedo contribuir al éxito de su empresa.\\n\""
-        }
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "carta-presentacion",
-      "estructura": {
-        "Carta de Presentación": {
-          "Asunto": "Candidatura: Butanero - Diego Sota ",
-          "Cuerpo": "\"[13 de abril de 2025]\\n\\nEstimado/a [Nombre del Reclutador - Desconocido],\\n\\nMe dirijo a usted con gran interés en la posición de Butanero dentro de cuencaphone. La oportunidad de unirme a su equipo y contribuir al éxito de la empresa me resulta sumamente atractiva.\\n\\nMi motivación para postular a este puesto es profunda, arraigada en una larga tradición familiar en el campo de la butanería. Deseo con fervor seguir el legado de mi estirpe, aplicando mis conocimientos y dedicación para mantener y mejorar los estándares de excelencia que caracterizan a esta profesión.\\n\\nComo butanero experto con 15 años de experiencia, poseo un amplio conocimiento técnico y habilidades prácticas en todas las áreas relacionadas con la instalación, mantenimiento y reparación de sistemas de butano. Estoy seguro de poder aportar mi experiencia para optimizar procesos y garantizar la seguridad y eficiencia de las instalaciones de cuencaphone.\\n\\nConsidero que mis cualidades personales, como ser amable, cualificado, ambicioso pero humilde y con muchas ganas de trabajar, me permitirán integrarme rápidamente al equipo y contribuir positivamente a la dinámica laboral. Estoy comprometido con el aprendizaje continuo y la mejora constante en mi desempeño profesional.\\n\\nAgradezco sinceramente su tiempo y consideración. Quedo a su entera disposición para una entrevista personal donde podré ampliar esta información y demostrar mi valía como candidato ideal para este puesto.\\n\\nAtentamente,\\n\\nDiego Sota\\n646967576\\ndiego.sota@gmail.com\\nAvda. Abogados de Atocha, 6\\ntuctucututuvuguruvugf\""
-        }
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "resumen-ejecutivo",
-      "estructura": {
-        "Resumen Ejecutivo": {
-          "Título": "Decisión de compra venta",
-          "Subtítulo": "Se debe tomar una decisión sobre la bsorción de chocapic",
-          "Fecha": "13 de abril de 2025",
-          "Autor": "Aurelio torres",
-          "Contenido": {
-            "Introducción": "\"El presente documento, elaborado por Aurelio Torres el 13 de abril de 2025, analiza la oportunidad de adquisición de Chocapic, un competidor en declive que ha ofrecido su venta por una inversión de $200,000. El objetivo principal es evaluar la viabilidad y conveniencia de esta operación, determinando si representa una decisión estratégica adecuada para la empresa. Dada la naturaleza crítica de esta potencial adquisición, cuya implementación podría resultar tanto en un éxito significativo como en un resultado desfavorable, se requiere una evaluación exhaustiva y fundamentada que se detalla a continuación.\\n\"",
-            "Descripción del Proyecto": "\"\\\"Este análisis se ha estructurado a través de un balance de riesgos, buscando identificar y ponderar las potenciales ventajas y desventajas asociadas con la adquisición de Chocapic. Es importante destacar que el presente documento constituye un primer acercamiento a esta oportunidad; por lo tanto, los hallazgos y recomendaciones aquí presentados podrían requerir ajustes o ampliaciones en etapas posteriores del proceso de decisión, dependiendo de la información adicional que se derive.\\\"\"",
-            "Resultados y Conclusiones": "\"\\\"El análisis revela un dato clave significativo: a pesar de su situación actual, Chocapic genera ingresos anuales equivalentes al doble del costo de adquisición propuesto. Con base en esta información y considerando el balance de riesgos realizado, se concluye preliminarmente que la adquisición es viable. Esta conclusión se refuerza con el estudio final, que determina que la compra es crucial para la empresa. Por lo tanto, se recomienda encarecidamente proceder con la adquisición de Chocapic a la brevedad posible, maximizando así las oportunidades derivadas de esta estratégica inversión.\\\"\"",
-            "Cierre": "\"\\\"En resumen, este análisis exhaustivo ha identificado una oportunidad estratégica crucial para la empresa: la adquisición de Chocapic. Agradecemos su atención a esta evaluación. Se insta a tomar acción inmediata – compren YA!! – para asegurar el aprovechamiento pleno de los beneficios potenciales que esta adquisición ofrece.\\\"\""
+        {
+          "tipo": "esquematizar-texto",
+          "cuerpo": {
+            "Esquema Generado": "\"1. cvcvcvc\\n2. cvdcvcvcvcv\\n3. \\n4. cvcvcvc\\n5. 1. cvcvcvcvcv\\n6. 1.1. cvcvcvc\\n7. 1.1.1. cvcvcvcvc\\n8. 1.1.2. cvcvcvcv\\n9. 1.2. cvcvcvcvcv\\n10. cvdcvcvcv\""
+          }
+        },
+        {
+          "tipo": "revisar-redaccion",
+          "cuerpo": {
+            "Corrección de Texto": {
+              "Texto Corregido": "\"El texto original no tiene sentido y parece ser un conjunto aleatorio de caracteres. No hay estructura ni contenido claro que pueda ser resumido.\""
+            },
+            "Feedback": "\"¡Claro! Aquí te presento mi feedback sobre el texto original:\\n\\nMe parece que el texto está bien estructurado y fácil de leer, pero hay algunas cosas que podrían mejorarse. En primer lugar, la ortografía y gramática están correctas, lo cual es genial.\\n\\nSin embargo, noté que hay algunos conceptos que se repiten en diferentes partes del texto. Podrías considerar crear una estructura más lógica y jerárquica para que el contenido sea más fácil de seguir.\\n\\nTambién me parece que algunas frases son un poco largas y difíciles de entender. Procura dividirlas en oraciones más cortas y sencillas para que sean más fáciles de leer.\\n\\nEn cuanto a la coherencia, hay algunos puntos que no están claramente relacionados entre sí. Podrías considerar crear una estructura de ideas más lógica y conexiva.\\n\\nOtra cosa que me parece interesante es agregar un poco de variedad en el lenguaje. Aunque el tono es informal y coloquial, algunas frases son un poco genéricas y podrían ser reemplazadas con algo más original.\\n\\nFinalmente, no te olvides de revisar la consistencia en la puntuación y el uso de comas, puntos suspensivos, etc. Aunque no es un error grave, puede afectar la lectura del texto.\\n\\nEn resumen, el texto tiene buenos y malos puntos. Con algunas mejoras en la estructura, coherencia y lenguaje, podría ser aún más efectivo y atractivo para los usuarios.\""
+          }
+        },
+        {
+          "tipo": "resumir-texto",
+          "cuerpo": {
+            "Texto Resumido": "\"El texto original no parece contener ninguna información coherente ni significativa. Sin embargo, puedo intentar analizarlo y generar un resumen basado en la longitud del texto.\\n\\nSi el texto original tiene una longitud de 20 caracteres, entonces el resumen debe tener aproximadamente 5 caracteres.\\n\\ncvcv\\n\\nPero si consideramos que el texto es solo un conjunto aleatorio de caracteres, no hay puntos clave ni conceptos que resumir. \\n\\nEntonces, el resumen podría ser simplemente un mensaje indicando que el texto original no contiene información útil.\\n\\ncvcvv\""
           }
         }
-      }
+      ]
     },
     {
       "usuario": "Yodak025",
-      "tipo": "curriculum-vitae",
-      "estructura": {
-        "Currículum Vitae": {
-          "Datos de Contacto": {
-            "Nombre Completo": "Diego Sota ",
-            "Dirección": "Avda. Abogados de Atocha, 6",
-            "Teléfono": "646967576",
-            "Correo Electrónico": "diego.sota@gmail.com"
-          },
-          "Perfil": "\"Profesional dinámico y con una perspectiva única, enfocado en la búsqueda de oportunidades que permitan aplicar habilidades y conocimientos para alcanzar objetivos desafiantes.  Mi enfoque se basa en la adaptabilidad y la resolución innovadora de problemas, buscando constantemente maneras de optimizar procesos y generar resultados positivos. \\n\\nPoseo una capacidad demostrada para superar obstáculos imprevistos y mantener la calma bajo presión. Mi trayectoria profesional se caracteriza por la perseverancia y la habilidad para encontrar soluciones creativas a situaciones complejas, lo que me permite destacar en entornos exigentes y contribuir significativamente al éxito de cualquier equipo.\\n\"",
-          "Habilidades": "\"Poseo una gran capacidad para la organización y planificación, lo que me permite gestionar eficientemente mi tiempo y priorizar tareas incluso bajo presión. Mi proactividad me impulsa a anticipar desafíos y buscar soluciones antes de que se conviertan en problemas, asegurando el cumplimiento de objetivos y plazos establecidos.\\n\\nAdemás, soy una persona colaborativa y con facilidad para establecer relaciones interpersonales positivas.  Mi actitud amigable y mi disposición a ayudar fomentan un ambiente de trabajo armonioso y productivo, contribuyendo al bienestar del equipo y a la consecución de metas comunes.\""
-        }
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "descripcion-producto",
-      "estructura": {
-        "Descripción de Producto": {
-          "Título": "AI- Scribe",
-          "Subtítulo": "Automatic Inkless Scribe",
-          "Contenido": {
-            "Introducción y Características": "\"En un mundo cada vez más digitalizado, la necesidad de generar contenido de alta calidad se vuelve cada vez más apremiante. Es aquí donde entra en escena \\\"AI-Scribe\\\", una herramienta innovadora que revoluciona la forma en que creamos documentos de texto de manera automática. Basado en el uso controlado de Textos Generados por Modelos de Lenguaje de Máquina (LLMs), AI-Scribe permite generar una gran variedad de archivos con precisión y eficiencia.\\n\\nCon \\\"AI-Scribe\\\", puedes decir adiós a la tediosa tarea de escribir documentos desde cero. Nuestro servicio web utiliza algoritmos avanzados para crear contenido de alta calidad, en formato de texto, que se ajusta perfectamente a tus necesidades. Ya no es necesario contar con habilidades de escritura destacadas o dedicar horas a la creación de contenido; con \\\"AI-Scribe\\\", los usuarios no especializados pueden obtener resultados satisfactorios y profesionales.\\n\\nEntre las características principales de \\\"AI-Scribe\\\" se encuentran su capacidad para generar una gran variedad de archivos, lo que te permite adaptarte a cualquier tipo de proyecto o necesidad. Además, nuestro servicio ofrece la posibilidad de controlar los resultados obtenidos, asegurando que el contenido creado sea preciso y relevante.\\n\\nAl utilizar \\\"AI-Scribe\\\", disfrutarás de varios beneficios importantes:\\n\\nAutomatización: Reduce significativamente el tiempo y esfuerzo dedicado a la creación de documentos.\\nResultados más controlados: Nuestro servicio te permite ajustar los resultados obtenidos para que se adapten perfectamente a tus necesidades específicas.\\nAccesibilidad: Los usuarios no especializados pueden obtener resultados satisfactorios sin necesidad de habilidades avanzadas en escritura.\\n\\nCon \\\"AI-Scribe\\\", puedes enfocarte en lo que importa mientras dejamos que la tecnología haga el trabajo duro por ti. ¡Prueba hoy mismo nuestra herramienta innovadora y descubre cómo puede mejorar tu productividad y eficiencia en la creación de contenido!\"",
-            "Especificaciones Técnicas": "\"\\\"Nuestra plataforma \\\\\\\"AI-Scribe\\\\\\\" está diseñada para ser adaptable e independiente del modelo del LLM utilizado, lo que significa que puedes confiar en nuestra precisión y eficiencia sin importar cuál sea el modelo subyacente. Esto se debe a nuestro compromiso con la innovación y la mejora continua, asegurando que siempre estemos al día con las últimas tecnologías y tendencias en procesamiento de lenguaje natural.\\\\n\\\\nBajo la capa, nuestra plataforma está construida sobre Nodejs y React con Server-Side Rendering (SSR), lo que permite una experiencia de usuario inmersiva y dinámica. Nuestra arquitectura robusta garantiza que nuestros servicios estén disponibles en todo momento, sin interrupciones ni retrasos.\\\\n\\\\nAl utilizar \\\\\\\"AI-Scribe\\\\\\\", también disfrutarás de la tranquilidad que ofrece nuestra amplia certificación y garantías. Nuestra plataforma ha sido exhaustivamente probada y refinada para garantizar su precisión y seguridad, lo que te permite confiar en nuestros servicios sin dudar. Nuestro equipo de expertos se esfuerza constantemente por mejorar y mantener la integridad de nuestra plataforma, asegurando que siempre estés protegido y seguro al utilizar \\\\\\\"AI-Scribe\\\\\\\".\\\"\"",
-            "Opiniones y Cierre": "\"\\\"\\\\\\\"Nuestra comunidad de clientes está creciendo rápidamente, y no solo por nuestra tecnología innovadora, sino también por los resultados tangibles que han logrado gracias a \\\\\\\\\\\\\\\"AI-Scribe\\\\\\\\. Algunos de nuestros clientes más satisfechos nos comparten sus experiencias con nuestra herramienta:\\\\\\\\n\\\\\\\\n\\\\\\\"Con \\\\\\\\\\\\\\\"AI-Scribe\\\\\\\\\\\\\\\", he podido aumentar mi productividad en un 15% y mejorar la calidad de mis documentos. Es una herramienta que realmente vale la pena invertir en ella.\\\\\\\" - Juan, gerente de marketing\\\\\\\\n\\\\\\\\n\\\\\\\"Me sorprendió la precisión y velocidad con la que \\\\\\\\\\\\\\\"AI-Scribe\\\\\\\\\\\\\\\" puede generar contenido de alta calidad. Ha sido un verdadero juego cambiador para mi negocio.\\\\\\\" - María, escritora freelance\\\\\\\\n\\\\\\\\nNo esperes más para aprovechar las ventajas que ofrece \\\\\\\\\\\\\\\"AI-Scribe\\\\\\\\. Invierte en nuestra herramienta hoy mismo y descubre cómo puedes transformar tu productividad y eficiencia en la creación de contenido. ¡Con \\\\\\\\\\\\\\\"AI-Scribe\\\\\\\\\\\\\\\", no solo obtendrás mejores resultados, sino también una mayor libertad para enfocarte en lo que realmente importa: tus objetivos y metas.\\\\\\\"\""
+      "fecha": "2025-04-25T17:47:44.140Z",
+      "dirección": "diego.sota@gmail.com",
+      "tarjeta": "11111212121212121212",
+      "documentos": [
+        {
+          "tipo": "resumir-texto",
+          "cuerpo": {
+            "Texto Resumido": "\"Desafortunadamente, no se puede generar un resumen del texto original ya que parece ser una cadena aleatoria sin sentido.\\n\\nSin embargo, si asumimos que la cadena \\\"ijidjeneunfuenfuenfef\\\" es solo un ejemplo y que el texto original es un conjunto de ideas o conceptos reales, podemos intentar analizar la cadena para extraer algunas características generales.\\n\\nAquí te presento un posible resumen del texto en formato plano:\\n\\nno hay información en el texto original\\nno se pueden identificar conceptos o ideas claras\\nla cadena parece ser aleatoria y sin sentido\\n\\nSi necesitas ayuda con otro texto, por favor proporciona el texto real y yo estaré encantado de ayudarte a generar un resumen.\""
+          }
+        },
+        {
+          "tipo": "esquematizar-texto",
+          "cuerpo": {
+            "Esquema Generado": "\"1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9\\n10\\n11\\n12\\n13\\n14\\n15\\n16\\n17\\n18\\n19\\n20\\n\\n1. cvcvcvcvcv\\n2. cvdcvcvcvcv\\n3. cvcvcvcvcv\\n4. cvcvcvcvcv\\n5. cvcvcvcvcv\\n6. cvcvcvcvcv\\n7. cvcvcvcvcv\\n8. cvcvcvcvcv\""
+          }
+        },
+        {
+          "tipo": "revisar-redaccion",
+          "cuerpo": {
+            "Corrección de Texto": {
+              "Texto Corregido": "\"No hay nada que resumir, parece que se proporcionó un texto vacío. Si deseas generar un resumen de algo específico, por favor proporciona el texto completo y yo estaré encantado de ayudarte.\""
+            },
+            "Feedback": "\"¡Claro! A continuación te presento un feedback constructivo sobre el texto proporcionado:\\n\\nEl texto parece ser una mezcla de ideas y conceptos interesantes, pero podría beneficiarse de algunas mejoras para que se sienta más fluido y fácil de leer.\\n\\nPrimero, es importante destacar que hay algunos errores de gramática y ortografía en el texto. Por ejemplo, en la oración \\\"El usuario puede generar contenido de forma automática\\\" debería decir \\\"El usuario puede generar contenido de manera automática\\\". También hay algunas palabras mal escritas como \\\"coloquial\\\" en lugar de \\\"colloquial\\\".\\n\\nEn cuanto al tono, creo que se está más cerca del formal que del informal. Para lograr un tono coloquial y cercano es importante utilizar un lenguaje más relajado y natural. Por ejemplo, en lugar de decir \\\"La aplicación web ayudará a los usuarios\\\" podría decirse \\\"Con nuestra app podrás generar contenido sin problemas\\\".\\n\\nOtra sugerencia que tengo es que el texto sea más conciso y directo. Hay algunas oraciones largas y complejas que pueden ser divididas en párrafos más cortos y fáciles de leer.\\n\\nFinalmente, me parece que el texto podría beneficiarse de algunos ejemplos o ilustraciones para hacerlo más atractivo y comprensible para los lectores. ¿Qué te parece si incluimos algunas imágenes o gráficos para respaldar las ideas presentadas?\\n\\nEn resumen, creo que con algunas mejoras en la gramática, ortografía, tono y estructura del texto podríamos lograr un resultado mucho más efectivo y atractivo para nuestros lectores.\""
+          }
+        },
+        {
+          "tipo": "resumir-texto",
+          "cuerpo": {
+            "Texto Resumido": "\"El texto original parece ser un conjunto de caracteres aleatorios sin sentido aparente. Sin embargo, puedo intentar analizarlo y generar un resumen conciso.\\n\\nDespués de analizar el texto, no se han encontrado puntos clave o conceptos significativos. El texto parece ser simplemente una secuencia de caracteres al azar.\\n\\nAquí te presento un posible resumen del texto original:\\n\\n\\\"El texto es una serie de caracteres aleatorios sin sentido aparente.\\\"\\n\\nNota que este resumen es aproximadamente el 25% de la longitud del texto original y se ajusta a las consideraciones proporcionadas.\""
           }
         }
-      }
+      ]
     },
     {
       "usuario": "Yodak025",
-      "tipo": "email-ventas",
-      "estructura": {
-        "Email de Ventas": {
-          "Título": "Compra AI- Scribe!",
-          "Contenido": "\"Asunto: Compra AI-Scribe!\\n\\nEstimado Director de Ventas Pedro Palotes,\\n\\nMe dirijo a usted como representante de Rustic SL, una empresa emprendedora que ha desarrollado un producto innovador para ayudar a las empresas a mejorar sus resultados financieros. Me gustaría presentarle nuestro producto, AI-Scribe, diseñado específicamente para satisfacer las necesidades de su sector.\\n\\nComo sabe, ganar dinero es un objetivo común para todas las organizaciones. Sin embargo, en la actualidad, muchas empresas enfrentan desafíos para alcanzar este objetivo. Es aquí donde entra en juego AI-Scribe, una solución que puede ayudarlo a superar estos obstáculos y alcanzar sus objetivos financieros.\\n\\nNuestro producto ofrece varias ventajas clave:\\n\\n- Rapido: AI-Scribe es rápido y eficiente, permitiéndole implementarlo en su negocio con la mayor brevedad posible.\\n- Sencillo de interconectar: Nuestra solución se integra fácilmente con sus sistemas LLM existentes, minimizando el tiempo y los recursos necesarios para su implementación.\\n- Alta calidad: AI-Scribe está diseñado para ofrecer resultados de alta calidad, lo que le permite mejorar significativamente sus resultados financieros.\\n- Diseño interesante: Nuestro producto cuenta con un diseño atractivo y fácil de usar, lo que facilita la adopción por parte de su equipo.\\n\\nMe gustaría destacar que AI-Scribe es una herramienta única y exclusiva diseñada para satisfacer las necesidades específicas de su sector. Puede utilizarlo con sus propios modelos LLM existentes, lo que significa que no necesita invertir en hardware o software adicionales.\\n\\nEn resumen, AI-Scribe es la solución perfecta para ayudarlo a alcanzar sus objetivos financieros. Me gustaría invitarlo a considerar nuestra oferta y aprovechar las ventajas que nuestro producto le ofrece.\\n\\nPor favor, considere COCOCOMPRA AI-SRIBE!!\\n\\nSi tiene alguna pregunta o desea obtener más información sobre cómo puede beneficiarse de AI-Scribe, no dude en contactarme.\\n\\nAtentamente,\\nJosue Perez\\nEmprendedor\\nRustic SL\\nJP@rustic.com\""
+      "fecha": "2025-04-25T17:52:39.414Z",
+      "dirección": "diego.sota@gmail.com",
+      "tarjeta": "11111212121212121212",
+      "documentos": [
+        {
+          "tipo": "curriculum-vitae",
+          "cuerpo": {
+            "Currículum Vitae": {
+              "Datos de Contacto": {
+                "Nombre Completo": "Diego Sota ",
+                "Dirección": "Avda. Abogados de Atocha, 6",
+                "Teléfono": "646967576",
+                "Correo Electrónico": "diego.sota@gmail.com"
+              },
+              "Perfil": "\"Soy Diego Sota, un profesional apasionado y con un alto nivel de motivación, lo que me permite mantener una actitud insaciable hacia mis objetivos profesionales.\\n\\nMi personalidad es la clave para entender mi enfoque en el trabajo: soy un jodido genio, capaz de encontrar soluciones innovadoras a los desafíos más complejos. Esta fortaleza me permite abordar proyectos con una visión creativa y una gran capacidad de resolución de problemas.\\n\\nMi perfil profesional se caracteriza por la búsqueda constante de excelencia en cada proyecto que emprenda, siempre buscando mejorar procesos y resultados.\"",
+              "Experiencia Laboral": "\"\\\"Actualmente estoy en la etapa final de mi carrera como ingeniero de sistemas, lo que me proporciona una sólida base teórica y práctica en el campo de la tecnología y la informática.\\\\n\\\\nMi formación académica se centra en la adquisición de habilidades y conocimientos en áreas específicas como programación, redes de computadoras, bases de datos y sistemas operativos, entre otras.\\\"\"",
+              "Formación Académica": "\"\\\"Estoy a punto de graduarme como ingeniero de sistemas, lo que me proporciona una sólida base teórica y práctica en el campo de la tecnología y la informática.\\\\n\\\\nMi formación académica se centra en la adquisición de habilidades y conocimientos en áreas específicas como programación, redes de computadoras, bases de datos y sistemas operativos, entre otras.\\\\n\\\\nEstoy a punto de obtener un título oficial que acredita mi capacidad para diseñar, desarrollar y implementar soluciones informáticas eficientes y efectivas.\\\"\"",
+              "Habilidades": "\"\\\"\\\\\\\"Como profesional capacitado, tengo una amplia gama de habilidades técnicas y blandas que me permiten desempeñar mi trabajo de manera efectiva.\\\\\\\\n\\\\\\\\nEn el ámbito técnico, soy capaz de programar en Python y desarrollar aplicaciones web. Además, poseo la capacidad de resolver problemas de manera eficiente y creativa.\\\\\\\\n\\\\\\\\nMi personalidad es muy atractiva para los clientes, ya que soy tranquilo, agradable y accesible. Tengo una actitud proactiva y estoy siempre dispuesto a echar una mano cuando se requiere. También tengo experiencia hablando en público y actuando en pequeños escenarios, lo que me permite comunicarme de manera efectiva con mis clientes y colegas.\\\\\\\\n\\\\\\\\nEn cuanto a mi comunicación internacional, puedo expresarme con fluidez en inglés y castellano, lo que me permite interactuar con clientes y colegas de diferentes partes del mundo.\\\\\\\"\\\"\""
+            }
+          }
         }
-      }
-    },
-    {
-      "usuario": "Yodak025",
-      "tipo": "carta-recomendacion",
-      "estructura": {
-        "Carta de Recomendación": {
-          "Asunto": "Carta de Recomendación: Pepe Lopez",
-          "Contenido": "\"Estimado/a A quien corresponda,\\n\\nMe dirijo a usted con el fin de presentar al Sr. Pepe Lopez, un colaborador excepcional que ha tenido el placer de trabajar bajo mi dirección durante los últimos tres años en ButanCorp.\\n\\nEn ese tiempo, he tenido la oportunidad de conocer a fondo las cualidades y habilidades del Sr. Lopez, y puedo afirmar sin vacilación que es una persona con un trabajo, esfuerzo, perseverancia, profesionalidad y sumisión excepcionales. Su capacidad para trabajar en equipo, su dedicación y su compromiso con la empresa han sido fundamentales para nuestro éxito.\\n\\nEn particular, me gustaría destacar sus logros y contribuciones al crecimiento de ButanCorp. Ha trabajado incansablemente para duplicar las ventas de la empresa, lo que ha llevado a un aumento significativo en nuestra posición en el mercado. Su habilidad para identificar oportunidades y liderar proyectos ha sido invaluable.\\n\\nAdemás de sus logros profesionales, también puedo hablar con entusiasmo sobre su personalidad. Es un gran amigo y persona confiable, siempre dispuesto a ayudar a los demás y apoyar a su equipo.\\n\\nEn resumen, puedo recomendar sin reserva al Sr. Pepe Lopez como profesional excepcional. Su habilidades, trabajo duro y compromiso con la empresa lo convierten en un empleado invaluable para cualquier organización.\\n\\nA continuación, se presentan mis datos de contacto:\\n\\nNombre: Pedro Gimenez Lopez\\nCargo: Butanero\\nEmpresa: ButanCorp\\nDirección: Calle Mayor 13\\nEmail: PGL@BC.com\\nTeléfono: +33 232 33 32 33\\n\\nAtentamente,\\n\\nPedro Gimenez Lopez\\nButanero\\nButanCorp\""
-        }
-      }
+      ]
     }
   ]
 }
