@@ -34,6 +34,13 @@
       "email": "sup.@sup.ia",
       "tema": "default",
       "carrito": []
+    },
+    {
+      "usuario": "sara",
+      "nombre": "sara luengo",
+      "email": "saracahuita@yahoo.es",
+      "tema": "default",
+      "carrito": []
     }
   ],
   "productos": [
@@ -262,6 +269,20 @@
           "tipo": "resumir-texto",
           "cuerpo": {
             "Texto Resumido": "\"No hay puntos clave en el texto proporcionado para resumir debido a que el texto es una serie de caracteres aleatorios sin significado aparente. El texto \\\"sdsdsdsdsddsdsdsdsd\\\" y la consideración adicional \\\"sdsdsd\\\" no contienen información coherente o significativa que pueda ser resumida.\""
+          }
+        }
+      ]
+    },
+    {
+      "usuario": "Yodak025",
+      "fecha": "2025-04-27T14:11:12.417Z",
+      "dirección": "diego.sota@gmail.com",
+      "tarjeta": "11111212121212121212",
+      "documentos": [
+        {
+          "tipo": "resumir-texto",
+          "cuerpo": {
+            "Texto Resumido": "\"Base de datos en fichero JSON llamado tienda.json.\\nContiene usuarios, productos y pedidos.\\nUsuarios tienen nombre, nombre real y correo.\\nProductos tienen nombre, descripción, precio y stock.\\nPedidos contienen usuario, dirección de envío, tarjeta y productos comprados.\\nSe incluye el usuario root y uno normal.\\nCada pedido tiene una lista de productos comprados.\""
           }
         }
       ]

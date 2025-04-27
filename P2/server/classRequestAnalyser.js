@@ -22,9 +22,11 @@ class RequestAnalyser {
         this.resourceDemipath = "/index.html";
       case "/index.html":
         this.getUserFromCookie(req.headers.cookie);
-        if (!this.user) this.resourceDemipath = "/login.html";
         this.isDynamic = true;
-        if (this.user && this.user.tema == "dark") this.isDarkTheme = true;
+        if (this.user && this.user.tema == "dark") this.isDarkTheme = true; //! Chapuza provisional
+        break;
+      case "/login.html":
+        this.isDynamic = true;
         break;
       case "/update-cart":
         this.ajax = "update-cart";
@@ -34,11 +36,13 @@ class RequestAnalyser {
       case "/process-order.html":
         this.isDynamic = true;
         this.getUserFromCookie(req.headers.cookie);
+        if (this.user && this.user.tema == "dark") this.isDarkTheme = true; //! Chapuza provisional
         break;
       case "/my-documents.html":
         this.isDynamic = true;
         this.getUserFromCookie(req.headers.cookie);
         if (!this.user) this.resourceDemipath = "/login.html";
+        if (this.user && this.user.tema == "dark") this.isDarkTheme = true; //! Chapuza provisional
         break;
       case "/logout":
         this.resourceDemipath = "/login.html";
@@ -60,7 +64,7 @@ class RequestAnalyser {
           this.user = u;
           this.resourceDemipath = "/index.html";
           if (u.tema == "dark") {
-            this.isDarkTheme = true;
+            this.isDarkTheme = true; //!!! Chapuza provisional
           }
         }
       });
@@ -79,6 +83,7 @@ class RequestAnalyser {
         db.registerUser(user, fullName, email);
       }
       this.user = db.users.filter((u) => u.usuario == user)[0];
+      if (this.user && this.user.tema == "dark") this.isDarkTheme = true; //! Chapuza provisional
       this.headers["Set-Cookie"] = [`user=${user}`, db.getCartCookie(user)];
     }
 
@@ -113,6 +118,7 @@ class RequestAnalyser {
     if (req.url.includes("/product.html?")) {
       this.getUserFromCookie(req.headers.cookie);
       if (!this.user) this.resourceDemipath = "/login.html";
+      if (this.user && this.user.tema == "dark") this.isDarkTheme = true; //! Chapuza provisional
       this.isDynamic = true;
     }
     if (req.url.includes("/new-order?")) {

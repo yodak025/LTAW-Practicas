@@ -107,69 +107,76 @@ function NavContent({ user }) {
     console.log("Peticion Search enviada");
   };
 
-  if (user) {
-    return (
-      <>
-        <header className="os-nav-header" ref={menuRef}>
-          <div className="os-dropdown">
-            <div className="os-dropdown-trigger" onClick={toggleMenuDropdown}>
-              📄 AI - Scribe
-            </div>
-            {showMenuDropdown && (
-              <div className="os-dropdown-content">
-                <a href="index.html#products">Productos</a>
-                <a href="index.html">Sobre Nosotros</a>
-              </div>
-            )}
+  return (
+    <>
+      <header className="os-nav-header" ref={menuRef}>
+        <div className="os-dropdown">
+          <div className="os-dropdown-trigger" onClick={toggleMenuDropdown}>
+            📄 AI - Scribe
           </div>
-        </header>
-
-        <section className="os-nav-search" ref={searchRef}>
-          <input type="text" placeholder="🔍 Buscar..." onChange={handleSearch} />
-          {showSearchDropdown && (
+          {showMenuDropdown && (
             <div className="os-dropdown-content">
-              {searchValue.map((product) => {
-                return (
-                  <a href={`/product.html?type=${product.id}`}>
-                    {product.name}
-                  </a>
-                );
-              })}
+              <a href="index.html#products">Productos</a>
+              <a href="index.html">Sobre Nosotros</a>
             </div>
           )}
-        </section>
+        </div>
+      </header>
 
-        <section className="os-nav-options">
-          <div className="os-dropdown --cart" ref={cartRef}>
-            <div className="os-dropdown-trigger" onClick={toggleCartDropdown}>
-              <span>🛒 Carrito</span>
-            </div>
-            {showCartDropdown && (
-              <div className="os-dropdown-content">
-                <Cart />
-              </div>
-            )}
-          </div>
-          <div className="os-dropdown --user" ref={userRef}>
-            <div className="os-dropdown-trigger" onClick={toggleUserDropdown}>
-              <span>{"👤 " + user}</span>
-            </div>
-            {showUserDropdown && (
-              <div className="os-dropdown-content">
-                <a href="/my-documents.html">Mis Documentos</a>
-                <a href="" onClick={toggleTheme}>
-                  Cambiar Tema
+      <section className="os-nav-search" ref={searchRef}>
+        <input type="text" placeholder="🔍 Buscar..." onChange={handleSearch} />
+        {showSearchDropdown && (
+          <div className="os-dropdown-content">
+            {searchValue.map((product) => {
+              return (
+                <a href={`/product.html?type=${product.id}`}>
+                  {product.name}
                 </a>
-                <a href="#settings">Configuración</a>
-                <a href="/logout">LogOut</a>
-              </div>
-            )}
+              );
+            })}
           </div>
-        </section>
-      </>
-    );
-  }
-  return null;
+        )}
+      </section>
+
+      <section className="os-nav-options">
+        {user ? (
+          <>
+            <div className="os-dropdown --cart" ref={cartRef}>
+              <div className="os-dropdown-trigger" onClick={toggleCartDropdown}>
+                <span>🛒 Carrito</span>
+              </div>
+              {showCartDropdown && (
+                <div className="os-dropdown-content">
+                  <Cart />
+                </div>
+              )}
+            </div>
+            <div className="os-dropdown --user" ref={userRef}>
+              <div className="os-dropdown-trigger" onClick={toggleUserDropdown}>
+                <span>{"👤 " + user}</span>
+              </div>
+              {showUserDropdown && (
+                <div className="os-dropdown-content">
+                  <a href="/my-documents.html">Mis Documentos</a>
+                  <a href="" onClick={toggleTheme}>
+                    Cambiar Tema
+                  </a>
+                  <a href="#settings">Configuración</a>
+                  <a href="/logout">LogOut</a>
+                </div>
+              )}
+            </div>
+          </>
+        ) : (
+          <div className="os-dropdown --user">
+            <a href="/login.html" className="os-dropdown-trigger">
+              <span>👤 Iniciar sesión</span>
+            </a>
+          </div>
+        )}
+      </section>
+    </>
+  );
 }
 
 export default function Nav({ user }) {
