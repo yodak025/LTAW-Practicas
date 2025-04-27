@@ -54,7 +54,7 @@ export async function initStoneGame(socket) {
   const rockSprite = await loadImage(RESOURCES.IMAGES.ROCK_PATH);
 
   // Crear entidades con tamaños y posiciones normalizadas
-  const entitySize = CANVAS.DEFAULT_ENTITY_SIZE;
+  const entitySize = ENTITY.DEFAULT_SIZE;
   
   const rockEntity = new RockEntity(
     2, // Posición x normalizada
