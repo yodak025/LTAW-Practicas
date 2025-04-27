@@ -20,6 +20,7 @@ class JsonRusticDatabase {
     this.users = undefined;
     this.products = undefined;
     this.orders = undefined;
+    this.isModified = false;
   }
 
   readDatabase = () => {
@@ -75,7 +76,32 @@ class JsonRusticDatabase {
     );
   };
 
+  registerUser = (user, fullName, email) => {
+    this.isModified = true;
+    this.users.push({
+      usuario: user,
+      nombre: fullName,
+      email: email,
+      tema: "default",
+      carrito: [],
+    });
+  }
+  updateUser = (userCookie, userProps) => {
+    if (!userCookie) return;
+    this.users.forEach((u) => {
+      if (u.usuario == userCookie) {
+        u.usuario = userProps.usuario || u.usuario;
+        u.nombre = userProps.nombre || u.nombre;
+        u.email = userProps.email || u.email;
+        u.tema = userProps.tema || u.tema;
+        this.user = u;
+        this.isModified = true;
+      }
+    });
+  };
+
   addNewOrder = (orders, userName, mail, card) => {
+    this.isModified = true;
     const newOrder = {
       usuario: userName,
       fecha: new Date().toISOString(),
@@ -100,6 +126,7 @@ class JsonRusticDatabase {
   };
 
   addOrderToCart = (reqData) => {
+    this.isModified = true;
     const order = {
       tipo: reqData.type,
       cuerpo: reqData.body,
@@ -111,6 +138,7 @@ class JsonRusticDatabase {
   };
 
   updateCart = (reqData) => {
+    this.isModified = true;
     const user = this.users.filter((u) => u.usuario == reqData.user.usuario)[0];
     let newCart = [];
     const dbCart = user.carrito;
@@ -135,6 +163,7 @@ class JsonRusticDatabase {
   getCartCookie = (user) => {
     const cart = this.users.filter((u) => u.usuario == user)[0].carrito;
     let cartCookie = "cart=";
+    if (cart.length == 0) return cartCookie + ";";
     cart.forEach((order, index) => {
       cartCookie += `product${index}:${order.tipo}&`;
     });

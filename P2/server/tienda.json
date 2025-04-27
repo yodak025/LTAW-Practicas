@@ -10,7 +10,28 @@
     {
       "usuario": "Yodak025",
       "nombre": "DSOTA",
-      "email": "diego.sota%40gmail.com",
+      "email": "diego.sota@gmail.com",
+      "tema": "default",
+      "carrito": []
+    },
+    {
+      "usuario": "Pep",
+      "nombre": "Pedro Navajas",
+      "email": "PNP@gmail.com",
+      "tema": "default",
+      "carrito": []
+    },
+    {
+      "usuario": "wferrr",
+      "nombre": "ererer",
+      "email": "erere@dfdf.df",
+      "tema": "default",
+      "carrito": []
+    },
+    {
+      "usuario": "suppa",
+      "nombre": "supi supa",
+      "email": "sup.@sup.ia",
       "tema": "default",
       "carrito": []
     }
@@ -227,6 +248,20 @@
               "Texto Corregido": "\"el texto que se proporciona parece ser un conjunto de caracteres aleatorios y no tiene un significado claro, por lo que es imposible generar un resumen coherente a partir de esa información, lo ideal seria tener un texto con ideas y conceptos claros para poder resumirlo de manera efectiva y llevar acabo una conversación fluida y bilateral con el usuario.\""
             },
             "Feedback": "\"Para empezar, considera que el texto debe ser claro y conciso, evitando la repetición de ideas y utilizando un lenguaje que sea fácil de entender para el público en general. La estructura debe ser lógica, comenzando con una introducción que capte la atención del lector, seguida de una explicación más detallada de los conceptos y terminando con una conclusión que resuma los puntos clave. \\n\\nEl uso de un tono informal y coloquial puede hacer que el texto sea más atractivo y cercano al lector, pero es importante mantener un equilibrio para que el contenido siga siendo respetuoso y profesional. La gramática y la ortografía deben ser impecables para transmitir credibilidad y seriedad. \\n\\nEn cuanto a la longitud, considera que lo ideal es que el texto sea lo suficientemente largo como para cubrir todos los aspectos importantes, pero no tan largo que pierda la atención del lector. Un buen punto de partida podría ser entre 500 y 700 palabras, aunque esto puede variar dependiendo del tema y del público objetivo. \\n\\nPara mejorar la legibilidad, sugiero utilizar párrafos cortos y bien estructurados, con oraciones que no sean demasiado largas o complejas. También puede ser útil incluir ejemplos o anécdotas que ilustren los puntos que se están haciendo, ya que esto puede hacer que el texto sea más engaging y fácil de entender. \\n\\nRecuerda que la coherencia y la cohesión son fundamentales para que el texto fluya de manera natural y sea fácil de seguir. Asegúrate de que cada párrafo esté bien conectado con el anterior y que el lector pueda seguir tu línea de pensamiento de manera clara. \\n\\nEn resumen, para que el texto sea efectivo, es crucial encontrar un equilibrio entre claridad, concisión, y un lenguaje atractivo, mientras se mantiene una gramática y ortografía impecables, y se estructura de manera lógica y coherente.\""
+          }
+        }
+      ]
+    },
+    {
+      "usuario": "suppa",
+      "fecha": "2025-04-27T13:09:21.486Z",
+      "dirección": "diego.sota@gmail.com",
+      "tarjeta": "11111212121212121212",
+      "documentos": [
+        {
+          "tipo": "resumir-texto",
+          "cuerpo": {
+            "Texto Resumido": "\"No hay puntos clave en el texto proporcionado para resumir debido a que el texto es una serie de caracteres aleatorios sin significado aparente. El texto \\\"sdsdsdsdsddsdsdsdsd\\\" y la consideración adicional \\\"sdsdsd\\\" no contienen información coherente o significativa que pueda ser resumida.\""
           }
         }
       ]

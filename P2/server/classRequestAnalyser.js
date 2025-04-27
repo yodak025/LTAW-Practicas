@@ -49,7 +49,7 @@ class RequestAnalyser {
         break;
     }
     //-- Peticiones GET con parámetros --//
-    
+
     if (req.url.includes("/login?")) {
       this.isDynamic = true;
       this.resourceDemipath = "/login.html"; // TODO : Si el usuario no existe, debe notificarse el error
@@ -71,26 +71,17 @@ class RequestAnalyser {
       // ! FALTA CONTROLAR EL TEMAAAA
       this.resourceDemipath = "/index.html";
       this.isDynamic = true;
-      const user = this.urlContent.searchParams.get("userName");
-      const fullName = this.urlContent.searchParams.get("fullName");
+      const user = this.urlContent.searchParams.get("username");
+      const fullName = this.urlContent.searchParams.get("fullname");
       const email = this.urlContent.searchParams.get("email");
 
+      if (!this.dbUsers.some((u) => u.usuario == user)) {
+        db.registerUser(user, fullName, email);
+      }
+      this.user = db.users.filter((u) => u.usuario == user)[0];
       this.headers["Set-Cookie"] = [`user=${user}`, db.getCartCookie(user)];
-
-      this.dbUsers.forEach((u) => {
-        // TODO : Si el usuario existe, debe notificarse el error
-        if (u.usuario == user) {
-          return;
-        }
-        this.dbUsers.push({
-          usuario: user,
-          nombre: fullName,
-          email: email,
-          tema: "light",
-        });
-      });
-      db.writeDatabase();
     }
+
     if (req.url.includes("/search?")) {
       this.ajax = "search";
       this.body = this.urlContent.searchParams.get("q");
@@ -106,7 +97,10 @@ class RequestAnalyser {
       }
       this.ajax = "theme";
       let updatedTheme = this.user.tema == "dark" ? "default" : "dark";
-      this.setUserPropsFromCookie(req.headers.cookie, { tema: updatedTheme });
+      if (req.headers.cookie) {
+        const userCookie = this.getCookies(req.headers.cookie)["user"];
+        db.updateUser(userCookie, { tema: updatedTheme });
+      }
       if (this.user.tema == "dark") this.isDarkTheme = true;
       db.writeDatabase();
     }
@@ -147,24 +141,6 @@ class RequestAnalyser {
       if (!userCookie) return;
       this.dbUsers.forEach((u) => {
         if (u.usuario == userCookie) this.user = u;
-      });
-    }
-  };
-
-  setUserPropsFromCookie = (cookie, userProps) => {
-    if (cookie) {
-      const userCookie = this.getCookies(cookie)["user"];
-      if (!userCookie) return;
-      this.dbUsers.forEach((u) => {
-        if (u.usuario == userCookie) {
-          if (u.usuario == userCookie) {
-            u.usuario = userProps.usuario || u.usuario;
-            u.nombre = userProps.nombre || u.nombre;
-            u.email = userProps.email || u.email;
-            u.tema = userProps.tema || u.tema;
-            this.user = u;
-          }
-        }
       });
     }
   };

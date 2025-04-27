@@ -26,7 +26,7 @@ export default function renderPage(template, resourcePath, reqData, db) {
     );
   } else if (resourcePath.includes("/document.html")) {
     const documentId = resourcePath.split("?")[1].split("=")[1];
-    const body = db.getDocumentFromAbsoluteIndex(documentId).cuerpo;
+    const body = db.getDocumentFromAbsoluteIndex(documentId).doc.cuerpo;
     props.document = body;
     props.content = "Document";
 

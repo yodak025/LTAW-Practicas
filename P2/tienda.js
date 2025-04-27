@@ -175,9 +175,12 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, async () => {
   setInterval(() => {
-    console.log("\nActualizando base de datos...".bgWhite);
-    db.writeDatabase();
-    console.log("\nBase de datos actualizada correctamente\n".bgGreen);
-  }, 30000);
+    if (db.isModified) {
+      console.log("\nActualizando base de datos...".bgWhite);
+      db.writeDatabase();
+      db.isModified = false;
+      console.log("\nBase de datos actualizada correctamente\n".bgGreen);
+    }
+  }, 5000);
   console.log("\nServidor corriendo en http://127.0.0.1:" + PORT + "/\n");
 });
