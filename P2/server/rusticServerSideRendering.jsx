@@ -71,9 +71,11 @@ export default function renderPage(template, resourcePath, reqData, db) {
         reqData.user.usuario
       );
       props.documents = indexes.map((index) => {
+        const { date, doc } = db.getDocumentFromAbsoluteIndex(index);
         return {
           index: index,
-          type: db.getDocumentFromAbsoluteIndex(index).tipo,
+          type: doc.tipo,
+          date: date
         };
 
       });

@@ -159,15 +159,19 @@ class JsonRusticDatabase {
 
   getDocumentFromAbsoluteIndex = (index) => {
     let currentIndex = 0;
-    let document = undefined;
-    this.orders.forEach((order) => {
+    for (const order of this.orders) {
       if (currentIndex + order.documentos.length > index) {
-        document = order.documentos[index - currentIndex];
-      } else {
-        currentIndex += order.documentos.length;
+        return {
+          doc: order.documentos[index - currentIndex],
+          date: order.fecha,
+        };
       }
-    });
-    return document;
+      currentIndex += order.documentos.length;
+    }
+    console.error(
+      "\nError: No se ha encontrado el documento con el índice absoluto:\n".red,
+      index
+    );
   };
 }
 

@@ -16,9 +16,40 @@ const MyDocuments = ({ documents }) => {
     "prensar-latex": "Prensar Texto",
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Fecha no disponible';
+    
+    const date = new Date(dateString);
+    
+    // Check if date is valid
+    if (isNaN(date.getTime())) return 'Fecha incorrecta';
+    
+    // Format date: "10 de Mayo, 2023 - 14:30"
+    const options = { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    };
+    
+    return date.toLocaleDateString('es-ES', options);
+  };
+
   const handleViewDocument = (id) => {
     window.location.href = `/document.html?id=${id}`;
   };
+
+  // Sort documents by date, newest first
+  const sortedDocuments = documents && documents.length > 0 
+    ? [...documents].sort((a, b) => {
+        // Default dates if missing
+        const dateA = a.date ? new Date(a.date).getTime() : 0;
+        const dateB = b.date ? new Date(b.date).getTime() : 0;
+        // Sort descending (newest first)
+        return dateB - dateA;
+      })
+    : [];
 
   return (
     <div className="os-my-documents">
@@ -29,11 +60,11 @@ const MyDocuments = ({ documents }) => {
       
       {documents && documents.length > 0 ? (
         <div className="os-document-list">
-          {documents.map((doc, idx) => (
+          {sortedDocuments.map((doc, idx) => (
             <div key={idx} className="os-document-item">
               <div className="os-document-info">
                 <h3 className="os-document-title">{productMap[doc.type] || doc.type}</h3>
-                <span className="os-document-id">ID: {doc.index}</span>
+                <span className="os-document-date">{formatDate(doc.date)}</span>
               </div>
               <button 
                 className="os-document-view-btn" 

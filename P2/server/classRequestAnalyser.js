@@ -1,4 +1,3 @@
-import { get } from "http";
 import url from "url";
 const URL = url.URL;
 //------------------------------------- Request Analysis ----------------------
@@ -16,7 +15,7 @@ class RequestAnalyser {
 
     this.urlContent = new URL(req.url, `http://${req.headers.host}`);
 
-    //-- Cambios inmediatos --//
+    //-- Peticiones GET sin parámetros --//
 
     switch (req.url) {
       case "/":
@@ -41,16 +40,23 @@ class RequestAnalyser {
         this.getUserFromCookie(req.headers.cookie);
         if (!this.user) this.resourceDemipath = "/login.html";
         break;
-
+      case "/logout":
+        this.resourceDemipath = "/login.html";
+        this.isDynamic = true;
+        this.headers["Set-Cookie"] = [`user=;`, `cart=;`];
+        this.user = null;
+        this.isDarkTheme = false;
+        break;
     }
-    //-- Peticiones Get --//
+    //-- Peticiones GET con parámetros --//
+    
     if (req.url.includes("/login?")) {
       this.isDynamic = true;
       this.resourceDemipath = "/login.html"; // TODO : Si el usuario no existe, debe notificarse el error
       const user = this.urlContent.searchParams.get("username");
       this.dbUsers.forEach((u) => {
         if (u.usuario == user) {
-          this.headers["Set-Cookie"] = [`user=${user}`,  db.getCartCookie(user)];
+          this.headers["Set-Cookie"] = [`user=${user}`, db.getCartCookie(user)];
           this.user = u;
           this.resourceDemipath = "/index.html";
           if (u.tema == "dark") {
@@ -58,14 +64,6 @@ class RequestAnalyser {
           }
         }
       });
-    }
-
-    if (req.url.includes("/logout")) {
-      this.resourceDemipath = "/login.html";
-      this.isDynamic = true;
-      this.headers["Set-Cookie"] = [`user=;`, `cart=;`];
-      this.user = null;
-      this.isDarkTheme = false;
     }
 
     if (req.url.includes("/register?")) {
@@ -77,7 +75,7 @@ class RequestAnalyser {
       const fullName = this.urlContent.searchParams.get("fullName");
       const email = this.urlContent.searchParams.get("email");
 
-      this.headers["Set-Cookie"] = [`user=${user}`, db.getCartCookie(user)]; 
+      this.headers["Set-Cookie"] = [`user=${user}`, db.getCartCookie(user)];
 
       this.dbUsers.forEach((u) => {
         // TODO : Si el usuario existe, debe notificarse el error
@@ -98,7 +96,7 @@ class RequestAnalyser {
       this.body = this.urlContent.searchParams.get("q");
       return;
     }
-
+    // TODO : O implementas más temas de colores o lo mueves al case
     if (req.url.includes("/toggle-theme")) {
       this.getUserFromCookie(req.headers.cookie);
       if (!this.user) {
@@ -112,28 +110,28 @@ class RequestAnalyser {
       if (this.user.tema == "dark") this.isDarkTheme = true;
       db.writeDatabase();
     }
-    if (req.url.includes("/document.html")) {
+    if (req.url.includes("/document.html?")) {
       this.getUserFromCookie(req.headers.cookie);
       if (!this.user) this.resourceDemipath = "/login.html";
       this.isDynamic = true;
       if (this.user && this.user.tema == "dark") this.isDarkTheme = true;
     }
-    if (req.url.includes("/product.html")) {
+    if (req.url.includes("/product.html?")) {
       this.getUserFromCookie(req.headers.cookie);
       if (!this.user) this.resourceDemipath = "/login.html";
       this.isDynamic = true;
     }
     if (req.url.includes("/new-order?")) {
-        this.body = {
-          mail: this.urlContent.searchParams.get("mail"),
-          card: this.urlContent.searchParams.get("card"),
-        }
-        this.ajax = "new-order";
-        this.getUserFromCookie(req.headers.cookie);
-        this.cart = this.getCookies(req.headers.cookie)["cart"];
-      }
+      this.body = {
+        mail: this.urlContent.searchParams.get("mail"),
+        card: this.urlContent.searchParams.get("card"),
+      };
+      this.ajax = "new-order";
+      this.getUserFromCookie(req.headers.cookie);
+      this.cart = this.getCookies(req.headers.cookie)["cart"];
+    }
   }
-  // METODOS DE LA CLASE \\ 
+  // METODOS DE LA CLASE \\
 
   getCookies = (cookie) => {
     return cookie.split(";").reduce((cookies, c) => {
@@ -179,7 +177,6 @@ class RequestAnalyser {
       return;
     }
     req.on("data", (chunk) => {
-      //! Mucho me temo que esto podría ser un cabo suelto
       this.body += chunk.toString();
     });
     await new Promise((resolve) => {
