@@ -188,12 +188,11 @@ export async function initBirdsGame(socket) {
     // Dibujar el pájaro azul (controlable y rompible)
     if (!blueBirdEntity.markedForDeletion) {
       blueBirdView.drawSprite();
-      blueBirdView.drawCollider(getColliderColor(blueBirdEntity.health));
+      blueBirdView.drawHealthBar();
     }
-
     if (!greenBirdEntity.markedForDeletion) {
       greenBirdView.drawSprite();
-      greenBirdView.drawCollider(getColliderColor(greenBirdEntity.health));
+      greenBirdView.drawHealthBar();
     }
 
     // Actualizar animaciones cada ciertos frames

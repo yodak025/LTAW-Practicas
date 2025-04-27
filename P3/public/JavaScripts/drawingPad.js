@@ -45,7 +45,6 @@ export class DrawingPad {
         
         // Posicionar en la esquina inferior izquierda del canvas del juego
         this.canvas.style.position = 'absolute';
-        this.canvas.style.left = `${gameRect.left}px`;
         this.canvas.style.top = `${gameRect.top + gameRect.height - padSize}px`;
         
         // Añadir fondo semi-transparente

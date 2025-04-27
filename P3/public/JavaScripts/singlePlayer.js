@@ -45,7 +45,7 @@ export async function initSinglePlayerMode() {
   const rockSprite = await loadImage(RESOURCES.IMAGES.ROCK_PATH);
 
   // Crear entidades con tamaños y posiciones normalizadas
-  const entitySize = CANVAS.DEFAULT_ENTITY_SIZE;
+  const entitySize = ENTITY.DEFAULT_SIZE;
   
   const rockEntity = new RockEntity(
     2, // Posición x normalizada
@@ -110,7 +110,7 @@ export async function initSinglePlayerMode() {
 
     // Filtrar las entidades marcadas para eliminación
     const remainingObjects = gameObjects.filter(
-      (obj) => !(obj instanceof BirdEntity && obj.markedForDeletion)
+      (obj) => !(obj instanceof BreakableEntity && obj.markedForDeletion)
     );
 
     if (remainingObjects.length !== gameObjects.length) {
@@ -144,11 +144,11 @@ export async function initSinglePlayerMode() {
 
     if (!blueBirdEntity.markedForDeletion) {
       blueBirdView.drawSprite();
-      blueBirdView.drawCollider(getColliderColor(blueBirdEntity.health));
+      blueBirdView.drawHealthBar()
     }
     if (!greenBirdEntity.markedForDeletion) {
       greenBirdView.drawSprite();
-      greenBirdView.drawCollider(getColliderColor(greenBirdEntity.health));
+      greenBirdView.drawHealthBar();
     }
 
     // Actualizar animaciones cada ciertos frames

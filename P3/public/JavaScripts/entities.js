@@ -93,8 +93,8 @@ export class CollidingEntity extends Entity {
             this.y = 0;
             if (this.velocityY !== undefined) this.velocityY *= ENTITY.PHYSICS.BOUNCE_FACTOR;
         }
-        if (bounds.bottom > NORMALIZED_SPACE.HEIGHT) {
-            this.y = NORMALIZED_SPACE.HEIGHT - this.height;
+        if (bounds.bottom > NORMALIZED_SPACE.HEIGHT - 0.9 ) {
+            this.y = NORMALIZED_SPACE.HEIGHT - this.height - 0.9;
             if (this.velocityY !== undefined) this.velocityY *= ENTITY.PHYSICS.BOUNCE_FACTOR;
             this.isOnGround = true;
         }

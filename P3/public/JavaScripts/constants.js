@@ -3,7 +3,7 @@
 // Configuración de entidades
 export const ENTITY = {
     // Dimensiones por defecto para entidades
-    DEFAULT_SIZE: 200,
+    DEFAULT_SIZE: 0.75,
     
     // Valores para pájaros
     BIRD: {
@@ -86,7 +86,6 @@ export const NORMALIZED_SPACE = {
 export const CANVAS = {
     MARGIN_PERCENT: 1, // Margen desde el borde de la ventana (%)
     BACKGROUND_COLOR: 'black', // Color de fondo para el área alrededor del canvas
-    DEFAULT_ENTITY_SIZE: 0.5, // Tamaño normalizado para entidades (en unidades de espacio normalizado)
     MIN_VISIBLE_WIDTH: 200, // Ancho mínimo recomendado para visibilidad (px)
     BOX_SHADOW: '0 0 10px rgba(0, 0, 0, 0.5)', // Sombra del contenedor del juego
 };
