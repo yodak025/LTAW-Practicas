@@ -7,7 +7,7 @@ export const IS_STREAM = false;
 export const MODEL = "meta-llama/llama-3.3-70b-instruct:free"; // Cambia esto al modelo que desees usar
 
 const LLM_API_KEY =
-  "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";
+  "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";
 const LLM_API = `https://openrouter.ai/api/v1/chat/completions`;
 //-------------------------- Functions ----------------------------------------
 
