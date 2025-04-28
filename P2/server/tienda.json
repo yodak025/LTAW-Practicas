@@ -286,6 +286,20 @@
           }
         }
       ]
+    },
+    {
+      "usuario": "Yodak025",
+      "fecha": "2025-04-28T09:22:11.149Z",
+      "dirección": "diego.sota@gmail.com",
+      "tarjeta": "11111212121212121212",
+      "documentos": [
+        {
+          "tipo": "revisar-redaccion",
+          "cuerpo": {
+            "Corrección de Texto": {}
+          }
+        }
+      ]
     }
   ]
 }
