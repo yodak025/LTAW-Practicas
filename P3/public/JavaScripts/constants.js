@@ -7,7 +7,7 @@ export const ENTITY = {
     
     // Valores para pájaros
     BIRD: {
-        DEFAULT_HEALTH: 100,
+        DEFAULT_HEALTH: 1000,
         VELOCITY_THRESHOLD: 0.01, // Velocidad mínima antes de detener el movimiento
     },
     
