@@ -61,13 +61,13 @@ export class DrawingPad {
         this.canvas.addEventListener('mousedown', this.handleStart.bind(this));
         this.canvas.addEventListener('mousemove', this.handleMove.bind(this));
         this.canvas.addEventListener('mouseup', this.handleEnd.bind(this));
-        this.canvas.addEventListener('mouseout', this.handleCancel.bind(this));
+        this.canvas.addEventListener('mouseout', this.handleEnd.bind(this)); // Cambiado de handleCancel a handleEnd
 
         // Eventos táctiles
         this.canvas.addEventListener('touchstart', this.handleStart.bind(this));
         this.canvas.addEventListener('touchmove', this.handleMove.bind(this));
         this.canvas.addEventListener('touchend', this.handleEnd.bind(this));
-        this.canvas.addEventListener('touchcancel', this.handleCancel.bind(this));
+        this.canvas.addEventListener('touchcancel', this.handleEnd.bind(this)); // Cambiado de handleCancel a handleEnd
 
         // Evento de resize
         window.addEventListener('resize', this.resize.bind(this));
@@ -115,12 +115,9 @@ export class DrawingPad {
         this.endPoint = null;
     }
 
+    // Método handleCancel mantenido por compatibilidad pero no se usa ahora
     handleCancel(e) {
-        e.preventDefault();
-        this.isDrawing = false;
-        this.clearCanvas();
-        this.startPoint = null;
-        this.endPoint = null;
+        this.handleEnd(e);
     }
 
     // Obtener punto normalizado desde un evento
