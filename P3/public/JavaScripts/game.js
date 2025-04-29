@@ -1,9 +1,13 @@
 // Módulo principal del juego para abstraer la lógica común
 import {
+  EntityFactory,
   StaticEntity,
   RockEntity,
   BirdEntity,
   BreakableEntity,
+  ColliderType,
+  PhysicsComponent,
+  DamageableComponent
 } from "./entities.js";
 import {
   EntityView,
@@ -48,6 +52,7 @@ export class ParabolicParabolaGameControler {
     this.blueBirdEntity = null;
     this.greenBirdEntity = null;
     this.middlePlatform = null;
+    this.berries = []; // Array para almacenar las berries
     
     // Trackeo de posición para multijugador
     this.lastPositionUpdate = {
@@ -65,6 +70,18 @@ export class ParabolicParabolaGameControler {
     this.entitySize = ENTITY.DEFAULT_SIZE;
     this.platformWidth = 4; // Ancho normalizado
     this.platformHeight = 0.2; // Alto normalizado
+    
+    // Tamaños visuales (usando las constantes definidas)
+    this.visualSizes = {
+      rock: {
+        width: this.entitySize * UI.VISUAL.ROCK_SCALE,
+        height: this.entitySize * UI.VISUAL.ROCK_SCALE
+      },
+      bird: {
+        width: this.entitySize * UI.VISUAL.BIRD_SCALE,
+        height: this.entitySize * UI.VISUAL.BIRD_SCALE
+      }
+    };
     
     // Controladora del pad de dibujo
     this.drawingPad = null;
@@ -121,48 +138,76 @@ export class ParabolicParabolaGameControler {
   
   // Crea las entidades según el modo de juego
   createEntities() {
-    // Roca (siempre es RockEntity)
-    this.rockEntity = new RockEntity(
+    // Crear la roca (ahora usando EntityFactory)
+    this.rockEntity = EntityFactory.createRock(
       2, // x
       2, // y
-      this.entitySize,
       this.entitySize
     );
     
     // Pájaros (pueden ser BirdEntity o BreakableEntity según el modo)
     if (this.gameMode === 'singleplayer') {
       // En singleplayer ambos pájaros son rompibles pero no controlables
-      this.blueBirdEntity = new BreakableEntity(
-        6, 2, this.entitySize, this.entitySize
+      this.blueBirdEntity = EntityFactory.createBird(
+        6, 2, this.entitySize, ENTITY.BIRD.DEFAULT_HEALTH
       );
-      this.greenBirdEntity = new BreakableEntity(
-        10, 2, this.entitySize, this.entitySize
+      this.greenBirdEntity = EntityFactory.createBird(
+        10, 2, this.entitySize, ENTITY.BIRD.DEFAULT_HEALTH
       );
     } else if (this.gameMode === 'birdplayer') {
-      // En modo pájaro, ambos son BirdEntity (el azul es controlable)
-      this.blueBirdEntity = new BirdEntity(
-        6, 2, this.entitySize, this.entitySize
+      // En modo pájaro, ambos son controlables
+      this.blueBirdEntity = EntityFactory.createBird(
+        6, 2, this.entitySize, ENTITY.BIRD.DEFAULT_HEALTH
       );
-      this.greenBirdEntity = new BirdEntity(
-        10, 2, this.entitySize, this.entitySize
+      this.greenBirdEntity = EntityFactory.createBird(
+        10, 2, this.entitySize, ENTITY.BIRD.DEFAULT_HEALTH
       );
     } else if (this.gameMode === 'stoneplayer') {
-      // En modo piedra, el azul es BirdEntity y el verde es BreakableEntity
-      this.blueBirdEntity = new BirdEntity(
-        6, 2, this.entitySize, this.entitySize
+      // En modo piedra, el azul es controlable y el verde es rompible
+      this.blueBirdEntity = EntityFactory.createBird(
+        6, 2, this.entitySize, ENTITY.BIRD.DEFAULT_HEALTH
       );
-      this.greenBirdEntity = new BreakableEntity(
-        10, 2, this.entitySize, this.entitySize
+      this.greenBirdEntity = EntityFactory.createBird(
+        10, 2, this.entitySize, ENTITY.BIRD.DEFAULT_HEALTH
       );
     }
     
     // Plataforma
-    this.middlePlatform = new StaticEntity(
+    this.middlePlatform = EntityFactory.createPlatform(
       (NORMALIZED_SPACE.WIDTH / 2) - (this.platformWidth / 2),
       NORMALIZED_SPACE.HEIGHT / 2,
       this.platformWidth,
       this.platformHeight
     );
+    
+    // Crear 4 berries en diferentes posiciones del escenario
+    // Berry 1 - Arriba a la izquierda
+    this.berries.push(EntityFactory.createBerry(
+      3, // x
+      1, // y
+      this.entitySize * 0.8 // Un poco más pequeñas que las entidades estándar
+    ));
+    
+    // Berry 2 - Arriba a la derecha
+    this.berries.push(EntityFactory.createBerry(
+      13, // x
+      1, // y
+      this.entitySize * 0.8
+    ));
+    
+    // Berry 3 - Cerca de la plataforma
+    this.berries.push(EntityFactory.createBerry(
+      NORMALIZED_SPACE.WIDTH / 2 - 2, // x (izquierda de la plataforma)
+      NORMALIZED_SPACE.HEIGHT / 2 - 1, // y (justo encima de la plataforma)
+      this.entitySize * 0.8
+    ));
+    
+    // Berry 4 - Cerca de la plataforma por el lado derecho
+    this.berries.push(EntityFactory.createBerry(
+      NORMALIZED_SPACE.WIDTH / 2 + 2, // x (derecha de la plataforma)
+      NORMALIZED_SPACE.HEIGHT / 2 - 1, // y (justo encima de la plataforma)
+      this.entitySize * 0.8
+    ));
     
     // Establecer la entidad controlada según el modo de juego
     if (this.gameMode === 'singleplayer' || this.gameMode === 'stoneplayer') {
@@ -170,13 +215,53 @@ export class ParabolicParabolaGameControler {
     } else if (this.gameMode === 'birdplayer') {
       this.controlledEntity = this.blueBirdEntity;
     }
+    
+    // Añadir etiquetas para identificar los tipos de entidades
+    this.rockEntity.addTag('rock');
+    this.blueBirdEntity.addTag('bird').addTag('blue');
+    this.greenBirdEntity.addTag('bird').addTag('green');
+    this.middlePlatform.addTag('platform');
   }
   
   // Crea las vistas para las entidades
   createViews() {
-    this.views.rock = new StaticSpriteEntityView(this.rockEntity, this.sprites.rock);
-    this.views.blueBird = new AnimatedEntityView(this.blueBirdEntity, this.sprites.blueBird);
-    this.views.greenBird = new AnimatedEntityView(this.greenBirdEntity, this.sprites.greenBird);
+    // Vista para la roca - usando constantes para la configuración visual
+    this.views.rock = new StaticSpriteEntityView(
+      this.rockEntity, 
+      this.sprites.rock, 
+      {
+        visualWidth: this.visualSizes.rock.width,
+        visualHeight: this.visualSizes.rock.height,
+        circular: true,
+        scale: UI.VISUAL.ROCK_SCALE
+      }
+    );
+    
+    // Vista para el pájaro azul - usando constantes para la configuración visual
+    this.views.blueBird = new AnimatedEntityView(
+      this.blueBirdEntity, 
+      this.sprites.blueBird, 
+      {
+        visualWidth: this.visualSizes.bird.width,
+        visualHeight: this.visualSizes.bird.height,
+        scale: UI.VISUAL.BIRD_SCALE,
+        offsetY: UI.VISUAL.BIRD_OFFSET_Y
+      }
+    );
+    
+    // Vista para el pájaro verde - usando constantes para la configuración visual
+    this.views.greenBird = new AnimatedEntityView(
+      this.greenBirdEntity, 
+      this.sprites.greenBird, 
+      {
+        visualWidth: this.visualSizes.bird.width,
+        visualHeight: this.visualSizes.bird.height,
+        scale: UI.VISUAL.BIRD_SCALE,
+        offsetY: UI.VISUAL.BIRD_OFFSET_Y
+      }
+    );
+    
+    // Vista para la plataforma (sin sprite, solo colisionador)
     this.views.platform = new EntityView(this.middlePlatform);
   }
   
@@ -186,16 +271,39 @@ export class ParabolicParabolaGameControler {
       this.rockEntity,
       this.blueBirdEntity,
       this.greenBirdEntity,
-      this.middlePlatform
+      this.middlePlatform,
+      ...this.berries // Añadir todas las berries al array de objetos del juego
     ];
+    
+    // Inicializar contadores de berries en los pájaros
+    this.blueBirdEntity.berryCount = 0;
+    this.greenBirdEntity.berryCount = 0;
   }
   
   // Configura el DrawingPad
   setupDrawingPad() {
+    // Determinar el factor de velocidad adecuado según la entidad controlada
+    let speedFactor;
+    
+    if (this.controlledEntity.hasTag && this.controlledEntity.hasTag('rock')) {
+      // Para la roca usar los factores definidos en ENTITY.ROCK.LAUNCH_SPEED_FACTOR
+      speedFactor = ENTITY.ROCK.LAUNCH_SPEED_FACTOR;
+    } else if (this.controlledEntity.hasTag && this.controlledEntity.hasTag('bird')) {
+      // Para los pájaros usar el factor único definido en ENTITY.BIRD.LAUNCH_SPEED_FACTOR
+      speedFactor = {
+        X: ENTITY.BIRD.LAUNCH_SPEED_FACTOR,
+        Y: ENTITY.BIRD.LAUNCH_SPEED_FACTOR
+      };
+    } else {
+      // Valor por defecto para otras entidades
+      speedFactor = { X: 30, Y: 30 };
+    }
+    
     this.drawingPad = new DrawingPad(
       this.drawingPadCanvas,
       this.canvas,
-      this.controlledEntity
+      this.controlledEntity,
+      speedFactor
     );
   }
   
@@ -207,8 +315,13 @@ export class ParabolicParabolaGameControler {
       this.socket.on("updateRock", (position) => {
         this.rockEntity.x = position.x;
         this.rockEntity.y = position.y;
-        this.rockEntity.velocityX = position.velocityX;
-        this.rockEntity.velocityY = position.velocityY;
+        
+        // Actualizar la física directamente en el componente
+        const physicsComp = this.rockEntity.getComponent(PhysicsComponent);
+        if (physicsComp) {
+          physicsComp.velocityX = position.velocityX;
+          physicsComp.velocityY = position.velocityY;
+        }
       });
       
       // Actualiza la posición inicial
@@ -225,8 +338,13 @@ export class ParabolicParabolaGameControler {
       this.socket.on("updateBlueBird", (position) => {
         this.blueBirdEntity.x = position.x;
         this.blueBirdEntity.y = position.y;
-        this.blueBirdEntity.velocityX = position.velocityX;
-        this.blueBirdEntity.velocityY = position.velocityY;
+        
+        // Actualizar la física directamente en el componente
+        const physicsComp = this.blueBirdEntity.getComponent(PhysicsComponent);
+        if (physicsComp) {
+          physicsComp.velocityX = position.velocityX;
+          physicsComp.velocityY = position.velocityY;
+        }
       });
       
       // Actualiza la posición inicial
@@ -257,19 +375,21 @@ export class ParabolicParabolaGameControler {
     
     // Determinar qué entidad estamos controlando y qué evento emitir
     if (this.gameMode === 'birdplayer') {
+      const physicsComp = this.blueBirdEntity.getComponent(PhysicsComponent);
       currentState = {
         x: this.blueBirdEntity.x,
         y: this.blueBirdEntity.y,
-        velocityX: this.blueBirdEntity.velocityX,
-        velocityY: this.blueBirdEntity.velocityY
+        velocityX: physicsComp ? physicsComp.velocityX : 0,
+        velocityY: physicsComp ? physicsComp.velocityY : 0
       };
       socketEvent = "blueBirdUpdate";
     } else if (this.gameMode === 'stoneplayer') {
+      const physicsComp = this.rockEntity.getComponent(PhysicsComponent);
       currentState = {
         x: this.rockEntity.x,
         y: this.rockEntity.y,
-        velocityX: this.rockEntity.velocityX,
-        velocityY: this.rockEntity.velocityY
+        velocityX: physicsComp ? physicsComp.velocityX : 0,
+        velocityY: physicsComp ? physicsComp.velocityY : 0
       };
       socketEvent = "rockUpdate";
     } else {
@@ -302,14 +422,10 @@ export class ParabolicParabolaGameControler {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
     // Filtrar entidades marcadas para eliminación
-    // En single player, filtrar BreakableEntity
-    // En multiplayer, filtrar BirdEntity
-    const EntityTypeToFilter = this.gameMode === 'singleplayer' ? 
-      BreakableEntity : BirdEntity;
-    
-    const remainingObjects = this.gameObjects.filter(
-      (obj) => !(obj instanceof EntityTypeToFilter && obj.markedForDeletion)
-    );
+    const remainingObjects = this.gameObjects.filter(obj => {
+      const damageComp = obj.getComponent(DamageableComponent);
+      return !(damageComp && damageComp.markedForDeletion);
+    });
     
     if (remainingObjects.length !== this.gameObjects.length) {
       this.gameObjects.length = 0;
@@ -340,22 +456,57 @@ export class ParabolicParabolaGameControler {
   
   // Dibuja todos los objetos del juego
   draw() {
-    // Dibujar la roca
-    this.views.rock.drawSprite();
-    this.views.rock.drawCollider(UI.COLLIDER_COLORS.DEFAULT);
-    
-    // Dibujar la plataforma
+    // Dibujar primero la plataforma
     this.views.platform.drawCollider(UI.COLLIDER_COLORS.PLATFORM);
     
-    // Dibujar los pájaros si no están marcados para eliminación
-    if (!this.blueBirdEntity.markedForDeletion) {
-      this.views.blueBird.drawSprite();
-      this.views.blueBird.drawHealthBar();
+    // Dibujar las berries (con un color rojo frambuesa en modo debug)
+    for (const berry of this.berries) {
+      // Solo dibujar si no están marcadas para eliminación
+      const berryDamageComp = berry.getComponent(DamageableComponent);
+      if (!berryDamageComp || !berryDamageComp.markedForDeletion) {
+        // En modo debug, mostrar el colisionador con el color definido en constants
+        if (UI.DEBUG_MODE) {
+          const berryView = new EntityView(berry);
+          berryView.drawCollider(ENTITY.BERRY.COLOR);
+        } else {
+          // Sin modo debug, dibujar un círculo rojo para representar la berry
+          const berryView = new EntityView(berry);
+          berryView.drawCircleCollider(ENTITY.BERRY.COLOR);
+        }
+      }
     }
     
-    if (!this.greenBirdEntity.markedForDeletion) {
+    // Dibujar los pájaros si no están marcados para eliminación
+    const blueBirdDamageComp = this.blueBirdEntity.getComponent(DamageableComponent);
+    if (!blueBirdDamageComp || !blueBirdDamageComp.markedForDeletion) {
+      this.views.blueBird.drawSprite();
+      this.views.blueBird.drawHealthBar();
+      this.views.blueBird.drawBerryCounter(); // Mostrar contador de berries
+      
+      // Opcionalmente mostrar el colisionador para depuración
+      if (UI.DEBUG_MODE) {
+        this.views.blueBird.drawCollider('rgba(0, 0, 255, 0.3)');
+      }
+    }
+    
+    const greenBirdDamageComp = this.greenBirdEntity.getComponent(DamageableComponent);
+    if (!greenBirdDamageComp || !greenBirdDamageComp.markedForDeletion) {
       this.views.greenBird.drawSprite();
       this.views.greenBird.drawHealthBar();
+      this.views.greenBird.drawBerryCounter(); // Mostrar contador de berries
+      
+      // Opcionalmente mostrar el colisionador para depuración
+      if (UI.DEBUG_MODE) {
+        this.views.greenBird.drawCollider('rgba(0, 255, 0, 0.3)');
+      }
+    }
+    
+    // Dibujar la roca por encima de los pájaros
+    this.views.rock.drawSprite();
+      
+    // Opcionalmente mostrar el colisionador para depuración
+    if (UI.DEBUG_MODE) {
+      this.views.rock.drawCollider('rgba(255, 0, 0, 0.3)');
     }
   }
 }

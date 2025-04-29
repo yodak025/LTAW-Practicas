@@ -1,7 +1,8 @@
 import { UI, NORMALIZED_SPACE } from './constants.js';
+import { PhysicsComponent } from './entities.js';
 
 export class DrawingPad {
-    constructor(drawingPadCanvas, gameCanvas, controlEntity) {
+    constructor(drawingPadCanvas, gameCanvas, controlEntity, speedFactor) {
         this.canvas = drawingPadCanvas;
         this.gameCanvas = gameCanvas;
         this.ctx = this.canvas.getContext('2d');
@@ -10,6 +11,9 @@ export class DrawingPad {
         this.startPoint = null;
         this.endPoint = null;
         this.isVisible = true;
+        
+        // Factor de velocidad personalizado
+        this.speedFactor = speedFactor || { X: 30, Y: 30 };
 
         // Configurar tamaño inicial
         this.resize();
@@ -173,13 +177,24 @@ export class DrawingPad {
     launchEntity() {
         if (!this.controlEntity || !this.startPoint || !this.endPoint) return;
         
-        // Calcular velocidad basada en la diferencia entre puntos
-        const velocityX = (this.startPoint.x - this.endPoint.x) * UI.DRAWING_PAD.SPEED_FACTOR;
-        const velocityY = (this.startPoint.y - this.endPoint.y) * UI.DRAWING_PAD.SPEED_FACTOR;
+        // Calcular velocidad basada en la diferencia entre puntos, usando el factor personalizado
+        const velocityX = (this.startPoint.x - this.endPoint.x) * this.speedFactor.X;
+        const velocityY = (this.startPoint.y - this.endPoint.y) * this.speedFactor.Y;
         
-        // Actualizar la entidad
-        this.controlEntity.velocityX = - velocityX;
-        this.controlEntity.velocityY = - velocityY;
+        // Obtener el componente de física si existe
+        const physicsComponent = this.controlEntity.getComponent
+            ? this.controlEntity.getComponent(PhysicsComponent)
+            : null;
+        
+        if (physicsComponent) {
+            // Aplicar velocidad al componente de física
+            physicsComponent.velocityX = -velocityX;
+            physicsComponent.velocityY = -velocityY;
+        } else {
+            // Compatibilidad con el sistema antiguo
+            this.controlEntity.velocityX = -velocityX;
+            this.controlEntity.velocityY = -velocityY;
+        }
     }
 
     // Mostrar/ocultar el pad de dibujo
