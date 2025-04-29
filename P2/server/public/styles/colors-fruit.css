@@ -1,0 +1,10 @@
+:root {
+  --primary-color: #D61C4E;     /* rojo frambuesa */
+  --secondary-color: #FF7F50;   /* coral intenso */
+  --light-color: #FFD1DC;       /* rosa pastel claro */
+  --accent-color: #B8E986;      /* verde lima suave */
+  --neutral-color: #FFF5E0;     /* beige claro cremoso */
+
+  --white-color: white;
+  --black-color: black;
+}

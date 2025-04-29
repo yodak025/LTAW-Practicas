@@ -1,0 +1,10 @@
+:root {
+  --primary-color: #065F46;     /* verde oscuro bosque */
+  --secondary-color: #10B981;   /* verde esmeralda */
+  --light-color: #6EE7B7;       /* verde menta claro */
+  --accent-color: #FACC15;      /* amarillo dorado */
+  --neutral-color: #ECFDF5;     /* verde muy pálido como fondo */
+
+  --white-color: white;
+  --black-color: black;
+}

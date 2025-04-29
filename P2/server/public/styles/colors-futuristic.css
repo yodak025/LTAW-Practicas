@@ -1,0 +1,10 @@
+:root {
+  --primary-color: #4B0082;     /* índigo profundo */
+  --secondary-color: #6A0DAD;   /* púrpura medio */
+  --light-color: #BFA0E2;       /* lila grisáceo */
+  --accent-color: #00BFFF;      /* azul eléctrico */
+  --neutral-color: #2C2C34;     /* gris carbón con matiz púrpura */
+
+  --white-color: black;
+  --black-color: white;
+}

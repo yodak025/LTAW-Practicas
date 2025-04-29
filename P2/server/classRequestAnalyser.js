@@ -2,6 +2,8 @@ import url from "url";
 const URL = url.URL;
 //------------------------------------- Request Analysis ----------------------
 
+const THEMES = ["default", "dark", "coolwarm", "greengoldy", "futuristic", "fruit"];
+
 class RequestAnalyser {
   constructor(req, db) {
     this.dbUsers = db.users;
@@ -11,7 +13,7 @@ class RequestAnalyser {
     this.body = "";
     this.ajax = null;
     this.isDynamic = false;
-    this.isDarkTheme = false;
+    this.theme = "default";
 
     this.urlContent = new URL(req.url, `http://${req.headers.host}`);
 
@@ -23,7 +25,6 @@ class RequestAnalyser {
       case "/index.html":
         this.getUserFromCookie(req.headers.cookie);
         this.isDynamic = true;
-        if (this.user && this.user.tema == "dark") this.isDarkTheme = true; //! Chapuza provisional
         break;
       case "/login.html":
         this.isDynamic = true;
@@ -36,13 +37,11 @@ class RequestAnalyser {
       case "/process-order.html":
         this.isDynamic = true;
         this.getUserFromCookie(req.headers.cookie);
-        if (this.user && this.user.tema == "dark") this.isDarkTheme = true; //! Chapuza provisional
         break;
       case "/my-documents.html":
         this.isDynamic = true;
         this.getUserFromCookie(req.headers.cookie);
         if (!this.user) this.resourceDemipath = "/login.html";
-        if (this.user && this.user.tema == "dark") this.isDarkTheme = true; //! Chapuza provisional
         break;
       case "/logout":
         this.resourceDemipath = "/login.html";
@@ -51,6 +50,31 @@ class RequestAnalyser {
         this.user = null;
         this.isDarkTheme = false;
         break;
+      case "/styles/colors.css":
+        this.getUserFromCookie(req.headers.cookie);
+
+        switch (this.user.tema) {
+            
+          case "dark":
+            this.resourceDemipath = "/styles/colors-dark.css";
+            break;
+          case "coolwarm":
+            this.resourceDemipath = "/styles/colors-coolwarm.css";
+            break;
+          case "greengoldy":
+            this.resourceDemipath = "/styles/colors-greengoldy.css";
+            break;
+          case "futuristic":
+            this.resourceDemipath = "/styles/colors-futuristic.css";
+            break;
+          case "fruit": 
+            this.resourceDemipath = "/styles/colors-fruit.css";
+            break;
+          default:
+            this.resourceDemipath = "/styles/colors-default.css";
+            break;
+        }
+      break;
     }
     //-- Peticiones GET con parámetros --//
 
@@ -63,16 +87,12 @@ class RequestAnalyser {
           this.headers["Set-Cookie"] = [`user=${user}`, db.getCartCookie(user)];
           this.user = u;
           this.resourceDemipath = "/index.html";
-          if (u.tema == "dark") {
-            this.isDarkTheme = true; //!!! Chapuza provisional
-          }
         }
       });
     }
 
     if (req.url.includes("/register?")) {
       // TODO No es muy coherente con la clase
-      // ! FALTA CONTROLAR EL TEMAAAA
       this.resourceDemipath = "/index.html";
       this.isDynamic = true;
       const user = this.urlContent.searchParams.get("username");
@@ -83,7 +103,6 @@ class RequestAnalyser {
         db.registerUser(user, fullName, email);
       }
       this.user = db.users.filter((u) => u.usuario == user)[0];
-      if (this.user && this.user.tema == "dark") this.isDarkTheme = true; //! Chapuza provisional
       this.headers["Set-Cookie"] = [`user=${user}`, db.getCartCookie(user)];
     }
 
@@ -92,22 +111,18 @@ class RequestAnalyser {
       this.body = this.urlContent.searchParams.get("q");
       return;
     }
-    // TODO : O implementas más temas de colores o lo mueves al case
+
     if (req.url.includes("/toggle-theme")) {
       this.getUserFromCookie(req.headers.cookie);
-      if (!this.user) {
-        this.resourceDemipath = "/login.html";
-        this.isDynamic = true;
-        return;
-      }
       this.ajax = "theme";
-      let updatedTheme = this.user.tema == "dark" ? "default" : "dark";
+
+      let updatedTheme = THEMES[(THEMES.indexOf(this.user.tema) + 1) % THEMES.length];
       if (req.headers.cookie) {
         const userCookie = this.getCookies(req.headers.cookie)["user"];
         db.updateUser(userCookie, { tema: updatedTheme });
       }
-      if (this.user.tema == "dark") this.isDarkTheme = true;
-      db.writeDatabase();
+      db.isModified = true;
+
     }
     if (req.url.includes("/document.html?")) {
       this.getUserFromCookie(req.headers.cookie);
@@ -118,7 +133,6 @@ class RequestAnalyser {
     if (req.url.includes("/product.html?")) {
       this.getUserFromCookie(req.headers.cookie);
       if (!this.user) this.resourceDemipath = "/login.html";
-      if (this.user && this.user.tema == "dark") this.isDarkTheme = true; //! Chapuza provisional
       this.isDynamic = true;
     }
     if (req.url.includes("/new-order?")) {
@@ -144,7 +158,7 @@ class RequestAnalyser {
   getUserFromCookie = (cookie) => {
     if (cookie) {
       const userCookie = this.getCookies(cookie)["user"];
-      if (!userCookie) return;
+      if (!userCookie) return null;
       this.dbUsers.forEach((u) => {
         if (u.usuario == userCookie) this.user = u;
       });

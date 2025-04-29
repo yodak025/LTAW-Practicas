@@ -7,7 +7,7 @@ import App from "../components/App";
 
 export default function renderPage(template, resourcePath, reqData, db) {
   let name = "AI Scribe"; //TODO - Replantear
-  let styles = [`/styles/colors-${reqData.isDarkTheme ? "dark" : "default"}.css`];
+  let styles = [`/styles/colors.css`];
   const props = { content: null };
   props.userName = reqData.user ? reqData.user.usuario : null;
 

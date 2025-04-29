@@ -1,0 +1,10 @@
+:root {
+  --primary-color: #1E3A8A;     /* azul profundo */
+  --secondary-color: #3B82F6;   /* azul vívido */
+  --light-color: #93C5FD;       /* azul claro */
+  --accent-color: #F97316;      /* naranja intenso */
+  --neutral-color: #E0F2FE;     /* fondo claro azulado */
+
+  --white-color: white;
+  --black-color: black;
+}

@@ -11,28 +11,7 @@
       "usuario": "Yodak025",
       "nombre": "DSOTA",
       "email": "diego.sota@gmail.com",
-      "tema": "default",
-      "carrito": []
-    },
-    {
-      "usuario": "Pep",
-      "nombre": "Pedro Navajas",
-      "email": "PNP@gmail.com",
-      "tema": "default",
-      "carrito": []
-    },
-    {
-      "usuario": "wferrr",
-      "nombre": "ererer",
-      "email": "erere@dfdf.df",
-      "tema": "default",
-      "carrito": []
-    },
-    {
-      "usuario": "suppa",
-      "nombre": "supi supa",
-      "email": "sup.@sup.ia",
-      "tema": "default",
+      "tema": "fruit",
       "carrito": []
     },
     {
@@ -297,6 +276,23 @@
           "tipo": "revisar-redaccion",
           "cuerpo": {
             "Corrección de Texto": {}
+          }
+        }
+      ]
+    },
+    {
+      "usuario": "Yodak025",
+      "fecha": "2025-04-29T16:44:46.221Z",
+      "dirección": "diego.sota@gmail.com",
+      "tarjeta": "11111212121212121212",
+      "documentos": [
+        {
+          "tipo": "revisar-redaccion",
+          "cuerpo": {
+            "Corrección de Texto": {
+              "Texto Corregido": "\"no hay nada que resumir porque el texto no contiene información valiosa solo hay una serie de letras sin sentido por lo tanto no hay puntos principales o ideas que puedan ser resumidas es posible que el texto haya sido generado de forma aleatoria o que sea un error de entrada en cualquier caso no hay nada que comentar o resumir al respecto\""
+            },
+            "Feedback": "\"el texto parece tener algunas ideas interesantes pero carece de coherencia y claridad en algunos puntos es importante comenzar con una introducción más atractiva para captar la atención del lector y luego desarrollar cada idea de manera más detallada y organizada \\n\\nen algunos lugares el lenguaje es un poco ambiguo y podría ser confuso para los lectores es importante definir términos y conceptos clave para que todo el mundo esté en la misma página \\n\\nademás sería útil incluir ejemplos concretos o anécdotas para ilustrar los puntos principales y hacer que el texto sea más interesante y accesible \\n\\nen cuanto al tono parece que hay un buen intento de ser informal y coloquial pero en algunos momentos se vuelve un poco demasiado casual y pierde un poco de credibilidad es importante encontrar un equilibrio entre ser amigable y ser creíble \\n\\nen general el texto tiene potencial pero necesita un poco de revisión y edición para hacerlo más claro conciso y atractivo para los lectores con algunas mejoras en la organización la claridad y el tono podría ser un texto muy efectivo para comunicar las ideas y conceptos presentados\""
           }
         }
       ]
