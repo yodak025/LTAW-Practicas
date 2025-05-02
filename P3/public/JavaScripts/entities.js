@@ -145,6 +145,15 @@ export class Entity {
   }
 }
 
+// Clase para entidades decorativas (sin colisiones ni física)
+export class DecorativeEntity extends Entity {
+  constructor(x, y, width, height) {
+    super(x, y, width, height);
+    // No añadimos componentes de colisión o física
+    // Esta entidad es puramente visual
+  }
+}
+
 // Clase para componentes
 export class Component {
   constructor() {
@@ -587,6 +596,11 @@ export class EntityFactory {
   // Crear una berry (rompible por pájaros, sin gravedad)
   static createBerry(x, y, size = ENTITY.DEFAULT_SIZE) {
     return new BerryEntity(x, y, size);
+  }
+
+  // Crear una entidad decorativa (sin física ni colisiones)
+  static createDecorative(x, y, width, height) {
+    return new DecorativeEntity(x, y, width, height);
   }
 }
 

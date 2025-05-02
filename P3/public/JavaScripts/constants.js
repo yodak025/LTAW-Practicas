@@ -1,5 +1,12 @@
 // Constantes globales para el juego
 
+// Configuración del espacio de juego normalizado
+export const NORMALIZED_SPACE = {
+  WIDTH: 16, // Ancho del espacio de juego (x: 0-16)
+  HEIGHT: 9, // Alto del espacio de juego (y: 0-9)
+  ASPECT_RATIO: 16 / 9, // Relación de aspecto 16:9
+};
+
 // Configuración de entidades
 export const ENTITY = {
   // Dimensiones por defecto para entidades (para compatibilidad con código existente)
@@ -13,6 +20,11 @@ export const ENTITY = {
     BLUE_COLOR: "rgba(0, 0, 255, 0.3)", // Color para el colisionador del pájaro azul
     GREEN_COLOR: "rgba(0, 255, 0, 0.3)", // Color para el colisionador del pájaro verde
     SIZE: { X: 0.3, Y: 0.6 }, // Tamaño rectangular para pájaros: ancho x alto
+    // Posiciones iniciales de los pájaros
+    POSITIONS: {
+      BLUE: { x: 6, y: 2 },
+      GREEN: { x: 10, y: 2 }
+    }
   },
 
   // Valores para roca
@@ -23,7 +35,7 @@ export const ENTITY = {
       Y: 80, // Factor de velocidad para el movimiento vertical
     },
     COLOR: "rgba(255, 0, 0, 0.3)", // Color para el colisionador de la roca
-    RADIO: 0.35, // Radio para el colisionador circular
+    RADIO: 0.4, // Radio para el colisionador circular
   },
 
   // Valores para berry
@@ -31,6 +43,21 @@ export const ENTITY = {
     DEFAULT_HEALTH: 1, // Se rompe fácilmente
     COLOR: "rgba(220, 20, 60, 0.8)", // Color rojo frambuesa para visualización en modo debug
     RADIO: 0.2, // Radio para el colisionador circular (más pequeño que la roca)
+    GENERATION: {
+      MAX_TOTAL: 4, // Máximo total de berries en el juego
+      MAX_PER_TREE: 3, // Máximo de berries por árbol
+      MIN_SPAWN_TIME: 10, // Tiempo mínimo para la aparición (segundos)
+      MAX_SPAWN_TIME: 30, // Tiempo máximo para la aparición (segundos)
+      SPAWN_RADIUS_FACTOR: 0.7, // Radio de la región circular (70% del ancho del árbol)
+    }
+  },
+
+  // Valores para árboles (elementos decorativos)
+  TREES: {
+    SIZE: { width: 2.5, height: 4.0 }, // Tamaño común para ambos árboles
+    LEFT: { x: 0.3, y: NORMALIZED_SPACE.HEIGHT - 5.07 }, // Posición del árbol izquierdo
+    RIGHT: { x: NORMALIZED_SPACE.WIDTH - 3, y: NORMALIZED_SPACE.HEIGHT - 5.07 }, // Posición del árbol derecho
+    SCALE: { x: 1.0, y: 1.0 }, // Escala visual para los árboles
   },
 
   // Propiedades físicas
@@ -104,14 +131,8 @@ export const RESOURCES = {
     GREEN_BIRD_FRAMES: 6,
     BERRIES_COUNT: 7,
     ROCK_PATH: "./assets/sprites/stone.png",
+    TREE_PATH: "./assets/sprites/tree.png", // Ruta al sprite del árbol
   },
-};
-
-// Configuración del espacio de juego normalizado
-export const NORMALIZED_SPACE = {
-  WIDTH: 16, // Ancho del espacio de juego (x: 0-16)
-  HEIGHT: 9, // Alto del espacio de juego (y: 0-9)
-  ASPECT_RATIO: 16 / 9, // Relación de aspecto 16:9
 };
 
 // Configuración del canvas

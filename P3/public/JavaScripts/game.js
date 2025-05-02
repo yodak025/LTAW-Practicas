@@ -51,9 +51,12 @@ export class ParabolicParabolaGameControler {
     this.rockEntity = null;
     this.blueBirdEntity = null;
     this.greenBirdEntity = null;
-    this.middlePlatform = null;
     this.berries = []; // Array para almacenar las berries
     this.berryViews = []; // Array para almacenar las vistas de berries
+    
+    // Árboles (elementos decorativos)
+    this.leftTreeEntity = null;
+    this.rightTreeEntity = null;
 
     // Trackeo de posición para multijugador
     this.lastPositionUpdate = {
@@ -69,6 +72,7 @@ export class ParabolicParabolaGameControler {
       greenBird: [],
       rock: null,
       berries: [], // Array para sprites de berries
+      tree: null, // Sprite para los árboles
     };
 
     // Variables de control
@@ -97,6 +101,14 @@ export class ParabolicParabolaGameControler {
 
     // Indica qué entidad se está controlando
     this.controlledEntity = null;
+    
+    // Temporizadores para generación de berries
+    this.nextBerrySpawnTime = 0;
+    this.berrySpawnElapsedTime = 0;
+    
+    // Contadores de berries por árbol
+    this.leftTreeBerryCount = 0;
+    this.rightTreeBerryCount = 0;
   }
 
   // Inicializa el juego
@@ -110,6 +122,9 @@ export class ParabolicParabolaGameControler {
     if (this.socket) {
       this.setupNetworkHandlers();
     }
+    
+    // Programar la primera generación de berries
+    this.scheduleNextBerrySpawn();
 
     // Iniciar el bucle del juego
     requestAnimationFrame(this.startGameLoop.bind(this));
@@ -149,6 +164,9 @@ export class ParabolicParabolaGameControler {
 
     // Cargar sprite de la roca
     this.sprites.rock = await loadImage(RESOURCES.SPRITES.ROCK_PATH);
+    
+    // Cargar sprite del árbol
+    this.sprites.tree = await loadImage(RESOURCES.SPRITES.TREE_PATH);
   }
 
   // Crea las entidades según el modo de juego
@@ -164,91 +182,64 @@ export class ParabolicParabolaGameControler {
     if (this.gameMode === "singleplayer") {
       // En singleplayer ambos pájaros son rompibles pero no controlables
       this.blueBirdEntity = EntityFactory.createBird(
-        6,
-        2,
+        ENTITY.BIRD.POSITIONS.BLUE.x,
+        ENTITY.BIRD.POSITIONS.BLUE.y,
         ENTITY.BIRD.SIZE,
         ENTITY.BIRD.DEFAULT_HEALTH
       );
       this.greenBirdEntity = EntityFactory.createBird(
-        10,
-        2,
+        ENTITY.BIRD.POSITIONS.GREEN.x,
+        ENTITY.BIRD.POSITIONS.GREEN.y,
         ENTITY.BIRD.SIZE,
         ENTITY.BIRD.DEFAULT_HEALTH
       );
     } else if (this.gameMode === "birdplayer") {
       // En modo pájaro, ambos son controlables
       this.blueBirdEntity = EntityFactory.createBird(
-        6,
-        2,
+        ENTITY.BIRD.POSITIONS.BLUE.x,
+        ENTITY.BIRD.POSITIONS.BLUE.y,
         ENTITY.BIRD.SIZE,
         ENTITY.BIRD.DEFAULT_HEALTH
       );
       this.greenBirdEntity = EntityFactory.createBird(
-        10,
-        2,
+        ENTITY.BIRD.POSITIONS.GREEN.x,
+        ENTITY.BIRD.POSITIONS.GREEN.y,
         ENTITY.BIRD.SIZE,
         ENTITY.BIRD.DEFAULT_HEALTH
       );
     } else if (this.gameMode === "stoneplayer") {
       // En modo piedra, el azul es controlable y el verde es rompible
       this.blueBirdEntity = EntityFactory.createBird(
-        6,
-        2,
+        ENTITY.BIRD.POSITIONS.BLUE.x,
+        ENTITY.BIRD.POSITIONS.BLUE.y,
         ENTITY.BIRD.SIZE,
         ENTITY.BIRD.DEFAULT_HEALTH
       );
       this.greenBirdEntity = EntityFactory.createBird(
-        10,
-        2,
+        ENTITY.BIRD.POSITIONS.GREEN.x,
+        ENTITY.BIRD.POSITIONS.GREEN.y,
         ENTITY.BIRD.SIZE,
         ENTITY.BIRD.DEFAULT_HEALTH
       );
     }
 
-    // Plataforma
-    this.middlePlatform = EntityFactory.createPlatform(
-      NORMALIZED_SPACE.WIDTH / 2 - this.platformWidth / 2,
-      NORMALIZED_SPACE.HEIGHT / 2,
-      this.platformWidth,
-      this.platformHeight
+    // Crear árboles decorativos (sin colisiones)
+    this.leftTreeEntity = EntityFactory.createDecorative(
+      ENTITY.TREES.LEFT.x,
+      ENTITY.TREES.LEFT.y,
+      ENTITY.TREES.SIZE.width,
+      ENTITY.TREES.SIZE.height
+    );
+    
+    this.rightTreeEntity = EntityFactory.createDecorative(
+      ENTITY.TREES.RIGHT.x,
+      ENTITY.TREES.RIGHT.y,
+      ENTITY.TREES.SIZE.width, 
+      ENTITY.TREES.SIZE.height
     );
 
-    // Crear 4 berries en diferentes posiciones del escenario
-    // Berry 1 - Arriba a la izquierda
-    this.berries.push(
-      EntityFactory.createBerry(
-        3, // x
-        1, // y
-        ENTITY.BERRY.RADIO * 2 // Diámetro para la berry
-      )
-    );
-
-    // Berry 2 - Arriba a la derecha
-    this.berries.push(
-      EntityFactory.createBerry(
-        13, // x
-        1, // y
-        ENTITY.BERRY.RADIO * 2
-      )
-    );
-
-    // Berry 3 - Cerca de la plataforma
-    this.berries.push(
-      EntityFactory.createBerry(
-        NORMALIZED_SPACE.WIDTH / 2 - 2, // x (izquierda de la plataforma)
-        NORMALIZED_SPACE.HEIGHT / 2 - 1, // y (justo encima de la plataforma)
-        ENTITY.BERRY.RADIO * 2
-      )
-    );
-
-    // Berry 4 - Cerca de la plataforma por el lado derecho
-    this.berries.push(
-      EntityFactory.createBerry(
-        NORMALIZED_SPACE.WIDTH / 2 + 2, // x (derecha de la plataforma)
-        NORMALIZED_SPACE.HEIGHT / 2 - 1, // y (justo encima de la plataforma)
-        ENTITY.BERRY.RADIO * 2
-      )
-    );
+    // No creamos berries aquí, se generarán dinámicamente
+    this.berries = [];
 
     // Establecer la entidad controlada según el modo de juego
     if (this.gameMode === "singleplayer" || this.gameMode === "stoneplayer") {
@@ -261,7 +252,8 @@ export class ParabolicParabolaGameControler {
     this.rockEntity.addTag("rock");
     this.blueBirdEntity.addTag("bird").addTag("blue");
     this.greenBirdEntity.addTag("bird").addTag("green");
-    this.middlePlatform.addTag("platform");
+    this.leftTreeEntity.addTag("tree").addTag("decorative").addTag("left");
+    this.rightTreeEntity.addTag("tree").addTag("decorative").addTag("right");
   }
 
   // Crea las vistas para las entidades
@@ -302,24 +294,29 @@ export class ParabolicParabolaGameControler {
       }
     );
 
-    // Vista para la plataforma (sin sprite, solo colisionador)
-    this.views.platform = new EntityView(this.middlePlatform);
+    // Vistas para los árboles decorativos
+    this.views.leftTree = new StaticSpriteEntityView(
+      this.leftTreeEntity,
+      this.sprites.tree,
+      {
+        visualWidth: ENTITY.TREES.SIZE.width,
+        visualHeight: ENTITY.TREES.SIZE.height,
+        scale: ENTITY.TREES.SCALE,
+      }
+    );
     
-    // Crear vistas para las berries
-    this.berryViews = this.berries.map(berry => {
-      // Seleccionar un sprite aleatorio para cada berry una sola vez
-      const randomSpriteIndex = Math.floor(Math.random() * this.sprites.berries.length);
-      return new StaticSpriteEntityView(
-        berry,
-        this.sprites.berries[randomSpriteIndex],
-        {
-          visualWidth: this.visualSizes.berry.width,
-          visualHeight: this.visualSizes.berry.height,
-          circular: true,
-          scale: UI.VISUAL.BERRY_SCALE,
-        }
-      );
-    });
+    this.views.rightTree = new StaticSpriteEntityView(
+      this.rightTreeEntity,
+      this.sprites.tree,
+      {
+        visualWidth: ENTITY.TREES.SIZE.width,
+        visualHeight: ENTITY.TREES.SIZE.height,
+        scale: ENTITY.TREES.SCALE,
+      }
+    );
+    
+    // No creamos vistas para las berries aquí, se generarán dinámicamente
+    this.berryViews = [];
   }
 
   // Configura las entidades y las añade al juego
@@ -328,8 +325,8 @@ export class ParabolicParabolaGameControler {
       this.rockEntity,
       this.blueBirdEntity,
       this.greenBirdEntity,
-      this.middlePlatform,
-      ...this.berries, // Añadir todas las berries al array de objetos del juego
+      // No incluimos las berries aquí, se añadirán dinámicamente
+      // No incluimos los árboles porque son decorativos y no participan en colisiones
     ];
 
     // Inicializar contadores de berries en los pájaros
@@ -464,6 +461,152 @@ export class ParabolicParabolaGameControler {
     }
   }
 
+  // Programar la próxima generación de berry
+  scheduleNextBerrySpawn() {
+    const minTime = ENTITY.BERRY.GENERATION.MIN_SPAWN_TIME;
+    const maxTime = ENTITY.BERRY.GENERATION.MAX_SPAWN_TIME;
+    // Tiempo aleatorio en segundos entre el mínimo y máximo configurados
+    this.nextBerrySpawnTime = minTime + Math.random() * (maxTime - minTime);
+    this.berrySpawnElapsedTime = 0;
+  }
+  
+  // Genera berries aleatorias en el árbol especificado
+  generateBerryInTree(tree) {
+    // Verificar si podemos generar más berries
+    const totalBerries = this.berries.length;
+    const maxTotal = ENTITY.BERRY.GENERATION.MAX_TOTAL;
+    const maxPerTree = ENTITY.BERRY.GENERATION.MAX_PER_TREE;
+    
+    // No generar si ya alcanzamos el máximo total
+    if (totalBerries >= maxTotal) {
+      return false;
+    }
+    
+    // Verificar límite por árbol
+    let currentTreeBerryCount;
+    if (tree.hasTag("left")) {
+      if (this.leftTreeBerryCount >= maxPerTree) return generateBerryInTree(this.rightTreeEntity);
+      currentTreeBerryCount = this.leftTreeBerryCount;
+    } else {
+      if (this.rightTreeBerryCount >= maxPerTree) return generateBerryInTree(this.leftTreeEntity);
+      currentTreeBerryCount = this.rightTreeBerryCount;
+    }
+    
+    // Calcular la región circular en la mitad superior del árbol
+    // La mitad superior está a la altura del árbol / 2 desde la posición Y del árbol
+    // en un sistema donde Y crece hacia abajo (invertido)
+    const treeWidth = tree.width;
+    const treeHeight = tree.height;
+    const centerX = tree.x + treeWidth / 2;
+    const centerY = tree.y + treeHeight / 4; // Primer cuarto del árbol (mitad de la mitad superior)
+    
+    // Radio de la región circular (70% del ancho del árbol)
+    const radius = treeWidth * ENTITY.BERRY.GENERATION.SPAWN_RADIUS_FACTOR / 2;
+    
+    // Intentos para evitar colisiones
+    const maxAttempts = 15;
+    let attempts = 0;
+    let berryX, berryY;
+    let validPosition = false;
+    
+    // Intentar encontrar una posición válida
+    while (!validPosition && attempts < maxAttempts) {
+      // Generar posición aleatoria dentro del círculo
+      const angle = Math.random() * 2 * Math.PI; // Ángulo aleatorio
+      const distance = Math.sqrt(Math.random()) * radius; // Distancia aleatoria desde el centro (raíz cuadrada para distribución uniforme)
+      
+      berryX = centerX + distance * Math.cos(angle);
+      berryY = centerY + distance * Math.sin(angle);
+      
+      // Verificar si la posición está dentro de los límites y no colisiona con otras berries
+      validPosition = this.isValidBerryPosition(berryX, berryY);
+      attempts++;
+    }
+    
+    // Si encontramos una posición válida, crear la berry
+    if (validPosition) {
+      // Crear la berry
+      const newBerry = EntityFactory.createBerry(
+        berryX,
+        berryY,
+        ENTITY.BERRY.RADIO * 2
+      );
+      
+      // Añadir etiqueta para identificar en qué árbol está
+      newBerry.addTag("berry");
+      if (tree.hasTag("left")) {
+        newBerry.addTag("left-tree");
+        this.leftTreeBerryCount++;
+      } else {
+        newBerry.addTag("right-tree");
+        this.rightTreeBerryCount++;
+      }
+      
+      // Seleccionar un sprite aleatorio para la berry
+      const randomSpriteIndex = Math.floor(Math.random() * this.sprites.berries.length);
+      
+      // Crear vista para la berry
+      const newBerryView = new StaticSpriteEntityView(
+        newBerry,
+        this.sprites.berries[randomSpriteIndex],
+        {
+          visualWidth: this.visualSizes.berry.width,
+          visualHeight: this.visualSizes.berry.height,
+          circular: true,
+          scale: UI.VISUAL.BERRY_SCALE,
+        }
+      );
+      
+      // Añadir la berry y su vista a los arrays
+      this.berries.push(newBerry);
+      this.berryViews.push(newBerryView);
+      this.gameObjects.push(newBerry);
+      
+      return true;
+    }
+    
+    return false;
+  }
+  
+  // Verifica si una posición es válida para generar una berry (sin colisiones)
+  isValidBerryPosition(x, y) {
+    // Verificar que esté dentro de los límites del juego
+    if (x < 0 || x > NORMALIZED_SPACE.WIDTH || y < 0 || y > NORMALIZED_SPACE.HEIGHT) {
+      return false;
+    }
+    
+    // Verificar colisiones con otras berries
+    const berryRadius = ENTITY.BERRY.RADIO;
+    for (const berry of this.berries) {
+      const distance = Math.sqrt(
+        Math.pow(berry.x - x, 2) + Math.pow(berry.y - y, 2)
+      );
+      
+      // Si la distancia es menor que la suma de los radios, hay colisión
+      if (distance < berryRadius * 2) {
+        return false;
+      }
+    }
+    
+    return true;
+  }
+  
+  // Actualiza los contadores de berries cuando una berry es eliminada
+  updateBerryCounters() {
+    this.leftTreeBerryCount = 0;
+    this.rightTreeBerryCount = 0;
+    
+    for (const berry of this.berries) {
+      if (!berry.getComponent(DamageableComponent).markedForDeletion) {
+        if (berry.hasTag("left-tree")) {
+          this.leftTreeBerryCount++;
+        } else if (berry.hasTag("right-tree")) {
+          this.rightTreeBerryCount++;
+        }
+      }
+    }
+  }
+
   // Comenzar el bucle del juego
   startGameLoop(time) {
     this.lastTime = time;
@@ -489,8 +632,29 @@ export class ParabolicParabolaGameControler {
     });
 
     if (remainingObjects.length !== this.gameObjects.length) {
+      // Actualizar contadores de berries cuando algunas son eliminadas
+      this.updateBerryCounters();
+      
       this.gameObjects.length = 0;
       this.gameObjects.push(...remainingObjects);
+      
+      // También necesitamos limpiar el array de berries y sus vistas
+      const remainingBerries = this.berries.filter((berry) => {
+        const damageComp = berry.getComponent(DamageableComponent);
+        return !(damageComp && damageComp.markedForDeletion);
+      });
+      
+      const remainingBerryViews = [];
+      for (let i = 0; i < this.berryViews.length; i++) {
+        const berry = this.berries[i];
+        const damageComp = berry.getComponent(DamageableComponent);
+        if (!(damageComp && damageComp.markedForDeletion)) {
+          remainingBerryViews.push(this.berryViews[i]);
+        }
+      }
+      
+      this.berries = remainingBerries;
+      this.berryViews = remainingBerryViews;
     }
 
     // Actualizar todos los objetos
@@ -500,6 +664,30 @@ export class ParabolicParabolaGameControler {
 
     // Actualizar posición en el servidor si es modo multijugador
     this.updatePositionOnServer();
+
+    // Sistema de generación de berries
+    this.berrySpawnElapsedTime += deltaTime;
+    if (this.berrySpawnElapsedTime >= this.nextBerrySpawnTime) {
+      // Es hora de intentar generar una berry
+      const totalBerries = this.berries.length;
+      const maxTotal = ENTITY.BERRY.GENERATION.MAX_TOTAL;
+      
+      if (totalBerries < maxTotal) {
+        // Elegir un árbol aleatorio para generar la berry
+        const trees = [this.leftTreeEntity, this.rightTreeEntity];
+        // Barajamos los árboles para elegir uno aleatoriamente
+        const randomTreeIndex = Math.floor(Math.random() * trees.length);
+        
+        let success = false;
+        // generamos la berry en el árbol elegido
+        while (!success && trees.length > 1) {
+          success = this.generateBerryInTree(trees[randomTreeIndex]);
+        }
+      }
+      
+      // Programar la próxima generación
+      this.scheduleNextBerrySpawn();
+    }
 
     // Dibujar todos los objetos
     this.draw();
@@ -517,8 +705,31 @@ export class ParabolicParabolaGameControler {
 
   // Dibuja todos los objetos del juego
   draw() {
-    // Dibujar primero la plataforma
-    this.views.platform.drawCollider(UI.COLLIDER_COLORS.PLATFORM);
+    // Dibujar primero los árboles como fondo
+    this.views.leftTree.drawSprite();
+    this.views.rightTree.drawSprite();
+    
+    // En modo debug, mostrar los límites de los árboles
+    if (UI.DEBUG_MODE) {
+      this.views.leftTree.drawRect(
+        this.leftTreeEntity.x,
+        this.leftTreeEntity.y,
+        this.leftTreeEntity.width,
+        this.leftTreeEntity.height,
+        "rgba(0, 128, 0, 0.2)" // Verde transparente
+      );
+      
+      this.views.rightTree.drawRect(
+        this.rightTreeEntity.x,
+        this.rightTreeEntity.y,
+        this.rightTreeEntity.width,
+        this.rightTreeEntity.height,
+        "rgba(0, 128, 0, 0.2)" // Verde transparente
+      );
+      
+      // Mostrar las áreas de generación de berries
+      this.drawBerryGenerationAreas();
+    }
 
     // Dibujar las berries usando sus vistas pre-creadas
     this.berries.forEach((berry, index) => {
@@ -571,5 +782,41 @@ export class ParabolicParabolaGameControler {
     if (UI.DEBUG_MODE) {
       this.views.rock.drawCollider(ENTITY.ROCK.COLOR);
     }
+  }
+  
+  // Dibuja las áreas de generación de berries para depuración
+  drawBerryGenerationAreas() {
+    // Solo mostrar en modo debug
+    if (!UI.DEBUG_MODE) return;
+    
+    const trees = [this.leftTreeEntity, this.rightTreeEntity];
+    
+    trees.forEach(tree => {
+      const treeWidth = tree.width;
+      const treeHeight = tree.height;
+      const centerX = tree.x + treeWidth / 2;
+      const centerY = tree.y + treeHeight / 4; // Centro de la mitad superior
+      
+      // Radio de la región circular (70% del ancho del árbol)
+      const radius = treeWidth * ENTITY.BERRY.GENERATION.SPAWN_RADIUS_FACTOR / 2;
+      
+      // Convertir coordenadas normalizadas a coordenadas de canvas
+      const canvasX = centerX * this.canvas.width / NORMALIZED_SPACE.WIDTH;
+      const canvasY = centerY * this.canvas.height / NORMALIZED_SPACE.HEIGHT;
+      const canvasRadius = radius * this.canvas.width / NORMALIZED_SPACE.WIDTH;
+      
+      // Dibujar círculo
+      this.ctx.beginPath();
+      this.ctx.arc(canvasX, canvasY, canvasRadius, 0, 2 * Math.PI);
+      this.ctx.strokeStyle = 'rgba(255, 255, 0, 0.5)'; // Amarillo semitransparente
+      this.ctx.lineWidth = 2;
+      this.ctx.stroke();
+      
+      // Dibujar centro
+      this.ctx.beginPath();
+      this.ctx.arc(canvasX, canvasY, 3, 0, 2 * Math.PI);
+      this.ctx.fillStyle = 'rgba(255, 0, 0, 0.8)'; // Rojo
+      this.ctx.fill();
+    });
   }
 }
