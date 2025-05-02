@@ -571,11 +571,11 @@ export class EntityFactory {
   static createBird(
     x,
     y,
-    size = ENTITY.DEFAULT_SIZE,
+    size = ENTITY.BIRD.SIZE,
     health = ENTITY.BIRD.DEFAULT_HEALTH
   ) {
     // Usar BirdEntity directamente en lugar de configurar Entity
-    return new BirdEntity(x, y, size, size, health);
+    return new BirdEntity(x, y, size.X, size.Y, health);
   }
 
   // Crear una plataforma estática

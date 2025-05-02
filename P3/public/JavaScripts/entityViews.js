@@ -17,7 +17,14 @@ export class EntityView {
     this.offsetY = options.offsetY || 0;
     
     // Factor de escala visual (para hacer sprites más grandes o pequeños)
-    this.scale = options.scale || 1.0;
+    // Ahora soporta escala diferente en X e Y, o una escala única para ambas dimensiones
+    if (typeof options.scale === 'object') {
+      this.scaleX = options.scale.x || 1.0;
+      this.scaleY = options.scale.y || 1.0;
+    } else {
+      this.scaleX = options.scale || 1.0;
+      this.scaleY = options.scale || 1.0;
+    }
   }
 
   // Convertir coordenadas normalizadas a coordenadas de pantalla
@@ -46,12 +53,12 @@ export class EntityView {
     const centerX = this.entity.x + this.entity.width / 2;
     const centerY = this.entity.y + this.entity.height / 2;
     
-    // Posición visual con offset desde el centro
+    // Posición visual con offset desde el centro, ahora usando escala X e Y diferentes
     return {
-      x: centerX - (this.visualWidth * this.scale) / 2 + this.offsetX,
-      y: centerY - (this.visualHeight * this.scale) / 2 + this.offsetY,
-      width: this.visualWidth * this.scale,
-      height: this.visualHeight * this.scale
+      x: centerX - (this.visualWidth * this.scaleX) / 2 + this.offsetX,
+      y: centerY - (this.visualHeight * this.scaleY) / 2 + this.offsetY,
+      width: this.visualWidth * this.scaleX,
+      height: this.visualHeight * this.scaleY
     };
   }
 

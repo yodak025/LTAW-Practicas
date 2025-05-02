@@ -2,7 +2,7 @@
 
 // Configuración de entidades
 export const ENTITY = {
-  // Dimensiones por defecto para entidades
+  // Dimensiones por defecto para entidades (para compatibilidad con código existente)
   DEFAULT_SIZE: 0.5,
   VELOCITY_THRESHOLD: 0.01, // Velocidad mínima antes de detener el movimiento
 
@@ -10,6 +10,9 @@ export const ENTITY = {
   BIRD: {
     DEFAULT_HEALTH: 1000,
     LAUNCH_SPEED_FACTOR: 10, // Factor de velocidad para el lanzamiento de pájaros
+    BLUE_COLOR: "rgba(0, 0, 255, 0.3)", // Color para el colisionador del pájaro azul
+    GREEN_COLOR: "rgba(0, 255, 0, 0.3)", // Color para el colisionador del pájaro verde
+    SIZE: { X: 0.3, Y: 0.6 }, // Tamaño rectangular para pájaros: ancho x alto
   },
 
   // Valores para roca
@@ -19,12 +22,15 @@ export const ENTITY = {
       X: 20, // Factor de velocidad para el movimiento horizontal
       Y: 80, // Factor de velocidad para el movimiento vertical
     },
+    COLOR: "rgba(255, 0, 0, 0.3)", // Color para el colisionador de la roca
+    RADIO: 0.35, // Radio para el colisionador circular
   },
 
   // Valores para berry
   BERRY: {
     DEFAULT_HEALTH: 1, // Se rompe fácilmente
     COLOR: "rgba(220, 20, 60, 0.8)", // Color rojo frambuesa para visualización en modo debug
+    RADIO: 0.2, // Radio para el colisionador circular (más pequeño que la roca)
   },
 
   // Propiedades físicas
@@ -60,13 +66,14 @@ export const UI = {
   },
 
   // Modo de depuración para mostrar colisionadores y otra información útil
-  DEBUG_MODE: false,
+  DEBUG_MODE: true,
 
   // Configuración visual para entidades
   VISUAL: {
     // Factores de escala para sprites respecto a sus colisionadores
-    ROCK_SCALE: 1.3, // Roca un 20% más grande visualmente
-    BIRD_SCALE: 1.3, // Pájaros un 30% más grandes visualmente
+    ROCK_SCALE: { x: 0.9, y: 0.9 }, // Escala uniforme para la roca (es circular)
+    BIRD_SCALE: { x: 2.8, y: 1.4 }, // Pájaros más anchos que altos
+    BERRY_SCALE: { x: 0.7, y: 0.7 }, // Escala uniforme para las berries (son circulares)
 
     // Offsets verticales para ajustar la posición visual
     BIRD_OFFSET_Y: -0.05,
@@ -89,12 +96,14 @@ export const NETWORK = {
 
 // Rutas de recursos
 export const RESOURCES = {
-  IMAGES: {
-    BLUE_BIRD_PREFIX: "./Images/BlueBird/",
-    GREEN_BIRD_PREFIX: "./Images/GreenBird/",
+  SPRITES: {
+    BLUE_BIRD_PREFIX: "./assets/sprites/blue-bird/",
+    GREEN_BIRD_PREFIX: "./assets/sprites/green-bird/",
+    BERRY_PREFIX: "./assets/sprites/berries/",
     BLUE_BIRD_FRAMES: 6, // Número de frames de animación
     GREEN_BIRD_FRAMES: 6,
-    ROCK_PATH: "./Images/TheRock.png",
+    BERRIES_COUNT: 7,
+    ROCK_PATH: "./assets/sprites/stone.png",
   },
 };
 
