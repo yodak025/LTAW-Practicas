@@ -31,8 +31,8 @@ export const ENTITY = {
   ROCK: {
     GRAVITY: 100, // Unidades/segundo²
     LAUNCH_SPEED_FACTOR: {
-      X: 20, // Factor de velocidad para el movimiento horizontal
-      Y: 80, // Factor de velocidad para el movimiento vertical
+      X: 10, // Factor de velocidad para el movimiento horizontal
+      Y: 10, // Factor de velocidad para el movimiento vertical
     },
     COLOR: "rgba(255, 0, 0, 0.3)", // Color para el colisionador de la roca
     RADIO: 0.4, // Radio para el colisionador circular

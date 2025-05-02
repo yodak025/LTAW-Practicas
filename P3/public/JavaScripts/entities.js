@@ -259,12 +259,6 @@ export class ColliderComponent extends Component {
           2 * dot * normalX * ENTITY.PHYSICS.BOUNCE_FACTOR;
         physicsComponent.velocityY -=
           2 * dot * normalY * ENTITY.PHYSICS.BOUNCE_FACTOR;
-
-        // Marcar como en el suelo si el vector normal apunta hacia arriba
-        if (normalY < -0.7) {
-          this.isOnGround = true;
-          physicsComponent.velocityY = 0;
-        }
       }
     }
   }
@@ -303,7 +297,6 @@ export class ColliderComponent extends Component {
         if (physicsComponent) {
           physicsComponent.velocityY = 0;
         }
-        this.isOnGround = true;
       } else {
         this.entity.y = otherBounds.bottom;
         if (physicsComponent) {
@@ -351,7 +344,6 @@ export class ColliderComponent extends Component {
         if (physicsComponent) {
           physicsComponent.velocityY = 0;
         }
-        this.isOnGround = true;
       }
     }
   }
@@ -397,7 +389,7 @@ export class ColliderComponent extends Component {
       if (physicsComponent) {
         physicsComponent.velocityY *= ENTITY.PHYSICS.BOUNCE_FACTOR;
       }
-    } else if (center.y + this.entity.radius > NORMALIZED_SPACE.HEIGHT - 0.9) {
+    } else if (center.y + this.entity.radius >= NORMALIZED_SPACE.HEIGHT - 0.9) {
       this.entity.y =
         NORMALIZED_SPACE.HEIGHT -
         0.9 -
@@ -405,12 +397,10 @@ export class ColliderComponent extends Component {
         this.entity.radius;
       if (physicsComponent) {
         // Solo aplicar rebote si la velocidad es significativa
-        if (Math.abs(physicsComponent.velocityY) > ENTITY.VELOCITY_THRESHOLD) {
-          physicsComponent.velocityY *= ENTITY.PHYSICS.BOUNCE_FACTOR;
-        } else {
-          // Si la velocidad es muy baja, detenerla completamente
-          physicsComponent.velocityY = 0;
-        }
+        physicsComponent.velocityY =
+          physicsComponent.velocityY >= ENTITY.VELOCITY_THRESHOLD
+            ? physicsComponent.velocityY * ENTITY.PHYSICS.BOUNCE_FACTOR
+            : 0;
       }
       this.isOnGround = true;
     }
@@ -440,36 +430,26 @@ export class ColliderComponent extends Component {
         physicsComponent.velocityY *= ENTITY.PHYSICS.BOUNCE_FACTOR;
       }
     }
-    if (bounds.bottom > NORMALIZED_SPACE.HEIGHT - 0.9) {
+    if (bounds.bottom >= NORMALIZED_SPACE.HEIGHT - 0.9) {
       this.entity.y = NORMALIZED_SPACE.HEIGHT - this.entity.height - 0.9;
       if (physicsComponent) {
-        physicsComponent.velocityY *= ENTITY.PHYSICS.BOUNCE_FACTOR;
+        physicsComponent.velocityY =
+          physicsComponent.velocityY >= ENTITY.VELOCITY_THRESHOLD
+            ? physicsComponent.velocityY * ENTITY.PHYSICS.BOUNCE_FACTOR
+            : 0;
       }
       this.isOnGround = true;
     }
   }
 
   update(gameObjects, deltaTime) {
-    const wasOnGround = this.isOnGround; // Guardar el estado anterior
-    this.isOnGround = false;
+    this.isOnGround = false; // Reiniciar estado de colisión con el suelo
     this.checkBounds();
-
     // Comprobar colisiones con otros objetos
     for (const obj of gameObjects) {
       if (obj !== this.entity && this.entity.isColliding(obj)) {
         this.resolveCollision(obj);
       }
-    }
-
-    // Si estaba en el suelo y ya no tiene velocidad vertical, mantener isOnGround
-    const physicsComponent = this.entity.getComponent(PhysicsComponent);
-    if (
-      wasOnGround &&
-      physicsComponent &&
-      Math.abs(physicsComponent.velocityY) < ENTITY.VELOCITY_THRESHOLD
-    ) {
-      this.isOnGround = true;
-      physicsComponent.velocityY = 0; // Asegurar que no haya movimiento vertical
     }
   }
 }
@@ -515,6 +495,7 @@ export class PhysicsComponent extends Component {
     if (this.gravity !== 0 && !(collider && collider.isOnGround)) {
       this.velocityY += this.gravity * deltaTime;
     }
+
 
     // Aplicar fricción si está en el suelo
     if (collider && collider.isOnGround) {

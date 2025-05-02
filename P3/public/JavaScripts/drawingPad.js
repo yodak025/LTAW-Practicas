@@ -176,7 +176,7 @@ export class DrawingPad {
     // Lanzar la entidad controlada
     launchEntity() {
         if (!this.controlEntity || !this.startPoint || !this.endPoint) return;
-        
+
         // Calcular velocidad basada en la diferencia entre puntos, usando el factor personalizado
         const velocityX = (this.startPoint.x - this.endPoint.x) * this.speedFactor.X;
         const velocityY = (this.startPoint.y - this.endPoint.y) * this.speedFactor.Y;
@@ -189,11 +189,11 @@ export class DrawingPad {
         if (physicsComponent) {
             // Aplicar velocidad al componente de física
             physicsComponent.velocityX = -velocityX;
-            physicsComponent.velocityY = -velocityY;
+            physicsComponent.velocityY = velocityY;
         } else {
             // Compatibilidad con el sistema antiguo
             this.controlEntity.velocityX = -velocityX;
-            this.controlEntity.velocityY = -velocityY;
+            this.controlEntity.velocityY = velocityY;
         }
     }
 
