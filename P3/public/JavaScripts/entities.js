@@ -390,6 +390,10 @@ export class ColliderComponent extends Component {
         physicsComponent.velocityY *= ENTITY.PHYSICS.BOUNCE_FACTOR;
       }
     } else if (center.y + this.entity.radius >= NORMALIZED_SPACE.HEIGHT - 0.9) {
+      if (this.isOnGround && Math.abs(physicsComponent.velocityY)>0){
+        this.isOnGround = false;
+        return;
+      } 
       this.entity.y =
         NORMALIZED_SPACE.HEIGHT -
         0.9 -
@@ -403,6 +407,9 @@ export class ColliderComponent extends Component {
             : 0;
       }
       this.isOnGround = true;
+    }
+    else if (this.isOnGround) {
+      this.isOnGround = false; // Reiniciar estado de colisión con el suelo
     }
   }
 
@@ -431,6 +438,10 @@ export class ColliderComponent extends Component {
       }
     }
     if (bounds.bottom >= NORMALIZED_SPACE.HEIGHT - 0.9) {
+      if (this.isOnGround && Math.abs(physicsComponent.velocityY) > 0){
+        this.isOnGround = false;
+        return;
+      } 
       this.entity.y = NORMALIZED_SPACE.HEIGHT - this.entity.height - 0.9;
       if (physicsComponent) {
         physicsComponent.velocityY =
@@ -439,11 +450,13 @@ export class ColliderComponent extends Component {
             : 0;
       }
       this.isOnGround = true;
+    }else if (this.isOnGround) {
+      this.isOnGround = false; // Reiniciar estado de colisión con el suelo
     }
   }
 
   update(gameObjects, deltaTime) {
-    this.isOnGround = false; // Reiniciar estado de colisión con el suelo
+    //this.isOnGround = false; // Reiniciar estado de colisión con el suelo
     this.checkBounds();
     // Comprobar colisiones con otros objetos
     for (const obj of gameObjects) {

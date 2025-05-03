@@ -11,7 +11,7 @@ export const NORMALIZED_SPACE = {
 export const ENTITY = {
   // Dimensiones por defecto para entidades (para compatibilidad con código existente)
   DEFAULT_SIZE: 0.5,
-  VELOCITY_THRESHOLD: 0.01, // Velocidad mínima antes de detener el movimiento
+  VELOCITY_THRESHOLD: 0.5, // Velocidad mínima antes de detener el movimiento
 
   // Valores para pájaros
   BIRD: {
@@ -64,7 +64,7 @@ export const ENTITY = {
   PHYSICS: {
     FRICTION: 0.5,
     GRAVITY: 980, // Gravedad base en unidades/segundo²
-    BOUNCE_FACTOR: -0.5, // Factor de rebote al colisionar
+    BOUNCE_FACTOR: - 0.2, // Factor de rebote al colisionar
     DAMAGE_MULTIPLIER: 1, // Multiplicador de daño basado en velocidad de impacto
   },
 };

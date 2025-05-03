@@ -188,12 +188,12 @@ export class DrawingPad {
         
         if (physicsComponent) {
             // Aplicar velocidad al componente de física
-            physicsComponent.velocityX = -velocityX;
-            physicsComponent.velocityY = velocityY;
+            physicsComponent.velocityX = - velocityX;
+            physicsComponent.velocityY = - velocityY;
         } else {
             // Compatibilidad con el sistema antiguo
-            this.controlEntity.velocityX = -velocityX;
-            this.controlEntity.velocityY = velocityY;
+            this.controlEntity.velocityX = - velocityX;
+            this.controlEntity.velocityY = - velocityY;
         }
     }
 
