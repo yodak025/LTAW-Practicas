@@ -1,6 +1,6 @@
 // Clase base para la visualización de entidades
-import { ENTITY, NORMALIZED_SPACE, UI } from "./constants.js";
-import { DamageableComponent, ColliderType, PoopComponent } from "./entities.js";
+import { ENTITY, NORMALIZED_SPACE, UI } from "../../constants.js";
+import { DamageableComponent, ColliderType, PoopComponent } from "../entities/entities.js"
 
 export class EntityView {
   constructor(entity, options = {}) {

@@ -28,7 +28,7 @@ export const ENTITY = {
   },
 
   // Valores para roca
-  ROCK: {
+  STONE: {
     GRAVITY: 100, // Unidades/segundo²
     LAUNCH_SPEED_FACTOR: {
       X: 10, // Factor de velocidad para el movimiento horizontal
@@ -46,8 +46,8 @@ export const ENTITY = {
     GENERATION: {
       MAX_TOTAL: 4, // Máximo total de berries en el juego
       MAX_PER_TREE: 3, // Máximo de berries por árbol
-      MIN_SPAWN_TIME: 10, // Tiempo mínimo para la aparición (segundos)
-      MAX_SPAWN_TIME: 30, // Tiempo máximo para la aparición (segundos)
+      MIN_SPAWN_TIME: 1, // Tiempo mínimo para la aparición (segundos)
+      MAX_SPAWN_TIME: 3, // Tiempo máximo para la aparición (segundos)
       SPAWN_RADIUS_FACTOR: 0.7, // Radio de la región circular (70% del ancho del árbol)
     }
   },
@@ -107,7 +107,7 @@ export const UI = {
   // Configuración visual para entidades
   VISUAL: {
     // Factores de escala para sprites respecto a sus colisionadores
-    ROCK_SCALE: { x: 0.9, y: 0.9 }, // Escala uniforme para la roca (es circular)
+    STONE_SCALE: { x: 0.9, y: 0.9 }, // Escala uniforme para la roca (es circular)
     BIRD_SCALE: { x: 2.8, y: 1.4 }, // Pájaros más anchos que altos
     BERRY_SCALE: { x: 0.7, y: 0.7 }, // Escala uniforme para las berries (son circulares)
     POOP_SCALE: { x: 0.8, y: 0.8 }, // Escala uniforme para el poop (es circular)
@@ -129,6 +129,27 @@ export const LEVEL = {
 // Configuración de red
 export const NETWORK = {
   POSITION_THRESHOLD: 0.01, // Umbral para detectar cambios en la posición
+  STATE_UPDATE_FREQUENCY: 60, // Frecuencia de actualización de estado (veces por segundo)
+  MESSAGES: {
+    // Mensajes del cliente al servidor
+    CLIENT: {
+      UPDATE_BLUE_BIRD: "blueBirdUpdate",
+      UPDATE_GREEN_BIRD: "greenBirdUpdate",
+      UPDATE_STONE: "stoneUpdate",
+      UPDATE_BERRY: "berryUpdate",
+      UPDATE_POOP: "poopUpdate",
+      REQUEST_BERRY_SPAWN: "requestBerrySpawn"
+    },
+    // Mensajes del servidor al cliente
+    SERVER: {
+      BLUE_BIRD_UPDATED: "updateBlueBird",
+      GREEN_BIRD_UPDATED: "updateGreenBird",
+      STONE_UPDATED: "updateStone",
+      BERRY_SPAWNED: "berrySpawned",
+      BERRY_UPDATED: "berryUpdated",
+      POOP_UPDATED: "poopUpdated"
+    }
+  }
 };
 
 // Rutas de recursos
@@ -140,7 +161,7 @@ export const RESOURCES = {
     BLUE_BIRD_FRAMES: 6, // Número de frames de animación
     GREEN_BIRD_FRAMES: 6,
     BERRIES_COUNT: 7,
-    ROCK_PATH: "./assets/sprites/stone.png",
+    STONE_PATH: "./assets/sprites/stone.png",
     TREE_PATH: "./assets/sprites/tree.png", // Ruta al sprite del árbol
     POOP_FALLING_PATH: "./assets/sprites/poop-falling.png", // Ruta al sprite del poop cayendo
     POOP_LANDED_PATH: "./assets/sprites/poop-landed.png", // Ruta al sprite del poop en el suelo
@@ -188,4 +209,19 @@ export const MESSAGES = {
     AVAILABLE_STONE: "(Disponible: Falta piedra)",
     EMPTY: "(Vacía)",
   },
+};
+
+// Configuración de juego en red
+export const MULTIPLAYER = {
+  ENTITY_STATES: {
+    // Propiedades a sincronizar para cada tipo de entidad
+    BIRD: ["x", "y", "velocityX", "velocityY", "health", "berryCount", "isFlying"],
+    STONE: ["x", "y", "velocityX", "velocityY", "isLaunched"],
+    BERRY: ["x", "y", "health", "isCollected", "treePosition"],
+    POOP: ["x", "y", "velocityX", "velocityY", "health", "isLanded"]
+  },
+  ROLES: {
+    BIRD_PLAYER: "bird",
+    STONE_PLAYER: "stone"
+  }
 };

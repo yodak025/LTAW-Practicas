@@ -175,22 +175,63 @@ io.on("connection", (socket) => {
     if (room && rooms[room]?.birdPlayer === socket.id) {
       socket.to(room).emit("updateBlueBird", position);
     }
-    console.log("Actualización de pájaro azul recibida:", position);
   });
 
   // Manejar la actualización de posición de la roca dentro de la sala
-  socket.on("rockUpdate", (position) => {
+  socket.on("stoneUpdate", (position) => {
     const room = Array.from(socket.rooms)[1];
     if (room && rooms[room]?.stonePlayer === socket.id) {
-      socket.to(room).emit("updateRock", position);
-      console.log("Entra en el rock if");
+      socket.to(room).emit("updateStone", position);
     }
-    console.log("Actualización de roca recibida:", position);
-    console.log(Array.from(socket.rooms)[1])
-    console.log(rooms[room]?.stonePlayer === socket.id);
-    console.log(socket.id);
   });
 
+  // Manejar actualizaciones de estado de las entidades
+  socket.on("blueBirdUpdate", (state) => {
+    const room = Array.from(socket.rooms)[1];
+    if (room && rooms[room]?.birdPlayer === socket.id) {
+      socket.to(room).emit("updateBlueBird", state);
+    }
+  });
+
+  socket.on("greenBirdUpdate", (state) => {
+    const room = Array.from(socket.rooms)[1];
+    if (room && rooms[room]?.birdPlayer === socket.id) {
+      socket.to(room).emit("updateGreenBird", state);
+    }
+  });
+
+  socket.on("stoneUpdate", (state) => {
+    const room = Array.from(socket.rooms)[1];
+    if (room && rooms[room]?.stonePlayer === socket.id) {
+      socket.to(room).emit("updateStone", state);
+    }
+  });
+
+  // Actualización de estado de berries (de cliente a cliente)
+  socket.on("berryUpdate", (berryState) => {
+    const room = Array.from(socket.rooms)[1];
+    if (room) {
+      socket.to(room).emit("berryUpdated", berryState);
+    }
+  });
+
+  // Envío de evento de generación de berry (desde el jugador piedra al jugador pájaro)
+  socket.on("berrySpawned", (berryData) => {
+    const room = Array.from(socket.rooms)[1];
+    if (room && rooms[room]?.stonePlayer === socket.id) {
+      socket.to(room).emit("berrySpawned", berryData);
+    }
+  });
+
+  // Actualización de estado de poops (solo desde el jugador pájaro)
+  socket.on("poopUpdate", (poopState) => {
+    const room = Array.from(socket.rooms)[1];
+    if (room && rooms[room]?.birdPlayer === socket.id) {
+      socket.to(room).emit("poopUpdated", poopState);
+    }
+  });
+
+  // Limpiar recursos al desconectar
   socket.on("disconnect", () => {
     console.log("Un cliente se ha desconectado");
     const room = Array.from(socket.rooms)[1];

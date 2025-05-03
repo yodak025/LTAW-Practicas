@@ -1,9 +1,9 @@
 // Implementación del modo jugador de pájaros
-import { ParabolicParabolaGameControler } from "./game.js";
+import { GameController } from "./core/gameController.js";
 
 // Función para inicializar el modo pájaros
 export async function initBirdsGame(socket) {
-  const gameController = new ParabolicParabolaGameControler({
+  const gameController = new GameController({
     gameMode: 'birdplayer',
     socket: socket,
     playerType: 'bird'

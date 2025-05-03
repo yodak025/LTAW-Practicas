@@ -1,5 +1,5 @@
-import { UI, NORMALIZED_SPACE, DOM } from './constants.js';
-import { PhysicsComponent, BirdEntity } from './entities.js';
+import { UI, NORMALIZED_SPACE, DOM } from '../../constants.js';
+import { PhysicsComponent, BirdEntity } from '../entities/entities.js';
 
 export class DrawingPad {
     constructor(drawingPadCanvas, gameCanvas, controlEntity, speedFactor) {

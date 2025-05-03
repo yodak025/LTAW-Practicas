@@ -1,9 +1,9 @@
 // Implementación del modo un jugador
-import { ParabolicParabolaGameControler } from "./game.js";
+import { GameController } from "./core/gameController.js";
 
 // Función para inicializar el modo un jugador
 export async function initSinglePlayerMode() {
-  const gameController = new ParabolicParabolaGameControler({
+  const gameController = new GameController({
     gameMode: 'singleplayer'
   });
   

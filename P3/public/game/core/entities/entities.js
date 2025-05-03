@@ -1,5 +1,5 @@
 // Clase base
-import { ENTITY, NORMALIZED_SPACE } from "./constants.js";
+import { ENTITY, NORMALIZED_SPACE } from "../../constants.js";
 
 // Enum para tipos de colisionadores
 export const ColliderType = {
@@ -603,9 +603,9 @@ export class PoopComponent extends Component {
 // Fábrica de entidades para simplificar la creación
 export class EntityFactory {
   // Crear una roca (con física y colisiones)
-  static createRock(x, y, size = ENTITY.DEFAULT_SIZE) {
-    // Usar RockEntity directamente en lugar de configurar Entity
-    return new RockEntity(x, y, size, size);
+  static createStone(x, y, size = ENTITY.DEFAULT_SIZE) {
+    // Usar StoneEntity directamente en lugar de configurar Entity
+    return new StoneEntity(x, y, size, size);
   }
 
   // Crear un pájaro (con física, colisiones y daño)
@@ -711,17 +711,17 @@ export class PlayableEntity extends Entity {
   }
 }
 
-export class RockEntity extends PlayableEntity {
+export class StoneEntity extends PlayableEntity {
   constructor(x, y, width, height) {
     super(x, y, width, height);
     const physicsComp = this.getComponent(PhysicsComponent);
-    physicsComp.gravity = ENTITY.ROCK.GRAVITY;
+    physicsComp.gravity = ENTITY.STONE.GRAVITY;
 
     // Configurar como círculo para colisiones físicamente más realistas
     this.setCircleCollider();
 
     // Propiedad para compatibilidad
-    this.gravity = ENTITY.ROCK.GRAVITY;
+    this.gravity = ENTITY.STONE.GRAVITY;
   }
 }
 
@@ -799,7 +799,7 @@ export class BirdEntity extends Entity {
 }
 
 export class BerryEntity extends BreakableEntity {
-  constructor(x, y, size = ENTITY.DEFAULT_SIZE) {
+  constructor(x, y, size = ENTITY.DEFAULT_SIZE, spriteIndex = null) {
     super(x, y, size, size, ENTITY.BERRY.DEFAULT_HEALTH);
 
     // Añadir componente específico para berries
@@ -814,6 +814,9 @@ export class BerryEntity extends BreakableEntity {
 
     // Inicializar contador de berries (utilizado por los pájaros)
     this.berryCount = 0;
+
+    // Asignar un índice de sprite aleatorio si no se proporciona uno
+    this.spriteIndex = spriteIndex !== null ? spriteIndex : Math.floor(Math.random() * ENTITY.BERRY.SPRITE_COUNT || 5);
 
     // Configurar como círculo para colisiones más precisas
     this.setCircleCollider();
