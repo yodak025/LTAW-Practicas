@@ -1,5 +1,5 @@
-import { UI, NORMALIZED_SPACE } from './constants.js';
-import { PhysicsComponent } from './entities.js';
+import { UI, NORMALIZED_SPACE, DOM } from './constants.js';
+import { PhysicsComponent, BirdEntity } from './entities.js';
 
 export class DrawingPad {
     constructor(drawingPadCanvas, gameCanvas, controlEntity, speedFactor) {
@@ -23,6 +23,9 @@ export class DrawingPad {
 
         // Lanzamiento automático al soltar
         this.autoLaunch = true;
+        
+        // Callback para cuando se lanza un poop (será establecido por el controlador del juego)
+        this.onPoopLaunched = null;
     }
 
     // Convertir coordenadas de pantalla a normalizadas
@@ -73,8 +76,25 @@ export class DrawingPad {
         this.canvas.addEventListener('touchend', this.handleEnd.bind(this));
         this.canvas.addEventListener('touchcancel', this.handleEnd.bind(this)); // Cambiado de handleCancel a handleEnd
 
+        // Evento para tecla espacio (poop)
+        document.addEventListener('keydown', this.handleKeyDown.bind(this));
+
         // Evento de resize
         window.addEventListener('resize', this.resize.bind(this));
+    }
+    
+    // Manejar eventos de teclado (espacio para lanzar poop)
+    handleKeyDown(e) {
+        // Verificar si es la tecla espacio
+        if (e.key === DOM.CONTROLS.POOP_KEY) {
+            // Solo procesar si la entidad controlada es un pájaro
+            if (this.controlEntity instanceof BirdEntity && this.controlEntity.berryCount > 0) {
+                // Llamar al callback con la entidad que lanzó el poop
+                if (this.onPoopLaunched) {
+                    this.onPoopLaunched(this.controlEntity);
+                }
+            }
+        }
     }
 
     handleStart(e) {

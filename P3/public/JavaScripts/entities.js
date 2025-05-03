@@ -562,6 +562,44 @@ export class BerryCollectableComponent extends Component {
   }
 }
 
+// Componente específico para poop
+export class PoopComponent extends Component {
+  constructor() {
+    super();
+    this.isLanded = false; // Indica si el poop ha aterrizado
+    this.timeLanded = 0; // Tiempo que lleva aterrizado
+  }
+
+  // Método para activar el estado "landed"
+  land() {
+    this.isLanded = true;
+    this.timeLanded = 0;
+    
+    // Cuando aterriza, eliminamos la gravedad
+    const physicsComp = this.entity.getComponent(PhysicsComponent);
+    if (physicsComp) {
+      physicsComp.gravity = 0;
+      physicsComp.velocityY = 0;
+      physicsComp.velocityX = 0;
+    }
+  }
+
+  update(gameObjects, deltaTime) {
+    const collider = this.entity.getComponent(ColliderComponent);
+    
+    // Si ya aterrizó, no necesitamos hacer checks adicionales
+    if (this.isLanded) {
+      this.timeLanded += deltaTime;
+      return;
+    }
+    
+    // Verificamos si ha tocado suelo
+    if (collider && collider.isOnGround) {
+      this.land();
+    }
+  }
+}
+
 // Fábrica de entidades para simplificar la creación
 export class EntityFactory {
   // Crear una roca (con física y colisiones)
@@ -595,6 +633,11 @@ export class EntityFactory {
   // Crear una entidad decorativa (sin física ni colisiones)
   static createDecorative(x, y, width, height) {
     return new DecorativeEntity(x, y, width, height);
+  }
+  
+  // Crear un poop
+  static createPoop(x, y, size = ENTITY.POOP.SIZE) {
+    return new PoopEntity(x, y, size.X, size.Y);
   }
 }
 
@@ -727,12 +770,31 @@ export class BirdEntity extends Entity {
         physicsComp.velocityY = value;
       },
     });
+
+    // Inicializamos el contador de berries
+    this.berryCount = 0;
   }
 
   takeDamage(amount) {
     const damageComp = this.getComponent(DamageableComponent);
     damageComp.takeDamage(amount);
     this.health = damageComp.health;
+  }
+
+  // Método para lanzar poop
+  launchPoop() {
+    // Solo lanzar si tiene berries
+    if (this.berryCount <= 0) return null;
+    
+    // Reducir el contador de berries
+    this.berryCount--;
+    
+    // Calcular posición inicial (justo debajo del pájaro)
+    const poopX = this.x + this.width / 2 - ENTITY.POOP.SIZE.X / 2;
+    const poopY = this.y + this.height;
+    
+    // Crear la entidad poop
+    return EntityFactory.createPoop(poopX, poopY);
   }
 }
 
@@ -755,5 +817,48 @@ export class BerryEntity extends BreakableEntity {
 
     // Configurar como círculo para colisiones más precisas
     this.setCircleCollider();
+  }
+}
+
+export class PoopEntity extends Entity {
+  constructor(x, y, width, height) {
+    super(x, y, width, height);
+    this.addComponent(new ColliderComponent());
+    
+    // Añadir componente específico para poop
+    this.addComponent(new PoopComponent());
+    
+    // Añadir componente de física con gravedad específica para el poop
+    const physicsComp = this.addComponent(
+      new PhysicsComponent({
+        gravity: ENTITY.POOP.GRAVITY,
+      })
+    );
+    
+    // Configurar como círculo para colisiones más precisas
+    this.setCircleCollider(ENTITY.POOP.RADIO);
+    
+    // Propiedades adicionales
+    this.isLanded = false;
+    
+    // Añadir etiqueta para identificar
+    this.addTag("poop");
+  }
+  
+  // Proxy para acceder al estado landed del componente
+  get isLanded() {
+    const poopComponent = this.getComponent(PoopComponent);
+    return poopComponent ? poopComponent.isLanded : false;
+  }
+  
+  set isLanded(value) {
+    const poopComponent = this.getComponent(PoopComponent);
+    if (poopComponent) {
+      if (value === true) {
+        poopComponent.land();
+      } else {
+        poopComponent.isLanded = value;
+      }
+    }
   }
 }

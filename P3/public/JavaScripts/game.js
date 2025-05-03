@@ -13,6 +13,7 @@ import {
   EntityView,
   StaticSpriteEntityView,
   AnimatedEntityView,
+  PoopSpriteEntityView,
 } from "./entityViews.js";
 import { DrawingPad } from "./drawingPad.js";
 import {
@@ -53,6 +54,8 @@ export class ParabolicParabolaGameControler {
     this.greenBirdEntity = null;
     this.berries = []; // Array para almacenar las berries
     this.berryViews = []; // Array para almacenar las vistas de berries
+    this.poops = []; // Array para almacenar los poops
+    this.poopViews = []; // Array para almacenar las vistas de poops
     
     // Árboles (elementos decorativos)
     this.leftTreeEntity = null;
@@ -73,6 +76,10 @@ export class ParabolicParabolaGameControler {
       rock: null,
       berries: [], // Array para sprites de berries
       tree: null, // Sprite para los árboles
+      poop: {
+        falling: null, // Sprite para poop cayendo
+        landed: null, // Sprite para poop aterrizado
+      },
     };
 
     // Variables de control
@@ -94,6 +101,10 @@ export class ParabolicParabolaGameControler {
         width: this.entitySize * UI.VISUAL.BERRY_SCALE,
         height: this.entitySize * UI.VISUAL.BERRY_SCALE,
       },
+      poop: {
+        width: this.entitySize * UI.VISUAL.POOP_SCALE,
+        height: this.entitySize * UI.VISUAL.POOP_SCALE,
+      }
     };
 
     // Controladora del pad de dibujo
@@ -167,6 +178,10 @@ export class ParabolicParabolaGameControler {
     
     // Cargar sprite del árbol
     this.sprites.tree = await loadImage(RESOURCES.SPRITES.TREE_PATH);
+    
+    // Cargar sprites de poop
+    this.sprites.poop.falling = await loadImage(RESOURCES.SPRITES.POOP_FALLING_PATH);
+    this.sprites.poop.landed = await loadImage(RESOURCES.SPRITES.POOP_LANDED_PATH);
   }
 
   // Crea las entidades según el modo de juego
@@ -240,6 +255,9 @@ export class ParabolicParabolaGameControler {
 
     // No creamos berries aquí, se generarán dinámicamente
     this.berries = [];
+    
+    // No creamos poops aquí, se generarán cuando el jugador presione la tecla espacio
+    this.poops = [];
 
     // Establecer la entidad controlada según el modo de juego
     if (this.gameMode === "singleplayer" || this.gameMode === "stoneplayer") {
@@ -317,6 +335,9 @@ export class ParabolicParabolaGameControler {
     
     // No creamos vistas para las berries aquí, se generarán dinámicamente
     this.berryViews = [];
+    
+    // No creamos vistas para los poops aquí, se generarán dinámicamente
+    this.poopViews = [];
   }
 
   // Configura las entidades y las añade al juego
@@ -327,6 +348,7 @@ export class ParabolicParabolaGameControler {
       this.greenBirdEntity,
       // No incluimos las berries aquí, se añadirán dinámicamente
       // No incluimos los árboles porque son decorativos y no participan en colisiones
+      // No incluimos los poops aquí, se añadirán dinámicamente
     ];
 
     // Inicializar contadores de berries en los pájaros
@@ -362,6 +384,37 @@ export class ParabolicParabolaGameControler {
       this.controlledEntity,
       speedFactor
     );
+    
+    // Configurar el callback para cuando se presiona la tecla espacio y se lanza un poop
+    this.drawingPad.onPoopLaunched = this.handlePoopLaunch.bind(this);
+  }
+  
+  // Método para manejar el lanzamiento de poop cuando se presiona la tecla espacio
+  handlePoopLaunch(bird) {
+    // Comprobar que la entidad sea un pájaro con berries
+    if (bird.berryCount <= 0 || !bird.launchPoop) return;
+    
+    // Lanzar poop desde el pájaro
+    const poopEntity = bird.launchPoop();
+    if (!poopEntity) return;
+    
+    // Crear vista para el poop
+    const poopView = new PoopSpriteEntityView(
+      poopEntity,
+      this.sprites.poop.falling,
+      this.sprites.poop.landed,
+      {
+        visualWidth: this.visualSizes.poop.width,
+        visualHeight: this.visualSizes.poop.height,
+        circular: true,
+        scale: UI.VISUAL.POOP_SCALE,
+      }
+    );
+    
+    // Añadir el poop y su vista a los arrays correspondientes
+    this.poops.push(poopEntity);
+    this.poopViews.push(poopView);
+    this.gameObjects.push(poopEntity);
   }
 
   // Configura los handlers para el modo multijugador
@@ -655,6 +708,26 @@ export class ParabolicParabolaGameControler {
       
       this.berries = remainingBerries;
       this.berryViews = remainingBerryViews;
+      
+      // Limpiamos también los poops que hayan sido marcados para eliminación
+      const remainingPoops = this.poops.filter((poop) => {
+        const damageComp = poop.getComponent(DamageableComponent);
+        return !(damageComp && damageComp.markedForDeletion);
+      });
+      
+      const remainingPoopViews = [];
+      for (let i = 0; i < this.poopViews.length; i++) {
+        if (i < this.poops.length) {
+          const poop = this.poops[i];
+          const damageComp = poop.getComponent(DamageableComponent);
+          if (!(damageComp && damageComp.markedForDeletion)) {
+            remainingPoopViews.push(this.poopViews[i]);
+          }
+        }
+      }
+      
+      this.poops = remainingPoops;
+      this.poopViews = remainingPoopViews;
     }
 
     // Actualizar todos los objetos
@@ -743,6 +816,23 @@ export class ParabolicParabolaGameControler {
           // En modo debug, mostrar el colisionador
           if (UI.DEBUG_MODE) {
             this.berryViews[index].drawCollider(ENTITY.BERRY.COLOR);
+          }
+        }
+      }
+    });
+    
+    // Dibujar los poops usando sus vistas
+    this.poops.forEach((poop, index) => {
+      // Solo dibujar si no están marcados para eliminación
+      const poopDamageComp = poop.getComponent(DamageableComponent);
+      if (!poopDamageComp || !poopDamageComp.markedForDeletion) {
+        // Usar la vista pre-creada para este poop
+        if (index < this.poopViews.length) {
+          this.poopViews[index].drawSprite();
+          
+          // En modo debug, mostrar el colisionador
+          if (UI.DEBUG_MODE) {
+            this.poopViews[index].drawCollider(ENTITY.POOP.COLOR);
           }
         }
       }

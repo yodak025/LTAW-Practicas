@@ -1,6 +1,6 @@
 // Clase base para la visualización de entidades
 import { ENTITY, NORMALIZED_SPACE, UI } from "./constants.js";
-import { DamageableComponent, ColliderType } from "./entities.js";
+import { DamageableComponent, ColliderType, PoopComponent } from "./entities.js";
 
 export class EntityView {
   constructor(entity, options = {}) {
@@ -289,5 +289,30 @@ export class AnimatedEntityView extends StaticSpriteEntityView {
   nextFrame() {
     this.currentSpriteIndex =
       (this.currentSpriteIndex + 1) % this.sprites.length;
+  }
+}
+
+// Clase específica para visualización de poop con cambio de sprite al aterrizar
+export class PoopSpriteEntityView extends StaticSpriteEntityView {
+  constructor(entity, fallingSprite, landedSprite, options = {}) {
+    super(entity, fallingSprite, options);
+    this.fallingSprite = fallingSprite;
+    this.landedSprite = landedSprite;
+  }
+
+  drawSprite() {
+    // Actualizamos el sprite según el estado del poop
+    const poopComp = this.entity.getComponent(PoopComponent);
+    
+    // Si ha aterrizado, usamos el sprite de aterrizado
+    if (poopComp && poopComp.isLanded) {
+      this.sprite = this.landedSprite;
+    } else {
+      // Si está cayendo, usamos el sprite de caída
+      this.sprite = this.fallingSprite;
+    }
+    
+    // Usar el método de la clase padre para dibujar
+    super.drawSprite();
   }
 }

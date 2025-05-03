@@ -52,6 +52,15 @@ export const ENTITY = {
     }
   },
 
+  // Valores para poop
+  POOP: {
+    DEFAULT_HEALTH: 10, // Resistencia del poop
+    COLOR: "rgba(139, 69, 19, 0.6)", // Color marrón para el colisionador
+    RADIO: 0.15, // Radio para el colisionador circular (más pequeño que las berries)
+    GRAVITY: 150, // Gravedad específica para el poop (unidades/segundo²)
+    SIZE: { X: 0.25, Y: 0.25 }, // Tamaño para el poop
+  },
+
   // Valores para árboles (elementos decorativos)
   TREES: {
     SIZE: { width: 2.5, height: 4.0 }, // Tamaño común para ambos árboles
@@ -101,6 +110,7 @@ export const UI = {
     ROCK_SCALE: { x: 0.9, y: 0.9 }, // Escala uniforme para la roca (es circular)
     BIRD_SCALE: { x: 2.8, y: 1.4 }, // Pájaros más anchos que altos
     BERRY_SCALE: { x: 0.7, y: 0.7 }, // Escala uniforme para las berries (son circulares)
+    POOP_SCALE: { x: 0.8, y: 0.8 }, // Escala uniforme para el poop (es circular)
 
     // Offsets verticales para ajustar la posición visual
     BIRD_OFFSET_Y: -0.05,
@@ -132,6 +142,8 @@ export const RESOURCES = {
     BERRIES_COUNT: 7,
     ROCK_PATH: "./assets/sprites/stone.png",
     TREE_PATH: "./assets/sprites/tree.png", // Ruta al sprite del árbol
+    POOP_FALLING_PATH: "./assets/sprites/poop-falling.png", // Ruta al sprite del poop cayendo
+    POOP_LANDED_PATH: "./assets/sprites/poop-landed.png", // Ruta al sprite del poop en el suelo
   },
 };
 
@@ -156,6 +168,9 @@ export const DOM = {
   PLAYER_TYPES: {
     BIRD: "bird",
     STONE: "stone",
+  },
+  CONTROLS: {
+    POOP_KEY: " ", // Tecla espacio para lanzar poop
   },
 };
 
