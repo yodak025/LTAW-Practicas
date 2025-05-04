@@ -4,7 +4,10 @@ import { GameController } from "./core/gameController.js";
 // Función para inicializar el modo un jugador
 export async function initSinglePlayerMode() {
   const gameController = new GameController({
-    gameMode: 'singleplayer'
+    gameMode: 'singleplayer',
+    playerType: 'stone',
+    controlType: 'mobile', 
+    forcePadDisplay: true 
   });
   
   return gameController.init();
