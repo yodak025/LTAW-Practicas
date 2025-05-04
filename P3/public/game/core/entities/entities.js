@@ -1,5 +1,5 @@
 // Clase base
-import { ENTITY, NORMALIZED_SPACE } from "../../constants.js";
+import { ENTITY, NORMALIZED_SPACE, RESOURCES } from "../../constants.js";
 
 // Enum para tipos de colisionadores
 export const ColliderType = {
@@ -390,10 +390,10 @@ export class ColliderComponent extends Component {
         physicsComponent.velocityY *= ENTITY.PHYSICS.BOUNCE_FACTOR;
       }
     } else if (center.y + this.entity.radius >= NORMALIZED_SPACE.HEIGHT - 0.9) {
-      if (this.isOnGround && Math.abs(physicsComponent.velocityY)>0){
+      if (this.isOnGround && Math.abs(physicsComponent.velocityY) > 0) {
         this.isOnGround = false;
         return;
-      } 
+      }
       this.entity.y =
         NORMALIZED_SPACE.HEIGHT -
         0.9 -
@@ -407,8 +407,7 @@ export class ColliderComponent extends Component {
             : 0;
       }
       this.isOnGround = true;
-    }
-    else if (this.isOnGround) {
+    } else if (this.isOnGround) {
       this.isOnGround = false; // Reiniciar estado de colisión con el suelo
     }
   }
@@ -438,10 +437,10 @@ export class ColliderComponent extends Component {
       }
     }
     if (bounds.bottom >= NORMALIZED_SPACE.HEIGHT - 0.9) {
-      if (this.isOnGround && Math.abs(physicsComponent.velocityY) > 0){
+      if (this.isOnGround && Math.abs(physicsComponent.velocityY) > 0) {
         this.isOnGround = false;
         return;
-      } 
+      }
       this.entity.y = NORMALIZED_SPACE.HEIGHT - this.entity.height - 0.9;
       if (physicsComponent) {
         physicsComponent.velocityY =
@@ -450,7 +449,7 @@ export class ColliderComponent extends Component {
             : 0;
       }
       this.isOnGround = true;
-    }else if (this.isOnGround) {
+    } else if (this.isOnGround) {
       this.isOnGround = false; // Reiniciar estado de colisión con el suelo
     }
   }
@@ -508,7 +507,6 @@ export class PhysicsComponent extends Component {
     if (this.gravity !== 0 && !(collider && collider.isOnGround)) {
       this.velocityY += this.gravity * deltaTime;
     }
-
 
     // Aplicar fricción si está en el suelo
     if (collider && collider.isOnGround) {
@@ -570,7 +568,7 @@ export class PoopComponent extends Component {
   land() {
     this.isLanded = true;
     this.timeLanded = 0;
-    
+
     // Cuando aterriza, eliminamos la gravedad
     const physicsComp = this.entity.getComponent(PhysicsComponent);
     if (physicsComp) {
@@ -582,31 +580,33 @@ export class PoopComponent extends Component {
 
   update(gameObjects, deltaTime) {
     const collider = this.entity.getComponent(ColliderComponent);
-    
+
     // Si ya aterrizó, no necesitamos hacer checks adicionales
     if (this.isLanded) {
       this.timeLanded += deltaTime;
       return;
     }
-    
+
     // Verificamos si ha tocado suelo
     if (collider && collider.isOnGround) {
       this.land();
     }
-    
+
     // Verificar colisiones con la piedra
     for (const obj of gameObjects) {
       if (obj instanceof StoneEntity && this.entity.isColliding(obj)) {
         // La piedra recibe daño
         obj.takeDamageFromPoop();
-        
+
         // El poop se destruye al impactar con la piedra
         const damageComp = this.entity.getComponent(DamageableComponent);
         if (damageComp) {
           damageComp.markedForDeletion = true;
         } else {
           // Si no tiene componente de daño, añadir uno solo para marcarlo para eliminación
-          const newDamageComp = this.entity.addComponent(new DamageableComponent(1));
+          const newDamageComp = this.entity.addComponent(
+            new DamageableComponent(1)
+          );
           newDamageComp.markedForDeletion = true;
         }
         break;
@@ -641,15 +641,15 @@ export class EntityFactory {
   }
 
   // Crear una berry (rompible por pájaros, sin gravedad)
-  static createBerry(x, y, size = ENTITY.DEFAULT_SIZE) {
-    return new BerryEntity(x, y, size);
+  static createBerry(x, y, size = ENTITY.DEFAULT_SIZE, spriteIndex = 0) {
+    return new BerryEntity(x, y, size, spriteIndex);
   }
 
   // Crear una entidad decorativa (sin física ni colisiones)
   static createDecorative(x, y, width, height) {
     return new DecorativeEntity(x, y, width, height);
   }
-  
+
   // Crear un poop
   static createPoop(x, y, size = ENTITY.POOP.SIZE) {
     return new PoopEntity(x, y, size.X, size.Y);
@@ -731,7 +731,7 @@ export class StoneEntity extends PlayableEntity {
     super(x, y, width, height);
     const physicsComp = this.getComponent(PhysicsComponent);
     physicsComp.gravity = ENTITY.STONE.GRAVITY;
-    
+
     // Añadir componente de daño para hacer la piedra rompible
     this.addComponent(new DamageableComponent(ENTITY.STONE.DEFAULT_HEALTH));
 
@@ -741,7 +741,7 @@ export class StoneEntity extends PlayableEntity {
     // Propiedad para compatibilidad
     this.gravity = ENTITY.STONE.GRAVITY;
     this.health = ENTITY.STONE.DEFAULT_HEALTH;
-    
+
     // Definir la propiedad health como un getter y setter que se sincronice con el componente
     const damageComp = this.getComponent(DamageableComponent);
     Object.defineProperty(this, "health", {
@@ -751,7 +751,7 @@ export class StoneEntity extends PlayableEntity {
       },
     });
   }
-  
+
   // Método para recibir daño de un poop
   takeDamageFromPoop() {
     const damageComp = this.getComponent(DamageableComponent);
@@ -763,13 +763,13 @@ export class StoneEntity extends PlayableEntity {
   update(gameObjects, deltaTime) {
     // Llamar al método update de la clase padre
     super.update(gameObjects, deltaTime);
-    
+
     // Verificar colisiones con poops
     for (const obj of gameObjects) {
       if (obj instanceof PoopEntity && this.isColliding(obj)) {
         // La piedra recibe daño
         this.takeDamageFromPoop();
-        
+
         // El poop se destruye al impactar con la piedra
         const damageComp = obj.getComponent(DamageableComponent);
         if (damageComp) {
@@ -832,23 +832,29 @@ export class BirdEntity extends Entity {
 
     // Inicializamos el contador de berries
     this.berryCount = 0;
-    
+
     // Sobreescribir el método resolveCollision del componente de colisión
     // para prevenir daño entre pájaros y de pájaros a piedras
     const colliderComp = this.getComponent(ColliderComponent);
     const originalResolveCollision = colliderComp.resolveCollision;
-    colliderComp.resolveCollision = function(other) {
+    colliderComp.resolveCollision = function (other) {
       // Verificar si la otra entidad es un pájaro o una piedra
       if (other instanceof BirdEntity || other instanceof StoneEntity) {
         // Resolver la colisión físicamente pero sin aplicar daño
         const physicsComponent = this.entity.getComponent(PhysicsComponent);
-        
+
         // Si no hay propiedades de física, no hay nada que resolver
         if (!physicsComponent) return;
-        
-        if (this.entity.colliderType === ColliderType.CIRCLE && other.colliderType === ColliderType.CIRCLE) {
+
+        if (
+          this.entity.colliderType === ColliderType.CIRCLE &&
+          other.colliderType === ColliderType.CIRCLE
+        ) {
           this.resolveCircleCollision(other);
-        } else if (this.entity.colliderType === ColliderType.RECTANGLE && other.colliderType === ColliderType.RECTANGLE) {
+        } else if (
+          this.entity.colliderType === ColliderType.RECTANGLE &&
+          other.colliderType === ColliderType.RECTANGLE
+        ) {
           this.resolveRectangleCollision(other);
         } else {
           this.resolveSimpleCollision(other);
@@ -870,14 +876,14 @@ export class BirdEntity extends Entity {
   launchPoop() {
     // Solo lanzar si tiene berries
     if (this.berryCount <= 0) return null;
-    
+
     // Reducir el contador de berries
     this.berryCount--;
-    
+
     // Calcular posición inicial (justo debajo del pájaro)
     const poopX = this.x + this.width / 2 - ENTITY.POOP.SIZE.X / 2;
     const poopY = this.y + this.height;
-    
+
     // Crear la entidad poop
     return EntityFactory.createPoop(poopX, poopY);
   }
@@ -886,26 +892,29 @@ export class BirdEntity extends Entity {
 export class BerryEntity extends Entity {
   constructor(x, y, size = ENTITY.DEFAULT_SIZE, spriteIndex = null) {
     super(x, y, size, size);
-    
+
     // Añadir componente de colisión
     this.addComponent(new ColliderComponent());
-    
+
     // Añadir componente específico para berries (actualizado para destruirse al colisionar)
     this.addComponent(new BerryCollectableComponent());
-    
+
     // Las berries no se ven afectadas por la gravedad
     this.addComponent(
       new PhysicsComponent({
         gravity: 0, // Sin gravedad
       })
     );
-    
+
     // Propiedad para marcar la eliminación
     this.markedForDeletion = false;
-    
+
     // Asignar un índice de sprite aleatorio si no se proporciona uno
-    this.spriteIndex = spriteIndex !== null ? spriteIndex : Math.floor(Math.random() * ENTITY.BERRY.SPRITE_COUNT || 5);
-    
+    this.spriteIndex =
+      spriteIndex !== null
+        ? spriteIndex
+        : Math.floor(Math.random() * RESOURCES.SPRITES.BERRIES_COUNT);
+
     // Configurar como círculo para colisiones más precisas
     this.setCircleCollider();
   }
@@ -915,33 +924,33 @@ export class PoopEntity extends Entity {
   constructor(x, y, width, height) {
     super(x, y, width, height);
     this.addComponent(new ColliderComponent());
-    
+
     // Añadir componente específico para poop
     this.addComponent(new PoopComponent());
-    
+
     // Añadir componente de física con gravedad específica para el poop
     const physicsComp = this.addComponent(
       new PhysicsComponent({
         gravity: ENTITY.POOP.GRAVITY,
       })
     );
-    
+
     // Configurar como círculo para colisiones más precisas
     this.setCircleCollider(ENTITY.POOP.RADIO);
-    
+
     // Propiedades adicionales
     this.isLanded = false;
-    
+
     // Añadir etiqueta para identificar
     this.addTag("poop");
   }
-  
+
   // Proxy para acceder al estado landed del componente
   get isLanded() {
     const poopComponent = this.getComponent(PoopComponent);
     return poopComponent ? poopComponent.isLanded : false;
   }
-  
+
   set isLanded(value) {
     const poopComponent = this.getComponent(PoopComponent);
     if (poopComponent) {

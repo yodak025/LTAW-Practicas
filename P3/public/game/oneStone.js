@@ -103,7 +103,7 @@ function handleBerryGeneration(
 
     // Generar índice de sprite aleatorio
     const spriteIndex = Math.floor(
-      Math.random() * (RESOURCES.SPRITES.BERRIES_COUNT || 5)
+      Math.random() * RESOURCES.SPRITES.BERRIES_COUNT
     );
 
     // Generar la berry localmente
