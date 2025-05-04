@@ -223,6 +223,14 @@ io.on("connection", (socket) => {
     }
   });
 
+  // Envío de evento de generación de poop (desde el jugador pájaro al jugador piedra)
+  socket.on("poopSpawned", (poopData) => {
+    const room = Array.from(socket.rooms)[1];
+    if (room && rooms[room]?.birdPlayer === socket.id) {
+      socket.to(room).emit("poopSpawned", poopData);
+    }
+  });
+
   // Actualización de estado de poops (solo desde el jugador pájaro)
   socket.on("poopUpdate", (poopState) => {
     const room = Array.from(socket.rooms)[1];

@@ -147,7 +147,8 @@ export const NETWORK = {
       STONE_UPDATED: "updateStone",
       BERRY_SPAWNED: "berrySpawned",
       BERRY_UPDATED: "berryUpdated",
-      POOP_UPDATED: "poopUpdated"
+      POOP_UPDATED: "poopUpdated",
+      POOP_SPAWNED: "poopSpawned"
     }
   }
 };

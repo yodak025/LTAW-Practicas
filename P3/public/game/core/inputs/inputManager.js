@@ -55,6 +55,11 @@ export class InputManager {
   
   // Manejador de evento keydown
   _onKeyDown(event) {
+    // Si la tecla ya estaba presionada, no hacemos nada
+    if (this.keyStates[event.key]) {
+      return;
+    }
+    
     // Guardar el estado de la tecla
     this.keyStates[event.key] = true;
     

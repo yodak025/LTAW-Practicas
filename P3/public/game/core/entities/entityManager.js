@@ -114,6 +114,23 @@ export class EntityManager {
     return poopEntity;
   }
 
+  // Método para generar un poop cuando el servidor lo indica o localmente
+  spawnPoop(id, x, y) {
+    // Crear la entidad poop
+    const poopEntity = EntityFactory.createPoop(x, y, ENTITY.POOP.SIZE);
+    
+    // Establecer ID si se proporciona (para multijugador)
+    if (id) {
+      poopEntity.id = id;
+    }
+    
+    // Añadir el poop a los arrays correspondientes
+    this.poops.push(poopEntity);
+    this.gameObjects.push(poopEntity);
+    
+    return poopEntity;
+  }
+
   // Programar la próxima generación de berry
   scheduleNextBerrySpawn() {
     const minTime = ENTITY.BERRY.GENERATION.MIN_SPAWN_TIME;

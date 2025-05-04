@@ -58,6 +58,26 @@ export class NetworkManager {
           this.updateEntityFromState(poop, state);
         }
       });
+      
+      // Manejar la creación de nuevos poops desde el jugador pájaro
+      this.socket.on(NETWORK.MESSAGES.SERVER.POOP_SPAWNED, (data) => {
+        const { id, birdType, x, y } = data;
+        const position = x !== undefined && y !== undefined ? { x, y } : null;
+        
+        if (position) {
+          // Generar el poop con las coordenadas recibidas
+          const poop = entityManager.spawnPoop(
+            id,
+            position.x,
+            position.y
+          );
+
+          if (poop) {
+            // Crear la vista para el poop
+            renderManager.createPoopView(poop);
+          }
+        }
+      });
     } else if (this.gameMode === "birdplayer") {
       // El jugador pájaro recibe actualizaciones de la piedra
       this.socket.on(NETWORK.MESSAGES.SERVER.STONE_UPDATED, (state) => {
@@ -84,7 +104,6 @@ export class NetworkManager {
 
       this.socket.on(NETWORK.MESSAGES.SERVER.BERRY_UPDATED, (state) => {
         let berry = entityManager.berries.find((b) => b.id === state.id);
-        console.log("Recibida berry en posición:", state.x, state.y);
 
         // Validar que las coordenadas sean números válidos
         const isValidPosition =

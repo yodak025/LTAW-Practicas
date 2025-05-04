@@ -295,9 +295,7 @@ export class RenderManager {
         // Encontrar la vista correspondiente por ID en lugar de índice
         const berryView = this.berryViews.find(view => view.entity.id === berry.id);
         if (berryView) {
-          console.log("Dibujando berry con posición:", berry.x, berry.y);
           berryView.drawSprite();
-          console.log("Berry dibujada con posición:", berry.x, berry.y);
           if (debugMode) {
             berryView.drawCollider(ENTITY.BERRY.COLOR);
           }

@@ -85,9 +85,23 @@ export class GameController extends Game {
     const poopEntity = this.entityManager.createPoopFromBird(bird);
     
     if (poopEntity) {
-      // Si está en modo red, no necesitamos crear la vista aquí
-      // ya que se sincronizará automáticamente en el bucle de render
-      if (!this.networkManager) {
+      // Si está en modo red, notificar al otro cliente sobre la creación del poop
+      if (this.networkManager) {
+        // Determinar qué tipo de pájaro lanzó el poop
+        const birdType = bird === this.entityManager.blueBirdEntity ? "blue" : "green";
+        
+        // Notificar al servidor sobre el poop generado
+        this.networkManager.socket.emit("poopSpawned", {
+          id: poopEntity.id,
+          birdType: birdType,
+          x: poopEntity.x,
+          y: poopEntity.y
+        });
+        
+        // Crear la vista para el pájaro local
+        this.renderManager.createPoopView(poopEntity);
+      } else {
+        // En modo local, simplemente crear la vista
         this.renderManager.createPoopView(poopEntity);
       }
     }
