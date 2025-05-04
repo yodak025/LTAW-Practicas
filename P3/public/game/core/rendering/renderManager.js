@@ -214,16 +214,28 @@ export class RenderManager {
   // Sincronizar vistas de berries con entidades
   syncBerryViews(entityManager) {
     // Asegurarse de que hay una vista para cada berry
-    while (this.berryViews.length < entityManager.berries.length) {
-      const berry = entityManager.berries[this.berryViews.length];
-      this.createBerryView(berry);
+  for (let i = 0; i < entityManager.berries.length; i++) {
+    const berry = entityManager.berries[i];
+    
+    // Verificar si ya existe una vista para esta berry
+    let viewExists = false;
+    for (let j = 0; j < this.berryViews.length; j++) {
+      if (this.berryViews[j].entity.id === berry.id) { 
+        viewExists = true;
+        break;
+      }
     }
     
-    // Eliminar vistas sobrantes si algunas berries fueron eliminadas
-    if (this.berryViews.length > entityManager.berries.length) {
-      this.berryViews.length = entityManager.berries.length;
+    // Si no existe una vista, crearla
+    if (!viewExists) {
+      this.createBerryView(berry);
     }
   }
+  
+  // Eliminar vistas de berries que ya no existen
+  this.berryViews = this.berryViews.filter(view => 
+    entityManager.berries.includes(view.entity));
+}
   
   // Sincronizar vistas de poops con entidades
   syncPoopViews(entityManager) {
@@ -277,16 +289,17 @@ export class RenderManager {
     }
 
     // Dibujar las berries
-    entityManager.berries.forEach((berry, index) => {
-      // Solo dibujar si no están marcadas para eliminación
+    entityManager.berries.forEach((berry) => {
       const berryDamageComp = berry.getComponent(DamageableComponent);
       if (!berryDamageComp || !berryDamageComp.markedForDeletion) {
-        if (index < this.berryViews.length) {
-          this.berryViews[index].drawSprite();
-
-          // En modo debug, mostrar el colisionador
+        // Encontrar la vista correspondiente por ID en lugar de índice
+        const berryView = this.berryViews.find(view => view.entity.id === berry.id);
+        if (berryView) {
+          console.log("Dibujando berry con posición:", berry.x, berry.y);
+          berryView.drawSprite();
+          console.log("Berry dibujada con posición:", berry.x, berry.y);
           if (debugMode) {
-            this.berryViews[index].drawCollider(ENTITY.BERRY.COLOR);
+            berryView.drawCollider(ENTITY.BERRY.COLOR);
           }
         }
       }

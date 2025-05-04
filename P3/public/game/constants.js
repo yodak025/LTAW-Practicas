@@ -40,7 +40,7 @@ export const ENTITY = {
 
   // Valores para berry
   BERRY: {
-    DEFAULT_HEALTH: 1, // Se rompe fácilmente
+    DEFAULT_HEALTH: 0.0001, // Se rompe fácilmente
     COLOR: "rgba(220, 20, 60, 0.8)", // Color rojo frambuesa para visualización en modo debug
     RADIO: 0.2, // Radio para el colisionador circular (más pequeño que la roca)
     GENERATION: {

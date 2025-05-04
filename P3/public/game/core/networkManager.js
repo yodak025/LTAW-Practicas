@@ -1,5 +1,9 @@
 // Gestor de red para comunicación entre clientes
-import { DamageableComponent, PhysicsComponent } from "./entities/entities.js";
+import {
+  DamageableComponent,
+  PhysicsComponent,
+  BerryCollectableComponent,
+} from "./entities/entities.js";
 import { NETWORK } from "../constants.js";
 
 export class NetworkManager {
@@ -60,24 +64,70 @@ export class NetworkManager {
         this.updateEntityFromState(entityManager.stoneEntity, state);
       });
 
-      this.socket.on(
-        NETWORK.MESSAGES.SERVER.BERRY_SPAWNED,(data) => {
-          // Extraer todos los datos necesarios de la berry
-          const { id, treePosition, position, spriteIndex } = data;
-          
-          // Generar la berry en la misma posición que se generó en el cliente piedra
-          const berry = entityManager.spawnBerry(id, treePosition, position, spriteIndex);
-          
-          if (berry) {
-            // Crear la vista para la berry usando el mismo índice de sprite
-            renderManager.createBerryView(berry);
-          }
-        });
+      this.socket.on(NETWORK.MESSAGES.SERVER.BERRY_SPAWNED, (data) => {
+        const { id, treePosition, x, y, spriteIndex } = data; // Extraer x,y directamente
+        const position = x && y ? { x, y } : null;
+
+        // Generar la berry con las coordenadas recibidas
+        const berry = entityManager.spawnBerry(
+          id,
+          treePosition,
+          position,
+          spriteIndex
+        );
+
+        if (berry) {
+          // Crear la vista para la berry usando el mismo índice de sprite
+          renderManager.createBerryView(berry);
+        }
+      });
 
       this.socket.on(NETWORK.MESSAGES.SERVER.BERRY_UPDATED, (state) => {
-        const berry = entityManager.berries.find((b) => b.id === state.id);
-        if (berry) {
+        let berry = entityManager.berries.find((b) => b.id === state.id);
+        console.log("Recibida berry en posición:", state.x, state.y);
+
+        // Validar que las coordenadas sean números válidos
+        const isValidPosition =
+          typeof state.x === "number" &&
+          !isNaN(state.x) &&
+          typeof state.y === "number" &&
+          !isNaN(state.y);
+
+        if (!berry && state.id && isValidPosition) {
+          // Si la berry no existe pero tenemos un ID válido y posición válida, crearla
+          berry = entityManager.spawnBerry(
+            state.id,
+            state.treePosition || "left",
+            { x: state.x, y: state.y },
+            state.spriteIndex
+          );
+
+          if (berry) {
+            // Crear vista para la berry recién creada
+            renderManager.createBerryView(berry);
+          }
+        }
+
+        if (berry && isValidPosition) {
+          // Solo actualizar si la posición es válida
           this.updateEntityFromState(berry, state);
+          // Si está marcada para eliminación, asegurarse que la vista refleje esto
+          if (state.isCollected || state.markedForDeletion) {
+            const damageComp = berry.getComponent(DamageableComponent);
+            if (damageComp) {
+              damageComp.broken = true;
+              damageComp.markedForDeletion = true;
+            }
+          }
+        } else if (berry) {
+          // Si la berry existe pero la posición es inválida, solo actualizar otros campos
+          if (state.isCollected || state.markedForDeletion) {
+            const damageComp = berry.getComponent(DamageableComponent);
+            if (damageComp) {
+              damageComp.broken = true;
+              damageComp.markedForDeletion = true;
+            }
+          }
         }
       });
     }
@@ -89,14 +139,23 @@ export class NetworkManager {
   updateEntityFromState(entity, state) {
     if (!entity) return;
 
-    // Actualizar posición y velocidad
-    entity.x = state.x;
-    entity.y = state.y;
+    // Actualizar posición y velocidad solo si son números válidos
+    if (typeof state.x === "number" && !isNaN(state.x)) {
+      entity.x = state.x;
+    }
+    if (typeof state.y === "number" && !isNaN(state.y)) {
+      entity.y = state.y;
+    }
 
+    // Validar velocidades
     const physicsComp = entity.getComponent(PhysicsComponent);
     if (physicsComp) {
-      physicsComp.velocityX = state.velocityX;
-      physicsComp.velocityY = state.velocityY;
+      if (typeof state.velocityX === "number" && !isNaN(state.velocityX)) {
+        physicsComp.velocityX = state.velocityX;
+      }
+      if (typeof state.velocityY === "number" && !isNaN(state.velocityY)) {
+        physicsComp.velocityY = state.velocityY;
+      }
     }
 
     // Actualizar salud si existe
@@ -113,6 +172,14 @@ export class NetworkManager {
       entity.isLaunched = state.isLaunched;
     } else if (entity.hasTag("berry")) {
       entity.isCollected = state.isCollected;
+      // Actualizar también markedForDeletion si existe
+      const damageComp = entity.getComponent(DamageableComponent);
+      if (damageComp && state.markedForDeletion !== undefined) {
+        damageComp.markedForDeletion = state.markedForDeletion;
+        if (state.markedForDeletion) {
+          damageComp.broken = true;
+        }
+      }
     } else if (entity.hasTag("poop")) {
       entity.isLanded = state.isLanded;
     }
@@ -147,8 +214,12 @@ export class NetworkManager {
       x: berry.x,
       y: berry.y,
       health: berry.getComponent(DamageableComponent)?.health || 0,
-      isCollected: berry.isCollected || false,
+      isCollected:
+        berry.getComponent(BerryCollectableComponent)?.collected || false,
       treePosition: berry.treePosition,
+      spriteIndex: berry.spriteIndex,
+      markedForDeletion:
+        berry.getComponent(DamageableComponent)?.markedForDeletion || false,
     };
   }
 
