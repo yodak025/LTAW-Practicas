@@ -8,6 +8,8 @@ export async function initStoneGame(socket) {
     gameMode: "stoneplayer",
     socket: socket,
     playerType: "stone",
+    controlType: 'mobile', // Forzar tipo de control como mobile para mostrar drawing pad
+    forcePadDisplay: true  // Forzar que se muestre el drawing pad en cualquier caso
   });
 
   // Iniciar la programación de generación de berries
@@ -36,8 +38,37 @@ function handleBerryGeneration(
     const berryId =
       "berry_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
 
-    // Elegir aleatoriamente un árbol (izquierdo o derecho)
-    const treePosition = Math.random() < 0.5 ? "left" : "right";
+    // Comprobar límites de berries para decidir en qué árbol colocarla
+    const leftTreeCount = entityManager.leftTreeBerryCount;
+    const rightTreeCount = entityManager.rightTreeBerryCount;
+    const maxPerTree = ENTITY.BERRY.GENERATION.MAX_PER_TREE;
+    const totalBerries = entityManager.berries.length;
+    const maxTotal = ENTITY.BERRY.GENERATION.MAX_TOTAL;
+    
+    // No generar si ya alcanzamos el máximo total
+    if (totalBerries >= maxTotal) {
+      // Programar la siguiente generación y salir
+      entityManager.scheduleNextBerrySpawn();
+      return;
+    }
+    
+    // Determinar qué árbol usar basado en límites
+    let treePosition;
+    
+    if (leftTreeCount >= maxPerTree && rightTreeCount >= maxPerTree) {
+      // Ambos árboles llenos, no generar berry
+      entityManager.scheduleNextBerrySpawn();
+      return;
+    } else if (leftTreeCount >= maxPerTree) {
+      // Árbol izquierdo lleno, usar el derecho
+      treePosition = "right";
+    } else if (rightTreeCount >= maxPerTree) {
+      // Árbol derecho lleno, usar el izquierdo
+      treePosition = "left";
+    } else {
+      // Ninguno está lleno, elegir aleatoriamente
+      treePosition = Math.random() < 0.5 ? "left" : "right";
+    }
 
     // Generar la posición específica para la berry
     const tree =
@@ -62,6 +93,13 @@ function handleBerryGeneration(
     // Calcular posición final
     const berryX = centerX + distance * Math.cos(angle);
     const berryY = centerY + distance * Math.sin(angle);
+
+    // Verificar si la posición es válida
+    if (!entityManager.isValidBerryPosition(berryX, berryY)) {
+      // Si la posición no es válida, programar siguiente intento y salir
+      entityManager.scheduleNextBerrySpawn();
+      return;
+    }
 
     // Generar índice de sprite aleatorio
     const spriteIndex = Math.floor(

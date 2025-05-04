@@ -550,12 +550,8 @@ export class BerryCollectableComponent extends Component {
       if (!obj.berryCount) obj.berryCount = 0;
       obj.berryCount++;
 
-      // Marcar la entidad para eliminación
-      const damageComp = this.entity.getComponent(DamageableComponent);
-      if (damageComp) {
-        damageComp.broken = true;
-        damageComp.markedForDeletion = true;
-      }
+      // Marcar la entidad para eliminación directamente
+      this.entity.markedForDeletion = true;
 
       break;
     }
@@ -596,6 +592,25 @@ export class PoopComponent extends Component {
     // Verificamos si ha tocado suelo
     if (collider && collider.isOnGround) {
       this.land();
+    }
+    
+    // Verificar colisiones con la piedra
+    for (const obj of gameObjects) {
+      if (obj instanceof StoneEntity && this.entity.isColliding(obj)) {
+        // La piedra recibe daño
+        obj.takeDamageFromPoop();
+        
+        // El poop se destruye al impactar con la piedra
+        const damageComp = this.entity.getComponent(DamageableComponent);
+        if (damageComp) {
+          damageComp.markedForDeletion = true;
+        } else {
+          // Si no tiene componente de daño, añadir uno solo para marcarlo para eliminación
+          const newDamageComp = this.entity.addComponent(new DamageableComponent(1));
+          newDamageComp.markedForDeletion = true;
+        }
+        break;
+      }
     }
   }
 }
@@ -716,12 +731,56 @@ export class StoneEntity extends PlayableEntity {
     super(x, y, width, height);
     const physicsComp = this.getComponent(PhysicsComponent);
     physicsComp.gravity = ENTITY.STONE.GRAVITY;
+    
+    // Añadir componente de daño para hacer la piedra rompible
+    this.addComponent(new DamageableComponent(ENTITY.STONE.DEFAULT_HEALTH));
 
     // Configurar como círculo para colisiones físicamente más realistas
     this.setCircleCollider();
 
     // Propiedad para compatibilidad
     this.gravity = ENTITY.STONE.GRAVITY;
+    this.health = ENTITY.STONE.DEFAULT_HEALTH;
+    
+    // Definir la propiedad health como un getter y setter que se sincronice con el componente
+    const damageComp = this.getComponent(DamageableComponent);
+    Object.defineProperty(this, "health", {
+      get: () => damageComp.health,
+      set: (value) => {
+        damageComp.health = value;
+      },
+    });
+  }
+  
+  // Método para recibir daño de un poop
+  takeDamageFromPoop() {
+    const damageComp = this.getComponent(DamageableComponent);
+    damageComp.takeDamage(ENTITY.STONE.POOP_DAMAGE);
+    this.health = damageComp.health; // Actualizar la propiedad de compatibilidad
+  }
+
+  // Override del método update para detectar colisiones con poop
+  update(gameObjects, deltaTime) {
+    // Llamar al método update de la clase padre
+    super.update(gameObjects, deltaTime);
+    
+    // Verificar colisiones con poops
+    for (const obj of gameObjects) {
+      if (obj instanceof PoopEntity && this.isColliding(obj)) {
+        // La piedra recibe daño
+        this.takeDamageFromPoop();
+        
+        // El poop se destruye al impactar con la piedra
+        const damageComp = obj.getComponent(DamageableComponent);
+        if (damageComp) {
+          damageComp.markedForDeletion = true;
+        } else {
+          // Si no tiene componente de daño, añadir uno solo para marcarlo para eliminación
+          const newDamageComp = obj.addComponent(new DamageableComponent(1));
+          newDamageComp.markedForDeletion = true;
+        }
+      }
+    }
   }
 }
 
@@ -773,6 +832,32 @@ export class BirdEntity extends Entity {
 
     // Inicializamos el contador de berries
     this.berryCount = 0;
+    
+    // Sobreescribir el método resolveCollision del componente de colisión
+    // para prevenir daño entre pájaros y de pájaros a piedras
+    const colliderComp = this.getComponent(ColliderComponent);
+    const originalResolveCollision = colliderComp.resolveCollision;
+    colliderComp.resolveCollision = function(other) {
+      // Verificar si la otra entidad es un pájaro o una piedra
+      if (other instanceof BirdEntity || other instanceof StoneEntity) {
+        // Resolver la colisión físicamente pero sin aplicar daño
+        const physicsComponent = this.entity.getComponent(PhysicsComponent);
+        
+        // Si no hay propiedades de física, no hay nada que resolver
+        if (!physicsComponent) return;
+        
+        if (this.entity.colliderType === ColliderType.CIRCLE && other.colliderType === ColliderType.CIRCLE) {
+          this.resolveCircleCollision(other);
+        } else if (this.entity.colliderType === ColliderType.RECTANGLE && other.colliderType === ColliderType.RECTANGLE) {
+          this.resolveRectangleCollision(other);
+        } else {
+          this.resolveSimpleCollision(other);
+        }
+      } else {
+        // Para otras entidades, aplicar la resolución normal
+        originalResolveCollision.call(this, other);
+      }
+    };
   }
 
   takeDamage(amount) {
@@ -798,26 +883,29 @@ export class BirdEntity extends Entity {
   }
 }
 
-export class BerryEntity extends BreakableEntity {
+export class BerryEntity extends Entity {
   constructor(x, y, size = ENTITY.DEFAULT_SIZE, spriteIndex = null) {
-    super(x, y, size, size, ENTITY.BERRY.DEFAULT_HEALTH);
-
-    // Añadir componente específico para berries
+    super(x, y, size, size);
+    
+    // Añadir componente de colisión
+    this.addComponent(new ColliderComponent());
+    
+    // Añadir componente específico para berries (actualizado para destruirse al colisionar)
     this.addComponent(new BerryCollectableComponent());
-
+    
     // Las berries no se ven afectadas por la gravedad
-    const physicsComp = this.addComponent(
+    this.addComponent(
       new PhysicsComponent({
         gravity: 0, // Sin gravedad
       })
     );
-
-    // Inicializar contador de berries (utilizado por los pájaros)
-    this.berryCount = 0;
-
+    
+    // Propiedad para marcar la eliminación
+    this.markedForDeletion = false;
+    
     // Asignar un índice de sprite aleatorio si no se proporciona uno
     this.spriteIndex = spriteIndex !== null ? spriteIndex : Math.floor(Math.random() * ENTITY.BERRY.SPRITE_COUNT || 5);
-
+    
     // Configurar como círculo para colisiones más precisas
     this.setCircleCollider();
   }

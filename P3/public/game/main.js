@@ -6,11 +6,50 @@ const multiPlayerButton = document.getElementById("multiplayer");
 const canvas = document.getElementById("canvas");
 const drawingPadCanvas = document.getElementById("drawing-pad");
 
+// Crear botón de pantalla completa
+const fullscreenButton = document.createElement("button");
+fullscreenButton.id = "fullscreen";
+fullscreenButton.textContent = "Pantalla Completa";
+fullscreenButton.className = "fullscreen-button";
+// Añadir el botón al menú
+menu.appendChild(fullscreenButton);
+
 // Importar constantes
 import { NORMALIZED_SPACE, CANVAS, DOM, MESSAGES } from "./constants.js";
 
 // Inicializar Socket.IO
 const socket = io();
+
+// Función para alternar el modo de pantalla completa
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    // Entrar en modo pantalla completa
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+      document.documentElement.mozRequestFullScreen();
+    } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari y Opera
+      document.documentElement.webkitRequestFullscreen();
+    } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+      document.documentElement.msRequestFullscreen();
+    }
+    fullscreenButton.textContent = "Salir de Pantalla Completa";
+  } else {
+    // Salir del modo pantalla completa
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) { // Firefox
+      document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) { // Chrome, Safari y Opera
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { // IE/Edge
+      document.msExitFullscreen();
+    }
+    fullscreenButton.textContent = "Pantalla Completa";
+  }
+  // Redimensionar el canvas después de cambiar el modo de pantalla
+  setTimeout(resizeCanvas, 100);
+}
 
 // Función para redimensionar el canvas con relación de aspecto 16:9
 function resizeCanvas() {
@@ -86,6 +125,7 @@ function resizeCanvas() {
     if (pad.resize) pad.resize();
   });
 }
+
 
 // Función para mostrar el juego y ocultar el menú
 function showGame() {
@@ -214,6 +254,9 @@ document.getElementById("back-to-role").addEventListener("click", () => {
   roomMenu.classList.add("hidden");
   roleMenu.classList.remove("hidden");
 });
+
+// Añadir evento de click al botón de pantalla completa
+fullscreenButton.addEventListener("click", toggleFullscreen);
 
 // Socket.IO event handlers
 socket.on("roomList", updateRoomList);

@@ -1,5 +1,5 @@
 // Gestor de entidades del juego
-import { EntityFactory, DamageableComponent } from "./entities.js";
+import { EntityFactory, DamageableComponent, BerryEntity } from "./entities.js";
 import { ENTITY, UI, NORMALIZED_SPACE } from "../../constants.js";
 
 export class EntityManager {
@@ -275,7 +275,7 @@ export class EntityManager {
     this.rightTreeBerryCount = 0;
 
     for (const berry of this.berries) {
-      if (!berry.getComponent(DamageableComponent).markedForDeletion) {
+      if (!berry.markedForDeletion) {
         if (berry.hasTag("left-tree")) {
           this.leftTreeBerryCount++;
         } else if (berry.hasTag("right-tree")) {
@@ -296,6 +296,11 @@ export class EntityManager {
   pruneEntities() {
     // Filtrar entidades marcadas para eliminación
     const remainingObjects = this.gameObjects.filter((obj) => {
+      // Si es una BerryEntity, revisar su propiedad markedForDeletion
+      if (obj instanceof BerryEntity) {
+        return !obj.markedForDeletion;
+      }
+      // Para otras entidades, usar el método anterior
       const damageComp = obj.getComponent(DamageableComponent);
       return !(damageComp && damageComp.markedForDeletion);
     });
@@ -309,8 +314,8 @@ export class EntityManager {
 
       // También necesitamos limpiar el array de berries y sus vistas
       const remainingBerries = this.berries.filter((berry) => {
-        const damageComp = berry.getComponent(DamageableComponent);
-        return !(damageComp && damageComp.markedForDeletion);
+        // Usar la propiedad directa en lugar del componente
+        return !berry.markedForDeletion;
       });
 
       this.berries = remainingBerries;
@@ -322,11 +327,7 @@ export class EntityManager {
       });
 
       this.poops = remainingPoops;
-      
-      return true; // Se han eliminado entidades
     }
-    
-    return false; // No se han eliminado entidades
   }
 
   // Actualizar todas las entidades

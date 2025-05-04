@@ -3,6 +3,7 @@ import {
   EntityView,
   StaticSpriteEntityView,
   AnimatedEntityView,
+  DirectionalAnimatedEntityView,
   PoopSpriteEntityView,
 } from "./entityViews.js";
 import { DamageableComponent } from "../entities/entities.js";
@@ -125,8 +126,8 @@ export class RenderManager {
       }
     );
 
-    // Vista para el pájaro azul
-    this.views.blueBird = new AnimatedEntityView(
+    // Vista para el pájaro azul (usando DirectionalAnimatedEntityView)
+    this.views.blueBird = new DirectionalAnimatedEntityView(
       entityManager.blueBirdEntity,
       this.sprites.blueBird,
       {
@@ -134,11 +135,12 @@ export class RenderManager {
         visualHeight: this.visualSizes.bird.height,
         scale: UI.VISUAL.BIRD_SCALE,
         offsetY: UI.VISUAL.BIRD_OFFSET_Y,
+        facingRight: false, // El pájaro azul empieza mirando a la izquierda
       }
     );
 
-    // Vista para el pájaro verde
-    this.views.greenBird = new AnimatedEntityView(
+    // Vista para el pájaro verde (usando DirectionalAnimatedEntityView)
+    this.views.greenBird = new DirectionalAnimatedEntityView(
       entityManager.greenBirdEntity,
       this.sprites.greenBird,
       {
@@ -146,6 +148,7 @@ export class RenderManager {
         visualHeight: this.visualSizes.bird.height,
         scale: UI.VISUAL.BIRD_SCALE,
         offsetY: UI.VISUAL.BIRD_OFFSET_Y,
+        facingRight: true, // El pájaro verde empieza mirando a la derecha
       }
     );
 
@@ -346,6 +349,9 @@ export class RenderManager {
 
     // Dibujar la roca por encima de los pájaros
     this.views.stone.drawSprite();
+    
+    // Dibujar la barra de salud de la piedra
+    this.views.stone.drawHealthBar();
 
     // Opcionalmente mostrar el colisionador para depuración
     if (debugMode) {

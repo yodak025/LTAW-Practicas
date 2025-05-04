@@ -132,20 +132,12 @@ export class NetworkManager {
           this.updateEntityFromState(berry, state);
           // Si está marcada para eliminación, asegurarse que la vista refleje esto
           if (state.isCollected || state.markedForDeletion) {
-            const damageComp = berry.getComponent(DamageableComponent);
-            if (damageComp) {
-              damageComp.broken = true;
-              damageComp.markedForDeletion = true;
-            }
+            berry.markedForDeletion = true;
           }
         } else if (berry) {
           // Si la berry existe pero la posición es inválida, solo actualizar otros campos
           if (state.isCollected || state.markedForDeletion) {
-            const damageComp = berry.getComponent(DamageableComponent);
-            if (damageComp) {
-              damageComp.broken = true;
-              damageComp.markedForDeletion = true;
-            }
+            berry.markedForDeletion = true;
           }
         }
       });
@@ -232,13 +224,10 @@ export class NetworkManager {
       id: berry.id,
       x: berry.x,
       y: berry.y,
-      health: berry.getComponent(DamageableComponent)?.health || 0,
-      isCollected:
-        berry.getComponent(BerryCollectableComponent)?.collected || false,
+      isCollected: berry.getComponent(BerryCollectableComponent)?.collected || false,
       treePosition: berry.treePosition,
       spriteIndex: berry.spriteIndex,
-      markedForDeletion:
-        berry.getComponent(DamageableComponent)?.markedForDeletion || false,
+      markedForDeletion: berry.markedForDeletion || false
     };
   }
 

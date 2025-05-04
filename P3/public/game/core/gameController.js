@@ -5,6 +5,7 @@ import { RenderManager } from "./rendering/renderManager.js";
 import { InputManager } from "./inputs/inputManager.js";
 import { NetworkManager } from "./networkManager.js";
 import { ANIMATION, ENTITY, RESOURCES, NETWORK } from "../constants.js";
+import { detectMobileDevice } from "../utils/deviceDetector.js";
 
 export class GameController extends Game {
   constructor(options = {}) {
@@ -13,6 +14,9 @@ export class GameController extends Game {
     // Opciones de configuración
     this.gameMode = options.gameMode || "singleplayer";
     this.playerType = options.playerType || null;
+    this.controlType = options.controlType || (detectMobileDevice() ? 'mobile' : 'keyboard');
+    this.dualBirdControl = options.dualBirdControl || false;
+    this.forcePadDisplay = options.forcePadDisplay || false;
     
     // Inicializar componentes del juego
     this.entityManager = new EntityManager();
@@ -43,28 +47,52 @@ export class GameController extends Game {
     // Crear las vistas para las entidades
     this.renderManager.createViews(this.entityManager);
     
-    // Determinar qué entidad controlar según el modo de juego
-    const controlledEntity = this.entityManager.getControlledEntity(
-      this.gameMode, 
-      this.playerType
-    );
+    // Determinar las entidades controladas según el modo de juego
+    let controlledEntity, speedFactor;
     
-    // Determinar el factor de velocidad adecuado según la entidad controlada
-    let speedFactor;
-    if (controlledEntity.hasTag && controlledEntity.hasTag("stone")) {
-      speedFactor = ENTITY.STONE.LAUNCH_SPEED_FACTOR;
-    } else if (controlledEntity.hasTag && controlledEntity.hasTag("bird")) {
+    if (this.gameMode === "birdplayer" && this.dualBirdControl) {
+      // Control dual de pájaros
       speedFactor = {
         X: ENTITY.BIRD.LAUNCH_SPEED_FACTOR,
         Y: ENTITY.BIRD.LAUNCH_SPEED_FACTOR,
       };
+      
+      // Inicializar el gestor de entrada con ambos pájaros
+      this.inputManager.init(null, speedFactor, {
+        controlType: this.controlType,
+        dualBirdControl: true,
+        blueBirdEntity: this.entityManager.blueBirdEntity,
+        greenBirdEntity: this.entityManager.greenBirdEntity,
+        forcePadDisplay: this.forcePadDisplay
+      });
     } else {
-      speedFactor = { X: 30, Y: 30 };
+      // Control simple (modo clásico)
+      controlledEntity = this.entityManager.getControlledEntity(
+        this.gameMode, 
+        this.playerType
+      );
+      
+      // Determinar el factor de velocidad adecuado según la entidad controlada
+      if (controlledEntity.hasTag && controlledEntity.hasTag("stone")) {
+        speedFactor = ENTITY.STONE.LAUNCH_SPEED_FACTOR;
+      } else if (controlledEntity.hasTag && controlledEntity.hasTag("bird")) {
+        speedFactor = {
+          X: ENTITY.BIRD.LAUNCH_SPEED_FACTOR,
+          Y: ENTITY.BIRD.LAUNCH_SPEED_FACTOR,
+        };
+      } else {
+        speedFactor = { X: 30, Y: 30 };
+      }
+      
+      // Inicializar el gestor de entrada con una sola entidad
+      this.inputManager.init(controlledEntity, speedFactor, {
+        controlType: this.controlType,
+        forcePadDisplay: this.forcePadDisplay
+      });
     }
     
-    // Inicializar el gestor de entrada
-    this.inputManager.init(controlledEntity, speedFactor)
-      .setPoopLaunchHandler(this.handlePoopLaunch.bind(this));
+    // Configurar el manejador de lanzamiento de poop
+    this.inputManager.setPoopLaunchHandler(this.handlePoopLaunch.bind(this));
     
     // Configurar el gestor de red si estamos en modo multijugador
     if (this.networkManager) {

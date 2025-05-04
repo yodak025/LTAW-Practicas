@@ -138,10 +138,16 @@ export class EntityView {
       "rgba(50, 50, 50, 0.7)"
     );
 
+    // Determinar la vida máxima según el tipo de entidad
+    let maxHealth = ENTITY.BIRD.DEFAULT_HEALTH; // Por defecto para aves
+    if (this.entity.hasTag && this.entity.hasTag("stone")) {
+      maxHealth = ENTITY.STONE.DEFAULT_HEALTH; // Uso específico para la piedra
+    }
+
     // Calcular la fracción de vida restante (entre 0 y 1)
     const healthFraction = Math.max(
       0,
-      Math.min(1, health / ENTITY.BIRD.DEFAULT_HEALTH)
+      Math.min(1, health / maxHealth)
     );
 
     // Calcular color basado en la salud (va de rojo a verde según la vida)
@@ -289,6 +295,96 @@ export class AnimatedEntityView extends StaticSpriteEntityView {
   nextFrame() {
     this.currentSpriteIndex =
       (this.currentSpriteIndex + 1) % this.sprites.length;
+  }
+}
+
+// Clase para entidades animadas que se invierten en X según la dirección del movimiento
+export class DirectionalAnimatedEntityView extends AnimatedEntityView {
+  constructor(entity, sprites, options = {}) {
+    super(entity, sprites, options);
+    
+    // Dirección inicial que está mirando el sprite
+    // true = mirando a la derecha, false = mirando a la izquierda
+    this.facingRight = options.facingRight !== undefined ? options.facingRight : true;
+    
+    // Guardar la orientación inicial como referencia
+    this.initialFacingRight = this.facingRight;
+    
+    // Última dirección conocida (para detectar cambios)
+    this.lastDirectionX = 0;
+  }
+
+  drawSprite() {
+    // Verificar cambio de dirección basado en la velocidad
+    if (this.entity.velocityX !== 0) {
+      const movingRight = this.entity.velocityX > 0;
+      
+      // Ajustar la orientación según la inicialización original
+      if (this.initialFacingRight) {
+        // Si inicialmente miraba a la derecha, usar la lógica normal
+        this.facingRight = movingRight;
+      } else {
+        // Si inicialmente miraba a la izquierda, invertir la lógica
+        this.facingRight = !movingRight;
+      }
+      
+      // Guardar la última dirección no nula
+      this.lastDirectionX = this.entity.velocityX;
+    }
+
+    // Actualizar el sprite actual antes de dibujar
+    this.sprite = this.sprites[this.currentSpriteIndex];
+    
+    // Dibujar el sprite con la orientación adecuada
+    const visualPos = this.getVisualPosition();
+    
+    // Convertir a coordenadas de pantalla
+    const screen = this.normalizedToScreen(
+      visualPos.x,
+      visualPos.y,
+      visualPos.width,
+      visualPos.height
+    );
+
+    // Guardar el contexto actual
+    this.ctx.save();
+    
+    // Si es un sprite circular, crear un círculo de recorte
+    if (this.circular) {
+      this.ctx.beginPath();
+      this.ctx.arc(
+        screen.x + screen.width / 2,
+        screen.y + screen.height / 2,
+        screen.width / 2,
+        0,
+        Math.PI * 2
+      );
+      this.ctx.clip();
+    }
+    
+    // Aplicar transformación para invertir el sprite si es necesario
+    if (!this.facingRight) {
+      this.ctx.translate(screen.x + screen.width, screen.y);
+      this.ctx.scale(-1, 1);
+      this.ctx.drawImage(
+        this.sprite,
+        0,
+        0,
+        screen.width,
+        screen.height
+      );
+    } else {
+      this.ctx.drawImage(
+        this.sprite,
+        screen.x,
+        screen.y,
+        screen.width,
+        screen.height
+      );
+    }
+    
+    // Restaurar el contexto
+    this.ctx.restore();
   }
 }
 

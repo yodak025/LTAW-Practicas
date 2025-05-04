@@ -2,7 +2,7 @@ import { UI, NORMALIZED_SPACE, DOM } from '../../constants.js';
 import { PhysicsComponent, BirdEntity } from '../entities/entities.js';
 
 export class DrawingPad {
-    constructor(drawingPadCanvas, gameCanvas, controlEntity, speedFactor) {
+    constructor(drawingPadCanvas, gameCanvas, controlEntity, speedFactor, options = {}) {
         this.canvas = drawingPadCanvas;
         this.gameCanvas = gameCanvas;
         this.ctx = this.canvas.getContext('2d');
@@ -14,6 +14,9 @@ export class DrawingPad {
         
         // Factor de velocidad personalizado
         this.speedFactor = speedFactor || { X: 30, Y: 30 };
+
+        // Posición del drawing pad (bottomLeft o bottomRight)
+        this.position = options.position || 'bottomLeft';
 
         // Configurar tamaño inicial
         this.resize();
@@ -44,15 +47,22 @@ export class DrawingPad {
     resize() {
         // Calcular el tamaño y posición del drawing pad
         const gameRect = this.gameCanvas.getBoundingClientRect();
-        const padSize = gameRect.height * 0.5; // Tamaño cuadrado igual a 1/2 de la altura del canvas
+        const padSize = gameRect.height * 0.5; // Tamaño cuadrado igual a 50% de la altura del canvas
         
         // Configurar el tamaño del drawing pad (cuadrado)
         this.canvas.width = padSize;
         this.canvas.height = padSize;
         
-        // Posicionar en la esquina inferior izquierda del canvas del juego
+        // Posicionar según la opción especificada
         this.canvas.style.position = 'absolute';
-        this.canvas.style.top = `${gameRect.top + gameRect.height - padSize}px`;
+        
+        if (this.position === 'bottomRight') {
+            this.canvas.style.top = `${gameRect.top + gameRect.height - padSize}px`;
+            this.canvas.style.left = `${gameRect.left + gameRect.width - padSize}px`;
+        } else { // 'bottomLeft' por defecto
+            this.canvas.style.top = `${gameRect.top + gameRect.height - padSize}px`;
+            //this.canvas.style.left = `${gameRect.left}px`;
+        }
         
         // Añadir fondo semi-transparente
         this.canvas.style.backgroundColor = UI.DRAWING_PAD.BACKGROUND_COLOR;
@@ -60,6 +70,9 @@ export class DrawingPad {
         // Añadir un borde para mejor visibilidad
         this.canvas.style.border = '1px solid rgba(255, 255, 255, 0.3)';
         this.canvas.style.zIndex = '10'; // Asegurar que esté por encima del canvas del juego
+        
+        // Añadir esquinas redondeadas para mejorar estética
+        this.canvas.style.borderRadius = '10px';
     }
 
     // Configuración de event listeners
@@ -68,13 +81,13 @@ export class DrawingPad {
         this.canvas.addEventListener('mousedown', this.handleStart.bind(this));
         this.canvas.addEventListener('mousemove', this.handleMove.bind(this));
         this.canvas.addEventListener('mouseup', this.handleEnd.bind(this));
-        this.canvas.addEventListener('mouseout', this.handleEnd.bind(this)); // Cambiado de handleCancel a handleEnd
+        this.canvas.addEventListener('mouseout', this.handleEnd.bind(this));
 
         // Eventos táctiles
         this.canvas.addEventListener('touchstart', this.handleStart.bind(this));
         this.canvas.addEventListener('touchmove', this.handleMove.bind(this));
         this.canvas.addEventListener('touchend', this.handleEnd.bind(this));
-        this.canvas.addEventListener('touchcancel', this.handleEnd.bind(this)); // Cambiado de handleCancel a handleEnd
+        this.canvas.addEventListener('touchcancel', this.handleEnd.bind(this));
 
         // Evento para tecla espacio (poop)
         document.addEventListener('keydown', this.handleKeyDown.bind(this));
@@ -139,11 +152,6 @@ export class DrawingPad {
         this.endPoint = null;
     }
 
-    // Método handleCancel mantenido por compatibilidad pero no se usa ahora
-    handleCancel(e) {
-        this.handleEnd(e);
-    }
-
     // Obtener punto normalizado desde un evento
     getPointFromEvent(e) {
         let x, y;
@@ -191,6 +199,26 @@ export class DrawingPad {
         this.ctx.strokeStyle = UI.DRAWING_PAD.STROKE_STYLE;
         this.ctx.lineWidth = UI.DRAWING_PAD.LINE_WIDTH;
         this.ctx.stroke();
+        
+        // Dibujar una flecha en la dirección del movimiento
+        this.drawArrow(start, end);
+    }
+    
+    // Dibujar una flecha para indicar dirección
+    drawArrow(start, end) {
+        const headlen = 10; // longitud de la cabeza de la flecha
+        const dx = end.x - start.x;
+        const dy = end.y - start.y;
+        const angle = Math.atan2(dy, dx);
+        
+        // Dibujar la cabeza de la flecha
+        this.ctx.beginPath();
+        this.ctx.moveTo(end.x, end.y);
+        this.ctx.lineTo(end.x - headlen * Math.cos(angle - Math.PI / 6), end.y - headlen * Math.sin(angle - Math.PI / 6));
+        this.ctx.lineTo(end.x - headlen * Math.cos(angle + Math.PI / 6), end.y - headlen * Math.sin(angle + Math.PI / 6));
+        this.ctx.closePath();
+        this.ctx.fillStyle = UI.DRAWING_PAD.STROKE_STYLE;
+        this.ctx.fill();
     }
 
     // Lanzar la entidad controlada
@@ -217,11 +245,41 @@ export class DrawingPad {
         }
     }
 
+    // Cambiar la entidad controlada
+    setControlEntity(entity, speedFactor) {
+        this.controlEntity = entity;
+        if (speedFactor) {
+            this.speedFactor = speedFactor;
+        }
+    }
+
     // Mostrar/ocultar el pad de dibujo
     setVisible(visible) {
         this.isVisible = visible;
+        this.canvas.style.display = visible ? 'block' : 'none';
         if (!visible) {
             this.clearCanvas();
+        }
+    }
+    
+    // Limpiar los recursos al finalizar
+    dispose() {
+        // Eliminar event listeners
+        this.canvas.removeEventListener('mousedown', this.handleStart);
+        this.canvas.removeEventListener('mousemove', this.handleMove);
+        this.canvas.removeEventListener('mouseup', this.handleEnd);
+        this.canvas.removeEventListener('mouseout', this.handleEnd);
+        
+        this.canvas.removeEventListener('touchstart', this.handleStart);
+        this.canvas.removeEventListener('touchmove', this.handleMove);
+        this.canvas.removeEventListener('touchend', this.handleEnd);
+        this.canvas.removeEventListener('touchcancel', this.handleEnd);
+        
+        window.removeEventListener('resize', this.resize);
+        
+        // Limpiar el canvas
+        if (this.canvas.parentNode) {
+            this.canvas.parentNode.removeChild(this.canvas);
         }
     }
 }

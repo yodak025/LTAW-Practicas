@@ -16,7 +16,7 @@ export const ENTITY = {
   // Valores para pájaros
   BIRD: {
     DEFAULT_HEALTH: 1000,
-    LAUNCH_SPEED_FACTOR: 10, // Factor de velocidad para el lanzamiento de pájaros
+    LAUNCH_SPEED_FACTOR: 1, // Factor de velocidad para el lanzamiento de pájaros
     BLUE_COLOR: "rgba(0, 0, 255, 0.3)", // Color para el colisionador del pájaro azul
     GREEN_COLOR: "rgba(0, 255, 0, 0.3)", // Color para el colisionador del pájaro verde
     SIZE: { X: 0.3, Y: 0.6 }, // Tamaño rectangular para pájaros: ancho x alto
@@ -36,6 +36,8 @@ export const ENTITY = {
     },
     COLOR: "rgba(255, 0, 0, 0.3)", // Color para el colisionador de la roca
     RADIO: 0.4, // Radio para el colisionador circular
+    DEFAULT_HEALTH: 1000, // Vida inicial de la piedra
+    POOP_DAMAGE: 50,   // Daño que recibe la piedra al ser golpeada por poop
   },
 
   // Valores para berry
@@ -74,7 +76,7 @@ export const ENTITY = {
     FRICTION: 0.5,
     GRAVITY: 980, // Gravedad base en unidades/segundo²
     BOUNCE_FACTOR: - 0.2, // Factor de rebote al colisionar
-    DAMAGE_MULTIPLIER: 1, // Multiplicador de daño basado en velocidad de impacto
+    DAMAGE_MULTIPLIER: 2, // Multiplicador de daño basado en velocidad de impacto
   },
 };
 
@@ -102,7 +104,7 @@ export const UI = {
   },
 
   // Modo de depuración para mostrar colisionadores y otra información útil
-  DEBUG_MODE: true,
+  DEBUG_MODE: false,
 
   // Configuración visual para entidades
   VISUAL: {
