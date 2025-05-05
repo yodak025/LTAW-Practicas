@@ -215,6 +215,7 @@ export class NetworkManager {
       y: stone.y,
       velocityX: stone.getComponent(PhysicsComponent)?.velocityX || 0,
       velocityY: stone.getComponent(PhysicsComponent)?.velocityY || 0,
+      health: stone.getComponent(DamageableComponent)?.health || 0,
       isLaunched: stone.isLaunched || false,
     };
   }

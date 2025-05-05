@@ -190,6 +190,21 @@ export class ColliderComponent extends Component {
     const damageComponent = other.getComponent(DamageableComponent);
     if (damageComponent && impactVelocity > 0) {
       const damageAmount = impactVelocity * ENTITY.PHYSICS.DAMAGE_MULTIPLIER;
+
+      // Verificar si estamos en una colisión entre una piedra y un pájaro
+      if (this.entity instanceof StoneEntity && other instanceof BirdEntity) {
+        // La piedra recupera la vida que pierde el pájaro
+        const stoneDamageComponent =
+          this.entity.getComponent(DamageableComponent);
+        if (stoneDamageComponent) {
+          stoneDamageComponent.health = Math.min(
+            stoneDamageComponent.health + damageAmount,
+            ENTITY.STONE.DEFAULT_HEALTH
+          );
+          // Actualizar la propiedad de compatibilidad
+          this.entity.health = stoneDamageComponent.health;
+        }
+      }
       damageComponent.takeDamage(damageAmount);
     }
 
@@ -538,20 +553,19 @@ export class BerryCollectableComponent extends Component {
     // Verificar colisiones con pájaros
     for (const obj of gameObjects) {
       // Solo interactuar con pájaros
-      if (!(obj instanceof BirdEntity) || !this.entity.isColliding(obj))
-        continue;
+      if (obj instanceof BirdEntity && this.entity.isColliding(obj)) {
+        // Marcar como recolectada
+        this.collected = true;
 
-      // Marcar como recolectada
-      this.collected = true;
+        // Incrementar contador de berries en el pájaro
+        if (!obj.berryCount) obj.berryCount = 0;
+        obj.berryCount++;
 
-      // Incrementar contador de berries en el pájaro
-      if (!obj.berryCount) obj.berryCount = 0;
-      obj.berryCount++;
+        // Marcar la entidad para eliminación directamente
+        this.entity.markedForDeletion = true;
 
-      // Marcar la entidad para eliminación directamente
-      this.entity.markedForDeletion = true;
-
-      break;
+        break;
+      }
     }
   }
 }
@@ -766,12 +780,19 @@ export class StoneEntity extends PlayableEntity {
 
     // Verificar colisiones con poops
     for (const obj of gameObjects) {
-      if (obj instanceof PoopEntity && this.isColliding(obj)) {
+      const damageComp = obj.getComponent(DamageableComponent);
+      const isAlreadyDamaged = damageComp
+        ? damageComp.markedForDeletion
+        : false;
+      if (
+        obj instanceof PoopEntity &&
+        this.isColliding(obj) &&
+        !isAlreadyDamaged
+      ) {
         // La piedra recibe daño
         this.takeDamageFromPoop();
-
+        obj.markedForDeletion = true; // Marcar la entidad para eliminación
         // El poop se destruye al impactar con la piedra
-        const damageComp = obj.getComponent(DamageableComponent);
         if (damageComp) {
           damageComp.markedForDeletion = true;
         } else {
@@ -886,6 +907,40 @@ export class BirdEntity extends Entity {
 
     // Crear la entidad poop
     return EntityFactory.createPoop(poopX, poopY);
+  }
+  update(gameObjects, deltaTime) {
+    // Llamar al método update de la clase padre
+    super.update(gameObjects, deltaTime);
+
+    // Verificar colisiones con poops
+    for (const obj of gameObjects) {
+      if (
+        obj instanceof BerryEntity &&
+        this.isColliding(obj) &&
+        !obj.collected
+      ) {
+        // La piedra recibe daño
+        this.berryCount++;
+        const birdComp = this.getComponent(DamageableComponent);
+        birdComp.health = Math.min(
+          birdComp.health +
+            (ENTITY.BERRY.HEALING_FACTOR * ENTITY.BIRD.DEFAULT_HEALTH),
+          ENTITY.BIRD.DEFAULT_HEALTH
+        ); // Aumentar salud al recolectar
+        console.log('Healing factor:', ENTITY.BERRY.HEALING_FACTOR, 'Health increment:', ENTITY.BIRD.DEFAULT_HEALTH * ENTITY.BERRY.HEALING_FACTOR);
+        obj.collected = true; // Marcar como recolectada
+        obj.markedForDeletion = true; // Marcar la entidad para eliminación
+        // El berry se destruye al impactar con la piedra
+        const damageComp = obj.getComponent(DamageableComponent);
+        if (damageComp) {
+          damageComp.markedForDeletion = true;
+        } else {
+          // Si no tiene componente de daño, añadir uno solo para marcarlo para eliminación
+          const newDamageComp = obj.addComponent(new DamageableComponent(1));
+          newDamageComp.markedForDeletion = true;
+        }
+      }
+    }
   }
 }
 
