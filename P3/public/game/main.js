@@ -1,55 +1,17 @@
+// Import UI Controller
+import { UIController } from "./ui/UIController.js";
+
+// Import constants
+import { NORMALIZED_SPACE, CANVAS, DOM, MESSAGES } from "./constants.js";
+
 // Elementos DOM
 const menu = document.getElementById("menu");
 const gameContainer = document.getElementById("game-container");
-const singlePlayerButton = document.getElementById("singleplayer");
-const multiPlayerButton = document.getElementById("multiplayer");
 const canvas = document.getElementById("canvas");
 const drawingPadCanvas = document.getElementById("drawing-pad");
 
-// Crear botón de pantalla completa
-const fullscreenButton = document.createElement("button");
-fullscreenButton.id = "fullscreen";
-fullscreenButton.textContent = "Pantalla Completa";
-fullscreenButton.className = "fullscreen-button";
-// Añadir el botón al menú
-menu.appendChild(fullscreenButton);
-
-// Importar constantes
-import { NORMALIZED_SPACE, CANVAS, DOM, MESSAGES } from "./constants.js";
-
 // Inicializar Socket.IO
 const socket = io();
-
-// Función para alternar el modo de pantalla completa
-function toggleFullscreen() {
-  if (!document.fullscreenElement) {
-    // Entrar en modo pantalla completa
-    if (document.documentElement.requestFullscreen) {
-      document.documentElement.requestFullscreen();
-    } else if (document.documentElement.mozRequestFullScreen) { // Firefox
-      document.documentElement.mozRequestFullScreen();
-    } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari y Opera
-      document.documentElement.webkitRequestFullscreen();
-    } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
-      document.documentElement.msRequestFullscreen();
-    }
-    fullscreenButton.textContent = "Salir de Pantalla Completa";
-  } else {
-    // Salir del modo pantalla completa
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.mozCancelFullScreen) { // Firefox
-      document.mozCancelFullScreen();
-    } else if (document.webkitExitFullscreen) { // Chrome, Safari y Opera
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) { // IE/Edge
-      document.msExitFullscreen();
-    }
-    fullscreenButton.textContent = "Pantalla Completa";
-  }
-  // Redimensionar el canvas después de cambiar el modo de pantalla
-  setTimeout(resizeCanvas, 100);
-}
 
 // Función para redimensionar el canvas con relación de aspecto 16:9
 function resizeCanvas() {
@@ -96,27 +58,13 @@ function resizeCanvas() {
     }
   }
 
-  // Aplicar dimensiones al canvas de juego
+  // Aplicar dimensiones al canvas de juego y al contenedor
   canvas.width = canvasWidth;
   canvas.height = canvasHeight;
-
-  // Aplicar dimensiones al canvas de dibujo
-  // El drawing pad tiene su propia gestión de redimensionamiento
-
-  // Centrar el contenedor del juego con un poco más de margen
   gameContainer.style.width = `${canvasWidth}px`;
   gameContainer.style.height = `${canvasHeight}px`;
-  gameContainer.style.margin = "auto";
-  gameContainer.style.position = DOM.POSITION.CENTERED.POSITION;
-  gameContainer.style.top = DOM.POSITION.CENTERED.TOP;
-  gameContainer.style.left = DOM.POSITION.CENTERED.LEFT;
-  gameContainer.style.transform = DOM.POSITION.CENTERED.TRANSFORM;
-  gameContainer.style.backgroundColor = CANVAS.BACKGROUND_COLOR;
-
-  // Añadir un borde para que sea visible en cualquier fondo
-  gameContainer.style.boxShadow = CANVAS.BOX_SHADOW;
-
-  // Aplicar un padding al contenedor para asegurar visibilidad completa
+  
+  // Aplicar el padding dinámico para asegurar visibilidad completa
   gameContainer.style.padding = `${safetyMargin / 4}px`;
 
   // Forzar una actualización del drawing pad después de cambiar el tamaño del canvas
@@ -126,223 +74,20 @@ function resizeCanvas() {
   });
 }
 
+// Create and initialize our UI Controller
+const uiController = new UIController(socket);
 
-// Función para mostrar el juego y ocultar el menú
-function showGame() {
-  menu.classList.add("hidden");
-  gameContainer.classList.remove("hidden");
-  // Añadir evento de resize a la ventana
-  window.addEventListener("resize", resizeCanvas);
-  resizeCanvas();
-}
-
-// Crear elementos para el menú de roles y salas
-const roleMenu = document.createElement("div");
-roleMenu.className = "role-menu hidden";
-roleMenu.innerHTML = `
-    <h2>Elige tu rol</h2>
-    <div class="role-buttons">
-        <button id="bird-role">Jugar como Pájaro</button>
-        <button id="stone-role">Jugar como Piedra</button>
-    </div>
-`;
-
-const roomMenu = document.createElement("div");
-roomMenu.className = "room-menu hidden";
-roomMenu.innerHTML = `
-    <h2>Salas Disponibles</h2>
-    <div class="create-room">
-        <input type="text" id="room-name" placeholder="Nombre de la sala">
-        <button id="create-room-btn">Crear Sala</button>
-    </div>
-    <div id="room-list"></div>
-    <button id="back-to-role" class="back-button">Volver a selección de rol</button>
-`;
-
-document.body.appendChild(roleMenu);
-document.body.appendChild(roomMenu);
-
-let selectedPlayerType = null;
-
-// Funciones para gestionar roles y salas
-function showRoleMenu() {
-  menu.classList.add("hidden");
-  roleMenu.classList.remove("hidden");
-}
-
-function showRoomMenu() {
-  roleMenu.classList.add("hidden");
-  roomMenu.classList.remove("hidden");
-  socket.emit("getRooms");
-}
-
-function updateRoomList(rooms) {
-  const roomListDiv = document.getElementById("room-list");
-  roomListDiv.innerHTML = "";
-  rooms.forEach((room) => {
-    const roomElement = document.createElement("div");
-    roomElement.className = "room-item";
-
-    let statusText = "";
-    let canJoin = false;
-
-    if (selectedPlayerType === DOM.PLAYER_TYPES.BIRD) {
-      if (room.hasBird) {
-        statusText = MESSAGES.ROOM_STATUS.OCCUPIED_BIRD;
-        canJoin = false;
-      } else if (room.hasStone) {
-        statusText = MESSAGES.ROOM_STATUS.AVAILABLE_BIRD;
-        canJoin = true;
-      } else {
-        statusText = MESSAGES.ROOM_STATUS.EMPTY;
-        canJoin = true;
-      }
-    } else {
-      // stone
-      if (room.hasStone) {
-        statusText = MESSAGES.ROOM_STATUS.OCCUPIED_STONE;
-        canJoin = false;
-      } else if (room.hasBird) {
-        statusText = MESSAGES.ROOM_STATUS.AVAILABLE_STONE;
-        canJoin = true;
-      } else {
-        statusText = MESSAGES.ROOM_STATUS.EMPTY;
-        canJoin = true;
-      }
-    }
-
-    roomElement.innerHTML = `
-            <span>${room.name} ${statusText}</span>
-            <button ${!canJoin ? "disabled" : ""}>Unirse</button>
-        `;
-
-    if (canJoin) {
-      roomElement.querySelector("button").onclick = () => {
-        socket.emit("joinRoom", {
-          roomName: room.name,
-          playerType: selectedPlayerType,
-        });
-      };
-    }
-
-    roomListDiv.appendChild(roomElement);
-  });
-}
-
-// Event Listeners
-document.getElementById("bird-role").addEventListener("click", () => {
-  selectedPlayerType = DOM.PLAYER_TYPES.BIRD;
-  showRoomMenu();
-});
-
-document.getElementById("stone-role").addEventListener("click", () => {
-  selectedPlayerType = DOM.PLAYER_TYPES.STONE;
-  showRoomMenu();
-});
-
-document.getElementById("create-room-btn").addEventListener("click", () => {
-  const roomName = document.getElementById("room-name").value.trim();
-  if (roomName) {
-    socket.emit("createRoom", {
-      roomName,
-      playerType: selectedPlayerType,
-    });
-  }
-});
-
-document.getElementById("back-to-role").addEventListener("click", () => {
-  roomMenu.classList.add("hidden");
-  roleMenu.classList.remove("hidden");
-});
-
-// Añadir evento de click al botón de pantalla completa
-fullscreenButton.addEventListener("click", toggleFullscreen);
-
-// Socket.IO event handlers
-socket.on("roomList", updateRoomList);
-
-socket.on("startGame", ({ playerType }) => {
-  roomMenu.classList.add("hidden");
-  showGame();
-
-  // Cargar el juego correspondiente según el rol
-  if (playerType === DOM.PLAYER_TYPES.BIRD) {
-    import("./twoBirds.js")
-      .then((module) => {
-        module.initBirdsGame(socket).catch(console.error);
-      })
-      .catch(console.error);
-  } else {
-    import("./oneStone.js")
-      .then((module) => {
-        module.initStoneGame(socket).catch(console.error);
-      })
-      .catch(console.error);
-  }
-});
-
-socket.on("playerDisconnected", (playerType) => {
-  const message =
-    playerType === DOM.PLAYER_TYPES.BIRD
-      ? MESSAGES.PLAYER_DISCONNECTED.BIRD
-      : MESSAGES.PLAYER_DISCONNECTED.STONE;
-  alert(message);
-  // Volver al menú principal
-  gameContainer.classList.add("hidden");
-  menu.classList.remove("hidden");
-});
-
-socket.on("gameReady", (isReady) => {
-  if (isReady) {
-    alert(MESSAGES.GAME_READY);
-  }
-});
-
-socket.on("roomError", (error) => {
-  alert(error);
-});
-
-socket.on("roomCreated", (roomName) => {
-  socket.emit("joinRoom", {
-    roomName,
-    playerType: selectedPlayerType,
-  });
-});
-
-socket.on("roomJoined", ({ roomName, playerType, isComplete }) => {
-  roomMenu.classList.add("hidden");
-  showGame();
-
-  // Cargar el juego correspondiente según el rol
-  if (playerType === DOM.PLAYER_TYPES.BIRD) {
-    import("./twoBirds.js")
-      .then((module) => {
-        module.initBirdsGame(socket).catch(console.error);
-      })
-      .catch(console.error);
-  } else {
-    import("./oneStone.js")
-      .then((module) => {
-        module.initStoneGame(socket).catch(console.error);
-      })
-      .catch(console.error);
-  }
-});
-
-// Botón de un jugador
-singlePlayerButton.addEventListener("click", () => {
-  showGame();
-  import("./singlePlayer.js")
-    .then((module) => {
-      module.initSinglePlayerMode().catch(console.error);
-    })
-    .catch(console.error);
-});
-
-multiPlayerButton.addEventListener("click", showRoleMenu);
-
-// Aplicar el tamaño inicial al cargar la página
+// Initialize the UI when the document is ready
 window.addEventListener("load", () => {
-  // Inicializar canvas con el fondo negro
-  document.body.style.backgroundColor = CANVAS.BACKGROUND_COLOR;
+  // Initialize UI
+  uiController.init();
+  
+  // Initialize the canvas with background color
+  document.body.style.backgroundColor = CANVAS.BACKGROUND_COLOR; //! Esto es estático
+  
+  // Register resize event for canvas
+  window.addEventListener("resize", resizeCanvas);
+  
+  // Trigger initial resize
+  setTimeout(resizeCanvas, 100);
 });

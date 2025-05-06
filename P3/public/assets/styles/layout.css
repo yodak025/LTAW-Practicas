@@ -1,0 +1,25 @@
+/* Estilos de layout y disposición */
+
+/* Contenedor principal del juego */
+#game-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(6, 133, 192, 0.99);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* Clase para contenedor con dimensiones específicas */
+.game-container-sized {
+    margin: auto;
+}
+
+/* Clase para canvas con dimensiones específicas */
+.canvas-sized {
+    position: absolute;
+    top: 0;
+    left: 0;
+}

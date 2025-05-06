@@ -1,0 +1,333 @@
+/* UI Component Styles */
+
+/* General UI button styles */
+.ui-button {
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-family: Jersey, Arial, sans-serif;
+    padding: 10px 15px;
+}
+
+/* Position and styles for back button */
+.arrow-back {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 24px;
+    background-color: #f44336;
+    color: white;
+}
+
+.arrow-back:hover {
+    background-color: #e53935;
+    transform: scale(1.05);
+}
+
+/* Position and styles for settings button */
+.settings-button {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    background-color: #2196F3;
+    color: white;
+}
+
+.settings-button:hover {
+    background-color: #0b7dda;
+    transform: scale(1.05);
+}
+
+/* Fullscreen toggle button styles */
+.fullscreen-button {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.fullscreen-button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+/* List component styles */
+.list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    margin: 15px 0;
+    width: 100%;
+    max-width: 500px;
+}
+
+.list-item {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: Jersey, Arial, sans-serif;
+}
+
+.list-item:hover {
+    background-color: #45a049;
+    transform: translateY(-3px);
+}
+
+/* Role selection list styles */
+.role-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.role-list .list-item:nth-child(1) {
+    background-color: #2196F3; /* Blue for bird */
+}
+
+.role-list .list-item:nth-child(1):hover {
+    background-color: #0b7dda;
+}
+
+.role-list .list-item:nth-child(2) {
+    background-color: #795548; /* Brown for stone */
+}
+
+.role-list .list-item:nth-child(2):hover {
+    background-color: #5d4037;
+}
+
+/* Room list styles */
+.room-list {
+    max-height: 300px;
+    overflow-y: auto;
+    width: 100%;
+    max-width: 500px;
+    margin: 15px 0;
+    padding: 0 20px;
+}
+
+.room-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    margin: 8px 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.room-item button {
+    padding: 8px 15px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.room-item button:hover:not([disabled]) {
+    background-color: #0b7dda;
+}
+
+.room-item button[disabled] {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Create room form styles */
+.create-room-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 500px;
+    margin: 15px 0;
+    padding: 20px;
+}
+
+#room-name {
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.role-buttons {
+    display: flex;
+    gap: 20px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.role-buttons button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: Jersey, Arial, sans-serif;
+}
+
+#bird-role {
+    background-color: #2196F3;
+    color: white;
+}
+
+#bird-role:hover {
+    background-color: #0b7dda;
+}
+
+#stone-role {
+    background-color: #795548;
+    color: white;
+}
+
+#stone-role:hover {
+    background-color: #5d4037;
+}
+
+#create-room-btn {
+    padding: 12px 20px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    align-self: center;
+}
+
+#create-room-btn:hover:not([disabled]) {
+    background-color: #45a049;
+}
+
+#create-room-btn[disabled] {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Modal styles */
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 30px;
+    border-radius: 10px;
+    color: white;
+    position: relative;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    color: white;
+}
+
+/* Audio settings styles */
+.audio-setting-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px 0;
+    width: 100%;
+    padding: 10px;
+}
+
+.volume-slider {
+    width: 100%;
+    height: 20px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #d3d3d3;
+    outline: none;
+    border-radius: 10px;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.volume-value {
+    font-size: 18px;
+    text-align: center;
+    margin-top: 5px;
+}
+
+/* Settings container styles */
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+}
+
+/* Game UI container */
+.game-ui-container {
+    position: fixed;
+    z-index: 100;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.game-ui-container button {
+    pointer-events: auto;
+}

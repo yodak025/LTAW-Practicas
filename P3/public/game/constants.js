@@ -175,7 +175,7 @@ export const RESOURCES = {
 // Configuración del canvas
 export const CANVAS = {
   MARGIN_PERCENT: 1, // Margen desde el borde de la ventana (%)
-  BACKGROUND_COLOR: "black", // Color de fondo para el área alrededor del canvas
+  BACKGROUND_COLOR: "rgba(6, 133, 192, 0.99)", // Color de fondo para el área alrededor del canvas
   MIN_VISIBLE_WIDTH: 200, // Ancho mínimo recomendado para visibilidad (px)
   BOX_SHADOW: "0 0 10px rgba(0, 0, 0, 0.5)", // Sombra del contenedor del juego
 };
