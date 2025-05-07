@@ -7,6 +7,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
+  font-family: Jersey, Arial, sans-serif;
 }
 
 #game-screen {
@@ -21,7 +22,6 @@
   filter: brightness(1.2) contrast(1.2) saturate(1.2);
   animation: flicker 0.15s infinite;
   overflow: hidden;
-  
 }
 
 /* Scanlines para efecto retro CRT */
@@ -94,6 +94,7 @@
 /* Clase para contenedor con dimensiones específicas */
 .game-container-sized {
   margin: auto;
+  font-family: Jersey, Arial, sans-serif;
 }
 
 /* Clase para canvas con dimensiones específicas */
