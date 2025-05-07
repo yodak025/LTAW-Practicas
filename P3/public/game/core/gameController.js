@@ -6,6 +6,7 @@ import { InputManager } from "./inputs/inputManager.js";
 import { NetworkManager } from "./networkManager.js";
 import { ANIMATION, ENTITY, RESOURCES, NETWORK } from "../constants.js";
 import { detectMobileDevice } from "../utils/deviceDetector.js";
+import { DamageableComponent } from "./entities/entities.js";
 
 export class GameController extends Game {
   constructor(options = {}) {
@@ -18,6 +19,9 @@ export class GameController extends Game {
     this.dualBirdControl = options.dualBirdControl || false;
     this.forcePadDisplay = options.forcePadDisplay || false;
     
+    // UI Controller para manejar mensajes de victoria/derrota
+    this.uiController = options.uiController || null;
+    
     // Inicializar componentes del juego
     this.entityManager = new EntityManager();
     this.renderManager = new RenderManager();
@@ -28,6 +32,12 @@ export class GameController extends Game {
     
     // Variables de control
     this.entitySize = ENTITY.DEFAULT_SIZE;
+    this.gameEnded = false;
+
+    // Sistema de audio
+    this.backgroundMusic = new Audio('/assets/BirdsonaWire.mp3');
+    this.backgroundMusic.loop = true;
+    this.backgroundMusic.volume = options.volume !== undefined ? options.volume / 100 : 0.5;
 
     // Callback para generación externa de berries (para oneStone.js)
     this.onExternalBerrySpawn = null;
@@ -97,6 +107,8 @@ export class GameController extends Game {
     // Configurar el gestor de red si estamos en modo multijugador
     if (this.networkManager) {
       this.networkManager.setupHandlers(this.entityManager, this.renderManager);
+      // Configurar manejador para evento game-over
+      this.setupGameOverHandler();
     } else {
       // En modo un jugador, siempre programar la generación de berries
       this.entityManager.scheduleNextBerrySpawn();
@@ -104,8 +116,51 @@ export class GameController extends Game {
     
     // Iniciar el bucle del juego
     requestAnimationFrame(this.startGameLoop.bind(this));
+    
+    // Iniciar la reproducción de música de fondo
+    this.playBackgroundMusic();
 
     return this;
+  }
+  
+  // Métodos para controlar la música de fondo
+  playBackgroundMusic() {
+    this.backgroundMusic.play().catch(err => console.log("Error reproduciendo música:", err));
+  }
+  
+  pauseBackgroundMusic() {
+    this.backgroundMusic.pause();
+  }
+  
+  stopBackgroundMusic() {
+    this.backgroundMusic.pause();
+    this.backgroundMusic.currentTime = 0;
+  }
+  
+  setMusicVolume(volumeLevel) {
+    // volumeLevel debe estar entre 0 y 100
+    this.backgroundMusic.volume = volumeLevel / 100;
+  }
+
+  // Método para configurar el manejador de eventos game-over
+  setupGameOverHandler() {
+    if (this.networkManager && this.networkManager.socket) {
+      this.networkManager.socket.on("game-over", () => {
+        // Mostrar pantalla de victoria y detener el juego
+        if (this.uiController && !this.gameEnded) {
+          this.gameEnded = true;
+          this.uiController.showGameResult(true); // true = victoria
+          this.stop();
+        }
+      });
+    }
+  }
+  
+  // Método para enviar evento de game-over al oponente
+  sendGameOver() {
+    if (this.networkManager && this.networkManager.socket) {
+      this.networkManager.socket.emit("game-over");
+    }
   }
   
   // Método para manejar el lanzamiento de poop cuando se presiona la tecla espacio
@@ -137,6 +192,9 @@ export class GameController extends Game {
 
   // Actualización del juego
   update(deltaTime) {
+    // No actualizar si el juego ha terminado
+    if (this.gameEnded) return;
+    
     // Actualizar las entidades del juego
     this.entityManager.updateEntities(deltaTime);
     
@@ -163,6 +221,85 @@ export class GameController extends Game {
     // En modo "stoneplayer", también podríamos generar berries y notificarlas a twoBirds
     if (this.gameMode === "stoneplayer" && this.onExternalBerrySpawn) {
       this.onExternalBerrySpawn(this.entityManager, this.renderManager, deltaTime);
+    }
+    
+    // Verificar condiciones de victoria/derrota
+    this.checkGameEndConditions();
+  }
+
+  // Método para verificar condiciones de fin de juego
+  checkGameEndConditions() {
+    if (this.gameEnded) return;
+    
+    // Verificar condiciones según el modo de juego
+    if (this.gameMode === "singleplayer") {
+      this.checkSinglePlayerEndConditions();
+    } else if (this.gameMode === "stoneplayer") {
+      this.checkStonePlayerEndConditions();
+    } else if (this.gameMode === "birdplayer") {
+      this.checkBirdPlayerEndConditions();
+    }
+  }
+  
+  // Verificar condiciones de fin para el modo un jugador
+  checkSinglePlayerEndConditions() {
+    const blueBird = this.entityManager.blueBirdEntity;
+    const greenBird = this.entityManager.greenBirdEntity;
+    const stone = this.entityManager.stoneEntity;
+    
+    // Verificar si los pájaros están muertos (victoria)
+    const blueBirdDead = blueBird.getComponent(DamageableComponent).health <= 0;
+    const greenBirdDead = greenBird.getComponent(DamageableComponent).health <= 0;
+    
+    if (blueBirdDead && greenBirdDead && this.uiController) {
+      this.gameEnded = true;
+      this.uiController.showGameResult(true); // Victoria
+      this.stop();
+      return;
+    }
+    
+    // Verificar si la piedra está muerta (derrota)
+    const stoneDead = stone.getComponent(DamageableComponent).health <= 0;
+    
+    if (stoneDead && this.uiController) {
+      this.gameEnded = true;
+      this.uiController.showGameResult(false); // Derrota
+      this.stop();
+      return;
+    }
+  }
+  
+  // Verificar condiciones de fin para el modo piedra
+  checkStonePlayerEndConditions() {
+    const stone = this.entityManager.stoneEntity;
+    
+    // Verificar si la piedra está muerta (derrota)
+    const stoneDead = stone.getComponent(DamageableComponent).health <= 0;
+    
+    if (stoneDead && this.uiController && !this.gameEnded) {
+      this.gameEnded = true;
+      this.uiController.showGameResult(false); // Derrota
+      // Notificar al oponente de nuestra derrota (su victoria)
+      this.sendGameOver();
+      this.stop();
+    }
+  }
+  
+  // Verificar condiciones de fin para el modo pájaro
+  checkBirdPlayerEndConditions() {
+    const blueBird = this.entityManager.blueBirdEntity;
+    const greenBird = this.entityManager.greenBirdEntity;
+    
+    // Verificar si ambos pájaros están muertos (derrota)
+    const blueBirdDead = blueBird.getComponent(DamageableComponent).health <= 0;
+    const greenBirdDead = greenBird.getComponent(DamageableComponent).health <= 0;
+    
+    if (blueBirdDead && greenBirdDead && this.uiController && !this.gameEnded) {
+      this.gameEnded = true;
+      this.uiController.showGameResult(false); // Derrota
+      // Notificar al oponente de nuestra derrota (su victoria)
+      this.sendGameOver();
+      this.stop();
     }
   }
 
@@ -192,5 +329,23 @@ export class GameController extends Game {
     
     // Actualizar las animaciones
     this.renderManager.updateAnimations();
+  }
+
+  // Override del método stop para también detener la música
+  stop() {
+    super.stop();
+    this.stopBackgroundMusic();
+  }
+
+  // Override del método pause para también pausar la música
+  pause() {
+    super.pause();
+    this.pauseBackgroundMusic();
+  }
+
+  // Override del método resume para también reanudar la música
+  resume() {
+    super.resume();
+    this.playBackgroundMusic();
   }
 }

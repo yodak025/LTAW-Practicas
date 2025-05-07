@@ -14,11 +14,18 @@ export class UIController {
     this.gameContainer = document.getElementById("game-container");
     this.socket = socket;
     this.selectedPlayerType = null;
+    
+    // Inicializar el volumen de audio
+    this.audioVolume = localStorage.getItem('gameAudioVolume') ? 
+      parseInt(localStorage.getItem('gameAudioVolume')) : 50;
 
     // Create container for UI controls during gameplay
     this.gameUIContainer = document.createElement("div");
     this.gameUIContainer.className = "game-ui-container";
     document.body.appendChild(this.gameUIContainer);
+    
+    // Variable para guardar referencia al controlador del juego
+    this.gameController = null;
   }
 
   // Show main menu with options
@@ -55,9 +62,21 @@ export class UIController {
     this.showGame();
     try {
       const module = await import("../singlePlayer.js");
-      await module.initSinglePlayerMode();
+      this.gameController = await module.initSinglePlayerMode(this.audioVolume);
     } catch (error) {
       console.error("Error loading single player game:", error);
+    }
+  }
+  
+  // Método para actualizar el volumen
+  setAudioVolume(volume) {
+    this.audioVolume = volume;
+    // Guardar en localStorage para persistencia
+    localStorage.setItem('gameAudioVolume', volume);
+    
+    // Actualizar el volumen del juego en curso si existe
+    if (this.gameController) {
+      this.gameController.setMusicVolume(volume);
     }
   }
 
@@ -284,11 +303,12 @@ export class UIController {
       settingsContainer.appendChild(backButton.render());
     }
 
-    // Add audio settings
+    // Add audio settings with current volume
     const audioSettings = new AudioSettingContent((value) => {
-      // Placeholder for audio settings functionality
-      console.log("Audio level set to:", value);
+      this.setAudioVolume(value);
     });
+    // Establecer el valor actual del volumen
+    audioSettings.update({ value: this.audioVolume });
     settingsContainer.appendChild(audioSettings.render());
 
     if (inModal) {
@@ -354,6 +374,43 @@ export class UIController {
     document.body.appendChild(modal.render());
   }
 
+  // Show game result (victory or defeat)
+  showGameResult(isVictory) {
+    // Create content for the modal
+    const resultContainer = document.createElement("div");
+    resultContainer.className = "game-result-container";
+    
+    // Add result title
+    const resultTitle = document.createElement("h2");
+    resultTitle.className = isVictory ? "victory-title" : "defeat-title";
+    resultTitle.textContent = isVictory ? "¡Victoria!" : "Derrota";
+    resultContainer.appendChild(resultTitle);
+    
+    // Add result message
+    const resultMessage = document.createElement("p");
+    resultMessage.className = "result-message";
+    resultMessage.textContent = isVictory 
+      ? "¡Has ganado la partida!" 
+      : "Has perdido la partida...";
+    resultContainer.appendChild(resultMessage);
+    
+    // Add button to return to main menu
+    const menuButton = document.createElement("button");
+    menuButton.className = "ui-button result-button";
+    menuButton.textContent = "Volver al Menú Principal";
+    menuButton.onclick = () => {
+      document.getElementById("game-result-modal")?.remove();
+      //this.showMainMenu();
+      //! Arriba, la solución correcta. Abajo, la chapuza que funciona
+      window.location.reload();
+    };
+    resultContainer.appendChild(menuButton);
+    
+    // Create and show modal
+    const modal = new Modal(resultContainer, "game-result-modal");
+    document.body.appendChild(modal.render());
+  }
+
   // Setup socket event handlers
   setupSocketHandlers() {
     this.socket.on("startGame", ({ playerType }) => {
@@ -363,13 +420,21 @@ export class UIController {
       if (playerType === "bird") {
         import("../twoBirds.js")
           .then((module) => {
-            module.initBirdsGame(this.socket).catch(console.error);
+            module.initBirdsGame(this.socket, this.audioVolume)
+              .then(controller => {
+                this.gameController = controller;
+              })
+              .catch(console.error);
           })
           .catch(console.error);
       } else {
         import("../oneStone.js")
           .then((module) => {
-            module.initStoneGame(this.socket).catch(console.error);
+            module.initStoneGame(this.socket, this.audioVolume)
+              .then(controller => {
+                this.gameController = controller;
+              })
+              .catch(console.error);
           })
           .catch(console.error);
       }
@@ -405,13 +470,21 @@ export class UIController {
       if (playerType === "bird") {
         import("../twoBirds.js")
           .then((module) => {
-            module.initBirdsGame(this.socket).catch(console.error);
+            module.initBirdsGame(this.socket, this.audioVolume)
+              .then(controller => {
+                this.gameController = controller;
+              })
+              .catch(console.error);
           })
           .catch(console.error);
       } else {
         import("../oneStone.js")
           .then((module) => {
-            module.initStoneGame(this.socket).catch(console.error);
+            module.initStoneGame(this.socket, this.audioVolume)
+              .then(controller => {
+                this.gameController = controller;
+              })
+              .catch(console.error);
           })
           .catch(console.error);
       }

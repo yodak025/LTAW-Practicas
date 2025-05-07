@@ -239,6 +239,15 @@ io.on("connection", (socket) => {
     }
   });
 
+  // Manejar evento de fin de juego
+  socket.on("game-over", () => {
+    const room = Array.from(socket.rooms)[1];
+    if (room) {
+      socket.to(room).emit("game-over");
+      console.log(`Juego terminado en la sala: ${room}`);
+    }
+  });
+
   // Limpiar recursos al desconectar
   socket.on("disconnect", () => {
     console.log("Un cliente se ha desconectado");

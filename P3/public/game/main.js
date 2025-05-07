@@ -75,13 +75,14 @@ function resizeCanvas() {
 }
 
 // Create and initialize our UI Controller
-const uiController = new UIController(socket);
-
-// Initialize the UI when the document is ready
-window.addEventListener("load", () => {
+  const uiController = new UIController(socket);
+  
+  // Initialize the UI when the document is ready
+  window.addEventListener("load", () => {  
   // Initialize UI
   uiController.init();
-  
+  window.gameUIController = uiController; // Make it globally accessible
+
   // Initialize the canvas with background color
   document.body.style.backgroundColor = CANVAS.BACKGROUND_COLOR; //! Esto es estático
   

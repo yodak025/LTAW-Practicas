@@ -3,13 +3,18 @@ import { GameController } from "./core/gameController.js";
 import { ENTITY, RESOURCES } from "./constants.js";
 
 // Función para inicializar el modo piedra
-export async function initStoneGame(socket) {
+export async function initStoneGame(socket, audioVolume = 50) {
+  // Obtener referencia al controlador de UI
+  const uiController = window.gameUIController;
+
   const gameController = new GameController({
     gameMode: "stoneplayer",
     socket: socket,
     playerType: "stone",
     controlType: 'mobile', // Forzar tipo de control como mobile para mostrar drawing pad
-    forcePadDisplay: true  // Forzar que se muestre el drawing pad en cualquier caso
+    forcePadDisplay: true,  // Forzar que se muestre el drawing pad en cualquier caso
+    uiController: uiController, // Pasar el controlador de UI
+    volume: audioVolume
   });
 
   // Iniciar la programación de generación de berries
@@ -22,7 +27,8 @@ export async function initStoneGame(socket) {
     }
   );
 
-  return gameController.init();
+  await gameController.init();
+  return gameController;
 }
 
 // Función para manejar la generación de berries

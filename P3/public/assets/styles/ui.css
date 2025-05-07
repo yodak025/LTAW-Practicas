@@ -348,3 +348,62 @@
     pointer-events: auto;
     font-family: Jersey, Arial, sans-serif;
 }
+
+/* Game result styles */
+.game-result-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 20px;
+    font-family: Jersey, Arial, sans-serif;
+    text-align: center;
+}
+
+.victory-title {
+    font-size: 48px;
+    color: #4CAF50;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    animation: pulse 2s infinite;
+}
+
+.defeat-title {
+    font-size: 48px;
+    color: #f44336;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    animation: shake 0.5s;
+}
+
+.result-message {
+    font-size: 24px;
+    color: white;
+    margin: 10px 0;
+}
+
+.result-button {
+    background-color: #2196F3;
+    color: white;
+    padding: 15px 30px;
+    font-size: 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.result-button:hover {
+    background-color: #0b7dda;
+    transform: scale(1.05);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}

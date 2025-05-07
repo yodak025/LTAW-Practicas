@@ -1,16 +1,25 @@
-// Implementación del modo un jugador
-import { GameController } from "./core/gameController.js";
+import { GameController } from './core/gameController.js';
+import { UIController } from './ui/UIController.js';
 
-// Función para inicializar el modo un jugador
-export async function initSinglePlayerMode() {
+// Initialize single player game mode
+export async function initSinglePlayerMode(audioVolume = 50) {
+  // Create a game controller with single player settings
+  const uiController = new UIController();
+  
   const gameController = new GameController({
     gameMode: 'singleplayer',
     playerType: 'stone',
     controlType: 'mobile', 
-    forcePadDisplay: true 
+    forcePadDisplay: true,
+    playerType: null,
+    uiController: uiController,
+    volume: audioVolume
   });
   
-  return gameController.init();
+  // Initialize the game
+  await gameController.init();
+  
+  return gameController;
 }
 
 // Iniciar el juego al cargar el módulo
