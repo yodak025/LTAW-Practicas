@@ -364,7 +364,9 @@ export class UIController {
       },
       "Menú principal": () => {
         document.getElementById("game-modal")?.remove();
-        this.showMainMenu();
+        //this.showMainMenu();
+        //! Arriba, la solución correcta. Abajo, la chapuza que funciona
+        window.location.reload();
       },
     };
 

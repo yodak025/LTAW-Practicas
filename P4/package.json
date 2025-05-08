@@ -1,5 +1,26 @@
 {
-  "dependencies": {
-    "electron": "^36.1.0"
+  "name": "proto-rustic-pacman",
+  "description": "La cronica de un fracaso anunciado",
+  "author": "Yodak025",
+  "version": "0.1.0",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "build": {
+    "appId": "proto-rustic-pacman-1-id",
+    "win": {
+      "target": [
+        "portable"
+      ]
+    }
+  },
+  "devDependencies": {
+    "electron": "^36.1.0",
+    "electron-builder": "^26.0.12"
   }
 }
