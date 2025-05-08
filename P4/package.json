@@ -1,6 +1,5 @@
 {
-  "name": "proto-rustic-pacman",
-  "description": "La cronica de un fracaso anunciado",
+  "name": "kill-two-birds-with-one-stone-server",
   "author": "Yodak025",
   "version": "0.1.0",
   "main": "main.js",
@@ -12,15 +11,18 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "build": {
-    "appId": "proto-rustic-pacman-1-id",
+    "appId": "kill-two-birds-with-one-stone-server-1-id",
     "win": {
       "target": [
         "portable"
       ]
     }
   },
-  "devDependencies": {
+  "dependencies": {
     "electron": "^36.1.0",
-    "electron-builder": "^26.0.12"
+    "electron-builder": "^26.0.12",
+    "express": "^4.18.3",
+    "qrcode-terminal": "^0.12.0",
+    "socket.io": "^4.7.5"
   }
 }

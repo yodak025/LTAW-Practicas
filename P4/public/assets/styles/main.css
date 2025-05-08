@@ -1,0 +1,50 @@
+/* Estilos generales y básicos */
+@font-face {
+    font-family: Jersey;
+    src: url(../Jersey10-Regular.ttf);
+}
+
+html {
+    font-family: Jersey;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    font-family: Jersey, sans-serif;
+    background-color: rgba(6, 133, 192, 0.99);
+}
+
+/* Utilidades generales */
+.hidden {
+    display: none !important;
+}
+
+.show {
+    display: block;
+}
+
+/* Estilos para botones generales */
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    font-family: Jersey, sans-serif;
+}
+
+.fullscreen-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 15px;
+    font-size: 16px;
+    font-family: Jersey, sans-serif;
+}
+
+.fullscreen-button:hover {
+    background-color: #45a049;
+}

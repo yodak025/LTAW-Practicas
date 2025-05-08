@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kill Two Birds with One Stone</title>
+    <link rel="stylesheet" href="/assets/styles/main.css">
+    <link rel="stylesheet" href="/assets/styles/menu.css">
+    <link rel="stylesheet" href="/assets/styles/game.css">
+    <link rel="stylesheet" href="/assets/styles/layout.css">
+    <link rel="stylesheet" href="/assets/styles/ui.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <!-- Main menu container - will be populated by UI components -->
+    <div id="menu" class="menu"></div>
+
+    <!-- Game container -->
+    <div id="game-container" class="hidden">
+        <div id="game-screen">
+            <canvas id="canvas"></canvas>
+        </div>
+        <canvas id="drawing-pad"></canvas>
+    </div>
+    
+    
+
+    <!-- Load game script as a module -->
+    <script src="game/main.js" type="module"></script>
+</body>
+
+</html>
