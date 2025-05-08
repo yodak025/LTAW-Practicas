@@ -7,13 +7,157 @@ import { Server } from "socket.io";
 import qrcode from "qrcode-terminal";
 import path from 'path';
 import os from 'os';
-import { readFileSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 
 // Obtener __dirname en módulos ES
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 console.log("Arrancando electron...");
+
+// Directorio para almacenar la configuración
+const configDir = join(__dirname, 'config');
+if (!existsSync(configDir)) {
+  mkdirSync(configDir, { recursive: true });
+}
+
+// Ruta del archivo de constantes modificadas
+const customConstantsPath = join(configDir, 'custom-constants.json');
+
+// Cargar constantes originales
+let gameConstants = {};
+try {
+  const constantsFile = readFileSync(join(__dirname, 'public', 'game', 'constants.js'), 'utf8');
+  // Extraer las constantes definidas en el archivo
+  gameConstants = extractConstantsFromJS(constantsFile);
+  console.log("Constantes originales cargadas");
+} catch (error) {
+  console.error('Error al cargar constantes originales:', error);
+}
+
+// Cargar constantes personalizadas si existen
+let customConstants = {};
+if (existsSync(customConstantsPath)) {
+  try {
+    const customConstantsContent = readFileSync(customConstantsPath, 'utf8');
+    customConstants = JSON.parse(customConstantsContent);
+    console.log("Constantes personalizadas cargadas");
+  } catch (error) {
+    console.error('Error al cargar constantes personalizadas:', error);
+  }
+}
+
+// Fusionar constantes originales con las personalizadas
+mergeConstants(gameConstants, customConstants);
+
+// Función para extraer constantes de un archivo JS
+function extractConstantsFromJS(content) {
+  const constants = {};
+  
+  // Buscar todas las declaraciones de exportación
+  // Por ejemplo: export const NORMALIZED_SPACE = { ... }
+  const exportRegex = /export const (\w+) = ({[\s\S]*?});/g;
+  let match;
+  
+  while ((match = exportRegex.exec(content)) !== null) {
+    const constantName = match[1];
+    const constantValue = match[2];
+    
+    try {
+      // Convertir el texto a un objeto JavaScript
+      // Esto es necesario porque el valor está en formato de código JS, no JSON
+      // Primero reemplazamos las propiedades no válidas en JSON como comentarios
+      const cleanValue = constantValue
+        .replace(/\/\/.*$/gm, '') // Eliminar comentarios de línea
+        .replace(/\/\*[\s\S]*?\*\//g, ''); // Eliminar comentarios multilínea
+      
+      // Eval es peligroso en general, pero en este caso controlado es la mejor
+      // forma de convertir el código JS a un objeto
+      const evalFunction = new Function(`return ${cleanValue}`);
+      constants[constantName] = evalFunction();
+    } catch (error) {
+      console.error(`Error al parsear la constante ${constantName}:`, error);
+      constants[constantName] = {};
+    }
+  }
+  
+  return constants;
+}
+
+// Función para fusionar objetos profundos
+function mergeConstants(target, source) {
+  // Recorrer cada propiedad del objeto fuente (constantes personalizadas)
+  for (const key in source) {
+    // Si la propiedad es un objeto y no un array, y existe en target
+    if (
+      source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+      target[key] && typeof target[key] === 'object' && !Array.isArray(target[key])
+    ) {
+      // Recursivamente fusionar los objetos
+      mergeConstants(target[key], source[key]);
+    } else {
+      // De lo contrario, sobrescribir el valor en el objeto objetivo
+      target[key] = source[key];
+    }
+  }
+}
+
+// Función para actualizar valores de constantes usando rutas con punto
+function updateConstantsByPath(constants, paths) {
+  for (const path in paths) {
+    const value = paths[path];
+    const parts = path.split('.');
+    
+    // El primer nivel suele ser el nombre de la constante exportada (ENTITY, UI, etc)
+    const topLevelConstant = parts[0];
+    
+    // Si no existe la constante de primer nivel, saltar esta actualización
+    if (!constants[topLevelConstant]) {
+      console.warn(`La constante de primer nivel '${topLevelConstant}' no existe`);
+      continue;
+    }
+    
+    // Caso especial cuando solo hay una parte (constante de nivel superior)
+    if (parts.length === 1) {
+      constants[topLevelConstant] = value;
+      continue;
+    }
+    
+    // Navegar por el objeto hasta el penúltimo nivel
+    let current = constants[topLevelConstant];
+    for (let i = 1; i < parts.length - 1; i++) {
+      if (!current[parts[i]]) {
+        current[parts[i]] = {};
+      }
+      current = current[parts[i]];
+    }
+    
+    // Establecer el valor en el último nivel
+    const lastKey = parts[parts.length - 1];
+    current[lastKey] = value;
+  }
+}
+
+// Guardar las constantes modificadas
+function saveCustomConstants(constants) {
+  try {
+    // Convertir el objeto de modificaciones a un formato de paths
+    // para mantener la consistencia con cómo se aplican las actualizaciones
+    const pathsToSave = {};
+    
+    // Recorrer las rutas y guardar
+    for (const path in constants) {
+      pathsToSave[path] = constants[path];
+    }
+    
+    // Guardar el archivo JSON
+    writeFileSync(customConstantsPath, JSON.stringify(pathsToSave, null, 2), 'utf8');
+    return true;
+  } catch (error) {
+    console.error('Error al guardar constantes personalizadas:', error);
+    return false;
+  }
+}
 
 // Configuración del servidor
 const app = express();
@@ -30,6 +174,21 @@ app.use(express.static(join(__dirname, "public")));
 // Ruta por defecto - sirve index.html
 app.get("/", (req, res) => {
   res.sendFile(join(__dirname, "public", "index.html"));
+});
+
+// Servir constantes personalizadas en formato JavaScript
+app.get("/game/custom-constants.js", (req, res) => {
+  res.setHeader('Content-Type', 'application/javascript');
+  
+  // Construir el contenido JavaScript para las constantes
+  let jsContent = '// Constantes personalizadas generadas por el servidor\n\n';
+  
+  // Para cada constante, crear una declaración export const
+  for (const key in gameConstants) {
+    jsContent += `export const ${key} = ${JSON.stringify(gameConstants[key], null, 2)};\n\n`;
+  }
+  
+  res.send(jsContent);
 });
 
 // Manejo de rutas no encontradas
@@ -411,6 +570,31 @@ electron.app.on('ready', () => {
   electron.ipcMain.on('get-system-info', (event) => {
     const systemInfo = getSystemInfo();
     event.reply('system-info', systemInfo);
+  });
+  
+  // Canal para obtener constantes del juego
+  electron.ipcMain.on('get-game-constants', (event) => {
+    event.reply('game-constants', gameConstants);
+  });
+  
+  // Canal para actualizar constantes del juego
+  electron.ipcMain.on('update-game-constants', (event, modifiedConstants) => {
+    try {
+      // Actualizar constantes
+      updateConstantsByPath(gameConstants, modifiedConstants);
+      
+      // Guardar las constantes personalizadas
+      const saved = saveCustomConstants(modifiedConstants);
+      
+      // Notificar a todos los clientes que las constantes han cambiado
+      io.emit('constants-updated', true);
+      
+      // Notificar al renderer que las constantes se actualizaron correctamente
+      event.reply('constants-updated', { success: saved });
+    } catch (error) {
+      console.error('Error al actualizar constantes:', error);
+      event.reply('constants-updated', { success: false, error: error.message });
+    }
   });
 });
 
