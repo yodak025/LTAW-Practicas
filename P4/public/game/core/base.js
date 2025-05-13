@@ -56,7 +56,7 @@ export class Game {
       this.update(deltaTime);
       
       // Dibujar escena
-      this.draw();
+      this.draw(deltaTime);
     }
 
     // Incrementar contador de frames
@@ -71,7 +71,7 @@ export class Game {
     throw new Error("El método update debe ser implementado por las subclases");
   }
 
-  draw() {
+  draw(deltaTime) {
     throw new Error("El método draw debe ser implementado por las subclases");
   }
 

@@ -14,7 +14,7 @@ const drawingPadCanvas = document.getElementById("drawing-pad");
 const socket = io();
 
 // Función para redimensionar el canvas con relación de aspecto 16:9
-function resizeCanvas() {
+export function resizeCanvas() {
   const containerWidth = window.innerWidth;
   const containerHeight = window.innerHeight;
 

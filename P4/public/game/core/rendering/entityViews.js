@@ -1,5 +1,5 @@
 // Clase base para la visualización de entidades
-import { ENTITY, NORMALIZED_SPACE, UI } from "../../constants.js";
+import { ANIMATION, ENTITY, NORMALIZED_SPACE, UI } from "../../constants.js";
 import { DamageableComponent, ColliderType, PoopComponent } from "../entities/entities.js"
 
 export class EntityView {
@@ -281,6 +281,7 @@ export class AnimatedEntityView extends StaticSpriteEntityView {
   constructor(entity, sprites, options = {}) {
     super(entity, sprites[0], options);
     this.sprites = sprites;
+    this.currentTime = 0;
     this.currentSpriteIndex = 0;
   }
 
@@ -292,9 +293,9 @@ export class AnimatedEntityView extends StaticSpriteEntityView {
     super.drawSprite();
   }
 
-  nextFrame() {
-    this.currentSpriteIndex =
-      (this.currentSpriteIndex + 1) % this.sprites.length;
+  nextFrame(deltaTime) {
+    this.currentTime += ANIMATION.ANIMATION_FREQUENCY*deltaTime
+    this.currentSpriteIndex = Math.floor(this.currentTime) % this.sprites.length;
   }
 }
 

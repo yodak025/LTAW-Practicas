@@ -360,11 +360,11 @@ export class RenderManager {
   }
   
   // Actualizar animaciones
-  updateAnimations() {
+  updateAnimations(deltaTime) {
     this.frameCount++;
     if (this.frameCount % ANIMATION.SPRITE_FRAME_SPEED === 0) {
-      this.views.blueBird?.nextFrame();
-      this.views.greenBird?.nextFrame();
+      this.views.blueBird?.nextFrame(deltaTime);
+      this.views.greenBird?.nextFrame(deltaTime);
     }
   }
   

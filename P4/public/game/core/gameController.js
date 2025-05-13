@@ -320,7 +320,7 @@ export class GameController extends Game {
   }
 
   // Renderizado del juego
-  draw() {
+  draw(deltaTime) {
     // Limpiar el canvas
     this.renderManager.clear();
     
@@ -328,7 +328,7 @@ export class GameController extends Game {
     this.renderManager.draw(this.entityManager);
     
     // Actualizar las animaciones
-    this.renderManager.updateAnimations();
+    this.renderManager.updateAnimations(deltaTime);
   }
 
   // Override del método stop para también detener la música

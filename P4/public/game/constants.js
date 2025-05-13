@@ -85,6 +85,7 @@ export const ENTITY = {
 export const ANIMATION = {
   SPRITE_FRAME_SPEED: 5, // Frames entre cambios de sprite
   MAX_DELTA_TIME: 1 / 30, // Cap de delta time a 30 FPS
+  ANIMATION_FREQUENCY: 120, // Frecuencia de animación (actualizaciones por segundo)
 };
 
 // Configuración de UI
