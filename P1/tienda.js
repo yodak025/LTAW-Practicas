@@ -11,7 +11,7 @@ const server = http.createServer((req, res) => {
 
   // Determinar la ruta del archivo solicitado
   
-  const ROOT = './P1/frontend/dist';// ! Esto es extremadamente cutre, Diego. 
+  const ROOT = './frontend/dist';// ! Esto es extremadamente cutre, Diego. 
   let filePath = ROOT + req.url;
   if (filePath === ROOT + '/') {
     filePath += 'index.html';
@@ -51,7 +51,7 @@ const server = http.createServer((req, res) => {
         // Log file not found error
         console.error(`File not found: ${filePath}`);
         // Si el archivo no existe, servir un 404 personalizado
-        fs.readFile('./P1/frontend/dist/error-404.html', (err404, content404) => {
+        fs.readFile('./frontend/dist/error-404.html', (err404, content404) => {
             res.writeHead(404, { 'Content-Type': 'text/html' });
             res.end(content404, 'utf-8');
   

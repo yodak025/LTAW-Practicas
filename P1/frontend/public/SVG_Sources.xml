@@ -1,3 +1,8 @@
+<!-- 
+    Este documento contiene los SVG fuente de todos los iconos del proyecto. 
+    No se utiliza, pero lo dejo aquí por si pudiese ser útil
+    La implementación de los iconos SVG se realiza en el archivo src/components/Product/ProductIcon.jsx
+  -->
 <root>
   <!-- Paper -->
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -302,5 +307,11 @@
     <path d="M8 12l4 0" />
     <path d="M8 16l4 0" />
   </svg>
+
+  <!-- Logo Página Principal -->
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor" stroke="currentColor">
+  <path
+    d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
+</svg>
 
 </root>

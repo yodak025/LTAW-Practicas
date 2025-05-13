@@ -1,11 +1,13 @@
 @import url('../../assets/colors.css');
+
+/* Estilos del componente Layout */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Aseguramos que el contenido no quede oculto bajo el nav */
 main {
     margin-top: 0px;
 }

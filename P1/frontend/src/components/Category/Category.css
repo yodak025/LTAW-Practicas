@@ -1,4 +1,7 @@
 @import url('../../assets/colors.css');
+
+/* Estilos para el componente Category */
+
 .os-category{
 width: 100%;
 padding: 0px 0px 5vh 0px;
@@ -10,7 +13,7 @@ padding: 0px 0px 5vh 0px;
   font-size: 3vh;
   padding: 5px;
   margin: 10px 0px 40px 10px;
-  border-radius: 3px;  /* Added border radius to match product style */
+  border-radius: 3px; 
 }
 /* Contenedor para la animación deslizante */
 .os-category-slidingContainer {
@@ -22,14 +25,13 @@ padding: 0px 0px 5vh 0px;
 /* Clases para la animación */
 .os-category-slidingContainer.--forward {
   opacity: 0.5;
-  transform: translateX(-30px); /* Pequeño desplazamiento para efecto visual */
+  transform: translateX(-30px);
 }
 .os-category-slidingContainer.--backward  {
   opacity: 0.5;
-  transform: translateX(30px); /* Pequeño desplazamiento para efecto visual */
+  transform: translateX(30px);
 }
 
-/* Ajuste al contenedor principal para el nuevo wrapper */
 .os-category-productsContainer {
   display: flex;
   flex-direction: row;
@@ -64,7 +66,6 @@ padding: 0px 0px 5vh 0px;
   background-color: var(--neutral-color);
 }
 
-/* Change to only apply hover effect when button is not disabled */
 .os-category-btn:not(:disabled):hover {
   background-color: var(--accent-color);
 }

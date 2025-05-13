@@ -1,5 +1,13 @@
 import "./Product.css";
 
+/**
+ * Componentes de íconos para diferentes tipos de documentos.
+ * @param {Object} props - Props del componente.
+ * @param {string} props.className - Clase CSS adicional para el ícono. 
+ * @returns {JSX.Element} - Un elemento SVG que representa un ícono.
+ */
+
+// Iconos de documentos (Por defecto, utilizado durante el desarrollo)
 export const DefaultIcon = ({ className }) => (
   <svg
     className={`icon ${className}`}
@@ -523,7 +531,17 @@ export const OpinionArticleAltIcon = ({ className }) => (
   </svg>
 );
 
-// Update Icons object with new names
+/**
+ * 
+ * @param {Object} props - Props del componente 
+ * @param {string} props.iconName - Nombre del icono a renderizar
+ * @param {string} props.className - Clases CSS adicionales para el icono
+ * @returns {JSX.Element} - Icono correspondiente al nombre proporcionado
+ * @description
+ * Este componente renderiza un icono basado en el nombre proporcionado a partir 
+ * de los componentes de iconos previos. Si el nombre del icono no coincide con ninguno de los
+ * iconos disponibles, se renderiza un icono por defecto.
+ */
 export const Icon = ({ iconName, className }) => {
   const IconComponents = {
     default: DefaultIcon,

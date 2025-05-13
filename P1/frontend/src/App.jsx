@@ -3,7 +3,17 @@ import Layout from './components/Layout/Layout';
 import Product from './components/Product/Product';
 import Category from './components/Category/Category';
 import { FrontImg } from './components/FrontImg';
-
+/**
+ * @component App - Componente principal de la aplicación.
+ * @returns {JSX.Element} - Un elemento que representa la página principal de la tienda de servicios de redacción.
+ * @description
+ * Este componente muestra un encabezado con un mensaje de bienvenida y una imagen,
+ * seguido de una lista de categorías y productos disponibles en la tienda.
+ *
+ * La estructura de la página se organiza utilizando componentes de diseño y estilo.
+ * El encabezado incluye un título y una descripción, mientras que el cuerpo principal
+ * presenta diferentes categorías de productos, cada una con su respectiva lista de productos.
+ */
 
 function App() {
   return (

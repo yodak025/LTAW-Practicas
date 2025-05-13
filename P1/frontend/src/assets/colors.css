@@ -1,3 +1,8 @@
+/*
+Este archivo contiene las variables de color para el tema claro y oscuro.
+En esta práctica no se implementa el tema oscuro, pero se deja preparado para su implementación.
+*/
+
 :root{
   --primary-color: #5A217C   ;
   --secondary-color: #7E5191    ;

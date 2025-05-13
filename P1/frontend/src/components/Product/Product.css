@@ -1,5 +1,7 @@
 @import url("../../assets/colors.css");
 
+/* Estilos del componente Product */
+
 .os-product {
   background-color: var(--light-color);
   display: flex;
