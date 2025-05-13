@@ -324,6 +324,44 @@
           }
         }
       ]
+    },
+    {
+      "usuario": "Yodak025",
+      "fecha": "2025-05-13T19:04:08.899Z",
+      "dirección": "esrebollo@gmail.com",
+      "tarjeta": "11111212121212121212",
+      "documentos": [
+        {
+          "tipo": "curriculum-vitae",
+          "cuerpo": {
+            "Currículum Vitae": {
+              "Datos de Contacto": {
+                "Nombre Completo": "trucutun",
+                "Dirección": "Avda. Abogados de Atocha, 6",
+                "Teléfono": "646967576",
+                "Correo Electrónico": "diego.sota@gmail.com"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "usuario": "Yodak025",
+      "fecha": "2025-05-13T19:22:59.336Z",
+      "dirección": "esrebollo@gmail.com",
+      "tarjeta": "11111212121212121212",
+      "documentos": [
+        {
+          "tipo": "revisar-redaccion",
+          "cuerpo": {
+            "Corrección de Texto": {
+              "Texto Corregido": "\"No se puede generar un resumen coherente o entender el significado del texto proporcionado porque parece ser una secuencia aleatoria de caracteres y no forma una oración o frase comprensible. El texto carece de claridad y coherencia, lo que dificulta su interpretación.Para ofrecer una ayuda más efectiva, sería útil recibir un texto que contenga ideas y conceptos claros y bien estructurados, permitiendo así una revisión y análisis más precisos y un feedback constructivo más detallado y relevante.\""
+            },
+            "Feedback": "\"Para empezar a revisar el texto y ofrecer un feedback constructivo, me gustaría saber cuál es el texto que se va a revisar, ya que no se ha proporcionado el texto entre comillas que contiene las ideas y conceptos a evaluar. Una vez que tenga acceso a ese texto, podré proceder a analizarlo y ofrecer sugerencias para mejorar su claridad, coherencia y flujo, manteniendo un tono informal y cercano como se solicita. \\n\\nEn general, al revisar textos, suelo buscar aspectos como la claridad en la exposición de las ideas, la coherencia en el desarrollo de los conceptos, el uso adecuado del lenguaje y la gramática, y cómo se estructura el texto para que fluya de manera lógica y fácil de seguir. También considero importante que el texto sea atractivo y mantenga el interés del lector, especialmente cuando se busca un tono coloquial y cercano.\\n\\nEspero poder recibir el texto para proceder con la revisión y ofrecer el feedback solicitado de manera detallada y constructiva.\""
+          }
+        }
+      ]
     }
   ]
 }

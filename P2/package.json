@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "tienda.js",
   "scripts": {
+    "start": "babel-node tienda.js",
     "dev": "babel-node tienda.js",
     "build": "esbuild client/hydrateApp.jsx --bundle --outfile=server/public/bundle.js --minify --jsx=automatic --platform=browser",
     "dev+build": "clear && npm run build && npm run dev"

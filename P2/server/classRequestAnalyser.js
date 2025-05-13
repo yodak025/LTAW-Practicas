@@ -52,7 +52,10 @@ class RequestAnalyser {
         break;
       case "/styles/colors.css":
         this.getUserFromCookie(req.headers.cookie);
-
+        if (!this.user) {
+          this.resourceDemipath = "/styles/colors-default.css";
+          return;
+        }
         switch (this.user.tema) {
             
           case "dark":
