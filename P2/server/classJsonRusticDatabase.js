@@ -2,6 +2,13 @@ import fs from "fs";
 import colors from "colors";
 
 //--------------------------------------- AUX FUNCTIONS ---------------------
+
+/**
+ * @function normalizeString
+ * @param {string} str - Cadena a normalizar
+ * @returns {string} - Cadena normalizada
+ */
+
 function normalizeString(str) {
   return str
     .normalize("NFD") // Separa los caracteres acentuados. Ejemplo: á -> a + ́
@@ -12,9 +19,19 @@ function normalizeString(str) {
 }
 
 //------------------------------------- DATABASE ------------------------------
-// ! la base de datos da errores de lectura y escritura y no sabemos por qué
 
+/**
+ * @class JsonRusticDatabase
+ * @classdesc Clase para manejar la base de datos JSON de la tienda.
+ */
 class JsonRusticDatabase {
+  /**
+   * @constructor
+   * @param {string} path - Ruta del archivo JSON de la base de datos.
+   * @description
+   * Constructor de la clase JsonRusticDatabase.
+   * Inicializa la ruta del archivo y las propiedades de la base de datos.
+   */
   constructor(path) {
     this.path = path;
     this.users = undefined;
@@ -23,6 +40,11 @@ class JsonRusticDatabase {
     this.isModified = false;
   }
 
+  /**
+   * @method readDatabase
+   * @description
+   * Lee la base de datos desde el archivo JSON.
+   */
   readDatabase = () => {
     return new Promise((resolve, reject) => {
       fs.readFile(this.path, "utf-8", (err, data) => {
@@ -46,11 +68,20 @@ class JsonRusticDatabase {
       });
     });
   };
+
+  /**
+   * @method writeDatabase
+   * @description
+   * Escribe la base de datos en el archivo JSON.
+   */
   writeDatabase = () => {
     // ? En solución a un bug terrible de concurrencia de tareas,
     // ? el desarrollador ha optado por bloquear el hilo de ejecución
     // ? mientras se escribe la base de datos, lo que no es óptimo
-    // ? y representa una decisión realmente cobarde, pero es lo que hay.
+    // ? y representa una decisión realmente cobarde.
+    // ? No obstante, la escrutura se realiza de forma periódica
+    // ? solo ante cambios en la base de datos, por lo que no debería
+    // ? afectar al rendimiento de la aplicación.
 
     fs.writeFileSync(
       this.path,
@@ -76,6 +107,15 @@ class JsonRusticDatabase {
     );
   };
 
+  /**
+   * @method registerUser
+   * @param {string} user - Nombre de usuario.
+   * @param {string} fullName - Nombre completo del usuario.
+   * @param {string} email - Correo electrónico del usuario.
+   * @returns {void}
+   * @description
+   * Añade un nuevo usuario a la base de datos.
+   */
   registerUser = (user, fullName, email) => {
     this.isModified = true;
     this.users.push({
@@ -86,6 +126,15 @@ class JsonRusticDatabase {
       carrito: [],
     });
   }
+
+  /**
+   * @method updateUser
+   * @param {string} userCookie - Nombre de usuario extraido de la cookie.
+   * @param {object} userProps - Propiedades del usuario a actualizar.
+   * @returns {void}
+   * @description
+   *  Busca un usuario en la base de datos y, si lo encuentra, actualiza sus propiedades.
+   */
   updateUser = (userCookie, userProps) => {
     if (!userCookie) return;
     this.users.forEach((u) => {
@@ -100,6 +149,16 @@ class JsonRusticDatabase {
     });
   };
 
+  /**
+   * @method addNewOrder
+   * @param {array} orders - Array de objetos con los productos del pedido.
+   * @param {string} userName - Nombre de usuario.
+   * @param {string} mail - Correo electrónico del usuario.
+   * @param {string} card - Número de tarjeta del usuario.
+   * @returns {void}
+   * @description
+   * Añade un nuevo pedido a la base de datos.
+   */
   addNewOrder = (orders, userName, mail, card) => {
     this.isModified = true;
     const newOrder = {

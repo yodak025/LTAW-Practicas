@@ -1,6 +1,11 @@
 import React from "react";
 import BaseForm from "./BaseForm";
 
+/**
+ * Componente para crear un formulario de una carta de recomendación
+ * @returns {JSX.Element} - Un elemento que representa el formulario 
+ */
+
 export default function RecommendationLetterForm() {
   return (
     <div className="os-form-container">

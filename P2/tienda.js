@@ -21,7 +21,7 @@ const server = http.createServer(async (req, res) => {
   if (req.method == "POST") {
     await reqData.recievePostData(req);
   }
-
+  /* Peticiones AJAX */
   switch (reqData.ajax) {
     case null:
       break;
@@ -62,7 +62,8 @@ const server = http.createServer(async (req, res) => {
         "new-order",
         `user: ${reqData.user.usuario}, mail: ${reqData.body.mail}, card: ${reqData.body.card}`
       );
-      // Procesamiento asíncrono de documentos
+
+      /* Procesamiento asíncrono de documentos */
       printLog("processing-order", cart, null);
 
       const documentPromises = cart.map((order, index) => {
@@ -71,8 +72,9 @@ const server = http.createServer(async (req, res) => {
           { idx: index, type: order.tipo, content: JSON.parse(order.cuerpo)},
           null
         );
-        return documentGenerationRequest(order.tipo, order.cuerpo);
+        return documentGenerationRequest(order.tipo, order.cuerpo); //-- Llamada a la API
       });
+
       const documents = await Promise.all(documentPromises);
       printLog("processed-order", null, null);
 
@@ -106,7 +108,7 @@ const server = http.createServer(async (req, res) => {
       return;
   }
 
-  // Si se pide un recurso dinámico, se carga template.html y se renderiza el componente al vuelo
+  //-- Si se pide un recurso dinámico, se carga template.html y se renderiza el componente al vuelo
   let resourcePath = reqData.isDynamic
     ? "./server/public/template.html"
     : `./server/public${reqData.resourceDemipath}`;
@@ -114,16 +116,15 @@ const server = http.createServer(async (req, res) => {
   if (reqData.headers["Set-Cookie"])
     res.setHeader("Set-Cookie", reqData.headers["Set-Cookie"]);
 
-  // Imprimir la ruta del archivo solicitado en la consola
 
   // Leer y servir el archivo solicitado
   fs.readFile(resourcePath, async (error, content) => {
     let resData = null;
     if (error) {
       if (error.code === "ENOENT") {
-        // Log file not found error
         // Si el archivo no existe, servir un 404 personalizado
         // ? Pido perdón a quien corresponda, chatGPT me ha convencido de que esto es más eficiente
+        // ? para que la lectura sea asíncrona y haga una espera bloqueante pero sobre el proceso y no sobre el hilo
         let content404 = await (async () => {
           return new Promise((resolve) => {
             fs.readFile("./server/public/template.html", "utf-8", (_, data) => {
@@ -170,10 +171,10 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(resData.statusCode, resData.getResponseHead());
     res.end(resData.content, "utf-8");
   });
-  // reescribir la base de datos
 });
 
 server.listen(PORT, async () => {
+  // Actualizar la base de datos cada 5 segundos si ha habido cambios
   setInterval(() => {
     if (db.isModified) {
       console.log("\nActualizando base de datos...".bgWhite);

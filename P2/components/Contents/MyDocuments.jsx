@@ -1,7 +1,16 @@
 import React from 'react';
 
+/**
+ * @component MyDocuments
+ * @param {Object} props - Propiedades del componente
+ * @param {Array} props.documents - Lista de documentos generados
+ * @description Componente que muestra una lista de documentos generados por el usuario.
+ * Cada documento incluye un título, una fecha de creación y un botón para ver el documento.
+ * Los documentos se ordenan por fecha, mostrando primero los más recientes.
+ */
+
 const MyDocuments = ({ documents }) => {
-  // Use the same product mapping dictionary as in Cart.jsx and ProcessOrder.jsx
+  // Usa el mismo mapa de productos que en los componentes Cart y Products
   const productMap = {
     "curriculum-vitae": "Currículum Vitae Personalizado",
     "carta-presentacion": "Carta de Presentación",
@@ -21,10 +30,10 @@ const MyDocuments = ({ documents }) => {
     
     const date = new Date(dateString);
     
-    // Check if date is valid
+    //Comprobar si la fecha es válida
     if (isNaN(date.getTime())) return 'Fecha incorrecta';
     
-    // Format date: "10 de Mayo, 2023 - 14:30"
+    // Formato: "10 de Mayo, 2023 - 14:30"
     const options = { 
       year: 'numeric', 
       month: 'long', 
@@ -40,13 +49,11 @@ const MyDocuments = ({ documents }) => {
     window.location.href = `/document.html?id=${id}`;
   };
 
-  // Sort documents by date, newest first
+  // Ordenar documentos por fecha (más recientes primero)
   const sortedDocuments = documents && documents.length > 0 
     ? [...documents].sort((a, b) => {
-        // Default dates if missing
         const dateA = a.date ? new Date(a.date).getTime() : 0;
         const dateB = b.date ? new Date(b.date).getTime() : 0;
-        // Sort descending (newest first)
         return dateB - dateA;
       })
     : [];

@@ -1,4 +1,17 @@
 import React from "react";
+
+/**
+ * @component FrontImg
+ * @param {Object} props - Props del componente.
+ * @param {string} props.className - Clase CSS adicional para el componente. 
+ * @returns {JSX.Element} - Un elemento SVG que representa una imagen frontal.
+ * @description
+ * Este componente SVG representa una imagen frontal que se utiliza en la interfaz de usuario.
+ * El control de color y el tamaño se pueden ajustar mediante las propiedades CSS. La clase principal
+ * se pasa como prop y se aplica al elemento SVG junto con las clases de color --firstColor y --secondColor.
+ * Estos estilos actualmente se definen en App.css . 
+ */
+
 export const FrontImg = ({className}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

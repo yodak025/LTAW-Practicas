@@ -1,6 +1,11 @@
 import React from "react";
 import BaseForm from "./BaseForm";
 
+/**
+ * Componente para crear un formulario de un texto prensado a LaTeX
+ * @returns {JSX.Element} - Un elemento que representa el formulario 
+ */
+
 export default function LatexTextForm() {
   return (
     <div className="os-form-container">

@@ -1,10 +1,27 @@
 import React, { useState, useEffect } from "react";
 
+/**
+ * @component OrderItem
+ * @param {Object} props - Propiedades del componente
+ * @param {string} props.type - Tipo de producto
+ * @param {string} props.title - Título del producto 
+ * @returns {JSX.Element} - Un elemento que representa un artículo del pedido.
+ */
+
 const OrderItem = ({ type, title }) => (
   <div className="os-order-item">
     <span className="os-order-item-title">{title}</span>
   </div>
 );
+
+/** 
+ * @component PaymentModal
+ * @param {Object} props - Propiedades del componente
+ * @param {boolean} props.isOpen - Indica si el modal está abierto o cerrado
+ * @param {function} props.onConfirm - Función a ejecutar al confirmar el pedido
+ * @param {function} props.onCancel - Función a ejecutar al cancelar el pedido
+ * @returns {JSX.Element} - Un elemento que representa el modal de pago.
+ */ 
 
 const PaymentModal = ({ isOpen, onConfirm, onCancel }) => {
   const [email, setEmail] = useState("");
@@ -82,6 +99,20 @@ const PaymentModal = ({ isOpen, onConfirm, onCancel }) => {
     </div>
   );
 };
+
+/**
+ * @component ProcessOrder
+ * @description Componente principal que maneja el proceso de pedido.
+ * @returns {JSX.Element} - Un elemento que representa el proceso de pedido.
+ * @description
+ * Este componente muestra un resumen del pedido y permite al usuario proceder al pago.
+ * Los artículos del pedido se obtienen de una cookie llamada "cart".
+ * Al hacer clic en "Tramitar Pedido", se abre un modal donde el usuario puede 
+ * ingresar su correo electrónico y número de tarjeta.
+ * Al confirmar el pedido, se envía una solicitud al servidor para procesar el pedido.
+ * Si el pedido se procesa con éxito, se muestra un mensaje de éxito y se ofrecen opciones 
+ * para volver a la página principal o a la sección de documentos generados.
+ */
 
 export default function ProcessOrder() {
   const [cartItems, setCartItems] = useState([]);

@@ -532,7 +532,7 @@ export const OpinionArticleAltIcon = ({ className }) => (
 );
 
 /**
- * 
+ * @component Icon
  * @param {Object} props - Props del componente 
  * @param {string} props.iconName - Nombre del icono a renderizar
  * @param {string} props.className - Clases CSS adicionales para el icono
@@ -542,6 +542,7 @@ export const OpinionArticleAltIcon = ({ className }) => (
  * de los componentes de iconos previos. Si el nombre del icono no coincide con ninguno de los
  * iconos disponibles, se renderiza un icono por defecto.
  */
+
 export const Icon = ({ iconName, className }) => {
   const IconComponents = {
     default: DefaultIcon,

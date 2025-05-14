@@ -1,5 +1,16 @@
 import React from 'react';
 
+/**
+ * @component MyDocuments
+ * @param {Object} structure - Estructura del documento, que puede ser un objeto o una cadena de texto.
+ * @returns {JSX.Element} - Un elemento que representa el documento estructurado.
+ * @description
+ * Componente que muestra un documento estructurado en secciones y subsecciones.
+ * Cada sección puede contener texto o más secciones.
+ * structure debe ser un objeto donde las claves representan los títulos de nivel n y 
+ * los valores pueden ser el texto contenido u otro objeto cuyas claves son los títulos de nivel n+1...
+ */
+
 const Document = ({ structure }) => { //TODO - Mejor con children
   const renderText = (text) => {
     // Dividir el texto en párrafos y filtrar los párrafos vacíos

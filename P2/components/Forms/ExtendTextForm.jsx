@@ -1,6 +1,11 @@
 import React from "react";
 import BaseForm from "./BaseForm";
 
+/**
+ * Componente para crear un formulario de un texto extendido
+ * @returns {JSX.Element} - Un elemento que representa el formulario 
+ */
+
 export default function ExtendTextForm() {
   return (
     <div className="os-form-container">

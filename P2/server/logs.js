@@ -1,5 +1,13 @@
 import colors from "colors";
 
+/**
+ * @function printStructure
+ * @param {Object} obj - Objeto a imprimir
+ * @param {number} depth - Profundidad de la estructura
+ * @returns {string} - Estructura del objeto
+ * @description Imprime la estructura de un objeto en forma de árbol.
+ */
+
 function printStructure(obj, depth = 0) {
   let result = "";
   const indent = "  ".repeat(depth); // Dos espacios por nivel
@@ -13,6 +21,18 @@ function printStructure(obj, depth = 0) {
 
   return result;
 }
+
+/**
+ * @function printLog
+ * @description
+ * Función que imprime en consola el log de la petición.
+ * Dependiendo del tipo de recurso, se imprimirá un mensaje diferente.
+ * A menudo, los parametros se usan de forma laxa según el tipo de recurso.	
+ * @param {string} type - Tipo de recurso
+ * @param {string} resource - Recurso solicitado
+ * @param {string} request - Petición realizada 
+ * @returns {void}
+ */
 
 export default function printLog(type, resource, request) {
   switch (type) {

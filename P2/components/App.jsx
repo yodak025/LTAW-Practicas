@@ -23,6 +23,20 @@ import ReviewTextForm from "./Forms/ReviewTextForm.jsx";
 import SchematizeTextForm from "./Forms/SchematizeTextForm.jsx";
 import SummarizeTextForm from "./Forms/SummarizeTextForm.jsx";
 
+/**
+ * @component App
+ * @description
+ * Componente principal de la aplicación.
+ * Renderiza el contenido según la propiedad "content" pasada como prop.
+ * Contiene la barra de navegación y el contenido correspondiente.
+ * @param {props} props
+ * @param {string} props.content - Nombre del contenido a renderizar 
+ * @param {string} [props.userName] - Nombre del usuario
+ * @param {string} [props.document] - Estructura del documento
+ * @param {string} [props.documents] - Documentos del usuario
+ * @returns {JSX.Element} - El elemento aplicación.
+ */
+
 export default function App({ props }) {
   const content = props.content;
   switch (content) {

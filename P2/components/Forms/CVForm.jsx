@@ -1,6 +1,11 @@
 import React from "react";
 import BaseForm from "./BaseForm";
 
+/**
+ * Componente para crear un formulario de currículum vitae
+ * @returns {JSX.Element} - Un elemento que representa el formulario 
+ */
+
 export default function CVForm() {
   return (
     <div className="os-form-container">

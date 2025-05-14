@@ -1,6 +1,11 @@
 import React from "react";
 import BaseForm from "./BaseForm";
 
+/**
+ * Componente para crear una carta de presentación
+ * @returns {JSX.Element} - Un elemento que representa el formulario
+ */
+
 export default function CoverLetterForm() {
   return (
     <div className="os-form-container">

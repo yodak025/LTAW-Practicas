@@ -7,6 +7,7 @@ import React from "react";
  * @param {string} props.submitText - Texto del botón de envío
  * @param {React.ReactNode} props.children - Elementos del formulario
  */
+
 export default function BaseForm({ type, submitText, children }) {
   const handleSubmit = async (event) => {
     event.preventDefault();

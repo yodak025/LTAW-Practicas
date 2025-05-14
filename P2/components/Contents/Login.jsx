@@ -1,6 +1,14 @@
 import React from "react";
 import { useState } from "react";
 
+/**
+ * @component LoginPage
+ * @returns {JSX.Element} - Un elemento que representa la página de inicio de sesión y registro.
+ * @description
+ * Este componente muestra un formulario de inicio de sesión y otro de registro.
+ * Permite al usuario alternar entre ambos formularios mediante un useState.
+ */
+
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
 

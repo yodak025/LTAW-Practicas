@@ -4,6 +4,19 @@ import { useState, useEffect, useRef } from "react";
 
 const ANIMATION_DURATION = 300; //!-- Debe ser consistente con la duración de la transición CSS
 
+/**
+ * Componente de categoría que muestra productos en una interfaz de usuario.
+ * @component
+ * @param {object} props - Props del componente.
+ * @param {string} props.name - Nombre de la categoría.
+ * @param {ReactNode} props.children - Productos a mostrar.
+ * @returns {JSX.Element} - Un elemento que representa la categoría y sus productos.
+ * @description
+ * Este componente maneja la visualización de productos en una categoría específica.
+ * Permite la navegación entre productos utilizando botones de retroceso y avance.
+ * La cantidad de productos visibles se adapta al tamaño de la ventana.
+ */
+
 export default function Category({ name, children }) {
   //-- Se crean estados para manejar la página actual, la cantidad de productos por página y el estado del la animación
   const [currentPage, setCurrentPage] = useState(0); //-- Controla la página actual
@@ -24,13 +37,13 @@ export default function Category({ name, children }) {
   useEffect(
     () => {
       const calculateVisibleProducts = () => {
-        if (!containerRef.current) return; // !-- Deberías controlar un posible error si el contenedor no existe
+        if (!containerRef.current) return; 
         //-- Calcula el ancho de la parte del contenedor que no ocupan los botones
         const containerWidth = containerRef.current.clientWidth;
-        const buttonWidth = 100; // Approximate width of both buttons // ! CHAPUZAAAA
+        const buttonWidth = 100; // Approximate width of both buttons 
         const availableWidth = containerWidth - buttonWidth;
 
-        //-- Calcula el tamaño de un producto //!-- Lo está haciendo muy cutre
+        //-- Calcula el tamaño de un producto 
         const viewportHeight = window.innerHeight;
         const productWidth = (38 * viewportHeight) / 100 + 10;
 

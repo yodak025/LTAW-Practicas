@@ -1,6 +1,15 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import Cart from './Cart';
 
+/**
+ * @funtion toggleTheme
+ * @description
+ * Función que cambia el tema de la aplicación.
+ * Realiza una petición AJAX al servidor para cambiar el tema.
+ * Recarga la página una vez se ha cambiado el tema.
+ * @returns {void}
+ */
+
 const toggleTheme = () => {
   const m = new XMLHttpRequest();
   m.onreadystatechange = () => {
@@ -19,19 +28,34 @@ const toggleTheme = () => {
   console.log("Peticion ToggleTheme enviada");
 };
 
+/**
+ * @component NavContent
+ * @description
+ * Componente que renderiza el contenido de la barra de navegación.
+ * Contiene el menú de navegación, la barra de búsqueda y las opciones de usuario.
+ * También maneja el estado de los dropdowns y las peticiones AJAX.
+ * @param {Object} props
+ * @param {string} props.user - Nombre del usuario 
+ * @returns {JSX.Element} 
+ */
+
 function NavContent({ user }) {
+  // Estados para controlar la visibilidad de los diferentes menús desplegables
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [showCartDropdown, setShowCartDropdown] = useState(false);
   const [searchValue, setSearchValue] = useState([]);
 
+  // Referencias para detectar clics fuera de los menús desplegables
   const menuRef = useRef(null);
   const searchRef = useRef(null);
   const cartRef = useRef(null);
   const userRef = useRef(null);
 
   useEffect(() => {
+    // Cierra todos los menús desplegables cuando se hace clic fuera de ellos
+    // Implementa un pequeño retardo para evitar conflictos con los eventos de clic
     const handleClickOutside = (event) => {
       if (!menuRef.current?.contains(event.target) &&
           !searchRef.current?.contains(event.target) &&
@@ -161,8 +185,7 @@ function NavContent({ user }) {
                   <a href="" onClick={toggleTheme}>
                     Cambiar Tema
                   </a>
-                  <a href="#settings">Configuración</a>
-                  <a href="/logout">LogOut</a>
+                  <a href="/logout">Cerrar Sesión</a>
                 </div>
               )}
             </div>

@@ -3,6 +3,13 @@ import Product from '../Product/Product';
 import Category from '../Category/Category';
 import { FrontImg } from '../FrontImg';
 
+/**
+ * @component Products
+ * @description Componente que muestra una lista de productos organizados en categorías.
+ * Cada categoría contiene varios productos, cada uno con su nombre, id y un índice.
+ * Se trata del contenido principal de la tienda de servicios de redacción.
+ * @returns {JSX.Element} - Un elemento que representa la tienda de servicios de redacción.
+ */
 
 function Products() {
   return (

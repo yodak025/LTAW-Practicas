@@ -38,7 +38,7 @@ export default function Product({ name, id ,index }) {
           className={`os-product-btn${setToClassIfEven(index)}`}
           href= {`/product.html?type=${id}`}
         >
-          Generate Product
+          Generar Documento!
         </a>
       </section>
       <Icon iconName={name} className={`os-product-logo${setToClassIfEven(index)}`} />

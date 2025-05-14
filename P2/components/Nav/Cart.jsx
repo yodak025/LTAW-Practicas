@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 
-// Modal de confirmación reutilizable
+/**
+ * @component ConfirmModal
+ * @param {Object} props
+ * @param {boolean} props.isOpen - Indica si el modal está abierto o cerrado
+ * @param {string} props.message - Mensaje a mostrar en el modal
+ * @param {function} props.onConfirm - Función a ejecutar al confirmar
+ * @param {function} props.onCancel - Función a ejecutar al cancelar 
+ * @returns {JSX.Element|null} - El modal de confirmación o null si no está abierto
+ */
+
 const ConfirmModal = ({ isOpen, message, onConfirm, onCancel }) => {
   if (!isOpen) return null;
 
@@ -20,6 +29,16 @@ const ConfirmModal = ({ isOpen, message, onConfirm, onCancel }) => {
     </div>
   );
 };
+
+/**
+ * @component Cart
+ * @description 
+ * Componente que representa el carrito de compras.
+ * Muestra los elementos del carrito a partir de la cookie "cart".
+ * Permite eliminar elementos individuales o vaciar el carrito completo.
+ * También permite tramitar el pedido.
+ * @returns {JSX.Element} - El componente del carrito
+ */
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
