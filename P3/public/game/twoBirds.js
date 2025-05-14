@@ -1,8 +1,17 @@
-// Implementación del modo jugador de pájaro
+/**
+ * @fileoverview Implementación del modo de juego donde un jugador controla los dos pájaros
+ */
 import { GameController } from "./core/gameController.js";
 import { detectMobileDevice } from "./utils/deviceDetector.js";
 
-// Función para inicializar el modo pájaro
+/**
+ * @function initBirdsGame
+ * @description Inicializa el juego en modo pájaros para multijugador
+ * @async
+ * @param {Object} socket - Socket para comunicación en tiempo real
+ * @param {number} [audioVolume=50] - Volumen del audio (0-100)
+ * @returns {Promise<GameController>} Controlador del juego inicializado
+ */
 export async function initBirdsGame(socket, audioVolume = 50) {
   // Obtener referencia al controlador de UI
   const uiController = window.gameUIController;

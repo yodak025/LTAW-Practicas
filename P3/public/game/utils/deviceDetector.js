@@ -1,4 +1,12 @@
-// Utilidad para detectar si el dispositivo es móvil
+/**
+ * @fileoverview Utilidades para detectar características del dispositivo del usuario
+ */
+
+/**
+ * @function detectMobileDevice
+ * @description Detecta si el dispositivo actual es un dispositivo móvil
+ * @returns {boolean} Verdadero si es un dispositivo móvil, falso en caso contrario
+ */
 export function detectMobileDevice() {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
   

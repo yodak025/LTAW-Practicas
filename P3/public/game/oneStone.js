@@ -1,8 +1,17 @@
-// Implementación del modo jugador de piedra
+/**
+ * @fileoverview Implementación del modo de juego donde un jugador controla la piedra
+ */
 import { GameController } from "./core/gameController.js";
 import { ENTITY, RESOURCES } from "./constants.js";
 
-// Función para inicializar el modo piedra
+/**
+ * @function initStoneGame
+ * @description Inicializa el juego en modo piedra para multijugador
+ * @async
+ * @param {Object} socket - Socket para comunicación en tiempo real
+ * @param {number} [audioVolume=50] - Volumen del audio (0-100)
+ * @returns {Promise<GameController>} Controlador del juego inicializado
+ */
 export async function initStoneGame(socket, audioVolume = 50) {
   // Obtener referencia al controlador de UI
   const uiController = window.gameUIController;
@@ -31,7 +40,14 @@ export async function initStoneGame(socket, audioVolume = 50) {
   return gameController;
 }
 
-// Función para manejar la generación de berries
+/**
+ * @function handleBerryGeneration
+ * @description Maneja la generación periódica de berries y su sincronización en red
+ * @param {EntityManager} entityManager - Gestor de entidades del juego
+ * @param {RenderManager} renderManager - Gestor de renderizado del juego
+ * @param {Object} socket - Socket para comunicación en tiempo real
+ * @param {number} deltaTime - Tiempo transcurrido desde la última actualización
+ */
 function handleBerryGeneration(
   entityManager,
   renderManager,

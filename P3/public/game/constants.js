@@ -1,19 +1,32 @@
-// Constantes globales para el juego
+/**
+ * @fileoverview Definición de constantes globales utilizadas en todo el juego
+ */
 
-// Configuración del espacio de juego normalizado
+/**
+ * @constant NORMALIZED_SPACE
+ * @description Configuración del espacio de juego normalizado
+ * @type {Object}
+ */
 export const NORMALIZED_SPACE = {
   WIDTH: 16, // Ancho del espacio de juego (x: 0-16)
   HEIGHT: 9, // Alto del espacio de juego (y: 0-9)
   ASPECT_RATIO: 16 / 9, // Relación de aspecto 16:9
 };
 
-// Configuración de entidades
+/**
+ * @constant ENTITY
+ * @description Configuración de todas las entidades del juego
+ * @type {Object}
+ */
 export const ENTITY = {
   // Dimensiones por defecto para entidades (para compatibilidad con código existente)
   DEFAULT_SIZE: 0.5,
   VELOCITY_THRESHOLD: 0.8, // Velocidad mínima antes de detener el movimiento
 
-  // Valores para pájaros
+  /**
+   * @property BIRD
+   * @description Configuración para las entidades pájaros
+   */
   BIRD: {
     DEFAULT_HEALTH: 1000,
     LAUNCH_SPEED_FACTOR: 1, // Factor de velocidad para el lanzamiento de pájaros
@@ -26,8 +39,10 @@ export const ENTITY = {
       GREEN: { x: 10, y: 2 }
     }
   },
-
-  // Valores para roca
+  /**
+   * @property STONE
+   * @description Configuración para la entidad piedra
+   */
   STONE: {
     GRAVITY: 100, // Unidades/segundo²
     LAUNCH_SPEED_FACTOR: {
@@ -40,7 +55,10 @@ export const ENTITY = {
     POOP_DAMAGE: 50,   // Daño que recibe la piedra al ser golpeada por poop
   },
 
-  // Valores para berry
+  /**
+   * @property BERRY
+   * @description Configuración para las entidades berry
+   */
   BERRY: {
     DEFAULT_HEALTH: 0.1, // Se rompe fácilmente
     HEALING_FACTOR: 0.07, // Multiplicador de salud al recoger una berry

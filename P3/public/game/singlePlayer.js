@@ -1,8 +1,17 @@
+/**
+ * @fileoverview Inicialización del modo de juego para un solo jugador
+ */
 import { GameController } from './core/gameController.js';
 
-// Initialize single player game mode
+/**
+ * @function initSinglePlayerMode
+ * @description Inicializa el juego en modo de un solo jugador
+ * @async
+ * @param {number} [audioVolume=50] - Volumen del audio (0-100)
+ * @returns {Promise<GameController>} Controlador del juego inicializado
+ */
 export async function initSinglePlayerMode(audioVolume = 50) {
-  // Create a game controller with single player settings
+  // Crear un controlador de juego con configuración para un solo jugador
   const uiController = window.gameUIController;
   
   const gameController = new GameController({

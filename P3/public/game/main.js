@@ -1,19 +1,26 @@
-// Import UI Controller
+/**
+ * @fileoverview Punto de entrada principal del juego, maneja la configuración inicial y la interfaz de usuario
+ */
 import { UIController } from "./ui/UIController.js";
-
-// Import constants
 import { NORMALIZED_SPACE, CANVAS, DOM, MESSAGES } from "./constants.js";
 
-// Elementos DOM
+/**
+ * Elementos DOM principales del juego
+ */
 const menu = document.getElementById("menu");
 const gameContainer = document.getElementById("game-container");
 const canvas = document.getElementById("canvas");
 const drawingPadCanvas = document.getElementById("drawing-pad");
 
-// Inicializar Socket.IO
+/**
+ * Inicialización del cliente Socket.IO para comunicación en tiempo real
+ */
 const socket = io();
 
-// Función para redimensionar el canvas con relación de aspecto 16:9
+/**
+ * @function resizeCanvas
+ * @description Redimensiona el canvas para mantener la relación de aspecto 16:9 y adaptarse al tamaño de la ventana
+ */
 function resizeCanvas() {
   const containerWidth = window.innerWidth;
   const containerHeight = window.innerHeight;
