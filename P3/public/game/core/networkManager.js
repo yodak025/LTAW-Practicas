@@ -1,4 +1,6 @@
-// Gestor de red para comunicación entre clientes
+/**
+ * @fileoverview Gestor de red para la comunicación multijugador
+ */
 import {
   DamageableComponent,
   PhysicsComponent,
@@ -6,7 +8,15 @@ import {
 } from "./entities/entities.js";
 import { NETWORK } from "../constants.js";
 
+/**
+ * @class NetworkManager
+ * @description Maneja la comunicación entre clientes para el modo multijugador
+ */
 export class NetworkManager {
+  /**
+   * @constructor
+   * @param {Object|null} socket - Socket.io para la comunicación con el servidor
+   */
   constructor(socket = null) {
     this.socket = socket;
     this.isConnected = false;
@@ -20,8 +30,12 @@ export class NetworkManager {
       this.isConnected = true;
     }
   }
-
-  // Conectarse al servidor
+  /**
+   * @method connect
+   * @description Conecta el gestor con un socket de servidor
+   * @param {Object} socket - Socket.io para la comunicación
+   * @returns {NetworkManager} Instancia actual para encadenamiento
+   */
   connect(socket) {
     if (socket) {
       this.socket = socket;
@@ -30,14 +44,26 @@ export class NetworkManager {
     return this;
   }
 
-  // Configurar para modo de juego específico
+  /**
+   * @method configure
+   * @description Configura el gestor para un modo de juego específico
+   * @param {string} gameMode - Modo de juego (birdplayer, stoneplayer)
+   * @param {string} playerType - Tipo de jugador (blue, green, stone)
+   * @returns {NetworkManager} Instancia actual para encadenamiento
+   */
   configure(gameMode, playerType) {
     this.gameMode = gameMode;
     this.playerType = playerType;
     return this;
   }
 
-  // Configurar manejadores de eventos para recepción de mensajes
+  /**
+   * @method setupHandlers
+   * @description Configura los manejadores de eventos para mensajes de red
+   * @param {EntityManager} entityManager - Gestor de entidades
+   * @param {RenderManager} renderManager - Gestor de renderizado
+   * @returns {NetworkManager} Instancia actual para encadenamiento
+   */
   setupHandlers(entityManager, renderManager) {
     if (!this.socket || !this.isConnected) return this;
 

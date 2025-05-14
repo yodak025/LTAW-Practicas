@@ -1,14 +1,29 @@
-// Clase base
+/**
+ * @fileoverview Definiciones de entidades y componentes del juego
+ */
 import { ENTITY, NORMALIZED_SPACE, RESOURCES } from "../../constants.js";
 
-// Enum para tipos de colisionadores
+/**
+ * @enum {string}
+ * @description Tipos de colisionadores disponibles para las entidades
+ */
 export const ColliderType = {
   RECTANGLE: "rectangle",
   CIRCLE: "circle",
 };
 
-// Clase base para todas las entidades
+/**
+ * @class Entity
+ * @description Clase base para todas las entidades del juego
+ */
 export class Entity {
+  /**
+   * @constructor
+   * @param {number} x - Posición X en espacio normalizado (0-16)
+   * @param {number} y - Posición Y en espacio normalizado (0-9)
+   * @param {number} width - Ancho de la entidad
+   * @param {number} height - Alto de la entidad
+   */
   constructor(x, y, width, height) {
     // Las coordenadas son normalizadas (0-16 para x, 0-9 para y)
     this.x = x;
@@ -24,38 +39,65 @@ export class Entity {
     this.colliderType = ColliderType.RECTANGLE;
     this.radius = Math.min(width, height) / 2;
   }
-
-  // Añadir un componente a la entidad
+  /**
+   * @method addComponent
+   * @description Añade un componente a la entidad
+   * @param {Object} component - Componente a añadir
+   * @returns {Object} El componente añadido
+   */
   addComponent(component) {
     component.entity = this;
     this.components.push(component);
     return component;
   }
 
-  // Obtener un componente por su tipo
+  /**
+   * @method getComponent
+   * @description Obtiene un componente por su tipo
+   * @param {Function} componentType - Clase del componente a buscar
+   * @returns {Object|undefined} El componente encontrado o undefined
+   */
   getComponent(componentType) {
     return this.components.find((comp) => comp instanceof componentType);
   }
 
-  // Añadir una etiqueta a la entidad
+  /**
+   * @method addTag
+   * @description Añade una etiqueta a la entidad
+   * @param {string} tag - Etiqueta a añadir
+   * @returns {Entity} La propia entidad para encadenamiento
+   */
   addTag(tag) {
     this.tags.add(tag);
     return this;
   }
 
-  // Comprobar si tiene una etiqueta
+  /**
+   * @method hasTag
+   * @description Comprueba si la entidad tiene una etiqueta
+   * @param {string} tag - Etiqueta a comprobar
+   * @returns {boolean} Verdadero si la entidad tiene la etiqueta
+   */
   hasTag(tag) {
     return this.tags.has(tag);
   }
 
-  // Configurar como círculo
+  /**
+   * @method setCircleCollider
+   * @description Configura la entidad con un colisionador circular
+   * @param {number|null} radius - Radio opcional del círculo
+   * @returns {Entity} La propia entidad para encadenamiento
+   */
   setCircleCollider(radius = null) {
     this.colliderType = ColliderType.CIRCLE;
     this.radius = radius || Math.min(this.width, this.height) / 2;
     return this;
   }
-
-  // Obtener límites (para colisiones rectangulares)
+  /**
+   * @method getBounds
+   * @description Obtiene los límites de la entidad para colisiones rectangulares
+   * @returns {Object} Objeto con límites left, right, top, bottom, centerX, centerY
+   */
   getBounds() {
     return {
       left: this.x,
@@ -67,7 +109,12 @@ export class Entity {
     };
   }
 
-  // Comprobar colisión con otra entidad
+  /**
+   * @method isColliding
+   * @description Comprueba si esta entidad está colisionando con otra
+   * @param {Entity} other - Otra entidad para comprobar colisiones
+   * @returns {boolean} Verdadero si hay colisión
+   */
   isColliding(other) {
     // Caso círculo vs círculo
     if (

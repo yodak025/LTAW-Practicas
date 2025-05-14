@@ -1,8 +1,24 @@
-// Clase base para la visualización de entidades
+/**
+ * @fileoverview Clases para la representación visual de las entidades del juego
+ */
 import { ENTITY, NORMALIZED_SPACE, UI } from "../../constants.js";
 import { DamageableComponent, ColliderType, PoopComponent } from "../entities/entities.js"
 
+/**
+ * @class EntityView
+ * @description Clase base para la visualización de entidades en el juego
+ */
 export class EntityView {
+  /**
+   * @constructor
+   * @param {Entity} entity - Entidad a representar visualmente
+   * @param {Object} [options={}] - Opciones de visualización
+   * @param {number} [options.visualWidth] - Ancho visual de la entidad
+   * @param {number} [options.visualHeight] - Alto visual de la entidad
+   * @param {number} [options.offsetX=0] - Desplazamiento X del sprite respecto al centro
+   * @param {number} [options.offsetY=0] - Desplazamiento Y del sprite respecto al centro
+   * @param {number|Object} [options.scale=1.0] - Factor de escala (puede ser un objeto {x,y} o un número)
+   */
   constructor(entity, options = {}) {
     this.entity = entity;
     this.canvas = document.getElementById("canvas");
@@ -198,8 +214,19 @@ export class EntityView {
   }
 }
 
-// Clase para entidades con sprite estático
+/**
+ * @class StaticSpriteEntityView
+ * @extends EntityView
+ * @description Vista para entidades con un sprite estático
+ */
 export class StaticSpriteEntityView extends EntityView {
+  /**
+   * @constructor
+   * @param {Entity} entity - Entidad a representar visualmente
+   * @param {Image} sprite - Imagen del sprite a utilizar
+   * @param {Object} [options={}] - Opciones de visualización
+   * @param {boolean} [options.circular=false] - Si el sprite debe recortarse en forma circular
+   */
   constructor(entity, sprite, options = {}) {
     super(entity, options);
     this.sprite = sprite;
@@ -276,8 +303,18 @@ export class StaticSpriteEntityView extends EntityView {
   }
 }
 
-// Clase para entidades con sprites animados
+/**
+ * @class AnimatedEntityView
+ * @extends StaticSpriteEntityView
+ * @description Vista para entidades con sprites animados
+ */
 export class AnimatedEntityView extends StaticSpriteEntityView {
+  /**
+   * @constructor
+   * @param {Entity} entity - Entidad a representar visualmente
+   * @param {Array<Image>} sprites - Array de imágenes para la animación
+   * @param {Object} [options={}] - Opciones de visualización
+   */
   constructor(entity, sprites, options = {}) {
     super(entity, sprites[0], options);
     this.sprites = sprites;
@@ -291,7 +328,10 @@ export class AnimatedEntityView extends StaticSpriteEntityView {
     // Usar el método de la clase padre para dibujar
     super.drawSprite();
   }
-
+  /**
+   * @method nextFrame
+   * @description Avanza a la siguiente imagen de la animación
+   */
   nextFrame() {
     this.currentSpriteIndex =
       (this.currentSpriteIndex + 1) % this.sprites.length;
@@ -388,8 +428,19 @@ export class DirectionalAnimatedEntityView extends AnimatedEntityView {
   }
 }
 
-// Clase específica para visualización de poop con cambio de sprite al aterrizar
+/**
+ * @class PoopSpriteEntityView
+ * @extends StaticSpriteEntityView
+ * @description Vista específica para proyectiles poop que cambian de sprite al aterrizar
+ */
 export class PoopSpriteEntityView extends StaticSpriteEntityView {
+  /**
+   * @constructor
+   * @param {Entity} entity - Entidad poop a representar
+   * @param {Image} fallingSprite - Imagen para el estado de caída
+   * @param {Image} landedSprite - Imagen para el estado aterrizado
+   * @param {Object} [options={}] - Opciones de visualización
+   */
   constructor(entity, fallingSprite, landedSprite, options = {}) {
     super(entity, fallingSprite, options);
     this.fallingSprite = fallingSprite;

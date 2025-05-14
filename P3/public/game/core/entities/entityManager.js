@@ -1,8 +1,18 @@
-// Gestor de entidades del juego
+/**
+ * @fileoverview Gestor de entidades del juego
+ */
 import { EntityFactory, DamageableComponent, BerryEntity } from "./entities.js";
 import { ENTITY, UI, NORMALIZED_SPACE } from "../../constants.js";
 
+/**
+ * @class EntityManager
+ * @description Administra la creación y gestión de todas las entidades del juego
+ */
 export class EntityManager {
+  /**
+   * @constructor
+   * @description Inicializa el gestor de entidades
+   */
   constructor() {
     // Colecciones de entidades
     this.gameObjects = [];    // Todos los objetos del juego
@@ -24,8 +34,12 @@ export class EntityManager {
     this.nextBerrySpawnTime = 0;
     this.berrySpawnElapsedTime = 0;
   }
-
-  // Crear entidades básicas
+  /**
+   * @method createEntities
+   * @description Crea las entidades básicas del juego según el modo
+   * @param {string} gameMode - Modo de juego (singleplayer, birdplayer, stoneplayer)
+   * @returns {EntityManager} Instancia actual para encadenamiento de métodos
+   */
   createEntities(gameMode) {
     // Crear la roca
     this.stoneEntity = EntityFactory.createStone(
@@ -86,8 +100,13 @@ export class EntityManager {
 
     return this;
   }
-
-  // Determinar qué entidad controlar según el modo de juego
+  /**
+   * @method getControlledEntity
+   * @description Determina qué entidad debe ser controlada según el modo de juego y tipo de jugador
+   * @param {string} gameMode - Modo de juego (singleplayer, birdplayer, stoneplayer)
+   * @param {string} playerType - Tipo de jugador (blue, green) para modo birdplayer
+   * @returns {Entity} La entidad que debe ser controlada por el jugador
+   */
   getControlledEntity(gameMode, playerType) {
     if (gameMode === "singleplayer" || gameMode === "stoneplayer") {
       return this.stoneEntity;
@@ -96,8 +115,12 @@ export class EntityManager {
     }
     return this.stoneEntity; // Por defecto, controlar la piedra
   }
-
-  // Crear un nuevo poop desde un pájaro
+  /**
+   * @method createPoopFromBird
+   * @description Crea un nuevo poop lanzado por un pájaro
+   * @param {Entity} bird - Entidad pájaro que lanza el poop
+   * @returns {Entity|null} La entidad poop creada o null si no se pudo crear
+   */
   createPoopFromBird(bird) {
     // Comprobar que la entidad sea un pájaro con berries
     if (bird.berryCount <= 0 || !bird.launchPoop) return null;
@@ -113,8 +136,14 @@ export class EntityManager {
     
     return poopEntity;
   }
-
-  // Método para generar un poop cuando el servidor lo indica o localmente
+  /**
+   * @method spawnPoop
+   * @description Genera un poop en una posición específica (usado para sincronización en red)
+   * @param {string|null} id - Identificador opcional para el poop en multijugador
+   * @param {number} x - Posición X del poop
+   * @param {number} y - Posición Y del poop
+   * @returns {Entity} La entidad poop creada
+   */
   spawnPoop(id, x, y) {
     // Crear la entidad poop
     const poopEntity = EntityFactory.createPoop(x, y, ENTITY.POOP.SIZE);
@@ -130,8 +159,10 @@ export class EntityManager {
     
     return poopEntity;
   }
-
-  // Programar la próxima generación de berry
+  /**
+   * @method scheduleNextBerrySpawn
+   * @description Programa el tiempo para la próxima generación de berry
+   */
   scheduleNextBerrySpawn() {
     const minTime = ENTITY.BERRY.GENERATION.MIN_SPAWN_TIME;
     const maxTime = ENTITY.BERRY.GENERATION.MAX_SPAWN_TIME;
@@ -139,8 +170,15 @@ export class EntityManager {
     this.nextBerrySpawnTime = minTime + Math.random() * (maxTime - minTime);
     this.berrySpawnElapsedTime = 0;
   }
-
-  // Genera berries aleatorias en el árbol especificado
+  /**
+   * @method generateBerryInTree
+   * @description Genera una berry en un árbol específico
+   * @param {Entity} tree - Árbol donde generar la berry
+   * @param {string|null} id - Identificador opcional para la berry en multijugador
+   * @param {Object|null} specificPosition - Posición específica opcional {x, y}
+   * @param {number|null} spriteIndex - Índice de sprite opcional para la berry
+   * @returns {Entity|null} La entidad berry creada o null si no se pudo crear
+   */
   generateBerryInTree(tree, id = null, specificPosition = null, spriteIndex = null) {
     // Verificar si podemos generar más berries
     const totalBerries = this.berries.length;

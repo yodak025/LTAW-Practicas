@@ -1,9 +1,19 @@
-// Gestor de entrada para manejar los controles del juego
+/**
+ * @fileoverview Gestor de entrada para manejar los controles del juego
+ */
 import { DrawingPad } from "./drawingPad.js";
 import { DOM } from "../../constants.js";
 import { detectMobileDevice } from "../../utils/deviceDetector.js";
 
+/**
+ * @class InputManager
+ * @description Maneja las entradas de usuario para controlar las entidades del juego
+ */
 export class InputManager {
+  /**
+   * @constructor
+   * @description Inicializa el gestor de entrada con los elementos de la interfaz
+   */
   constructor() {
     // Canvas para el pad de dibujo
     this.drawingPadCanvas = document.getElementById("drawing-pad");

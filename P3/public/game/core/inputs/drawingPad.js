@@ -1,7 +1,23 @@
+/**
+ * @fileoverview Componente para controlar entidades mediante gestos de dibujo en dispositivos táctiles
+ */
 import { UI, NORMALIZED_SPACE, DOM } from '../../constants.js';
 import { PhysicsComponent, BirdEntity } from '../entities/entities.js';
 
+/**
+ * @class DrawingPad
+ * @description Implementa un pad de dibujo para controlar entidades mediante gestos en dispositivos táctiles
+ */
 export class DrawingPad {
+    /**
+     * @constructor
+     * @param {HTMLCanvasElement} drawingPadCanvas - Elemento canvas para el pad de dibujo
+     * @param {HTMLCanvasElement} gameCanvas - Canvas principal del juego
+     * @param {Entity} controlEntity - Entidad a controlar con el pad
+     * @param {number|Object} speedFactor - Factor de velocidad para el movimiento
+     * @param {Object} options - Opciones adicionales
+     * @param {string} [options.position='bottomLeft'] - Posición del pad ('bottomLeft', 'bottomRight')
+     */
     constructor(drawingPadCanvas, gameCanvas, controlEntity, speedFactor, options = {}) {
         this.canvas = drawingPadCanvas;
         this.gameCanvas = gameCanvas;
@@ -29,9 +45,13 @@ export class DrawingPad {
         
         // Callback para cuando se lanza un poop (será establecido por el controlador del juego)
         this.onPoopLaunched = null;
-    }
-
-    // Convertir coordenadas de pantalla a normalizadas
+    }    /**
+     * @method screenToNormalized
+     * @description Convierte coordenadas de pantalla a espacio normalizado
+     * @param {number} x - Posición X en coordenadas de pantalla
+     * @param {number} y - Posición Y en coordenadas de pantalla
+     * @returns {Object} Coordenadas normalizadas {x, y}
+     */
     screenToNormalized(x, y) {
         const rect = this.canvas.getBoundingClientRect();
         const scaleX = NORMALIZED_SPACE.WIDTH / this.canvas.width;
@@ -41,9 +61,10 @@ export class DrawingPad {
             x: (x - rect.left) * scaleX,
             y: (y - rect.top) * scaleY
         };
-    }
-
-    // Redimensionar el canvas del DrawingPad
+    }    /**
+     * @method resize
+     * @description Redimensiona y posiciona el canvas del pad de dibujo
+     */
     resize() {
         // Calcular el tamaño y posición del drawing pad
         const gameRect = this.gameCanvas.getBoundingClientRect();
@@ -73,9 +94,10 @@ export class DrawingPad {
         
         // Añadir esquinas redondeadas para mejorar estética
         this.canvas.style.borderRadius = '10px';
-    }
-
-    // Configuración de event listeners
+    }    /**
+     * @method setupEventListeners
+     * @description Configura los event listeners para mouse, touch y teclado
+     */
     setupEventListeners() {
         // Eventos de ratón
         this.canvas.addEventListener('mousedown', this.handleStart.bind(this));
@@ -219,9 +241,10 @@ export class DrawingPad {
         this.ctx.closePath();
         this.ctx.fillStyle = UI.DRAWING_PAD.STROKE_STYLE;
         this.ctx.fill();
-    }
-
-    // Lanzar la entidad controlada
+    }    /**
+     * @method launchEntity
+     * @description Aplica velocidad a la entidad controlada basada en el gesto dibujado
+     */
     launchEntity() {
         if (!this.controlEntity || !this.startPoint || !this.endPoint) return;
 
@@ -243,17 +266,22 @@ export class DrawingPad {
             this.controlEntity.velocityX = - velocityX;
             this.controlEntity.velocityY = - velocityY;
         }
-    }
-
-    // Cambiar la entidad controlada
+    }    /**
+     * @method setControlEntity
+     * @description Establece la entidad a controlar y opcionalmente actualiza el factor de velocidad
+     * @param {Entity} entity - La entidad a controlar
+     * @param {Object|number} [speedFactor] - Factor de velocidad opcional para el movimiento
+     */
     setControlEntity(entity, speedFactor) {
         this.controlEntity = entity;
         if (speedFactor) {
             this.speedFactor = speedFactor;
         }
-    }
-
-    // Mostrar/ocultar el pad de dibujo
+    }    /**
+     * @method setVisible
+     * @description Establece la visibilidad del pad de dibujo
+     * @param {boolean} visible - Indica si el pad debe ser visible
+     */
     setVisible(visible) {
         this.isVisible = visible;
         this.canvas.style.display = visible ? 'block' : 'none';
@@ -262,7 +290,10 @@ export class DrawingPad {
         }
     }
     
-    // Limpiar los recursos al finalizar
+    /**
+     * @method dispose
+     * @description Limpia los recursos y event listeners al finalizar
+     */
     dispose() {
         // Eliminar event listeners
         this.canvas.removeEventListener('mousedown', this.handleStart);

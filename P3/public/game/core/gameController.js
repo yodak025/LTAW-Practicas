@@ -1,4 +1,6 @@
-// Controlador del juego que integra todos los componentes
+/**
+ * @fileoverview Controlador principal del juego que integra todos los componentes
+ */
 import { Game } from "./base.js";
 import { EntityManager } from "./entities/entityManager.js";
 import { RenderManager } from "./rendering/renderManager.js";
@@ -8,7 +10,24 @@ import { ANIMATION, ENTITY, RESOURCES, NETWORK } from "../constants.js";
 import { detectMobileDevice } from "../utils/deviceDetector.js";
 import { DamageableComponent } from "./entities/entities.js";
 
+/**
+ * @class GameController
+ * @extends Game
+ * @description Controlador principal que coordina todos los aspectos del juego
+ */
 export class GameController extends Game {
+  /**
+   * @constructor
+   * @param {Object} options - Opciones de configuración
+   * @param {string} [options.gameMode="singleplayer"] - Modo de juego (singleplayer, birdplayer, stoneplayer)
+   * @param {string|null} [options.playerType=null] - Tipo de jugador (blue, green)
+   * @param {string} [options.controlType] - Tipo de control (keyboard, mobile)
+   * @param {boolean} [options.dualBirdControl=false] - Si se controlan dos pájaros simultáneamente
+   * @param {boolean} [options.forcePadDisplay=false] - Forzar visualización del pad de dibujo
+   * @param {Object} [options.uiController=null] - Controlador de UI para mensajes
+   * @param {Object} [options.socket=null] - Socket para multijugador
+   * @param {number} [options.volume=50] - Volumen del audio (0-100)
+   */
   constructor(options = {}) {
     super();
     
@@ -42,8 +61,12 @@ export class GameController extends Game {
     // Callback para generación externa de berries (para oneStone.js)
     this.onExternalBerrySpawn = null;
   }
-
-  // Inicializa el juego
+  /**
+   * @method init
+   * @async
+   * @description Inicializa todos los componentes del juego
+   * @returns {Promise<void>}
+   */
   async init() {
     // Cargar los recursos visuales
     await this.renderManager.loadSprites();
@@ -122,27 +145,44 @@ export class GameController extends Game {
 
     return this;
   }
-  
-  // Métodos para controlar la música de fondo
+    /**
+   * @method playBackgroundMusic
+   * @description Inicia la reproducción de la música de fondo
+   */
   playBackgroundMusic() {
     this.backgroundMusic.play().catch(err => console.log("Error reproduciendo música:", err));
   }
   
+  /**
+   * @method pauseBackgroundMusic
+   * @description Pausa la reproducción de la música de fondo
+   */
   pauseBackgroundMusic() {
     this.backgroundMusic.pause();
   }
   
+  /**
+   * @method stopBackgroundMusic
+   * @description Detiene completamente la música de fondo y reinicia su posición
+   */
   stopBackgroundMusic() {
     this.backgroundMusic.pause();
     this.backgroundMusic.currentTime = 0;
   }
   
+  /**
+   * @method setMusicVolume
+   * @description Ajusta el volumen de la música de fondo
+   * @param {number} volumeLevel - Nivel de volumen (0-100)
+   */
   setMusicVolume(volumeLevel) {
     // volumeLevel debe estar entre 0 y 100
     this.backgroundMusic.volume = volumeLevel / 100;
   }
-
-  // Método para configurar el manejador de eventos game-over
+  /**
+   * @method setupGameOverHandler
+   * @description Configura el manejador de eventos para el fin del juego en red
+   */
   setupGameOverHandler() {
     if (this.networkManager && this.networkManager.socket) {
       this.networkManager.socket.on("game-over", () => {
@@ -156,14 +196,21 @@ export class GameController extends Game {
     }
   }
   
-  // Método para enviar evento de game-over al oponente
+  /**
+   * @method sendGameOver
+   * @description Envía evento de fin de juego al oponente en red
+   */
   sendGameOver() {
     if (this.networkManager && this.networkManager.socket) {
       this.networkManager.socket.emit("game-over");
     }
   }
   
-  // Método para manejar el lanzamiento de poop cuando se presiona la tecla espacio
+  /**
+   * @method handlePoopLaunch
+   * @description Maneja el lanzamiento de poop desde un pájaro
+   * @param {Entity} bird - Pájaro que lanza el poop
+   */
   handlePoopLaunch(bird) {
     const poopEntity = this.entityManager.createPoopFromBird(bird);
     
@@ -189,8 +236,11 @@ export class GameController extends Game {
       }
     }
   }
-
-  // Actualización del juego
+  /**
+   * @method update
+   * @description Actualiza la lógica del juego en cada frame
+   * @param {number} deltaTime - Tiempo transcurrido desde el último frame en segundos
+   */
   update(deltaTime) {
     // No actualizar si el juego ha terminado
     if (this.gameEnded) return;
@@ -226,8 +276,10 @@ export class GameController extends Game {
     // Verificar condiciones de victoria/derrota
     this.checkGameEndConditions();
   }
-
-  // Método para verificar condiciones de fin de juego
+  /**
+   * @method checkGameEndConditions
+   * @description Verifica si se han cumplido las condiciones para terminar el juego
+   */
   checkGameEndConditions() {
     if (this.gameEnded) return;
     

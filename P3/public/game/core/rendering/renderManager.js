@@ -1,4 +1,6 @@
-// Gestor de renderizado para separar la lógica visual
+/**
+ * @fileoverview Gestor de renderizado que maneja toda la representación visual del juego
+ */
 import {
   EntityView,
   StaticSpriteEntityView,
@@ -9,7 +11,15 @@ import {
 import { DamageableComponent } from "../entities/entities.js";
 import { ANIMATION, UI, ENTITY, NORMALIZED_SPACE, RESOURCES } from "../../constants.js";
 
+/**
+ * @class RenderManager
+ * @description Maneja la representación visual de todas las entidades del juego
+ */
 export class RenderManager {
+  /**
+   * @constructor
+   * @description Inicializa el gestor de renderizado
+   */
   constructor() {
     // Canvas y contexto
     this.canvas = document.getElementById("canvas");
@@ -44,8 +54,11 @@ export class RenderManager {
       },
     };
   }
-  
-  // Inicializar tamaños visuales
+    /**
+   * @method initVisualSizes
+   * @description Inicializa los tamaños visuales de las entidades basados en el tamaño base
+   * @param {number} entitySize - Tamaño base para las entidades
+   */
   initVisualSizes(entitySize) {
     this.visualSizes = {
       stone: {
@@ -66,8 +79,12 @@ export class RenderManager {
       },
     };
   }
-  
-  // Cargar sprites
+    /**
+   * @method loadSprites
+   * @async
+   * @description Carga todos los sprites necesarios para el juego
+   * @returns {Promise<void>} Promesa que se resuelve cuando todos los sprites han sido cargados
+   */
   async loadSprites() {
     // Función para cargar imágenes
     const loadImage = (src) => {
