@@ -1,6 +1,27 @@
 import { callLMStudioAPI, requestTemplate } from "./documentGenerationUtils";
 //------------------------Curriculum Vitae------------------------
 
+/**
+ * Genera un currículum vitae completo a partir de la información proporcionada por el usuario.
+ *
+ * @param {Object} data - Datos del candidato para generar el CV
+ * @param {string} data.fullName - Nombre completo del candidato
+ * @param {string} data.address - Dirección del candidato
+ * @param {string} data.phone - Número de teléfono del candidato
+ * @param {string} data.email - Correo electrónico del candidato
+ * @param {string} data.briefPresentation - Presentación breve del candidato
+ * @param {string} data.strengthsAchievements - Fortalezas y logros profesionales
+ * @param {string} [data.workExperience] - Experiencia laboral del candidato
+ * @param {string} [data.education] - Formación académica del candidato
+ * @param {string} data.technicalSkills - Habilidades técnicas del candidato
+ * @param {string} data.softSkills - Habilidades blandas del candidato
+ * @param {string} [data.languages] - Idiomas que domina el candidato
+ * @param {string} [data.certificates] - Certificaciones del candidato
+ * @param {string} [data.projectsAchievements] - Proyectos y logros del candidato
+ * @param {string} [data.additionalInfo] - Información adicional a considerar
+ * @param {string} [data.proffesionalLinks] - Enlaces profesionales del candidato
+ * @returns {Object} Objeto estructurado con el contenido del currículum vitae
+ */
 export const generateCV = async (data) => {
   const profileRequest = {
     role: "user",
@@ -141,6 +162,25 @@ export const generateCV = async (data) => {
 };
 
 //------------------------Carta de Presentación------------------------
+/**
+ * Genera una carta de presentación profesional para una candidatura laboral.
+ *
+ * @param {Object} data - Datos para generar la carta de presentación
+ * @param {string} data.fullName - Nombre completo del candidato
+ * @param {string} data.position - Puesto al que se aplica
+ * @param {string} data.companyInfo - Nombre de la empresa y departamento
+ * @param {string} data.date - Fecha de envío en formato compatible con Date()
+ * @param {string} data.motivation - Motivación del candidato para aplicar
+ * @param {string} data.relevantExperience - Experiencia y habilidades relevantes
+ * @param {string} data.valueProposition - Valor que puede aportar a la empresa
+ * @param {string} data.phone - Número de teléfono del candidato
+ * @param {string} data.email - Correo electrónico del candidato
+ * @param {string} data.address - Dirección del candidato
+ * @param {string} [data.recruiterName] - Nombre del reclutador, si se conoce
+ * @param {string} [data.additionalNotes] - Notas adicionales a considerar
+ * @param {string} [data.professionalLinks] - Enlaces profesionales del candidato
+ * @returns {Object} Objeto con el asunto y cuerpo de la carta de presentación
+ */
 export const generateCoverLetter = async (data) => {
   // Formatear la fecha
   const dateObj = new Date(data.date);
@@ -202,6 +242,27 @@ export const generateCoverLetter = async (data) => {
 };
 
 //------------------------Resumen Ejecutivo------------------------
+/**
+ * Genera un resumen ejecutivo profesional estructurado en secciones coherentes.
+ *
+ * @param {Object} data - Datos para generar el resumen ejecutivo
+ * @param {string} data.title - Título del resumen ejecutivo
+ * @param {string} data.author - Autor del resumen ejecutivo
+ * @param {string} data.date - Fecha del documento en formato compatible con Date()
+ * @param {string} data.context - Contexto y antecedentes del proyecto
+ * @param {string} data.objectives - Objetivos del proyecto
+ * @param {string} data.importance - Importancia y relevancia del proyecto
+ * @param {string} data.methodology - Metodología utilizada en el proyecto
+ * @param {string} data.scope - Alcance y limitaciones del proyecto
+ * @param {string} data.keyData - Datos clave del proyecto
+ * @param {string} data.preliminaryConclusions - Conclusiones preliminares
+ * @param {string} data.conclusions - Conclusiones finales
+ * @param {string} data.recommendations - Recomendaciones
+ * @param {string} data.summary - Resumen final
+ * @param {string} [data.subtitle] - Subtítulo del resumen ejecutivo
+ * @param {string} [data.nextSteps] - Próximos pasos a seguir
+ * @returns {Object} Objeto estructurado con las secciones del resumen ejecutivo
+ */
 export const generateExecutiveSummary = async (data) => {
   // Formatear la fecha
   const dateObj = new Date(data.date);
@@ -356,6 +417,21 @@ export const generateExecutiveSummary = async (data) => {
 };
 
 //------------------------Descripción de Producto------------------------
+/**
+ * Genera una descripción de producto completa y persuasiva para uso comercial.
+ *
+ * @param {Object} data - Datos para generar la descripción del producto
+ * @param {string} data.productName - Nombre del producto
+ * @param {string} data.keywordDescription - Descripción con palabras clave del producto
+ * @param {string} data.features - Características principales del producto
+ * @param {string} data.benefits - Beneficios para el usuario
+ * @param {string} data.reviews - Opiniones de clientes sobre el producto
+ * @param {string} data.callToAction - Llamado a la acción para el cierre
+ * @param {string} [data.subtitle] - Subtítulo o eslogan del producto
+ * @param {string} [data.technicalDetails] - Detalles técnicos del producto
+ * @param {string} [data.certifications] - Certificaciones y garantías del producto
+ * @returns {Object} Objeto estructurado con las secciones de la descripción del producto
+ */
 export const generateProductDescription = async (data) => {
   // Generar la introducción y características principales
   const mainContentRequest = {
@@ -461,6 +537,25 @@ export const generateProductDescription = async (data) => {
 };
 
 //------------------------Email de Ventas------------------------
+/**
+ * Genera un email de ventas persuasivo para contactar potenciales clientes.
+ *
+ * @param {Object} data - Datos para generar el email de ventas
+ * @param {string} data.emailTitle - Título o asunto del email
+ * @param {string} data.recipientName - Nombre del destinatario
+ * @param {string} data.recipientPosition - Cargo del destinatario
+ * @param {string} data.recipientCompany - Empresa del destinatario
+ * @param {string} data.senderName - Nombre del remitente
+ * @param {string} data.senderPosition - Cargo del remitente
+ * @param {string} data.senderCompany - Empresa del remitente
+ * @param {string} data.contactReason - Motivo del contacto
+ * @param {string} data.clientNeed - Necesidad identificada en el cliente
+ * @param {string} data.proposedSolution - Solución propuesta al cliente
+ * @param {string} data.differentiators - Factores diferenciadores de la propuesta
+ * @param {string} data.callToAction - Llamado a la acción para el cierre
+ * @param {string} data.contactInfo - Datos de contacto del remitente
+ * @returns {Object} Objeto con el título y contenido del email de ventas
+ */
 export const generateSalesEmail = async (data) => {
   // Generar el contenido del email
   const emailRequest = {
@@ -522,6 +617,29 @@ export const generateSalesEmail = async (data) => {
 };
 
 //------------------------Carta de Recomendación------------------------
+/**
+ * Genera una carta de recomendación profesional para un candidato.
+ *
+ * @param {Object} data - Datos para generar la carta de recomendación
+ * @param {string} data.recommenderName - Nombre del recomendante
+ * @param {string} data.recommenderPosition - Cargo del recomendante
+ * @param {string} data.recommenderCompany - Empresa del recomendante
+ * @param {string} data.recommenderAddress - Dirección del recomendante
+ * @param {string} data.recommenderEmail - Email del recomendante
+ * @param {string} data.recommenderPhone - Teléfono del recomendante
+ * @param {string} data.candidateName - Nombre del candidato recomendado
+ * @param {string} data.relationship - Relación con el candidato
+ * @param {string} data.timeKnown - Tiempo de conocer al candidato
+ * @param {string} data.qualities - Cualidades y habilidades del candidato
+ * @param {string} data.achievements - Logros y contribuciones del candidato
+ * @param {string} data.personalEvaluation - Valoración personal del candidato
+ * @param {string} [data.recipientName] - Nombre del destinatario
+ * @param {string} [data.recipientPosition] - Cargo del destinatario
+ * @param {string} [data.recipientCompany] - Empresa/Institución del destinatario
+ * @param {string} [data.recipientAddress] - Dirección del destinatario
+ * @param {string} [data.additionalInfo] - Información adicional relevante
+ * @returns {Object} Objeto con el asunto y contenido de la carta de recomendación
+ */
 export const generateRecommendationLetter = async (data) => {
   const letterRequest = {
     role: "user",

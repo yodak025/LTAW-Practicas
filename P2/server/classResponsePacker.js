@@ -1,7 +1,22 @@
 import path from "path";
 
 //------------------------------------- Response Packer ------------------------
+
+/**
+ * @class ResponsePacker
+ * @classdesc 
+ * Clase para empaquetar respuestas HTTP. Genera el encabezado y el tipo de contenido
+ * según la extensión del archivo. Permite establecer cookies y el código de estado.
+ */
 class ResponsePacker {
+
+  /**
+   * @constructor
+   * @param {number} statusCode - Código de estado HTTP.
+   * @param {string} contentPath - Ruta del archivo de contenido.
+   * @param {string} content - Contenido a enviar en la respuesta.
+   * @param {string|null} cookies - Cookies a establecer en la respuesta.
+   */
   constructor(statusCode, contentPath, content, cookies = null) {
     this.statusCode = statusCode;
     this.contentType = this._findContentType(path.extname(contentPath));
@@ -12,6 +27,14 @@ class ResponsePacker {
       this.cookies = null;
     }
   }
+
+  /**
+   * @method getResponseHead
+   * @description
+   * Genera el encabezado de la respuesta HTTP.
+   * Incluye el tipo de contenido y las cookies si están presentes.
+   * @returns {object} - Objeto con los encabezados de la respuesta.
+   */
   getResponseHead() {
     const headers = {
       "Content-Type": this.contentType,
@@ -21,9 +44,14 @@ class ResponsePacker {
     }
     return headers;
   }
+
+  /**
+   * @method getResponse
+   * @param {string} extname - Extensión del archivo.
+   * @returns {string} content type.
+   */
   _findContentType = (extname) => {
     let contentType = "plain/text";
-    // Definir el tipo de contenido según la extensión del archivo
     switch (extname) {
       case ".html":
         contentType = "text/html";

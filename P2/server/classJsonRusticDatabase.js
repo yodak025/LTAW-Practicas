@@ -178,12 +178,24 @@ class JsonRusticDatabase {
     this.users.filter((u) => u.usuario == userName)[0].carrito = []; // Vaciar el carrito del usuario
   };
 
+  /**
+   * @method findProductsByDemiName
+   * @param {string} demiName - Nombre del producto a buscar.
+   * @returns {array} - Array de productos que coinciden con el nombre.
+   */
   findProductsByDemiName = (demiName) => {
     return this.products.filter((product) =>
       normalizeString(product.titulo).includes(normalizeString(demiName))
     );
   };
 
+  /**
+   * @method addOrderToCart
+   * @param {object} reqData - Datos de la orden a añadir al carrito.
+   * @returns {void}
+   * @description
+   * Añade una orden al carrito del usuario.
+   */
   addOrderToCart = (reqData) => {
     this.isModified = true;
     const order = {
@@ -195,6 +207,14 @@ class JsonRusticDatabase {
       .filter((u) => u.usuario == reqData.user.usuario)[0]
       .carrito.push(order);
   };
+
+  /**
+   * @method updateCart
+   * @param {object} reqData - Datos del carrito a actualizar.
+   * @returns {string} - Cookie del carrito actualizado.
+   * @description 
+   * Actualiza el carrito del usuario en la base de datos.
+   */
 
   updateCart = (reqData) => {
     this.isModified = true;
@@ -219,6 +239,11 @@ class JsonRusticDatabase {
     return this.getCartCookie(user.usuario);
   };
 
+  /**
+   * @method getCartCookie
+   * @param {string} user - Nombre de usuario.
+   * @returns {string} - Cookie del carrito del usuario.
+   */
   getCartCookie = (user) => {
     const cart = this.users.filter((u) => u.usuario == user)[0].carrito;
     let cartCookie = "cart=";
@@ -229,6 +254,14 @@ class JsonRusticDatabase {
     return cartCookie.slice(0, -1) + ";";
   };
 
+  /**
+   * @method getDocumentAbsoluteIndexesFromUser
+   * @param {string} userName - Nombre de usuario.
+   * @returns {array} - Array de índices absolutos de los documentos del usuario.
+   * @description
+   * Obtiene los índices absolutos de los documentos del usuario en la base de datos,
+   * teniendo en cuenta el número de documentos de los pedidos anteriores.
+   */
   getDocumentAbsoluteIndexesFromUser = (userName) => {
     let currentIndex = 0;
     let indexes = [];
@@ -245,6 +278,13 @@ class JsonRusticDatabase {
     return indexes;
   };
 
+  /**
+   * @method getDocumentFromAbsoluteIndex
+   * @param {number} index - Índice absoluto del documento.
+   * @returns {object} - Objeto con el documento y la fecha del pedido.
+   * @description
+   * Obtiene el documento correspondiente al índice absoluto en la base de datos.
+   */
   getDocumentFromAbsoluteIndex = (index) => {
     let currentIndex = 0;
     for (const order of this.orders) {

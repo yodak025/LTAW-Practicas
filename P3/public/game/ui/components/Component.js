@@ -1,15 +1,33 @@
-// Base Component class for UI components
+/**
+ * @fileoverview Clase base para todos los componentes de la interfaz de usuario
+ */
+
+/**
+ * @class Component
+ * @description Clase base abstracta para todos los componentes de UI
+ */
 export class Component {
+  /**
+   * @constructor
+   */
   constructor() {
     this.element = null;
   }
 
-  // Create the DOM element - to be implemented by subclasses
+  /**
+   * @method createElement
+   * @description Crea el elemento DOM del componente - debe ser implementado por las subclases
+   * @throws {Error} Si no se implementa en la subclase
+   */
   createElement() {
     throw new Error("createElement method must be implemented by subclass");
   }
 
-  // Render method returns the DOM element
+  /**
+   * @method render
+   * @description Renderiza y devuelve el elemento DOM
+   * @returns {HTMLElement} El elemento DOM del componente
+   */
   render() {
     if (!this.element) {
       this.element = this.createElement();
@@ -17,12 +35,19 @@ export class Component {
     return this.element;
   }
 
-  // Update method to be overridden by subclasses if needed
+  /**
+   * @method update
+   * @description Actualiza el componente con nuevas propiedades
+   * @param {Object} props - Propiedades para actualizar el componente
+   */
   update(props) {
-    // Default implementation does nothing
+    // La implementación por defecto no hace nada
   }
 
-  // Method to remove element from DOM
+  /**
+   * @method remove
+   * @description Elimina el elemento del DOM
+   */
   remove() {
     if (this.element && this.element.parentNode) {
       this.element.parentNode.removeChild(this.element);

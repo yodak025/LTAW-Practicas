@@ -35,27 +35,17 @@ export async function callLMStudioAPI(requestData) {
     let responseText = data.choices[0].message.content;
     printLog("document-api-response", responseText, MODEL);
     return responseText;
-  } 
-  catch (error) {
-    console.error(`Error en la conexión con ${MODEL} vía ${LLM_API}: \n` , error);
+  } catch (error) {
+    console.error(
+      `Error en la conexión con ${MODEL} vía ${LLM_API}: \n`,
+      error
+    );
   }
 }
 
-export const requestTemplate = (messages, apiType = "api") => {
-  if (apiType === "api") {
-    return {
-      model: MODEL,
-      messages: messages,
-    };
-  }
-
+export const requestTemplate = (messages) => {
   return {
     model: MODEL,
     messages: messages,
-    temperature: TEMPERATURE,
-    max_tokens: MAX_TOKENS, // -1 o ajusta según la cantidad deseada
-    stream: IS_STREAM, // Usa 'true' si deseas respuestas en streaming (requiere un manejo especial)
-    top_p: 1,
-    repetition_penalty: 1,
   };
 };

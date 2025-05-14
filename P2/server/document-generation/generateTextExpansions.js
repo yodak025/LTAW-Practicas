@@ -3,6 +3,16 @@ import {
   requestTemplate,
 } from "./documentGenerationUtils";
 
+/**
+ * Amplía un texto base según el enfoque especificado por el usuario.
+ * 
+ * @param {Object} data - Datos para generar el texto expandido
+ * @param {string} data.originalText - Texto original a expandir
+ * @param {string} data.targetLength - Extensión deseada respecto al original
+ * @param {string} data.focus - Enfoque de la expansión: "detail", "examples", "context" o "technical"
+ * @param {string} [data.notes] - Consideraciones adicionales para la expansión
+ * @returns {Object} Objeto con la clave "Texto Expandido" y su contenido
+ */
 export const generateExpandedText = async (data) => {
   let typeSentence = "";
   switch (data.focus) {
@@ -48,6 +58,16 @@ export const generateExpandedText = async (data) => {
 };
 
 //------------------------------------ Sumarize Text ------------------------------------//
+/**
+ * Genera un resumen del texto proporcionado según la longitud y tipo de enfoque especificado.
+ * 
+ * @param {Object} data - Datos para generar el resumen
+ * @param {string} data.originalText - Texto original a resumir
+ * @param {string} data.summaryLength - Longitud deseada: "very-short" (25%), "short" (50%), "medium" (75%)
+ * @param {string} data.focusType - Enfoque del resumen: "key-points", "narrative" o "bullet-points"
+ * @param {string} [data.notes] - Consideraciones adicionales para el resumen
+ * @returns {Object} Objeto con la clave "Texto Resumido" y su contenido
+ */
 export const generateSumarizedText = async (data) => {
   let extensionSentence = "";
   switch (data.summaryLength) {
@@ -103,6 +123,14 @@ export const generateSumarizedText = async (data) => {
 };
 
 //------------------------------------ Review Writing ------------------------------------//
+/**
+ * Analiza un texto y genera un informe de feedback y una versión corregida del mismo.
+ * 
+ * @param {Object} data - Datos para la revisión del texto
+ * @param {string} data.originalText - Texto original a revisar
+ * @param {string} data.toneStyle - Estilo del tono: "informal", "academic" o "business"
+ * @returns {Object} Objeto con las claves "Corrección de Texto" y "Feedback" y sus respectivos contenidos
+ */
 export const generateWritingReview = async (data) => {
   let toneSentence = "";
   switch (data.toneStyle) {
@@ -150,6 +178,16 @@ export const generateWritingReview = async (data) => {
 };
 
 //------------------------------------ Shematize Text ------------------------------------//
+/**
+ * Convierte un texto libre en un esquema estructurado según el tipo y nivel de detalle definido.
+ * 
+ * @param {Object} data - Datos para generar el esquema
+ * @param {string} data.originalText - Texto original a esquematizar
+ * @param {string} data.schemeType - Tipo de esquema: "numeric" o "alphabetic"
+ * @param {string} data.detailLevel - Nivel de detalle: "high", "medium" o "low"
+ * @param {string} [data.notes] - Consideraciones adicionales para el esquema
+ * @returns {Object} Objeto con la clave "Esquema Generado" y su contenido
+ */
 export const generateShematizedText = async (data) => {
   let typeSentence = "";
   switch (data.schemeType) {
@@ -201,6 +239,15 @@ export const generateShematizedText = async (data) => {
 };
 
 //------------------------------------ Format Text to LaTeX ------------------------------------//
+/**
+ * Transforma un texto plano en código LaTeX según la clase de documento especificada.
+ * 
+ * @param {Object} data - Datos para formatear el texto a LaTeX
+ * @param {string} data.originalText - Texto original a formatear
+ * @param {string} data.documentClass - Clase de documento: "article", "report", "book" o "beamer"
+ * @param {string} [data.notes] - Consideraciones adicionales para el formateo
+ * @returns {Object} Objeto con la clave "Texto Prensado" y su contenido en formato LaTeX
+ */
 export const formatTextToLatex = async (data) => {
   let documentClass = "";
   switch (data.documentClass) {

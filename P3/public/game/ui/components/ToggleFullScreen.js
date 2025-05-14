@@ -1,29 +1,47 @@
-// ToggleFullScreen component - creates a button to toggle fullscreen mode
+/**
+ * @fileoverview Componente para alternar el modo de pantalla completa
+ */
 import { Component } from './Component.js';
 
+/**
+ * @class ToggleFullScreen
+ * @extends Component
+ * @description Componente que crea un botón para alternar el modo de pantalla completa
+ */
 export class ToggleFullScreen extends Component {
+  /**
+   * @constructor
+   */
   constructor() {
     super();
     this.isFullScreen = false;
   }
 
+  /**
+   * @method createElement
+   * @description Crea el elemento DOM del botón de pantalla completa
+   * @returns {HTMLElement} Botón de pantalla completa
+   */
   createElement() {
     const fullscreenButton = document.createElement("button");
     fullscreenButton.className = "ui-button fullscreen-button";
     fullscreenButton.textContent = "Pantalla Completa";
     
-    // Add event listener for toggling fullscreen
+    // Añadir event listener para alternar pantalla completa
     fullscreenButton.addEventListener("click", () => {
       this.toggleFullscreen(fullscreenButton);
     });
     
     return fullscreenButton;
   }
-
-  // Function to toggle fullscreen mode
+  /**
+   * @method toggleFullscreen
+   * @description Alterna entre el modo de pantalla completa y normal
+   * @param {HTMLElement} button - El botón que activó la función para actualizar su texto
+   */
   toggleFullscreen(button) {
     if (!document.fullscreenElement) {
-      // Enter fullscreen mode
+      // Entrar en modo pantalla completa
       if (document.documentElement.requestFullscreen) {
         document.documentElement.requestFullscreen();
       } else if (document.documentElement.mozRequestFullScreen) { // Firefox
@@ -36,7 +54,7 @@ export class ToggleFullScreen extends Component {
       button.textContent = "Salir de Pantalla Completa";
       this.isFullScreen = true;
     } else {
-      // Exit fullscreen mode
+      // Salir del modo pantalla completa
       if (document.exitFullscreen) {
         document.exitFullscreen();
       } else if (document.mozCancelFullScreen) { // Firefox
@@ -55,8 +73,10 @@ export class ToggleFullScreen extends Component {
       window.dispatchEvent(new Event('resize'));
     }, 100);
   }
-  
-  // Update state when the page fullscreen state changes externally
+    /**
+   * @method update
+   * @description Actualiza el estado cuando el estado de pantalla completa cambia externamente
+   */
   update() {
     if (this.element) {
       const isCurrentlyFullScreen = !!document.fullscreenElement;

@@ -1,18 +1,34 @@
-// AudioSettingContent - creates an audio volume slider
+/**
+ * @fileoverview Componente para control de volumen de audio
+ */
 import { Component } from './Component.js';
 
+/**
+ * @class AudioSettingContent
+ * @extends Component
+ * @description Componente que crea un control deslizante para ajustar el volumen de audio
+ */
 export class AudioSettingContent extends Component {
+  /**
+   * @constructor
+   * @param {Function} callback - Función a llamar cuando cambia el valor del volumen
+   */
   constructor(callback) {
     super();
     this.callback = callback;
-    this.value = 50; // Default volume value
+    this.value = 50; // Valor predeterminado de volumen
   }
 
+  /**
+   * @method createElement
+   * @description Crea el elemento DOM del control de volumen
+   * @returns {HTMLElement} Contenedor del control de volumen
+   */
   createElement() {
     const container = document.createElement("div");
     container.className = "audio-setting-container";
     
-    // Create label
+    // Crear etiqueta
     const label = document.createElement("label");
     label.textContent = "Volumen:";
     label.htmlFor = "volume-slider";
@@ -45,7 +61,13 @@ export class AudioSettingContent extends Component {
     
     return container;
   }
-  
+    /**
+   * @method update
+   * @description Actualiza el control de volumen con nuevos valores
+   * @param {Object} props - Propiedades a actualizar
+   * @param {number} [props.value] - Nuevo valor del volumen
+   * @param {Function} [props.callback] - Nueva función callback
+   */
   update(props) {
     if (props.value !== undefined) {
       this.value = props.value;

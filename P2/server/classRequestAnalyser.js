@@ -4,7 +4,19 @@ const URL = url.URL;
 
 const THEMES = ["default", "dark", "coolwarm", "greengoldy", "futuristic", "fruit"];
 
+/**
+ * @class RequestAnalyser
+ * @classdesc
+ * Clase que analiza las peticiones HTTP y caracteriza su contenido.
+ */
 class RequestAnalyser {
+  /**
+   * @constructor
+   * @param {object} req - Objeto de la petición HTTP.
+   * @param {object} db - Objeto de la base de datos.
+   * @description
+   * clasifica y determina las características de la petición HTTP.
+   */
   constructor(req, db) {
     this.dbUsers = db.users;
     this.resourceDemipath = req.url;
@@ -83,7 +95,7 @@ class RequestAnalyser {
 
     if (req.url.includes("/login?")) {
       this.isDynamic = true;
-      this.resourceDemipath = "/login.html"; // TODO : Si el usuario no existe, debe notificarse el error
+      this.resourceDemipath = "/login.html"; 
       const user = this.urlContent.searchParams.get("username");
       this.dbUsers.forEach((u) => {
         if (u.usuario == user) {
@@ -95,7 +107,6 @@ class RequestAnalyser {
     }
 
     if (req.url.includes("/register?")) {
-      // TODO No es muy coherente con la clase
       this.resourceDemipath = "/index.html";
       this.isDynamic = true;
       const user = this.urlContent.searchParams.get("username");
@@ -150,6 +161,11 @@ class RequestAnalyser {
   }
   // METODOS DE LA CLASE \\
 
+  /**
+   * @method getCookies
+   * @param {string} cookie - Cadena de cookies.
+   * @returns {object} - Objeto con las cookies.
+   */
   getCookies = (cookie) => {
     return cookie.split(";").reduce((cookies, c) => {
       const [name, value] = c.trim().split("=");
@@ -158,6 +174,13 @@ class RequestAnalyser {
     }, {});
   };
 
+  /**
+   * @method getUserFromCookie
+   * @param {string} cookie - Cadena de cookies.
+   * @description
+   * Busca el usuario en las cookies y lo asigna a la propiedad user.
+   * @returns {void}
+   */
   getUserFromCookie = (cookie) => {
     if (cookie) {
       const userCookie = this.getCookies(cookie)["user"];
@@ -168,6 +191,13 @@ class RequestAnalyser {
     }
   };
 
+  /**
+   * @method recievePostData
+   * @param {object} req - Objeto de la petición HTTP.
+   * @description
+   * Recibe los datos de la petición POST y los almacena en la propiedad body.
+   * @returns {void}
+   */
   recievePostData = async (req) => {
     this.getUserFromCookie(req.headers.cookie);
     if (!this.user) {

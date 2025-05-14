@@ -1,4 +1,7 @@
-// Export all UI components for convenient importing
+/**
+ * @fileoverview Archivo de exportación de todos los componentes de la interfaz de usuario
+ * para una importación más conveniente.
+ */
 export { Component } from './Component.js';
 export { ArrowBack } from './ArrowBack.js';
 export { List } from './List.js';

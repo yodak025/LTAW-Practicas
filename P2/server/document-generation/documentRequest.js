@@ -17,6 +17,15 @@ import {
   generateRecommendationLetter
 } from "./generateWorkRelatedDocuments.js";
 
+/**
+ * @function documentGenerationRequest
+ * @description Función para generar documentos a partir de un tipo y un cuerpo de texto.
+ * Se encarga de llamar a la función correspondiente según el tipo de documento solicitado.
+ * @param {string} type - Tipo de documento a generar. 
+ * @param {string} body - Cuerpo del formulario en formato JSON.
+ * @throws {Error} Si el tipo de documento no es soportado.
+ * @returns {Object} - Objeto que contiene el tipo de documento y el cuerpo generado.
+ */
 const documentGenerationRequest = async (type, body) => {
 
   let response = undefined;
