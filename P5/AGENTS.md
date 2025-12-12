@@ -36,8 +36,9 @@ Creación de una infraestructura dockerizada que integra los proyectos de backen
 - [x] Dockerizar cada aplicación individualmente
 - [x] Orquestar servicios con docker-compose
 - [x] Implementar networking entre contenedores
+- [x] Configurar reverse proxy con nginx
+- [x] Montar volumen para persistencia de datos
 - [ ] Configurar desarrollo con devcontainers
-- [ ] Configurar reverse proxy (opcional)
 - [ ] Documentar setup y deployment
 
 ---
@@ -48,6 +49,8 @@ Creación de una infraestructura dockerizada que integra los proyectos de backen
 LTAW-Practicas/              # Raíz del monorepo
 ├── .devcontainer/           # Infraestructura Docker
 │   ├── docker-compose.yml
+│   ├── nginx-docker-compose.yml  # Con reverse proxy
+│   ├── nginx.conf               # Configuración de nginx
 │   ├── landing/
 │   │   └── Dockerfile
 │   ├── p2-tienda/
@@ -55,6 +58,8 @@ LTAW-Practicas/              # Raíz del monorepo
 │   └── p3-game/
 │       └── Dockerfile
 ├── P2/                      # Tienda Online (proyecto existente)
+│   └── server/
+│       └── tienda.json         # Base de datos (montada como volumen)
 ├── P3/                      # Game (proyecto existente)
 ├── P5/
 │   ├── landing/            # Proyecto Astro
@@ -120,6 +125,26 @@ LTAW-Practicas/              # Raíz del monorepo
 - [x] Configurar redirecciones en landing
   - Enlaces a tienda (localhost:8001)
   - Enlaces a game (localhost:9000)
+- [x] Configurar volumen para persistencia de datos
+  - Montar `P2/server/tienda.json` como volumen
+  - Configuración en ambos compose files
+
+### Fase 3.5: Reverse Proxy ✅
+- [x] Crear `nginx-docker-compose.yml`
+  - Servicio nginx como entrada única
+  - Configuración de subdominios con placeholders
+  - Los servicios no exponen puertos al host
+  - Incluir volumen de tienda.json
+- [x] Crear `nginx.conf`
+  - Configuración de 3 server blocks
+  - Placeholders para dominios (*.example.com)
+  - Soporte para WebSockets (game)
+  - Compresión gzip
+  - Proxy headers correctos
+- [x] Documentar en README.md
+  - Instrucciones para reemplazar placeholders
+  - Diferencias entre compose files
+  - Comandos de uso
 
 ### Fase 4: Dev Containers (ACTUAL)
 - [ ] Configurar `.devcontainer/devcontainer.json`
@@ -142,21 +167,35 @@ LTAW-Practicas/              # Raíz del monorepo
 
 ## 🔧 Configuración de Puertos
 
+### Modo Desarrollo (docker-compose.yml)
 | Servicio | Puerto Interno | Puerto Host | Descripción |
 |----------|---------------|-------------|-------------|
 | Landing  | 4321          | 3000        | Página principal Astro |
 | Tienda   | 8001          | 8001        | E-commerce SSR |
 | Game     | 9000          | 9000        | Juego multiplayer |
 
+### Modo Producción (nginx-docker-compose.yml)
+| Servicio | Puerto Interno | Puerto Host | Acceso |
+|----------|---------------|-------------|--------|
+| Nginx    | 80            | 80          | Entrada única |
+| Landing  | 4321          | -           | Vía nginx (landing.example.com) |
+| Tienda   | 8001          | -           | Vía nginx (tienda.example.com) |
+| Game     | 9000          | -           | Vía nginx (game.example.com) |
+
 ---
 
 ## 🚀 Comandos Planificados
 
 ```bash
-# Desarrollo (desde la raíz del monorepo)
+# Desarrollo local (desde la raíz del monorepo)
 docker compose -f .devcontainer/docker-compose.yml up --build
 docker compose -f .devcontainer/docker-compose.yml logs -f [servicio]
 docker compose -f .devcontainer/docker-compose.yml restart [servicio]
+
+# Producción con nginx
+# IMPORTANTE: Editar .devcontainer/nginx.conf primero
+docker compose -f .devcontainer/nginx-docker-compose.yml up --build
+docker compose -f .devcontainer/nginx-docker-compose.yml logs -f
 
 # O usando el script desde P5
 cd P5
@@ -193,6 +232,7 @@ docker compose -f .devcontainer/docker-compose.yml down -v
 
 ### DevOps
 - Docker + Docker Compose
+- Nginx (Reverse Proxy)
 - Dev Containers
 - Alpine Linux (imágenes base)
 
@@ -204,6 +244,9 @@ Este proyecto sirve como práctica de:
 - Containerización de aplicaciones Node.js
 - Orquestación multi-servicio
 - Networking entre contenedores
+- Reverse proxy con Nginx
+- Gestión de volúmenes y persistencia
+- Configuración de subdominios
 - Dev Containers para desarrollo consistente
 - Deployment de aplicaciones fullstack
 
@@ -213,7 +256,7 @@ Este proyecto sirve como práctica de:
 
 **Fecha:** 12 de diciembre de 2025
 **Fase:** Dev Containers
-**Progreso:** 75%
+**Progreso:** 80%
 
 **Completado:**
 - ✅ Proyecto Astro inicializado con Tailwind CSS
@@ -226,6 +269,9 @@ Este proyecto sirve como práctica de:
 - ✅ Healthchecks y políticas de restart
 - ✅ **Infraestructura refactorizada a nivel monorepo**
 - ✅ **Contexto de build optimizado desde la raíz**
+- ✅ **Nginx reverse proxy implementado**
+- ✅ **Volumen para persistencia de tienda.json**
+- ✅ **Dos modos de despliegue (desarrollo/producción)**
 
 ---
 
@@ -237,6 +283,8 @@ Este proyecto sirve como práctica de:
 4. ✅ ~~Crear Dockerfile de P3 (Express + Socket.IO)~~
 5. ✅ ~~Crear Dockerfile de P2 con build de React~~
 6. ✅ ~~Crear docker-compose.yml para orquestar servicios~~
-7. Probar la infraestructura completa con `docker-compose up`
-8. Configurar devcontainer.json para desarrollo en contenedores
-9. Documentar proceso de deployment
+7. ✅ ~~Configurar nginx reverse proxy~~
+8. ✅ ~~Montar volumen de tienda.json~~
+9. Probar la infraestructura completa con `docker-compose up`
+10. Configurar devcontainer.json para desarrollo en contenedores
+11. Documentar proceso de deployment
