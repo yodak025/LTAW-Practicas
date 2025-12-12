@@ -1,0 +1,51 @@
+---
+import '../styles/global.css'
+
+interface Props {
+	title?: string;
+}
+
+const { title = "Wiki - LTAW Prácticas" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Documentación de las prácticas LTAW" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="bg-slate-900 text-gray-100">
+		<nav class="bg-slate-800 border-b border-slate-700">
+			<div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+				<a href="/" class="text-purple-400 hover:text-purple-300 font-semibold">
+					← Volver al inicio
+				</a>
+				<a href="/wiki/Home" class="text-gray-300 hover:text-white">
+					📚 Wiki Home
+				</a>
+			</div>
+		</nav>
+		
+		<main class="max-w-4xl mx-auto px-4 py-8">
+			<article class="prose prose-invert prose-purple max-w-none
+				prose-headings:text-purple-300
+				prose-a:text-purple-400 prose-a:no-underline hover:prose-a:text-purple-300
+				prose-strong:text-purple-200
+				prose-code:text-pink-300
+				prose-pre:bg-slate-800
+				prose-li:marker:text-purple-400">
+				<slot />
+			</article>
+		</main>
+		
+		<footer class="mt-16 border-t border-slate-700 py-6">
+			<div class="max-w-4xl mx-auto px-4 text-center text-gray-400 text-sm">
+				<p>LTAW Prácticas - Documentación</p>
+			</div>
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,31 @@
+# Docker ignore
+node_modules/
+npm-debug.log
+.git/
+.gitignore
+.dockerignore
+README.md
+.vscode/
+.idea/
+
+# Landing specific
+landing/node_modules/
+landing/dist/
+landing/.astro/
+landing/npm-debug.log
+
+# Documentation
+*.md
+!package.json
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Temporal
+*.tmp
+.cache/
+*.log

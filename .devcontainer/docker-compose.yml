@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  # Landing Page - Astro
+  landing:
+    build:
+      context: ../
+      dockerfile: .devcontainer/landing/Dockerfile
+    container_name: ltaw-landing
+    ports:
+      - "3000:4321"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - ltaw-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:4321"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # P2 - Tienda Online con SSR
+  tienda:
+    build:
+      context: ../
+      dockerfile: .devcontainer/p2-tienda/Dockerfile
+    container_name: ltaw-tienda
+    ports:
+      - "8001:8001"
+    environment:
+      - NODE_ENV=production
+      - PORT=8001
+    networks:
+      - ltaw-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8001"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # P3 - Kill Two Birds with One Stone Game
+  game:
+    build:
+      context: ../
+      dockerfile: .devcontainer/p3-game/Dockerfile
+    container_name: ltaw-game
+    ports:
+      - "9000:9000"
+    environment:
+      - NODE_ENV=production
+      - PORT=9000
+    networks:
+      - ltaw-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  ltaw-network:
+    driver: bridge
+    name: ltaw-network

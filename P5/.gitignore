@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+landing/node_modules/
+
+# Build outputs
+landing/dist/
+landing/.astro/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+.docker/
+*.log
+
+# Temporal
+*.tmp
+.cache/
