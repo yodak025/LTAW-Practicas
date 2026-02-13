@@ -1,4 +1,4 @@
-version: '3.8'
+earersion: '3.8'
 
 services:
   # Landing Page - Astro
