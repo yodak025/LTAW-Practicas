@@ -1,0 +1,17 @@
+node_modules/
+npm-debug.log
+dist/
+.astro/
+.git/
+.gitignore
+.vscode/
+*.md
+!package.json
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+*.tmp
+.cache/
+*.log

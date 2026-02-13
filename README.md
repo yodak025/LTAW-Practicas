@@ -1,71 +1,98 @@
 # LTAW-Practicas
 
-Monorepo de prácticas para la asignatura Laboratorio de Tecnologías Audiovisuales en la Web (LTAW) en la URJC.
+Monorepo for the Web Audiovisual Technologies Lab (LTAW) coursework at URJC.
 
-## 📁 Estructura del Proyecto
+## 📁 Project Structure
 
 ```
 LTAW-Practicas/
-├── .devcontainer/          # Infraestructura Docker
-│   ├── docker-compose.yml
-│   ├── landing/Dockerfile
-│   ├── p2-tienda/Dockerfile
-│   └── p3-game/Dockerfile
-├── P2/                     # Tienda Online con SSR
-├── P3/                     # Kill Two Birds with One Stone Game
-└── P5/                     # Proyecto de integración
-    ├── landing/           # Landing page con Astro
-    ├── AGENTS.md          # Documentación detallada
+├── docker-compose.yml         # Production orchestrator (proxy + SSL + apps)
+├── P2/                        # Online Store with SSR (Node.js + Babel + React)
+│   └── Dockerfile
+├── P3/                        # Kill Two Birds with One Stone Game (Express + Socket.io)
+│   └── Dockerfile
+└── P5/                        # Integration project
+    ├── landing/               # Landing page (Astro + Tailwind CSS)
+    │   └── Dockerfile         # Multi-stage: Node → Nginx
+    ├── nginx/                 # Reverse proxy custom configuration
+    │   └── custom.conf
+    ├── AGENTS.md              # Detailed documentation
     └── README.md
 ```
 
-## 🐳 Docker - Inicio Rápido
+## 🐳 Docker — Production Deployment
 
-### Levantar todos los servicios
+### Architecture
 
-Desde la **raíz del monorepo**:
-
-```bash
-docker compose -f .devcontainer/docker-compose.yml up --build
+```
+          INTERNET (:80 / :443)
+                │
+        ┌───────▼────────┐
+        │  nginx-proxy   │  Auto-discovers containers via VIRTUAL_HOST
+        └──┬─────┬─────┬─┘
+           │     │     │
+    ┌──────▼┐ ┌──▼────┐ ┌▼───────┐
+    │landing│ │api-   │ │api-auth│
+    │(nginx)│ │users  │ │(node)  │
+    │ :80   │ │(node) │ │ :9000  │
+    └───────┘ │ :8001 │ └────────┘
+              └───────┘
+        ┌────────────────┐
+        │acme-companion  │  Auto-generates Let's Encrypt SSL certs
+        └────────────────┘
 ```
 
-### Acceso a servicios
-
-- **Landing:** http://localhost:3000
-- **Tienda (P2):** http://localhost:8001
-- **Game (P3):** http://localhost:9000
-
-### Comandos útiles
+### Quick Start
 
 ```bash
-# Ver logs
-docker compose -f .devcontainer/docker-compose.yml logs -f
+# 1. Edit docker-compose.yml — replace "yourdomain.com" with your actual domain
+#    and "your-email@yourdomain.com" with your email for Let's Encrypt
 
-# Detener servicios
-docker compose -f .devcontainer/docker-compose.yml down
+# 2. Build and start all services
+docker compose up -d --build
 
-# Reconstruir un servicio específico
-docker compose -f .devcontainer/docker-compose.yml up --build landing
+# 3. View logs
+docker compose logs -f
+
+# 4. Stop all services
+docker compose down
 ```
 
-## 📚 Documentación
+### Services
 
-Para documentación detallada de cada proyecto:
+| Service | Domain | Internal Port | Description |
+|---------|--------|---------------|-------------|
+| `landing` | `yourdomain.com` | 80 | Astro static site served by Nginx |
+| `api-users` | `api-users.yourdomain.com` | 8001 | Online store backend (P2) |
+| `api-auth` | `auth.yourdomain.com` | 9000 | Multiplayer game backend (P3) |
 
-- **P5 (Integración):** Ver [P5/AGENTS.md](P5/AGENTS.md)
-- **Wiki completa:** Accesible desde la landing en `/wiki/Home`
+### Useful Commands
 
-## 🛠️ Desarrollo Local (sin Docker)
+```bash
+# Rebuild a specific service
+docker compose up -d --build landing
 
-### P2 - Tienda
+# View logs for a specific service
+docker compose logs -f api-users
+
+# Restart a single service
+docker compose restart api-auth
+
+# Remove everything (containers + volumes)
+docker compose down -v
+```
+
+## 🛠️ Local Development (without Docker)
+
+### P2 — Online Store
 ```bash
 cd P2
 npm install
-npm run start
+npm run dev+build
 # http://localhost:8001
 ```
 
-### P3 - Game
+### P3 — Multiplayer Game
 ```bash
 cd P3
 npm install
@@ -73,7 +100,7 @@ npm run start
 # http://localhost:9000
 ```
 
-### P5 - Landing
+### P5 — Landing Page
 ```bash
 cd P5/landing
 npm install
@@ -81,16 +108,22 @@ npm run dev
 # http://localhost:4321
 ```
 
-## 🎯 Características
+## 🎯 Features
 
-- **Infraestructura dockerizada** con Docker Compose
-- **Red interna** para comunicación entre servicios
-- **Healthchecks** y políticas de restart
-- **Multi-stage builds** optimizados
-- **Landing page moderna** con Astro y Tailwind CSS
-- **Wiki integrada** con toda la documentación del proyecto
+- **Fully dockerized infrastructure** with Docker Compose
+- **Automatic HTTPS** via Let's Encrypt (acme-companion)
+- **Nginx reverse proxy** with auto-discovery (nginx-proxy)
+- **Zero port exposure** — only the proxy exposes 80/443
+- **Internal network** for inter-service communication
+- **Multi-stage builds** for optimized images
+- **Modern landing page** with Astro and Tailwind CSS
+- **Integrated wiki** with full project documentation
+
+## 📚 Documentation
+
+- **P5 (Integration & DevOps):** See [P5/README.md](P5/README.md) and [P5/AGENTS.md](P5/AGENTS.md)
 
 ---
 
-**Asignatura:** Laboratorio de Tecnologías Audiovisuales en la Web  
-**Curso:** 2024-2025
+**Course:** Laboratorio de Tecnologías Audiovisuales en la Web  
+**Academic Year:** 2024-2025

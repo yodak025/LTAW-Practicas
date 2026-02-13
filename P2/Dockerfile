@@ -1,41 +1,47 @@
-# Etapa 1: Build
-FROM node:20-alpine AS builder
+# ============================================
+# Stage 1: Builder — Build the client bundle
+# ============================================
+FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# Copiar archivos de dependencias del proyecto P2
-COPY P2/package*.json ./
+# Copy dependency files first (Docker layer cache)
+COPY package.json package-lock.json ./
+COPY babel.config.json ./
 
-# Instalar todas las dependencias (incluyendo devDependencies para el build)
+# Install all dependencies (including devDependencies for esbuild)
 RUN npm ci
 
-# Copiar el código fuente completo
-COPY P2/ ./
+# Copy the rest of the source code
+COPY . .
 
-# Build del bundle cliente con esbuild
+# Build the client bundle with esbuild
 RUN npm run build
 
-# Etapa 2: Producción
-FROM node:20-alpine
+# ============================================
+# Stage 2: Runner — Production
+# ============================================
+FROM node:18-alpine
 
 WORKDIR /app
 
-# Copiar package.json para instalar solo dependencias de producción
-COPY P2/package*.json ./
+# Copy dependency files
+COPY package.json package-lock.json ./
+COPY babel.config.json ./
 
-# Instalar solo dependencias de producción
-RUN npm ci --only=production
+# Install production dependencies only
+RUN npm ci --omit=dev
 
-# Copiar el código fuente y el bundle construido
-COPY P2/ ./
+# Copy source code
+COPY . .
+
+# Copy the pre-built bundle from the builder stage
 COPY --from=builder /app/server/public/bundle.js ./server/public/bundle.js
 
-# Exponer puerto
+# Internal service port
 EXPOSE 8001
 
-# Variables de entorno
-ENV PORT=8001
 ENV NODE_ENV=production
 
-# Comando para iniciar el servidor
-CMD ["npm", "run", "start"]
+# Start command
+CMD ["npm", "start"]

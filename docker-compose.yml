@@ -1,0 +1,142 @@
+# =============================================================================
+# docker-compose.yml — LTAW-Practicas Monorepo Orchestrator
+# =============================================================================
+# Includes Reverse Proxy (nginx-proxy) with automatic SSL certificate
+# generation via Let's Encrypt (acme-companion).
+#
+# USAGE:
+#   docker compose up -d --build
+# =============================================================================
+
+services:
+
+  # ===========================================================================
+  #  INFRASTRUCTURE — Reverse Proxy + SSL
+  # ===========================================================================
+
+  # ---------------------------------------------------------------------------
+  # Nginx Reverse Proxy — "The Gatekeeper"
+  # Auto-discovers containers with VIRTUAL_HOST and routes traffic accordingly.
+  # ---------------------------------------------------------------------------
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy:alpine
+    container_name: nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # Docker socket for automatic container discovery
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      # Shared volumes with acme-companion
+      - certs:/etc/nginx/certs:ro
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      # Custom configuration (optional)
+      - ./P5/nginx/custom.conf:/etc/nginx/conf.d/custom.conf:ro
+    networks:
+      - web-proxy
+
+  # ---------------------------------------------------------------------------
+  # ACME Companion — Automatic Let's Encrypt certificate generation
+  # Reads LETSENCRYPT_HOST from each container and manages certificates.
+  # ---------------------------------------------------------------------------
+  acme-companion:
+    image: nginxproxy/acme-companion
+    container_name: acme-companion
+    restart: always
+    depends_on:
+      - nginx-proxy
+    volumes:
+      # Docker socket (needs access to read container env vars)
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Shared volumes with nginx-proxy
+      - certs:/etc/nginx/certs:rw
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      # ACME account storage
+      - acme:/etc/acme.sh
+    environment:
+      # Point to the nginx-proxy container
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+      # Email for Let's Encrypt notifications (CHANGE THIS)
+      - DEFAULT_EMAIL=your-email@yourdomain.com
+    networks:
+      - web-proxy
+
+  # ===========================================================================
+  #  APPLICATIONS
+  # ===========================================================================
+
+  # ---------------------------------------------------------------------------
+  # Landing Page (Astro → Static Nginx)
+  # ---------------------------------------------------------------------------
+  landing:
+    build:
+      context: ./P5/landing
+      dockerfile: Dockerfile
+    container_name: landing
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=yourdomain.com,www.yourdomain.com
+      - LETSENCRYPT_HOST=yourdomain.com,www.yourdomain.com
+      # No VIRTUAL_PORT needed (proxy defaults to 80 for Nginx)
+    networks:
+      - web-proxy
+      - default
+
+  # ---------------------------------------------------------------------------
+  # API Users — P2 Backend (Node.js + Babel + SSR)
+  # ---------------------------------------------------------------------------
+  api-users:
+    build:
+      context: ./P2
+      dockerfile: Dockerfile
+    container_name: api-users
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=api-users.yourdomain.com
+      - LETSENCRYPT_HOST=api-users.yourdomain.com
+      - VIRTUAL_PORT=8001
+    networks:
+      - web-proxy
+      - default
+
+  # ---------------------------------------------------------------------------
+  # API Auth — P3 Backend (Node.js + Socket.io)
+  # ---------------------------------------------------------------------------
+  api-auth:
+    build:
+      context: ./P3
+      dockerfile: Dockerfile
+    container_name: api-auth
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=auth.yourdomain.com
+      - LETSENCRYPT_HOST=auth.yourdomain.com
+      - VIRTUAL_PORT=9000
+      - PORT=9000
+    networks:
+      - web-proxy
+      - default
+
+# =============================================================================
+# Volumes — Certificate and ACME data persistence
+# =============================================================================
+volumes:
+  certs:
+  vhost:
+  html:
+  acme:
+
+# =============================================================================
+# Networks
+# =============================================================================
+networks:
+  # Internal default network — inter-service communication (future DBs, etc.)
+  default:
+    driver: bridge
+
+  # Proxy network — connects nginx-proxy to all public-facing services
+  web-proxy:
+    driver: bridge

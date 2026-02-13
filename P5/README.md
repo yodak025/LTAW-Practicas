@@ -1,151 +1,151 @@
- # P5 - Infraestructura Dockerizada LTAW
+# P5 — Dockerized Infrastructure & Landing Page
 
-Infraestructura dockerizada que integra los proyectos de backend desarrollados durante la asignatura LTAW, con una landing page construida en Astro.
+Integration project that dockerizes the LTAW monorepo and provides a landing page built with Astro.
 
-## 🚀 Estado del Proyecto
+## 🚀 Project Status
 
-**Fase Actual:** Dev Containers  
-**Progreso:** 80%
+**Current Phase:** Production-ready Docker setup  
+**Progress:** 100%
 
-### ✅ Completado
-- Proyecto Astro inicializado con Tailwind CSS
-- MVP de landing page responsive
-- Estructura de directorios `.devcontainer/`
-- Wiki integrada (21 páginas de documentación)
-- Layout consistente para wiki con navegación
-- **Dockerfiles completos para 3 servicios**
-- **Docker Compose configurado**
-- **Red interna ltaw-network**
-- **Redirecciones en landing configuradas**
-- **Nginx reverse proxy implementado**
-- **Volumen de persistencia para tienda.json**
+### ✅ Completed
+- Astro project initialized with Tailwind CSS
+- Responsive landing page
+- Integrated wiki (21 documentation pages)
+- Consistent wiki layout with navigation
+- **Dockerfiles for all 3 services** (multi-stage where needed)
+- **docker-compose.yml with full orchestration**
+- **Nginx reverse proxy with auto-discovery** (nginx-proxy)
+- **Automatic HTTPS via Let's Encrypt** (acme-companion)
+- **Custom Nginx config** (gzip, WebSocket, timeouts)
+- **Zero port exposure** from application containers
 
-### 🔨 En Desarrollo
-- Dev Containers para VSCode
-- Documentación de deployment
-
-## 📁 Estructura
+## 📁 Structure
 
 ```
 P5/
-├── .devcontainer/          # Dockerfiles de cada servicio
-│   ├── landing/           # Dockerfile para Astro
-│   ├── p2-tienda/         # Dockerfile para tienda
-│   ├── p3-game/           # Dockerfile para game
-│   ├── docker-compose.yml # Compose sin reverse proxy
-│   ├── nginx-docker-compose.yml  # Compose con nginx
-│   └── nginx.conf         # Configuración de nginx
-├── landing/               # Proyecto Astro
+├── landing/               # Astro project (static site)
 │   ├── src/
 │   │   ├── layouts/
 │   │   ├── pages/
 │   │   └── styles/
+│   ├── Dockerfile         # Multi-stage: node:18-alpine → nginx:alpine
+│   ├── .dockerignore
 │   └── package.json
-├── AGENTS.md             # Planificación y seguimiento
-└── README.md             # Este archivo
+├── nginx/                 # Reverse proxy configuration
+│   └── custom.conf        # Gzip, WebSocket, timeouts, upload limits
+├── AGENTS.md              # Planning and tracking
+└── README.md              # This file
 ```
 
-## 🎯 Servicios
+## 🏗️ Architecture
 
-### Modo Desarrollo
-| Servicio | Puerto | Estado | Descripción |
-|----------|--------|--------|-------------|
-| Landing  | 3000   | ✅ Listo | Página principal Astro |
-| Tienda   | 8001   | ✅ Listo | E-commerce con SSR |
-| Game     | 9000   | ✅ Listo | Juego multiplayer |
+```
+              INTERNET
+          :80    /    :443
+               │
+      ┌────────▼─────────┐
+      │   nginx-proxy    │  ← Auto-discovers via VIRTUAL_HOST
+      │   (The Gatekeeper)│     + Let's Encrypt SSL
+      └──┬──────┬──────┬──┘
+         │      │      │
+  ┌──────▼─┐ ┌─▼─────┐ ┌─▼───────┐
+  │landing │ │api-   │ │api-auth │
+  │(nginx) │ │users  │ │(node)   │
+  │  :80   │ │(node) │ │  :9000  │
+  └────────┘ │ :8001 │ └─────────┘
+             └───────┘
 
-### Modo Producción (con Nginx)
-| Servicio | Acceso | Estado | Descripción |
-|----------|--------|--------|-------------|
-| Nginx    | :80    | ✅ Listo | Reverse proxy |
-| Landing  | Subdominio | ✅ Listo | Via nginx |
-| Tienda   | Subdominio | ✅ Listo | Via nginx |
-| Game     | Subdominio | ✅ Listo | Via nginx |
+  yourdomain    api-users.    auth.
+  .com          yourdomain    yourdomain
+                .com          .com
+```
 
-## 🛠️ Tecnologías
+## 🎯 Services
 
-- **Landing:** Astro 4.x + Tailwind CSS 4.x
+### Production (with Reverse Proxy + HTTPS)
+
+| Service | Image | Domain | Port | Description |
+|---------|-------|--------|------|-------------|
+| `nginx-proxy` | `nginxproxy/nginx-proxy:alpine` | — | 80, 443 | Reverse proxy (only exposed ports) |
+| `acme-companion` | `nginxproxy/acme-companion` | — | — | Auto Let's Encrypt certs |
+| `landing` | Custom (nginx:alpine) | `yourdomain.com` | 80 | Static landing page |
+| `api-users` | Custom (node:18-alpine) | `api-users.yourdomain.com` | 8001 | Online store (P2) |
+| `api-auth` | Custom (node:18-alpine) | `auth.yourdomain.com` | 9000 | Multiplayer game (P3) |
+
+## 🛠️ Tech Stack
+
+- **Landing:** Astro 5.x + Tailwind CSS 4.x
 - **Backend P2:** Node.js + React + Babel + esbuild
 - **Backend P3:** Express + Socket.IO
-- **DevOps:** Docker + Docker Compose + Nginx
+- **Proxy:** nginxproxy/nginx-proxy (Alpine)
+- **SSL:** nginxproxy/acme-companion (Let's Encrypt)
+- **Orchestration:** Docker Compose
 
-## 💾 Persistencia de Datos
+## 🐳 Deployment
 
-Ambos archivos compose montan el archivo `P2/server/tienda.json` como volumen:
-```yaml
-volumes:
-  - ../P2/server/tienda.json:/app/P2/server/tienda.json
+### Prerequisites
+
+- Docker Engine 24+ and Docker Compose v2+
+- A VPS with ports 80 and 443 open
+- DNS A records pointing your domains to the VPS IP
+
+### Quick Start
+
+```bash
+# 1. Edit docker-compose.yml in the monorepo root:
+#    - Replace "yourdomain.com" with your real domain
+#    - Replace "your-email@yourdomain.com" with your email
+
+# 2. Build and deploy
+docker compose up -d --build
+
+# 3. Check that all services are healthy
+docker compose ps
+
+# 4. View logs
+docker compose logs -f
 ```
 
-Esto permite que los cambios en la base de datos JSON persistan entre reinicios del contenedor.
+### Nginx Custom Config
 
-## 🏃 Desarrollo Local
+The file `P5/nginx/custom.conf` is mounted into the proxy and provides:
 
-### Landing (sin Docker)
+| Setting | Value | Purpose |
+|---------|-------|---------|
+| `client_max_body_size` | 20MB | Increased upload limit |
+| `proxy_*_timeout` | 60s | Extended timeouts for SSR |
+| WebSocket `map` | upgrade/close | Socket.io compatibility |
+| `gzip` | level 6 | Static asset compression |
+
+## 🏃 Local Development (without Docker)
+
+### Landing only
 ```bash
 cd P5/landing
+npm install
 npm run dev
-# Abre http://localhost:4321
+# http://localhost:4321
 ```
 
-### Con Docker 🐳
-
-#### Opción 1: Sin Reverse Proxy (desarrollo local)
+### Full stack
 ```bash
-# Desde la raíz del monorepo
-docker compose -f .devcontainer/docker-compose.yml up --build
+# From the monorepo root
+docker compose up -d --build
 
-# Ver logs
-docker compose -f .devcontainer/docker-compose.yml logs -f
+# View logs for a specific service
+docker compose logs -f landing
+docker compose logs -f api-users
+docker compose logs -f api-auth
 
-# Ver logs de un servicio específico
-docker compose -f .devcontainer/docker-compose.yml logs -f landing
-docker compose -f .devcontainer/docker-compose.yml logs -f tienda
-docker compose -f .devcontainer/docker-compose.yml logs -f game
-
-# Detener servicios
-docker compose -f .devcontainer/docker-compose.yml down
-
-# Reconstruir servicios
-docker compose -f .devcontainer/docker-compose.yml up --build
+# Stop everything
+docker compose down
 ```
 
-**Acceso a servicios:**
-- **Landing:** http://localhost:3000
-- **Tienda:** http://localhost:8001
-- **Game:** http://localhost:9000
+## 📝 Documentation
 
-#### Opción 2: Con Nginx Reverse Proxy (producción)
-
-⚠️ **IMPORTANTE:** Antes de ejecutar, edita `.devcontainer/nginx.conf` y reemplaza los placeholders de dominios:
-- `landing.example.com` → Tu dominio para landing
-- `tienda.example.com` → Tu dominio para tienda
-- `game.example.com` → Tu dominio para game
-
-```bash
-# Editar configuración de nginx
-nano .devcontainer/nginx.conf
-
-# Levantar servicios con nginx
-docker compose -f .devcontainer/nginx-docker-compose.yml up --build
-
-# Ver logs
-docker compose -f .devcontainer/nginx-docker-compose.yml logs -f
-
-# Detener servicios
-docker compose -f .devcontainer/nginx-docker-compose.yml down
-```
-
-**Acceso a servicios:**
-- Todos los servicios estarán disponibles en el puerto 80
-- Se accede mediante los subdominios configurados en `nginx.conf`
-- Los puertos internos no están expuestos al host
-
-## 📝 Documentación
-
-Ver `AGENTS.md` para planificación detallada y roadmap del proyecto.
+See `AGENTS.md` for detailed planning and project roadmap.
 
 ---
 
-**Asignatura:** Laboratorio de Tecnologías Audiovisuales en la Web  
-**Fecha:** Diciembre 2025
+**Course:** Laboratorio de Tecnologías Audiovisuales en la Web  
+**Date:** February 2026
