@@ -65,7 +65,7 @@ services:
       - web-proxy
 
   # ===========================================================================
-  #  APPLICATIONS
+  #  APPLICATIONS — LTAW Practicas
   # ===========================================================================
 
   # ---------------------------------------------------------------------------
@@ -86,13 +86,13 @@ services:
       - default
 
   # ---------------------------------------------------------------------------
-  # API Users — P2 Backend (Node.js + Babel + SSR)
+  # AIScribe — P2 Backend (Node.js + Babel + SSR)
   # ---------------------------------------------------------------------------
   api-users:
     build:
       context: ./P2
       dockerfile: Dockerfile
-    container_name: api-users
+    container_name: aiscribe
     restart: unless-stopped
     environment:
       - VIRTUAL_HOST=api-users.yourdomain.com
@@ -103,13 +103,13 @@ services:
       - default
 
   # ---------------------------------------------------------------------------
-  # API Auth — P3 Backend (Node.js + Socket.io)
+  # Kill2BirdsWith1Stone — P3 Backend (Node.js + Socket.io)
   # ---------------------------------------------------------------------------
   api-auth:
     build:
       context: ./P3
       dockerfile: Dockerfile
-    container_name: api-auth
+    container_name: k2bw1s
     restart: unless-stopped
     environment:
       - VIRTUAL_HOST=auth.yourdomain.com

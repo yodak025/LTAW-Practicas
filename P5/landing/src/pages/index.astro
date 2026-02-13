@@ -2,66 +2,117 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="LTAW Prácticas - Portfolio">
+<Layout title="Yodak's Portfolio — Projects & Lab">
 	<main class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4">
-		<div class="max-w-4xl w-full">
+		<div class="max-w-5xl w-full">
 			<div class="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-8 md:p-12 border border-white/20">
 				<!-- Header -->
 				<div class="text-center mb-8">
 					<h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
-						Prácticas LTAW
+						Yodak's Portfolio
 					</h1>
-					<p class="text-lg md:text-xl text-gray-300 leading-relaxed">
-						Portfolio de proyectos de backend desarrollados con Node.js durante la asignatura 
-						Laboratorio de Tecnologías Audiovisuales en la Web. Esta infraestructura dockerizada 
-						integra múltiples aplicaciones con diferentes tecnologías y arquitecturas.
+					<p class="text-lg md:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto">
+						A collection of full-stack projects and experiments — from real-time multiplayer games 
+						to AI-powered web crawlers. All containerized, all live.
 					</p>
 				</div>
 
 				<!-- Projects Grid -->
 				<div class="grid md:grid-cols-2 gap-6 mt-12">
-					<!-- P2 - Tienda -->
-					<div class="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-all">
+					<!-- Portfolio / CV -->
+					<div class="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 hover:border-purple-500/40 transition-all duration-300 group">
 						<h2 class="text-2xl font-bold text-white mb-3">
-							📦 Tienda Online
+							📄 Portfolio & CV
 						</h2>
-						<p class="text-gray-300 mb-4 text-sm">
-							E-commerce con Server-Side Rendering, carrito de compras y generación 
-							de documentos con IA. Stack: React, Express, Babel.
+						<p class="text-gray-300 mb-4 text-sm leading-relaxed">
+							Minimalist, Swiss-style digital CV built with Astro. Markdown-driven content, 
+							responsive A4 layout, and print-to-PDF support.
 						</p>
+						<div class="flex flex-wrap gap-2 mb-4">
+							<span class="text-xs font-mono bg-purple-600/20 text-purple-300 px-2 py-1 rounded">Astro</span>
+							<span class="text-xs font-mono bg-purple-600/20 text-purple-300 px-2 py-1 rounded">TailwindCSS</span>
+							<span class="text-xs font-mono bg-purple-600/20 text-purple-300 px-2 py-1 rounded">Markdown</span>
+						</div>
 						<a 
-							href="http://localhost:8001"
+							href="http://portfolio.yourdomain.com"
 							target="_blank"
 							rel="noopener noreferrer"
-							class="block w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors text-center"
+							class="block w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-3 px-6 rounded-lg transition-colors text-center group-hover:shadow-lg group-hover:shadow-purple-600/25"
 						>
-							Acceder a la Tienda →
+							View CV →
 						</a>
-						<p class="text-xs text-gray-400 mt-2 text-center">
-							Puerto: 8001
-						</p>
 					</div>
 
-					<!-- P3 - Game -->
-					<div class="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-all">
+					<!-- Chomp Crawler -->
+					<div class="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 hover:border-emerald-500/40 transition-all duration-300 group">
+						<h2 class="text-2xl font-bold text-white mb-3">
+							🐊 Chomp Crawler
+						</h2>
+						<p class="text-gray-300 mb-4 text-sm leading-relaxed">
+							Interactive 3D maze generator and solver. Python algorithms running in the browser 
+							via Pyodide, visualized with Three.js and React Three Fiber.
+						</p>
+						<div class="flex flex-wrap gap-2 mb-4">
+							<span class="text-xs font-mono bg-emerald-600/20 text-emerald-300 px-2 py-1 rounded">Next.js</span>
+							<span class="text-xs font-mono bg-emerald-600/20 text-emerald-300 px-2 py-1 rounded">Three.js</span>
+							<span class="text-xs font-mono bg-emerald-600/20 text-emerald-300 px-2 py-1 rounded">Pyodide</span>
+						</div>
+						<a 
+							href="http://chomp.yourdomain.com"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="block w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-6 rounded-lg transition-colors text-center group-hover:shadow-lg group-hover:shadow-emerald-600/25"
+						>
+							Launch Crawler →
+						</a>
+					</div>
+
+					<!-- Online Store (P2) -->
+					<div class="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 hover:border-amber-500/40 transition-all duration-300 group">
+						<h2 class="text-2xl font-bold text-white mb-3">
+							📦 Online Store
+						</h2>
+						<p class="text-gray-300 mb-4 text-sm leading-relaxed">
+							Full-featured e-commerce with Server-Side Rendering, shopping cart, and 
+							AI-powered document generation. Built from scratch.
+						</p>
+						<div class="flex flex-wrap gap-2 mb-4">
+							<span class="text-xs font-mono bg-amber-600/20 text-amber-300 px-2 py-1 rounded">React</span>
+							<span class="text-xs font-mono bg-amber-600/20 text-amber-300 px-2 py-1 rounded">Express</span>
+							<span class="text-xs font-mono bg-amber-600/20 text-amber-300 px-2 py-1 rounded">Babel SSR</span>
+						</div>
+						<a 
+							href="http://api-users.yourdomain.com"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="block w-full bg-amber-600 hover:bg-amber-500 text-white font-semibold py-3 px-6 rounded-lg transition-colors text-center group-hover:shadow-lg group-hover:shadow-amber-600/25"
+						>
+							Visit Store →
+						</a>
+					</div>
+
+					<!-- Kill Two Birds (P3) -->
+					<div class="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 hover:border-indigo-500/40 transition-all duration-300 group">
 						<h2 class="text-2xl font-bold text-white mb-3">
 							🎮 Kill Two Birds
 						</h2>
-						<p class="text-gray-300 mb-4 text-sm">
-							Juego multiplayer en tiempo real con WebSockets. Conecta con otros 
-							jugadores y compite. Stack: Express, Socket.IO, Canvas.
+						<p class="text-gray-300 mb-4 text-sm leading-relaxed">
+							Real-time multiplayer game powered by WebSockets. Connect with other players 
+							and compete in a fast-paced arena rendered on Canvas.
 						</p>
+						<div class="flex flex-wrap gap-2 mb-4">
+							<span class="text-xs font-mono bg-indigo-600/20 text-indigo-300 px-2 py-1 rounded">Express</span>
+							<span class="text-xs font-mono bg-indigo-600/20 text-indigo-300 px-2 py-1 rounded">Socket.IO</span>
+							<span class="text-xs font-mono bg-indigo-600/20 text-indigo-300 px-2 py-1 rounded">Canvas</span>
+						</div>
 						<a 
-							href="http://localhost:9000"
+							href="http://auth.yourdomain.com"
 							target="_blank"
 							rel="noopener noreferrer"
-							class="block w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors text-center"
+							class="block w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-6 rounded-lg transition-colors text-center group-hover:shadow-lg group-hover:shadow-indigo-600/25"
 						>
-							Jugar Ahora →
+							Play Now →
 						</a>
-						<p class="text-xs text-gray-400 mt-2 text-center">
-							Puerto: 9000
-						</p>
 					</div>
 				</div>
 
@@ -69,18 +120,18 @@ import Layout from '../layouts/Layout.astro';
 				<div class="mt-6">
 					<a 
 						href="/wiki/Home" 
-						class="block bg-gradient-to-r from-purple-600/20 to-indigo-600/20 rounded-xl p-6 border border-purple-500/30 hover:border-purple-500/50 transition-all"
+						class="block bg-gradient-to-r from-purple-600/20 to-indigo-600/20 rounded-xl p-6 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-300"
 					>
 						<div class="flex items-center justify-between">
 							<div>
 								<h3 class="text-xl font-bold text-white mb-2">
-									📚 Documentación y Wiki
+									📚 Documentation & Wiki
 								</h3>
 								<p class="text-gray-300 text-sm">
-									Explora la documentación técnica, manuales de usuario y recursos de cada práctica
+									Explore the technical docs, user manuals, and resources behind each project
 								</p>
 							</div>
-							<span class="text-3xl">→</span>
+							<span class="text-3xl text-gray-400 group-hover:text-white transition-colors">→</span>
 						</div>
 					</a>
 				</div>
@@ -88,7 +139,7 @@ import Layout from '../layouts/Layout.astro';
 				<!-- Footer Info -->
 				<div class="mt-8 pt-6 border-t border-white/10 text-center">
 					<p class="text-sm text-gray-400">
-						🐳 Infraestructura dockerizada con Docker Compose
+						🐳 Fully containerized infrastructure with Docker Compose & Nginx reverse proxy
 					</p>
 				</div>
 			</div>
